@@ -1,0 +1,49 @@
+rederer
+renderDevice
+    RenderContext
+RenderQue
+Camera
+    Pipeline
+        Pass
+Shader
+    RenderData
+        RenderState
+        SamplerState
+
+
+        // WildMagic
+VisualEffect
+    techniques<>
+        VisualTechnique
+            passes<>
+                VisualPass
+                    shaders
+                    states
+
+Culler.Cull() -> VisibleSet -> Renderer.Draw(set, global_effect)
+                                    if(global_effect)
+                                        global_effect.Draw(set)
+                                    else
+                                        Renderer.Draw(set)
+
+GlobalEffect
+    PlanarReflection
+    PlanarShadow
+    VolumeFog
+    etc.
+
+Renderer.Draw(set)
+    for(visual_set)
+        Enable(v_buf)
+        for(num_passes)
+            update_shader_constants
+            SetStates()
+            EnableShaders()
+
+            DrawPrimitive()
+
+            DisableShaders()
+            SetDefaultStates()
+
+        Disable(v_buf)
+

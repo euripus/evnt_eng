@@ -1,0 +1,36 @@
+States(horde3d)
+    - sampler states (filter, aniso, clamp, wrap)
+    - raster state
+        - fill mode
+        - cull mode
+        - scissor enabled
+        - multisample enabled
+        - render target write mask
+    - blend state
+        - blend enable
+        - src function
+        - dst function
+    - depth state
+        - depth write
+        - depth enable
+        - depth func
+
+States(WildMagic4):
+    - alpha blending
+    - triangle culling
+    - material
+    - polygon offset
+    - stenciling
+    - wireframe
+    - depth buffer
+
+States(Torque3D)
+    - sampler states
+    - blending
+    - alpha test
+    - color write
+    - cull mode
+    - depth
+    - FF lighting(fixed function)
+    - fill mode
+

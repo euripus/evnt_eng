@@ -1,0 +1,60 @@
+SceneNode
+-bbox
+    
+    Animator
+        BlendShapeAnimator
+        FloatAnimator
+        IntAnimator
+        TransformAnimator
+        TextureAnimator
+        SkinAnimator
+        UvAnimator
+        VectorAnimator
+    
+    TransformNode
+    -transform
+        
+        LodNode
+        -LodList<SceneNode*>
+        
+        AttachmentNode
+        -jointMatrix
+
+        ShadowNode
+        -mesh
+
+        ShadowSkinShapeNode
+        -mesh
+        -animator
+
+        AbstractShaderNode
+        -textures[]
+        -texturesTransform[]
+        -shaderParams
+            
+            LightNode
+            -light
+
+            MaterialNode
+            -shaders[]
+            -renderStates[]
+
+                BlendShapeNode
+                -meshArray[]
+
+                ShapeNode
+                -mesh
+
+                    SkinShapeNode
+                    -SkinAnimator
+                    -skeleton
+
+                    SwingShapeNode
+                    -rotation_matrix
+
+                    ParticleShapeNode
+                    //...
+
+                    SubDivShapeNode
+                    -dynamic_mesh
+

@@ -1,0 +1,544 @@
+nKernelServer
+    nFileServer2*   fileServer;     // private pointer to file server
+    nPersistServer* persistServer;  // private pointer to persistency server
+    nTimeServer*    timeServer;     // private pointer to timeserver
+    nRemoteServer*  remoteServer;   // private pointer to remoteserver
+    nHardRefServer* hardRefServer;  // private pointer to hardrefserver
+    nHashList classList;            // list of nClass objects
+    nRoot* root;                    // the root object of the Nebula object hierarchy
+    nRoot* cwd;                     // the current working object
+    nStack<nRoot*> cwdStack;        // stack of previous cwd's
+    nLogHandler* defaultLogHandler; // the default log handler
+    nLogHandler* curLogHandler;     // the current log handler
+    {
+        /// add a class object to the kernel
+        void AddClass(const char* superClassName, nClass* cl);
+        /// close and remove a class from the kernel
+        void RemClass(nClass* cl);
+        /// create a class object
+        nClass* CreateClass(const char* className);
+        /// release a class object
+        void ReleaseClass(nClass* cl);
+        /// find a loaded class object by name
+        nClass* FindClass(const char* className);
+        /// return the list of classes
+        const nHashList * GetClassList() const;
+
+        /// create a Nebula object, fail hard if no object could be created
+        nRoot* New(const char* className, const char* objectName);
+        /// create a Nebula object, fail hard if no object could be created
+        nObject* New(const char* className);
+        /// create a Nebula object, don't fail when no object could be created
+        nRoot* NewNoFail(const char* className, const char* objectName);
+        /// create a Nebula object, don't fail when no object could be created
+        nObject* NewNoFail(const char* className);
+        /// create a Nebula object from a persistent object file
+        nObject* Load(const char* path);
+        /// create a Nebula object from a persistent object file with given name
+        nRoot* LoadAs(const char* path, const char* objName);
+        /// lookup a Nebula object in the hierarchy
+        nRoot* Lookup(const char* path);
+
+        /// set current working object
+        void SetCwd(nRoot* newCwd);
+        /// get current working object
+        nRoot* GetCwd();
+        /// push current working object on stack, and set new cwd
+        void PushCwd(nRoot* newCwd);
+        /// restore previous working object
+        nRoot* PopCwd();
+
+        /// install a log handler (see details for ownership)
+        void SetLogHandler(nLogHandler* logHandler);
+        /// get pointer to current log handler object
+        nLogHandler* GetLogHandler() const;
+        /// print a log message
+        void __cdecl Print(const char* msg, ...);
+        /// show an important user message which may require user ack
+        void __cdecl Message(const char* msg, ...);
+        /// show an error message which may require user ack
+        void __cdecl Error(const char* msg, ...);
+
+        /// set an alternative file server
+        void ReplaceFileServer(const char* className);
+        /// add an extension class package to the kernel
+        void AddPackage(void (*)());
+        /// add a code module to the kernel
+        void AddModule(const char *, bool (*_init_func)(nClass *, nKernelServer *), void* (*_new_func)(void));
+        /// get pointer to hard ref server
+        nHardRefServer* GetHardRefServer() const;
+        /// get pointer to file server
+        nPersistServer* GetPersistServer() const;
+        /// get pointer to file server
+        nFileServer2* GetFileServer() const;
+        /// get pointer to remote server
+        nRemoteServer* GetRemoteServer() const;
+        /// get pointer to time server
+        nTimeServer* GetTimeServer() const;
+        /// optionally call to update memory useage variables
+        void Trigger(void);
+    }
+
+nApplication
+    - singleton class
+    - app time managment
+
+Classes:
+    nScriptServer
+    nGfxServer2
+        nResourceServer
+        nCamera2
+        nViewport
+        nTexture2
+        nMesh2
+        nMeshArray
+        nTexture2
+        nFont2
+        nShader2
+        nInstanceStream
+        nMouseCursor
+        matrix44Stack
+        nLight
+        float gamma;
+        float brightness;
+        float contrast;
+        {
+            mesh objects
+            texture objects
+            shader objects
+            fonts
+            render target objects
+
+            display mode
+            window
+            camera & viewport
+
+            screenshot
+            gamma & brightness & contrast
+        }
+    nInputServer
+    nConServer - ingame console
+        nLineBuffer historyBuffer;
+        int cursorPos;              // current cursor position in inputBuffer
+        nString watchPattern;
+        char inputBuffer[N_MAXPATH];
+        {
+            /// process input events
+            bool EditLine(nInputEvent* inputEvent);
+            /// add input buffer to command history
+            void AddCommandToHistory();
+            /// execute command in input buffer
+            void ExecuteCommand();
+            /// reset the command history
+            void ResetHistory();
+            /// render the console
+            void RenderConsole(int displayHeight, int fontHeight);
+        }
+    nResourceServer
+        meshPool
+        texPool
+        shdPool
+        animPool
+        sndResPool
+        sndInstPool
+        fontPool
+        bundlePool
+        otherPool
+
+        nThreadSafeList jobList    // list for outstanding background loader jobs
+        nThread* loaderThread      // background thread for handling async resource loading
+        {
+            /// find a resource object by its name and type
+            virtual nResource* FindResource(const char* rsrcName, nResource::Type rsrcType);
+            /// create a resource object
+            virtual nResource* NewResource(const char* className, const char* rsrcName, nResource::Type rsrcType);
+            /// unload all resources matching resource type (OR'ed nResource::Type's)
+            virtual void UnloadResources(int resTypeMask);
+            /// reload all resources matching type
+            virtual bool LoadResources(int resTypeMask);
+            /// call OnLost() on all resources defined in the mask
+            virtual void OnLost(int resTypeMask);
+            /// call OnRestored() on all resources defined in the mask
+            virtual void OnRestored(int resTypeMask);
+            /// return the resource pool directory for a given resource type
+            nRoot* GetResourcePool(nResource::Type rsrcType);
+            /// generate a valid resource id from a resource path
+            char* GetResourceId(const char* rsrcName, char* buf, int bufSize);
+            /// return number of resources of given type
+            int GetNumResources(nResource::Type rsrcType);
+            /// get number of bytes of RAM occupied by resource type
+            int GetResourceByteSize(nResource::Type rsrcType);
+        }
+    nSceneServer
+        nArray<Group>
+        nArray<ushort>
+        nArray<ushort>
+        nBucket<ushort,32>  // contains indices of shape nodes, bucketsorted by shader
+        {
+            /// open the scene server, call after nGfxServer2::OpenDisplay()
+            virtual bool Open();
+            /// close the scene server;
+            virtual void Close();
+            /// returns true if scene graph uses a specific shader type (override in subclasses!)
+            virtual bool IsShaderUsed(nFourCC fourcc) const;
+            /// begin the scene
+            virtual bool BeginScene(const matrix44& viewer);
+            /// attach the toplevel object of a scene node hierarchy to the scene
+            virtual void Attach(nRenderContext* renderContext);
+            /// finish the scene
+            virtual void EndScene();
+            /// render the scene
+            virtual void RenderScene();
+            /// begin a group node
+            virtual void BeginGroup(nSceneNode* sceneNode, nRenderContext* renderContext);
+            /// finish current group node
+            virtual void EndGroup();
+        }
+    nVariableServer
+        nVariableContext globalVariableContext;
+        nArray<VariableDeclaration> registry;
+        {
+            /// declare a variable
+            nVariable::Handle DeclareVariable(const char* varName, nFourCC fourcc);
+            /// get number of variable declarations
+            int GetNumVariables() const;
+            /// get a variable handle by name, if variable undeclared, create it
+            nVariable::Handle GetVariableHandleByName(const char* varName);
+            /// find variable handle by name
+            nVariable::Handle FindVariableHandleByName(const char* varName) const;
+            /// get the name of a variable from its handle
+            const char* GetVariableName(nVariable::Handle varHandle);
+            /// get the global variable context
+            const nVariableContext& GetGlobalVariableContext() const;
+            /// set a global variable
+            void SetGlobalVariable(const nVariable& var);
+            /// get a global variable by handle
+            const nVariable* GetGlobalVariable(nVariable::Handle varHandle) const;
+            /// get global variable by name
+            const nVariable* GetGlobalVariable(const char* varName) const;
+            /// get the float value of a global variable by handle
+            float GetFloatVariable(nVariable::Handle varHandle) const;
+            /// get float value of global variable by name
+            float GetFloatVariable(const char* varName) const;
+        }
+    nAnimationServer
+        {
+            /// create an in-memory animation object (always shared)
+            nAnimation* NewMemoryAnimation(const char* rsrcName);
+            /// create a new streaming animation object (never shared)
+            nAnimation* NewStreamingAnimation();
+        }
+    nParticleServer
+        EmitterPool        emitterPool;         // stores all used emitters
+        ParticlePool       particlePool;        // stores all particles in the world
+        FreeParticlePool   freeParticlePool;    // points to all free particles in particlePool
+        {
+            /// Update particles and emitters, delete unused emitters
+            void Trigger();
+            /// get particle emitter by its key
+            nParticleEmitter* GetParticleEmitter(int key);
+            /// create a new particle emitter
+            nParticleEmitter* NewParticleEmitter();
+            /// get a free particle from the pool, or 0 if none exists
+            nParticle* GiveFreeParticle();
+            /// a particle can go back to the free pool
+            void TakeBackParticle(nParticle* particle);
+            /// set global force attribute
+            void SetGlobalAccel(const vector3& accel);
+            /// get global force attribute
+            const vector3& GetGlobalAccel() const;
+        }
+    nVideoServer
+        {
+            /// open the video server
+            virtual bool Open();
+            /// close the video server
+            virtual void Close();
+            /// currently open?
+            bool IsOpen() const;
+            /// start playback of a video file
+            virtual bool PlayFile(const char* filename);
+            /// stop playback
+            virtual void Stop();
+            /// currently playing?
+            bool IsPlaying() const;
+            /// per-frame update 
+            virtual void Trigger();
+        }
+    nGuiServer
+        nRoot             refGui;
+        nInputServer      refInputServer;
+        nScriptServer     refScriptServer;
+        nGuiWindow        refCurrentRootWindow;
+        nGuiToolTip       refToolTip;
+        nFont2            refDefaultFont;
+        nFont2            refSmallFont;
+        nRoot             refSkins;
+        nGuiSkin          refCurrentSkin;
+        nGuiDragBox       refDragBox;
+        vector2           curMousePos;
+        nArray< nRef<nGuiWidget> > eventListeners;
+        nRef<nGuiWindow> refSystemRootWindow;       // the default system root window
+        nRef<nGuiSkin>   refSystemSkin;             // the system skin
+        nRef<nGuiWindow> refUserRootWindow;         // used as backup while system gui visible
+        nRef<nGuiSkin>   refUserSkin;               // used as backup while system gui visible
+        {
+            /// set display resolution to use for layout computations
+            void SetDisplaySize(const vector2& s);
+            /// set the texel mapping ratio (default 1.0)
+            void SetTexelMappingRatio(float r);
+            /// create a window of given class name
+            nGuiWindow* NewWindow(const char* className, bool visible);
+            /// create a new skin
+            nGuiSkin* NewSkin(const char* skinName);
+            /// immediatly release all windows under the current root window
+            void DiscardWindows(const char* className);
+            /// find window of given class under root window
+            nGuiWindow* FindWindowByClass(const char* className, nGuiWindow* curWindow);
+            /// set gui root directory in Nebula object hierarchy
+            void SetRootPath(const char* name);
+            /// set the current skin
+            void SetSkin(nGuiSkin* skin);
+            /// set the system skin
+            void SetSystemSkin(nGuiSkin* skin);
+            /// open the gui server
+            bool Open();
+            /// close the gui server
+            void Close();
+            /// set the current root window by its name
+            void SetRootWindow(const char* name);
+            /// set pointer to current root window
+            void SetRootWindowPointer(nGuiWindow* window);
+            /// Per frame actions.
+            virtual void Trigger();
+            /// render the current gui
+            virtual void Render();
+            /// add a font definition using a custom font
+            void AddCustomFont(const char* fontName, const char* fontFile, const char* typeFace, int height, bool bold, bool italic, bool underline);
+            /// convert a screen space coord to a view space coord
+            vector3 ConvertScreenToViewSpace(const vector2& screenCoord);
+            /// convert a screen space rectangle to a view space matrix
+            matrix44 GetViewSpaceMatrix(const rectangle& r);
+            /// directly draw a textured rectangle
+            void DrawTexture(const rectangle& rect, const rectangle& uvRect, const vector4& color, nTexture2* tex);
+            /// push clipping rectangle into stack
+            void PushClipRect(rectangle& cr);
+            /// remove clipping rectangle from the top of stack
+            void PopClipRect();
+            /// get clipping rectangle from the top of stack
+            bool GetClipRect(rectangle& cr) const;
+            /// get the size of 1 pixel
+            vector2 GetPixelSize() const;
+            /// check if mouse is over a GUI element
+            bool IsMouseOverGui() const;
+            /// get current mouse pos
+            const vector2& GetMousePos() const;
+            /// run a widget script command
+            bool RunCommand(nGuiWidget* who, const nString& cmd);
+            /// put an event, will be distributed to all listeners
+            void PutEvent(const nGuiEvent& event);
+            /// register an event listener
+            void RegisterEventListener(nGuiWidget* w);
+            /// unregister an event listener
+            void UnregisterEventListener(nGuiWidget* w);
+            /// toggle the system GUI
+            void ToggleSystemGui();
+            /// play a gui sound
+            void PlaySound(nGuiSkin::Sound snd);
+            /// draw text, call this instead of nGfxServer2::DrawText()!
+            void DrawText(const char* text, const vector4& color, const rectangle& rect, uint flags);
+        }
+    nShadowServer
+        {
+            /// start a new scene - return true is shadow is enabled
+            bool BeginScene();
+            /// end the current scene
+            void EndScene();
+            /// start shadow casting for light
+            bool BeginLight(nLight::Type type, const vector3& lightPos);
+            /// end current light
+            void EndLight();   
+            /// get light position (world space)
+            const vector3& GetLight() const;
+            /// get light type
+            const nLight::Type GetLightType() const;
+            /// request draw buffer from shadowserver
+            bool BeginDrawBuffer(DrawType type, vector3*& dstCoords, int& numCoords);
+            /// swap draw buffer from shadowserver
+            bool SwapDrawBuffer(DrawType type, vector3*& dstCoords, int& numCoords);
+            /// end write to draw buffer
+            void EndDrawBuffer(DrawType type, vector3* dstCoords, int numCoords);
+            /// get maximum number of valid coords that can be stored in the draw buffer
+            const int GetMaxNumCoords(DrawType type) const;
+            /// create a new shadow caster resource of the specified type.
+            nShadowCaster* NewShadowCaster(CasterType casterType, const char* rsrcName);
+            /// enable/disable shadow
+            void SetShowShadows(bool show);
+            /// enable/disable zFail shadow rendering
+            void SetUseZFail(bool use);
+        }
+    nAudioServer3
+        float masterVolume;
+        {
+            /// open the audio device
+            virtual bool Open();
+            /// close the audio device
+            virtual void Close();
+            /// reset all sounds
+            virtual void Reset();
+            /// begin an audio frame
+            virtual bool BeginScene(nTime time);
+            /// update listener attributes
+            virtual void UpdateListener(const nListener3& l);
+            /// start a sound
+            virtual void StartSound(nSound3* s);
+            /// update a sound
+            virtual void UpdateSound(nSound3* s);
+            /// stop a sound
+            virtual void StopSound(nSound3* s);
+            /// end the audio frame
+            virtual void EndScene();
+            /// set the master volume (0.0 .. 1.0)
+            void SetMasterVolume(float v);
+            /// get the master volume
+            float GetMasterVolume() const;
+            /// create a non-shared sound object
+            virtual nSound3* NewSound();
+            /// create a shared sound resource object
+            virtual nSoundResource* NewSoundResource(const char* rsrcName);
+        }
+    nPrefServer
+        {
+            /// open the preferences server
+            virtual bool Open();
+            /// close the preferences server
+            virtual void Close();
+            /// check if a key exists
+            virtual bool KeyExists(const nString& key);
+            /// return true if server is open
+            bool IsOpen() const;
+            /// write a string value
+            bool WriteString(const nString& key, const nString& value);
+            /// write an integer value
+            bool WriteInt(const nString& key, int value);
+            /// read a string value
+            nString ReadString(const nString& key);
+            /// read an integer value
+            int ReadInt(const nString& key);
+            /// read a float value
+        }
+    nLocaleServer
+        nString filename;
+        nHashMap* idHashMap; // map of all know ID's from the table
+        nFixedArray<nString> textArray; // array of texts from the table, key from idHashMap is index
+        {
+            /// set locale table filename
+            void SetLocaleTableFilename(const char* filename);
+            /// get locale table filename
+            const char* GetLocaleTableFilename() const;
+            /// open the server, load filename and parse entrys
+            bool Open();
+            /// close server, cleanup all
+            void Close();
+            /// is server open?
+            bool IsOpen() const;
+            /// get localized text for id
+            const char* GetLocaleText(const char* id) const;
+        }
+    nAppState
+        - pointer to nApplication class
+        {
+            /// called when state is created
+            void OnCreate(nApplication* application);
+            /// called when state is becoming active
+            void OnStateEnter(const nString& prevState);
+            /// called when state is becoming inactive
+            void OnStateLeave(const nString& nextState);
+            /// called on state to perform state logic
+            void OnFrame();
+            /// called on state to perform 3d rendering
+            void OnRender3D();
+            /// called on state to perform 2d rendering
+            void OnRender2D();
+            /// called before nSceneServer::RenderScene()
+            void OnFrameBefore();
+            /// called after nSceneServer::RenderScene()
+            void OnFrameRendered();
+        }
+
+void nApplication::Run()
+{
+    while (!this->GetQuitRequested())
+    {
+        // update time values
+        this->OnUpdateTime();
+
+        // perform state transition
+        if ((!this->curState.isvalid()) ||
+            (this->nextState.isvalid() && (this->nextState.get() != this->curState.get())))
+        {
+            this->DoStateTransition();
+        }
+
+        // perform current frame
+        this->DoFrame();
+
+        // give up time slice
+        n_sleep(0.0f);
+    }
+}
+
+/**
+    Do one complete frame.
+*/
+void nApplication::DoFrame()
+{
+    n_assert(this->appCamera);
+    n_assert(this->curState.isvalid());
+
+    // distribute time to subsystems
+    nGuiServer::Instance()->SetTime(this->time);
+
+    // trigger the various servers
+    if (!this->refScriptServer->Trigger())
+    {
+        this->SetQuitRequested(true);
+    }
+    if (!this->refGfxServer->Trigger())
+    {
+        this->SetQuitRequested(true);
+    }
+    kernelServer->Trigger();
+    nInputServer::Instance()->Trigger(this->time);
+    nGuiServer::Instance()->Trigger();
+    nVideoServer::Instance()->Trigger();
+
+    // perform logic triggering
+    this->curState->OnFrame();
+
+    // perform rendering
+    nAudioServer3* audioServer = nAudioServer3::Instance();
+    nGfxServer2* gfxServer = nGfxServer2::Instance();
+    nSceneServer* sceneServer = nSceneServer::Instance();
+
+    audioServer->BeginScene(this->time);
+    audioServer->UpdateListener(this->audioListener);
+    if (!gfxServer->InDialogBoxMode())
+    {
+        this->OnFrameBefore();
+        const matrix44& viewMatrix = this->appCamera->GetViewMatrix();
+        if (sceneServer->BeginScene(viewMatrix))
+        {
+            nParticleServer::Instance()->Trigger();
+            this->OnRender3D();
+            sceneServer->RenderScene();
+            sceneServer->EndScene();
+            this->OnFrameRendered();
+            this->OnRender2D();
+            sceneServer->PresentScene();
+        }
+    }
+    audioServer->EndScene();
+    nInputServer::Instance()->FlushEvents();
+}
+

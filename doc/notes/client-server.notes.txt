@@ -1,0 +1,31 @@
+Client - OnFrame()
+    InputMgr.Update()
+    World.Update()
+    ReadIncomingPackets
+        ReadPacketFromQue
+            // time check
+            DeliveryNotificationMgr
+            HandleStatePcket
+                ReplicationMgr.Read
+        UpdateStatistics
+    Render
+    SendOutPackets
+        SendMoveList
+
+Server - OnFrame()
+    ProcessIncomingPackets
+        ReadPacketFromQue
+            DeliveryNotificationMgr
+            HandleInputPack
+                ClientProxy.AddMoveToList
+    CheckForDissconect
+        HandleClientDisconnect
+    Respawn()
+    World.Update()
+    SendOutgoingPackets
+        For(client : clientProxyList)
+            SendStatePacketToClient
+                DeliveryNotificationMgr.WriteState()
+                ReplicationMgrSrv.Write()
+                Send()
+
