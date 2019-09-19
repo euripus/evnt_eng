@@ -23,12 +23,12 @@ Core::Core()
     pt::read_json("config.json", m_root_config);
 
     m_file_system = std::make_unique<FileSystem>(
-        m_root_config.get<std::string>("BaseConfig.FileSystem.RootPathRelative"));
+        m_root_config.get<std::string>("FileSystem.RootPathRelative"));
 
     Log::SeverityLevel sl =
-        Log::ConvertStrToSeverity(m_root_config.get<std::string>("BaseConfig.Logging.SeverityLevelFilter"));
-    Log::Output ot = Log::ConvertStrToOutput(m_root_config.get<std::string>("BaseConfig.Logging.Output"));
-    Log::BoostLog::InitBoostLog(m_root_config.get<std::string>("BaseConfig.Logging.FileName"), ot);
+        Log::ConvertStrToSeverity(m_root_config.get<std::string>("Logging.SeverityLevelFilter"));
+    Log::Output ot = Log::ConvertStrToOutput(m_root_config.get<std::string>("Logging.Output"));
+    Log::BoostLog::InitBoostLog(m_root_config.get<std::string>("Logging.FileName"), ot);
     Log::BoostLog::SetSeverityFilter(sl);
 }
 

@@ -1,12 +1,11 @@
 Core
     Time
-    RandomGenerator
     Object <pf.> // component
     Log
     ThreadPool
     EventMgr // boost signals2 ???
+    FileSystem
     App
-        FileSystem
         ResourceMgr
             Resource
         GameObjMgr
