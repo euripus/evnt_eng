@@ -35,6 +35,41 @@ unix:{
     LIBS += -lz -lpthread -lstdc++fs
 }
 
-SOURCES += 
+SOURCES +=  \
+    src/core/cmpmsgs.cpp \
+    src/core/component.cpp \
+    src/core/core.cpp \
+    src/core/exception.cpp \
+    src/core/gameobject.cpp \
+    src/core/gameobjectmanager.cpp \
+    src/core/memory_stream.cpp \
+    src/core/object.cpp \
+    src/fs/file.cpp \
+    src/fs/file_system.cpp \
+    src/log/log.cpp \
+    src/main.cpp \
+    src/network/connection.cpp \
+    src/network/socketaddress.cpp \
+    src/network/udpsocket.cpp
 
-HEADERS +=
+HEADERS += \
+    src/core/classids.h \
+    src/core/cmpmsgs.h \
+    src/core/component.h \
+    src/core/core.h \
+    src/core/event.h \
+    src/core/exception.h \
+    src/core/gameobject.h \
+    src/core/gameobjectmanager.h \
+    src/core/memory_stream.h \
+    src/core/module.h \
+    src/core/object.h \
+    src/core/objhandle.h \
+    src/core/threadpool.h \
+    src/fs/file.h \
+    src/fs/file_system.h \
+    src/fs/zip.h \
+    src/log/log.h \
+    src/network/connection.h \
+    src/network/socketaddress.h \
+    src/network/udpsocket.h
