@@ -3,8 +3,8 @@
 
 #include <boost/property_tree/ptree.hpp>
 
-#include "../fs/file_system.h"
 #include "../app/app.h"
+#include "../fs/file_system.h"
 #include "event.h"
 #include "gameobject.h"
 #include "gameobjectmanager.h"
@@ -20,7 +20,7 @@ DECLARE_EVENT_TRAIT(evExit, void);
 
 class Core : public Module<Core>
 {
-    inline static const uint32_t MS_PER_UPDATE = 16;
+    inline static const uint32_t MS_PER_UPDATE = 16;   // roughly 60 fps
     uint32_t                     m_fps{0};
 
     pt::ptree                    m_root_config;
@@ -78,6 +78,7 @@ public:
     FileSystem &      getFileSystem() { return *m_file_system; }
     const pt::ptree & getRootConfig() const { return m_root_config; }
     App &             getApp() { return *m_app; }
+    uint32_t          getFPS() const { return m_fps; }
 };
 }   // namespace evnt
 #endif   // CORE_H

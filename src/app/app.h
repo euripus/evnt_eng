@@ -12,6 +12,7 @@ public:
     // in ovverided functions need to be called parent first
     virtual bool init(int argc, char * argv[]) { return true; }
     virtual void terminate() {}
+    virtual void processInput() {}
     virtual void update() {}
     virtual void onFrame() {}   // call render() for  main window
 

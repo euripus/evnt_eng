@@ -48,6 +48,7 @@ void Core::enterMainLoop()
     uint32_t nbFrames = 0;
     uint32_t lastTime = previous;
 
+    // https://gameprogrammingpatterns.com/game-loop.html
     while(m_running && getApp().running())
     {
         uint32_t current = GetMilisecFromStart();
@@ -63,10 +64,10 @@ void Core::enterMainLoop()
             lastTime += 1000;
         }
 
-        getApp().update();   // Logic physics et cetera
+        getApp().processInput();
         while(lag >= MS_PER_UPDATE)
         {
-            getApp().update();
+            getApp().update();   // Logic physics et cetera
             lag -= MS_PER_UPDATE;
         }
 
