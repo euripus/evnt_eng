@@ -1,3 +1,7 @@
+static polymorphism: https://www.reddit.com/r/cpp/comments/8po138/question_about_static_polymorphism_using/
+
+
+
 GameObj
     GetComponent<TypeID>()
     AddComponent<TypeID>(component_ptr)

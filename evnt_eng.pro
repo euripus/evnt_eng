@@ -36,6 +36,8 @@ unix:{
 }
 
 SOURCES +=  \
+    src/app/app.cpp \
+    src/app/mousecursor.cpp \
     src/core/cmpmsgs.cpp \
     src/core/component.cpp \
     src/core/core.cpp \
@@ -50,9 +52,12 @@ SOURCES +=  \
     src/main.cpp \
     src/network/connection.cpp \
     src/network/socketaddress.cpp \
-    src/network/udpsocket.cpp
+    src/network/udpsocket.cpp \
+    src/resource/imagedata.cpp
 
 HEADERS += \
+    src/app/app.h \
+    src/app/mousecursor.h \
     src/core/classids.h \
     src/core/cmpmsgs.h \
     src/core/component.h \
@@ -72,4 +77,5 @@ HEADERS += \
     src/log/log.h \
     src/network/connection.h \
     src/network/socketaddress.h \
-    src/network/udpsocket.h
+    src/network/udpsocket.h \
+    src/resource/imagedata.h
