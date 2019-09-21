@@ -25,7 +25,7 @@ public:
     MouseCursor(const MouseCursor & rhs);
     MouseCursor & operator=(const MouseCursor & rhs);
 
-    void        setFilename(std::string path) { m_filename = path; }
+    void        setFilename(std::string path) { m_filename = std::move(path); }
     std::string getFilename() const { return m_filename; }
 
     void setHotspotX(int x) { m_hotSpotX = x; }

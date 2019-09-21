@@ -68,7 +68,7 @@ public:
     {
         m_app = std::make_unique<T>(std::forward<Args>(args)...);
     }
-    void appInit(int argc, char * argv[]) { m_app->init(argc, argv); }
+    bool appInit(int argc, char * argv[]) { return m_app->init(argc, argv); }
     void enterMainLoop();
 
     void exit() { m_running = false; }

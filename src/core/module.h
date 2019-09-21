@@ -30,7 +30,7 @@ public:
             EV_EXCEPT("Trying to access a destroyed module.");
         }
 
-        return *_instance().get();
+        return *_instance();
     }
 
     /**

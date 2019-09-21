@@ -13,7 +13,7 @@ class Component : public Object
 public:
     CLASS_IMPLEMENT(Component, Object)
 
-    Component();
+    Component() = default;
 
     void setGameObjectInternal(GameObject * go);
     void sendMessage(CmpMsgsTable::msg_id messageIdentifier, std::any msg_data);

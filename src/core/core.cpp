@@ -72,7 +72,11 @@ void Core::enterMainLoop()
         }
 
         getApp().onFrame();   // render
-        std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<uint32_t>(MS_PER_UPDATE - lag)));
+
+        current = GetMilisecFromStart();
+        elapsed = current - previous;   // elapsed after update & render
+        if(elapsed < MS_PER_UPDATE)
+            std::this_thread::sleep_for(std::chrono::milliseconds(MS_PER_UPDATE - elapsed));
     }
 
     getApp().terminate();

@@ -9,8 +9,6 @@ namespace evnt
 {
 IMPLEMENT_STRUCT(Component, Object)
 
-Component::Component() {}
-
 void Component::setGameObjectInternal(GameObject * go)
 {
     mGameObj = go;
