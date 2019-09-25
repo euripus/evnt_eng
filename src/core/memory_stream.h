@@ -62,6 +62,10 @@ public:
     }
     InputMemoryStream & operator=(const InputMemoryStream & other)
     {
+        // check for self-assignment
+        if(&other == this)
+            return *this;
+
         _head     = other._head;
         _capacity = other._capacity;
         _data     = std::make_unique<int8_t[]>(_capacity);
@@ -73,6 +77,10 @@ public:
     InputMemoryStream(InputMemoryStream && other) : InputMemoryStream() { std::swap(*this, other); }
     InputMemoryStream & operator=(InputMemoryStream && other)
     {
+        // check for self-assignment
+        if(&other == this)
+            return *this;
+
         std::swap(*this, other);
 
         return *this;
