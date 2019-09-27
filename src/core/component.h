@@ -22,7 +22,7 @@ public:
     void onAddMessage(Component * rec, CmpMsgsTable::msg_id id, std::any msg_data);
 
 private:
-    GameObject * mGameObj{nullptr};
+    GameObject * m_owner{nullptr};
 };
 }   // namespace evnt
 
