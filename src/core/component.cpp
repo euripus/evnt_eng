@@ -11,15 +11,15 @@ IMPLEMENT_STRUCT(Component, Object)
 
 void Component::setGameObjectInternal(GameObject * go)
 {
-    mGameObj = go;
+    m_owner = go;
 }
 
 void Component::sendMessage(CmpMsgsTable::msg_id messageIdentifier, std::any msg_data)
 {
-    if(mGameObj)
+    if(m_owner)
     {
         ClassIDType cid = static_cast<ClassIDType>(getClassIDVirtual());
-        mGameObj->sendMessage(cid, messageIdentifier, msg_data);
+        m_owner->sendMessage(cid, messageIdentifier, msg_data);
     }
 }
 
@@ -29,7 +29,8 @@ void Component::onAddMessage(Component * rec, CmpMsgsTable::msg_id id, std::any 
 
     switch(id)
     {
-        case CmpMsgsTable::msg_id::mDidAddComponent: {
+        case CmpMsgsTable::msg_id::mDidAddComponent:
+        {
             std::cout << "OnAddComponent type:" << tt << " ID:" << rec->getInstanceId()
                       << " this ID:" << getInstanceId() << std::endl;
         }
@@ -43,14 +44,14 @@ void Component::dump(int indentLevel) const
     std::cout << std::string(4 * (indentLevel + 1), ' ') << "ID: " << getInstanceId() << std::endl;
 
     std::cout << std::string(4 * (indentLevel + 1), ' ') << "mGameObj {" << std::endl;
-    if(mGameObj == nullptr)
+    if(m_owner == nullptr)
     {
         std::cout << "nullptr";
     }
     else
     {
         std::cout << std::string(4 * (indentLevel + 2), ' ');
-        std::cout << "Ptr object ID: " << mGameObj->getInstanceId();
+        std::cout << "Owner object ID: " << m_owner->getInstanceId();
         std::cout << std::endl;
         std::cout << std::string(4 * (indentLevel + 1), ' ');
     }
@@ -63,49 +64,49 @@ void Component::write(OutputMemoryStream & inMemoryStream, const GameObjectManag
     inMemoryStream.write(getClassIDVirtual());
     inMemoryStream.write(getInstanceId());
 
-    if(mGameObj == nullptr)
+    if(m_owner == nullptr)
     {
         inMemoryStream.write(0);
     }
     else
     {
         inMemoryStream.write(1);
-        inMemoryStream.write(mGameObj->getInstanceId());
+        inMemoryStream.write(m_owner->getInstanceId());
     }
 }
 
 void Component::read(const InputMemoryStream & inMemoryStream, GameObjectManager & gmgr)
 {
-    int32_t type_id {0};
+    int32_t type_id{0};
     inMemoryStream.read(type_id);
-    uint32_t inst_id {0};
+    uint32_t inst_id{0};
     inMemoryStream.read(inst_id);
 
     setInstanceId(inst_id);
 
-    int n_ptr {0};
+    int n_ptr{0};
     inMemoryStream.read(n_ptr);
 
     if(n_ptr != 0)
     {
         // read instance id
         inMemoryStream.read(n_ptr);
-        mGameObj = (GameObject *)n_ptr;
+        m_owner = (GameObject *)n_ptr;
     }
     else
     {
-        mGameObj = nullptr;
+        m_owner = nullptr;
     }
 }
 
 void Component::link(GameObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
 {
     // https://stackoverflow.com/questions/22419063/error-cast-from-pointer-to-smaller-type-int-loses-information-in-eaglview-mm
-    uint32_t inst_id = (uint32_t)(size_t)mGameObj;
+    uint32_t inst_id = (uint32_t)(size_t)m_owner;
 
     if(id_remap.find(inst_id) == id_remap.end())
         EV_EXCEPT("Trying linking not exist object");
 
-    mGameObj = (GameObject *)gmgr.getObjectPtr(id_remap.at(inst_id));
+    m_owner = (GameObject *)gmgr.getObjectPtr(id_remap.at(inst_id));
 }
 }   // namespace evnt
