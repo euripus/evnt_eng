@@ -18,9 +18,9 @@ Object::RTTI & Object::ClassIDToRTTI(int32_t classID)
 {
     assert(classID != -1);
 
-    auto id = s_mClassIDToRttiMap.find(classID);
+    auto id = s_classid_to_rtti_map.find(classID);
 
-    if(id == s_mClassIDToRttiMap.end())
+    if(id == s_classid_to_rtti_map.end())
     {
         std::stringstream ss;
         ss << "Error! Rtti information for class_id:" << classID << "  not found";
@@ -34,7 +34,7 @@ void Object::RegisterClass(int32_t inClassID, int32_t inBaseClass, const std::st
                            CreateFunc inFunc)
 {
     assert(inClassID != -1);
-    assert(s_mClassIDToRttiMap.find(inClassID) == s_mClassIDToRttiMap.end());
+    assert(s_classid_to_rtti_map.find(inClassID) == s_classid_to_rtti_map.end());
 
     RTTI rtti;
 
@@ -43,7 +43,7 @@ void Object::RegisterClass(int32_t inClassID, int32_t inBaseClass, const std::st
     rtti.className = inName;
     rtti.factory   = std::move(inFunc);
 
-    s_mClassIDToRttiMap[inClassID] = rtti;
+    s_classid_to_rtti_map[inClassID] = rtti;
 }
 
 bool Object::IsDerivedFromClassID(int32_t classID, int32_t derivedFromClassID)
@@ -65,9 +65,9 @@ bool Object::IsDerivedFromClassID(int32_t classID, int32_t derivedFromClassID)
 int32_t Object::GetSuperClassID(int32_t classID)
 {
     int32_t base = -1;
-    auto    id   = s_mClassIDToRttiMap.find(classID);
+    auto    id   = s_classid_to_rtti_map.find(classID);
 
-    if(id != s_mClassIDToRttiMap.end())
+    if(id != s_classid_to_rtti_map.end())
         base = id->second.base;
 
     return base;
@@ -78,7 +78,7 @@ int32_t Object::StringToClassID(const std::string & classString)
     int32_t result = -1;
 
     /// TODO perfomance check needed
-    for(const auto & [key, rtti] : s_mClassIDToRttiMap)
+    for(const auto & [key, rtti] : s_classid_to_rtti_map)
     {
         if(rtti.className == classString)
         {
@@ -93,9 +93,9 @@ int32_t Object::StringToClassID(const std::string & classString)
 std::string Object::ClassIDToString(int32_t classID)
 {
     std::string result;
-    auto        id = s_mClassIDToRttiMap.find(classID);
+    auto        id = s_classid_to_rtti_map.find(classID);
 
-    if(id != s_mClassIDToRttiMap.end())
+    if(id != s_classid_to_rtti_map.end())
         result = id->second.className;
 
     return result;

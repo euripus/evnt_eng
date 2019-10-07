@@ -25,10 +25,10 @@ public:
 
     void sendMessage(ClassIDType sender, CmpMsgsTable::msg_id messageIdentifier, std::any msg_data);
 
-    inline static CmpMsgsTable sMsgHandler;
+    inline static CmpMsgsTable s_msg_handlers;
 
 private:
-    std::unordered_map<int32_t, PObjHandle> mComponents;   // [type_id, obj_handle]
+    std::unordered_map<int32_t, PObjHandle> m_components;   // [type_id, obj_handle]
 };
 
 template<class T>
@@ -43,9 +43,9 @@ T & GameObject::getComponent() const
 template<class T>
 PObjHandle GameObject::getComponentPtr() const
 {
-    auto id = mComponents.find(T::GetClassIDStatic());
+    auto id = m_components.find(T::GetClassIDStatic());
 
-    assert(id != mComponents.end());
+    assert(id != m_components.end());
     return id->second;
 }
 }   // namespace evnt

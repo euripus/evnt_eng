@@ -11,11 +11,47 @@
 
 namespace evnt
 {
+class InputMemoryStream;
+
 class OutputMemoryStream
 {
 public:
-    const int8_t * getBufferPtr() const { return _buffer.data(); }
-    uint32_t       getLength() const { return _buffer.size(); }
+    OutputMemoryStream()  = default;
+    ~OutputMemoryStream() = default;
+
+    OutputMemoryStream(const OutputMemoryStream & other) { m_buffer = other.m_buffer; }
+    OutputMemoryStream & operator=(const OutputMemoryStream & other)
+    {
+        // check for self-assignment
+        if(&other == this)
+            return *this;
+
+        m_buffer = other.m_buffer;
+
+        return *this;
+    }
+
+    OutputMemoryStream(OutputMemoryStream && other) : OutputMemoryStream() { std::swap(*this, other); }
+    OutputMemoryStream & operator=(OutputMemoryStream && other)
+    {
+        // check for self-assignment
+        if(&other == this)
+            return *this;
+
+        std::swap(*this, other);
+
+        return *this;
+    }
+
+    friend void swap(OutputMemoryStream & left, OutputMemoryStream & right)
+    {
+        using std::swap;
+
+        swap(left.m_buffer, right.m_buffer);
+    }
+
+    const int8_t * getBufferPtr() const { return m_buffer.data(); }
+    uint32_t       getLength() const { return m_buffer.size(); }
 
     void write(const int8_t * inData, size_t inByteCount);
 
@@ -35,30 +71,30 @@ public:
         write(reinterpret_cast<const int8_t *>(inString.data()), elementCount * sizeof(char));
     }
 
+    void write(const InputMemoryStream & inStream);
+
+    void clear() { m_buffer.clear(); }
+
 private:
-    std::vector<int8_t> _buffer;
+    std::vector<int8_t> m_buffer;
 };
 
 class InputMemoryStream
 {
 public:
     InputMemoryStream(std::unique_ptr<int8_t[]> inData, size_t inByteCount) :
-        _data{std::move(inData)},
-        _head{0},
-        _capacity{inByteCount}
+        m_data{std::move(inData)}, m_head{0}, m_capacity{inByteCount}
     {}
     InputMemoryStream(size_t inByteCount) :
-        _data{std::make_unique<int8_t[]>(inByteCount)},
-        _head{0},
-        _capacity{inByteCount}
+        m_data{std::make_unique<int8_t[]>(inByteCount)}, m_head{0}, m_capacity{inByteCount}
     {}
     InputMemoryStream()  = default;
     ~InputMemoryStream() = default;
 
-    InputMemoryStream(const InputMemoryStream & other) : _head{other._head}, _capacity{other._capacity}
+    InputMemoryStream(const InputMemoryStream & other) : m_head{other.m_head}, m_capacity{other.m_capacity}
     {
-        _data = std::make_unique<int8_t[]>(_capacity);
-        std::memcpy(_data.get(), other._data.get(), _capacity);
+        m_data = std::make_unique<int8_t[]>(m_capacity);
+        std::memcpy(m_data.get(), other.m_data.get(), m_capacity);
     }
     InputMemoryStream & operator=(const InputMemoryStream & other)
     {
@@ -66,10 +102,10 @@ public:
         if(&other == this)
             return *this;
 
-        _head     = other._head;
-        _capacity = other._capacity;
-        _data     = std::make_unique<int8_t[]>(_capacity);
-        std::memcpy(_data.get(), other._data.get(), _capacity);
+        m_head     = other.m_head;
+        m_capacity = other.m_capacity;
+        m_data     = std::make_unique<int8_t[]>(m_capacity);
+        std::memcpy(m_data.get(), other.m_data.get(), m_capacity);
 
         return *this;
     }
@@ -90,12 +126,10 @@ public:
     {
         using std::swap;
 
-        swap(left._data, right._data);
-        swap(left._head, right._head);
-        swap(left._capacity, right._capacity);
+        swap(left.m_data, right.m_data);
+        swap(left.m_head, right.m_head);
+        swap(left.m_capacity, right.m_capacity);
     }
-
-    int32_t getRemainingDataSize() const { return _capacity - _head; }
 
     void read(void * outData, uint32_t inByteCount) const;
 
@@ -116,14 +150,20 @@ public:
         read(inString.data(), elementCount * sizeof(char));
     }
 
-    int8_t * getCurPosPtr() const;
-    void     resetHead() { _head = 0; }
-    void     setCapacity(uint32_t newCapacity) { _capacity = newCapacity; }
+    uint32_t       getRemainingDataSize() const { return m_capacity - m_head; }
+    uint32_t       getCapacity() const { return m_capacity; }
+    const int8_t * getCurPosPtr() const { return m_data.get() + m_head; }
+    const int8_t * getPtr() const { return m_data.get(); }
+
+    void resetHead() { m_head = 0; }
+    void setCapacity(uint32_t newCapacity) { m_capacity = newCapacity; }
+
+    static InputMemoryStream ConvertToInputMemoryStream(const OutputMemoryStream & inStream);
 
 private:
-    std::unique_ptr<int8_t[]> _data;
-    mutable size_t            _head;
-    size_t                    _capacity;
+    std::unique_ptr<int8_t[]> m_data;
+    mutable size_t            m_head;
+    size_t                    m_capacity;
 };
 }   // namespace evnt
 

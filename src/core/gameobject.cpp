@@ -17,7 +17,7 @@ void GameObject::addComponent(PObjHandle com)
 
     cmp_ptr->setGameObjectInternal(this);
     cmp_ptr->sendMessage(CmpMsgsTable::mDidAddComponent, {});
-    mComponents[cmp_ptr->getClassIDVirtual()] = com;
+    m_components[cmp_ptr->getClassIDVirtual()] = com;
 }
 
 Component * GameObject::queryComponentImplementation(int32_t classID) const
@@ -26,8 +26,8 @@ Component * GameObject::queryComponentImplementation(int32_t classID) const
 
     Component * res{nullptr};
 
-    auto id = mComponents.find(classID);
-    if(id != mComponents.end())
+    auto id = m_components.find(classID);
+    if(id != m_components.end())
     {
         res = dynamic_ohdl_cast<evnt::Component>(id->second);
     }
@@ -39,13 +39,13 @@ void GameObject::sendMessage(ClassIDType sender, CmpMsgsTable::msg_id messageIde
 {
     assert(messageIdentifier != CmpMsgsTable::mUndefined);
 
-    for(auto & [key, cmp]: mComponents)
+    for(auto & [key, cmp]: m_components)
     {
         auto cid = static_cast<ClassIDType>(key);
-        if(sMsgHandler.hasMessageCallback(messageIdentifier, cid) && cid != sender)
+        if(s_msg_handlers.hasMessageCallback(messageIdentifier, cid) && cid != sender)
         {
             auto cmp_ptr = dynamic_ohdl_cast<evnt::Component>(cmp);
-            sMsgHandler.handleMessage(cmp_ptr, messageIdentifier, msg_data);
+            s_msg_handlers.handleMessage(cmp_ptr, messageIdentifier, msg_data);
         }
     }
 }
@@ -58,7 +58,7 @@ void GameObject::dump(int indentLevel) const
 
     std::cout << std::string(4 * (indentLevel + 1), ' ') << std::string("std::unique_ptr<mComponents>")
               << "{";
-    if(mComponents.empty())
+    if(m_components.empty())
     {
         std::cout << "0}";
         std::cout << std::endl;
@@ -66,7 +66,7 @@ void GameObject::dump(int indentLevel) const
     else
     {
         std::cout << std::endl;
-        for(auto & [key, cmp]: mComponents)
+        for(auto & [key, cmp]: m_components)
         {
             auto c_ptr = cmp->getPtr();
             std::cout << std::string(4 * (indentLevel + 2), ' ') << "[type: ";
@@ -85,12 +85,12 @@ void GameObject::write(OutputMemoryStream & inMemoryStream, const GameObjectMana
     inMemoryStream.write(getClassIDVirtual());
     inMemoryStream.write(getInstanceId());
 
-    if(mComponents.empty())
+    if(m_components.empty())
         inMemoryStream.write(0);
     else
     {
-        inMemoryStream.write<uint32_t>(mComponents.size());
-        for(auto & [key, cmp]: mComponents)
+        inMemoryStream.write<uint32_t>(m_components.size());
+        for(auto & [key, cmp]: m_components)
         {
             auto c_ptr = cmp->getPtr();
             inMemoryStream.write(key);
@@ -122,7 +122,7 @@ void GameObject::read(const InputMemoryStream & inMemoryStream, GameObjectManage
 
             auto temp_handle        = std::make_shared<ObjHandle>(nullptr);
             temp_handle->m_link_key = cmp_inst;
-            mComponents[key]        = temp_handle;
+            m_components[key]        = temp_handle;
 
             --size;
         }
@@ -131,10 +131,10 @@ void GameObject::read(const InputMemoryStream & inMemoryStream, GameObjectManage
 
 void GameObject::link(GameObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
 {
-    if(mComponents.empty())
+    if(m_components.empty())
         return;
 
-    for(auto & [key, cmp]: mComponents)
+    for(auto & [key, cmp]: m_components)
     {
         uint32_t c_inst = cmp->m_link_key;
 
@@ -143,7 +143,7 @@ void GameObject::link(GameObjectManager & gmgr, const std::map<uint32_t, uint32_
 
         auto ptr = gmgr.getObject(id_remap.at(c_inst));
 
-        mComponents[key] = ptr;
+        m_components[key] = ptr;
     }
 }
 }   // namespace evnt

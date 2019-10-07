@@ -79,7 +79,7 @@ public:
     {
         FlagLock lk(m_access_flag);
         m_delegates.erase(std::remove_if(m_delegates.begin(), m_delegates.end(),
-                                         [evh](const DelegateHolder & d) { return d._object == evh; }),
+                                         [evh](const DelegateHolder & d) { return d.object == evh; }),
                           m_delegates.end());
     }
 
@@ -92,7 +92,7 @@ public:
             for(auto & d : m_delegates)
             {
                 std::function<typename EventTrait::result_type()> fn =
-                    std::bind(d._delegate, std::forward<Args>(args)...);
+                    std::bind(d.delegate, std::forward<Args>(args)...);
                 res.push_back(pool.submit(fn));
             }
         }
@@ -102,8 +102,8 @@ public:
 private:
     struct DelegateHolder
     {
-        typename EventTrait::DelegateType _delegate;
-        std::size_t                       _object;
+        typename EventTrait::DelegateType delegate;
+        std::size_t                       object;
     };
 
     std::atomic_bool          m_access_flag;

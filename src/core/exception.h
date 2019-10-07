@@ -11,21 +11,21 @@ class Exception : public std::exception
 public:
     //! Creates exception object
     Exception(const char * str, int line, const char * file) noexcept :
-        eLine_(line),
-        eFile_(file),
-        eText_(str)
+        m_line(line),
+        m_file(file),
+        m_text(str)
     {}
     Exception(std::string str, int line, const char * file) noexcept :
-        eLine_(line),
-        eFile_(file),
-        eText_(std::move(str))
+        m_line(line),
+        m_file(file),
+        m_text(std::move(str))
     {}
     ~Exception() noexcept override = default;
 
     Exception(const Exception & other) noexcept :
-        eLine_(other.eLine_),
-        eFile_(other.eFile_),
-        eText_(other.eText_)
+        m_line(other.m_line),
+        m_file(other.m_file),
+        m_text(other.m_text)
     {}
     // Unimplemented and unaccessible due to const members.
     Exception & operator=(const Exception & other) = delete;
@@ -34,13 +34,13 @@ public:
 
 private:
     //! The line number it occurred on
-    const int eLine_;
+    const int m_line;
     //! The source file
-    std::string eFile_;
+    std::string m_file;
     //! A message passed along when the exception was raised
-    std::string eText_;
+    std::string m_text;
     //! Final text message
-    mutable std::string message_;
+    mutable std::string m_message;
 };
 
 }   // namespace evnt

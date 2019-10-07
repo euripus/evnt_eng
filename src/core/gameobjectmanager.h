@@ -19,10 +19,10 @@ class GameObjectManager
         PWeakHandle   handle;
     };
 
-    std::atomic<uint32_t>                  mNextAvailableID = {1};   // 0 is not a valid ID
-    std::unordered_map<uint32_t, ObjEntry> mObjects;                 // key = instance_id, ObjEntry
+    std::atomic<uint32_t>                  m_next_available_id = {1};   // 0 is not a valid ID
+    std::unordered_map<uint32_t, ObjEntry> m_objects;                 // key = instance_id, ObjEntry
 
-    mutable std::mutex mMutex;
+    mutable std::mutex m_mutex;
 
 public:
     GameObjectManager() = default;

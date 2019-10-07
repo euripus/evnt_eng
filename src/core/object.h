@@ -48,8 +48,8 @@ struct StaticTypeInit
 
 class Object
 {
-    uint32_t mInstanceId{0};   // 0 - not initialized
-    bool     is_del_it{false};
+    uint32_t m_instance_id{0};   // 0 - not initialized
+    bool     is_delete{false};
 
 public:
     using CreateFunc = std::function<std::unique_ptr<Object>()>;
@@ -67,16 +67,16 @@ public:
     static void InitType();
 
 private:
-    inline static std::unordered_map<int32_t, RTTI> s_mClassIDToRttiMap;
+    inline static std::unordered_map<int32_t, RTTI> s_classid_to_rtti_map;
 
 public:
     virtual ~Object() = default;
 
-    uint32_t getInstanceId() const { return mInstanceId; }
-    void     setInstanceId(uint32_t inNetworkId) { mInstanceId = inNetworkId; }
+    uint32_t getInstanceId() const { return m_instance_id; }
+    void     setInstanceId(uint32_t inNetworkId) { m_instance_id = inNetworkId; }
 
-    bool isDeleted() const { return is_del_it; }
-    void deleteObj() { is_del_it = true; }
+    bool isDeleted() const { return is_delete; }
+    void deleteObj() { is_delete = true; }
 
     bool isDerivedFrom(int32_t classID) { return IsDerivedFromClassID(getClassIDVirtual(), classID); }
 

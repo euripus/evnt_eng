@@ -6,11 +6,11 @@ namespace evnt
 const char * Exception::what() const noexcept
 {
     std::ostringstream buffer;
-    buffer << "File: \"" << eFile_ << "\"  Line: " << eLine_ << "\n"
-           << "\tMessage: \"" << eText_ << "\"\n";
+    buffer << "File: \"" << m_file << "\"  Line: " << m_line << "\n"
+           << "\tMessage: \"" << m_text << "\"\n";
     buffer.flush();
-    message_ = buffer.str();
+    m_message = buffer.str();
 
-    return message_.c_str();
+    return m_message.c_str();
 }
 }   // namespace evnt

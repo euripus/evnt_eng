@@ -6,7 +6,7 @@ namespace evnt
 extern int64_t                 GetMilisecFromStart();
 static boost::asio::io_service io_serv;
 
-Connection::Connection() : mSocket{std::make_shared<UDPSocket>(io_serv)} {}
+Connection::Connection() : m_socket{std::make_shared<UDPSocket>(io_serv)} {}
 
 void Connection::processIncomingPackets()
 {
@@ -30,7 +30,8 @@ void Connection::readIncomingPacketsIntoQueue()
     {
         try
         {
-            size_t readByteCount = mSocket->receiveFrom(inputStream.getCurPosPtr(), packetSize, fromAddress);
+            size_t readByteCount =
+                m_socket->receiveFrom((void *)inputStream.getCurPosPtr(), packetSize, fromAddress);
             if(readByteCount > 0)
             {
                 inputStream.setCapacity(readByteCount);
@@ -38,7 +39,7 @@ void Connection::readIncomingPacketsIntoQueue()
                 totalReadByteCount += readByteCount;
 
                 uint32_t simulatedReceivedTime = GetMilisecFromStart();
-                mPacketQueue.emplace(simulatedReceivedTime, inputStream, fromAddress);
+                m_packet_queue.emplace(simulatedReceivedTime, inputStream, fromAddress);
                 inputStream.resetHead();
             }
             else
@@ -62,13 +63,13 @@ void Connection::readIncomingPacketsIntoQueue()
 void Connection::processQueuedPackets()
 {
     // look at the front packet...
-    while(!mPacketQueue.empty())
+    while(!m_packet_queue.empty())
     {
-        ReceivedPacket & nextPacket = mPacketQueue.front();
+        ReceivedPacket & nextPacket = m_packet_queue.front();
         if(GetMilisecFromStart() > nextPacket.getReceivedTime())
         {
             processPacket(nextPacket.getPacketBuffer(), nextPacket.getFromAddress());
-            mPacketQueue.pop();
+            m_packet_queue.pop();
         }
         else
         {
@@ -80,7 +81,7 @@ void Connection::processQueuedPackets()
 void Connection::sendPacket(const OutputMemoryStream & inOutputStream, const SocketAddress & inToAddress)
 {
     int sentByteCount =
-        mSocket->sendTo(inOutputStream.getBufferPtr(), inOutputStream.getLength(), inToAddress);
+        m_socket->sendTo(inOutputStream.getBufferPtr(), inOutputStream.getLength(), inToAddress);
     if(sentByteCount > 0)
     {
         // mBytesSentThisFrame += sentByteCount;

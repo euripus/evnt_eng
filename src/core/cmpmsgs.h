@@ -50,7 +50,7 @@ public:
     void handleMessage(Component * rec, msg_id id, std::any msg_data) const;
 
 private:
-    std::unordered_map<key_type, call_ptr, key_hasher> mCallBackMap;
+    std::unordered_map<key_type, call_ptr, key_hasher> m_callback_map;
 };
 }   // namespace evnt
 
