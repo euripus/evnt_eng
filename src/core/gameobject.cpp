@@ -15,7 +15,7 @@ void GameObject::addComponent(PObjHandle com)
 
     auto cmp_ptr = dynamic_ohdl_cast<evnt::Component>(com);
 
-    cmp_ptr->setGameObjectInternal(this);
+    cmp_ptr->setOwnerInternal(this);
     cmp_ptr->sendMessage(CmpMsgsTable::mDidAddComponent, {});
     m_components[cmp_ptr->getClassIDVirtual()] = com;
 }

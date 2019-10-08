@@ -15,7 +15,7 @@ public:
 
     Component() = default;
 
-    void setGameObjectInternal(GameObject * go);
+    void setOwnerInternal(GameObject * go);
     void sendMessage(CmpMsgsTable::msg_id messageIdentifier, std::any msg_data);
 
     // test

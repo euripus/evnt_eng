@@ -11,7 +11,7 @@ namespace evnt
 class Connection
 {
 public:
-    static const int kMaxPacketsPerFrameCount = 10;
+    static const int MAX_PACKETS_PERFRAME = 10;
 
     Connection();
     virtual ~Connection() = default;
@@ -25,7 +25,6 @@ public:
     void sendPacket(const OutputMemoryStream & inOutputStream, const SocketAddress & inToAddress);
 
 private:
-    // void	UpdateBytesSentLastFrame();
     void readIncomingPacketsIntoQueue();
     void processQueuedPackets();
 

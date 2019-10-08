@@ -48,7 +48,7 @@ private:
     };
 
     void    addZippedDir(const std::string & fname);
-    FilePtr loadPermanentFile(const file_data & f) const;
+    FilePtr loadRegularFile(const file_data & f) const;
     FilePtr loadZipFile(const file_data & zf) const;
 
     std::list<file_data> m_files;

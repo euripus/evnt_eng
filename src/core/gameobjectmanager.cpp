@@ -1,15 +1,15 @@
 #include "gameobjectmanager.h"
 #include "exception.h"
 #include <cassert>
-#include <limits>
 #include <iostream>
+#include <limits>
 #include <map>
 
 namespace evnt
 {
 GameObjectManager::~GameObjectManager()
 {
-    for(auto & [key, obj_entry]: m_objects)
+    for(auto & [key, obj_entry] : m_objects)
     {
         if(auto sp = obj_entry.handle.lock())
             sp->nullify();
@@ -88,7 +88,7 @@ void GameObjectManager::dump() const
 {
     std::lock_guard<std::mutex> lk(m_mutex);
 
-    for(const auto & [key, obj_entry]: m_objects)
+    for(const auto & [key, obj_entry] : m_objects)
     {
         if(!obj_entry.unique->isDeleted())
         {
@@ -102,7 +102,7 @@ void GameObjectManager::serialize(OutputMemoryStream & inMemoryStream) const
 {
     std::lock_guard<std::mutex> lk(m_mutex);
 
-    for(const auto & [key, obj_entry]: m_objects)
+    for(const auto & [key, obj_entry] : m_objects)
     {
         if(!obj_entry.unique->isDeleted())
             obj_entry.unique->write(inMemoryStream, *this);
@@ -130,7 +130,7 @@ void GameObjectManager::deserialize(const InputMemoryStream & inMemoryStream,
         objects.push_back(obj_handler);
     }
 
-    for(const auto & [key, obj_entry]: m_objects)
+    for(const auto & [key, obj_entry] : m_objects)
     {
         obj_entry.unique->link(*this, istance_id_remap);
     }

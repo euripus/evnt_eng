@@ -6,6 +6,7 @@
 namespace evnt
 {
 static std::chrono::steady_clock::time_point app_start{std::chrono::steady_clock::now()};
+static const std::string                     root_config_filename{"config.json"};
 
 int64_t GetMilisecFromStart()
 {
@@ -20,7 +21,7 @@ Core::Core()
 
     // http://techgate.fr/boost-property-tree/
     // Load the config.json file in this ptree
-    pt::read_json("config.json", m_root_config);
+    pt::read_json(root_config_filename, m_root_config);
 
     m_file_system =
         std::make_unique<FileSystem>(m_root_config.get<std::string>("FileSystem.RootPathRelative"));

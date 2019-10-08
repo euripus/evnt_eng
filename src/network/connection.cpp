@@ -26,12 +26,13 @@ void Connection::readIncomingPacketsIntoQueue()
     int receivedPackedCount = 0;
     int totalReadByteCount  = 0;
 
-    while(receivedPackedCount < kMaxPacketsPerFrameCount)
+    while(receivedPackedCount < MAX_PACKETS_PERFRAME)
     {
         try
         {
             size_t readByteCount =
-                m_socket->receiveFrom((void *)inputStream.getCurPosPtr(), packetSize, fromAddress);
+                m_socket->receiveFrom(static_cast<void *>(const_cast<int8_t *>(inputStream.getCurPosPtr())),
+                                      packetSize, fromAddress);
             if(readByteCount > 0)
             {
                 inputStream.setCapacity(readByteCount);

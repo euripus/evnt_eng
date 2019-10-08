@@ -9,7 +9,7 @@ namespace evnt
 {
 IMPLEMENT_STRUCT(Component, Object)
 
-void Component::setGameObjectInternal(GameObject * go)
+void Component::setOwnerInternal(GameObject * go)
 {
     m_owner = go;
 }
@@ -29,8 +29,7 @@ void Component::onAddMessage(Component * rec, CmpMsgsTable::msg_id id, std::any 
 
     switch(id)
     {
-        case CmpMsgsTable::msg_id::mDidAddComponent:
-        {
+        case CmpMsgsTable::msg_id::mDidAddComponent: {
             std::cout << "OnAddComponent type:" << tt << " ID:" << rec->getInstanceId()
                       << " this ID:" << getInstanceId() << std::endl;
         }
@@ -91,7 +90,7 @@ void Component::read(const InputMemoryStream & inMemoryStream, GameObjectManager
     {
         // read instance id
         inMemoryStream.read(n_ptr);
-        m_owner = (GameObject *)n_ptr;
+        m_owner = reinterpret_cast<GameObject *>(n_ptr);
     }
     else
     {
@@ -102,11 +101,11 @@ void Component::read(const InputMemoryStream & inMemoryStream, GameObjectManager
 void Component::link(GameObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
 {
     // https://stackoverflow.com/questions/22419063/error-cast-from-pointer-to-smaller-type-int-loses-information-in-eaglview-mm
-    uint32_t inst_id = (uint32_t)(size_t)m_owner;
+    uint32_t inst_id = static_cast<uint32_t>(reinterpret_cast<size_t>(m_owner));
 
     if(id_remap.find(inst_id) == id_remap.end())
         EV_EXCEPT("Trying linking not exist object");
 
-    m_owner = (GameObject *)gmgr.getObjectPtr(id_remap.at(inst_id));
+    m_owner = static_cast<GameObject *>(gmgr.getObjectPtr(id_remap.at(inst_id)));
 }
 }   // namespace evnt

@@ -19,8 +19,6 @@
 #include <boost/log/support/date_time.hpp>
 #include <boost/log/utility/setup/file.hpp>
 
-#define LOG_MAX_STRING 1024
-
 namespace evnt
 {
 struct null_deleter
@@ -36,6 +34,10 @@ struct null_deleter
 
 namespace Log
 {
+    enum
+    {
+        LOG_MAX_STRING = 1024
+    };
     /******************************************************************************
     BoostLog
     ******************************************************************************/

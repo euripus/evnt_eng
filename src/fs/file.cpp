@@ -36,7 +36,7 @@ void MemoryFile::write(const char * buffer, size_t len)
     assert(buffer != nullptr);
     assert(len > 0);
 
-    m_data.reserve(len);
+    m_data.reserve(m_data.size() + len);
     std::copy(buffer, buffer + len, std::back_inserter(m_data));
     m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
