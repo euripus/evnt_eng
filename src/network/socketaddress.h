@@ -14,10 +14,10 @@ public:
 
     SocketAddress() = default;
     SocketAddress(uint32_t inAddress, uint16_t inPort) :
-        m_endpoint {boost::asio::ip::address_v4(inAddress), inPort}
+        m_endpoint{boost::asio::ip::address_v4(inAddress), inPort}
     {}
 
-    SocketAddress(std::string inAddress, std::string inPort) :
+    SocketAddress(const std::string & inAddress, std::string inPort) :
         m_endpoint(boost::asio::ip::address::from_string(inAddress), std::stoul(inPort))
     {}
 

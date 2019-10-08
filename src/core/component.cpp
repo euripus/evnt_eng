@@ -19,7 +19,7 @@ void Component::sendMessage(CmpMsgsTable::msg_id messageIdentifier, std::any msg
     if(m_owner)
     {
         ClassIDType cid = static_cast<ClassIDType>(getClassIDVirtual());
-        m_owner->sendMessage(cid, messageIdentifier, msg_data);
+        m_owner->sendMessage(cid, messageIdentifier, std::move(msg_data));
     }
 }
 
