@@ -15,7 +15,6 @@ public:
     //! Key enumeration.
     enum Key
     {
-
         Key_Invalid = -1,
 
         KeyBase = 0,
@@ -292,7 +291,6 @@ class Mouse
 public:
     enum Button
     {
-
         Button_Invalid = -1,
 
         ButtonBase = 0x20000000,
@@ -312,17 +310,10 @@ public:
 
     enum Wheel
     {
-
         WheelBase = 0x10000000,
 
         Wheel_Up = WheelBase,
         Wheel_Down
-    };
-
-    enum Mode
-    {
-        Absolute,
-        Relative
     };
 };
 }   // namespace evnt

@@ -9,25 +9,26 @@ namespace evnt
 {
 class Input
 {
+protected:
     // Keyboard
     int32_t m_key_id;   // Id of the key pressed in the last update
     bool    m_keys_states[Keyboard::KeyCount];
 
     // Mouse
-    Mouse::Mode m_mouse_mode;
-    glm::ivec2  m_mouse_position;
-    int32_t     m_mouse_wheel;
-    bool        m_mouse_buttons_state[Mouse::ButtonCount];
+    glm::ivec2 m_mouse_position;
+    int32_t    m_mouse_wheel;
+    bool       m_mouse_buttons_state[Mouse::ButtonCount];
 
 public:
-    Input();
+    inline static const std::string KEY_NONE{"---"};
 
-    void update(uint32_t time);
-    void reset();
+    Input();
+    virtual ~Input() = default;
+
+    virtual void update(uint32_t time) = 0;
+    void         reset();
 
     // Mouse
-    void setMouseMode(Mouse::Mode mode);
-
     const glm::ivec2 & getMousePosition() const { return m_mouse_position; }
     void               setMousePosAbs(const glm::ivec2 & mousePos);
     bool               getMouseButton(int32_t buttonId) const;
@@ -39,8 +40,8 @@ public:
     bool    isAnyKeyPressed() const { return m_key_id >= 0; }
     bool    isKeyPressed(int keyId) const;
 
-    static std::string   GetKeyName(Keyboard::Key key);
-    static Keyboard::Key GetKeyId(const std::string & keyName);
+    static std::string GetKeyName(int32_t key);
+    static int32_t     GetKeyId(const std::string & keyName);
 };
 }   // namespace evnt
 
