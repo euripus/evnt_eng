@@ -38,6 +38,7 @@ unix:{
 SOURCES +=  \
     src/app/app.cpp \
     src/app/mousecursor.cpp \
+    src/app/window.cpp \
     src/core/cmpmsgs.cpp \
     src/core/component.cpp \
     src/core/core.cpp \
@@ -59,6 +60,7 @@ SOURCES +=  \
 HEADERS += \
     src/app/app.h \
     src/app/mousecursor.h \
+    src/app/window.h \
     src/core/classids.h \
     src/core/cmpmsgs.h \
     src/core/component.h \
