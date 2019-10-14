@@ -71,7 +71,7 @@ Object * GameObjectManager::getObjectPtr(uint32_t id)
     return iterFind->second.unique.get();
 }
 
-void GameObjectManager::releaseUnusedObjects()
+void GameObjectManager::releaseStalledObjects()
 {
     std::lock_guard<std::mutex> lk(m_mutex);
 

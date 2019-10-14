@@ -25,29 +25,30 @@ Core
                 Font
             MainWindow <pf. pl.>
             Input <pf. pl.>
-			FrameGraphCommands
-				Material
-					Effects
-						GlobalEffect      // render commands extension
-										  // eff->Draw(RendererPtr, Frustum)
-						LocalEffect       // eff->Draw(RenderPtr, ObjPtr)
-					Texture
-					Shader
-						Pass
-				RenderTarget
-					Texture
-				Light
-				VBO
-				Queries
-			Render <pf. pl.>
-				RenderCtxt<pl.>
-				RenderState
-			RenderQue
-			FrameGraph
-			Camera
-				FrameGraphPipeline
-				Frustum
-				Culler
+                ActionList<Action>
+            FrameGraphCommands
+                Material
+                    Effects
+                        GlobalEffect      // render commands extension
+                                          // eff->Draw(RendererPtr, Frustum)
+                        LocalEffect       // eff->Draw(RenderPtr, ObjPtr)
+                    Texture
+                    Shader
+                        Pass
+                RenderTarget
+                    Texture
+                Light
+                VBO
+                Queries
+            Render <pf. pl.>
+                RenderCtxt<pl.>
+                RenderState
+            RenderQue
+            FrameGraph
+            Camera
+                FrameGraphPipeline
+                Frustum
+                Culler
             SoundMgr
         Server
             WorldRef

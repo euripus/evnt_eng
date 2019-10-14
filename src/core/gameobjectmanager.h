@@ -28,7 +28,7 @@ public:
     GameObjectManager() = default;
     ~GameObjectManager();
 
-    void releaseUnusedObjects();
+    void releaseStalledObjects();
 
     bool objectExists(uint32_t id) const;
 
