@@ -32,7 +32,7 @@ void InputMemoryStream::read(void * outData, uint32_t inByteCount) const
 
 InputMemoryStream InputMemoryStream::ConvertToInputMemoryStream(const OutputMemoryStream & inStream)
 {
-    std::unique_ptr<int8_t[]> new_buf(new int8_t[inStream.getLength()]);
+    std::unique_ptr<int8_t[]> new_buf = std::make_unique<int8_t[]>(inStream.getLength());
     std::memcpy(new_buf.get(), inStream.getBufferPtr(), inStream.getLength());
     InputMemoryStream temp(std::move(new_buf), inStream.getLength());
 

@@ -34,14 +34,14 @@ public:
     };
 
     Window();
-    virtual ~Window();
+    virtual ~Window() = default;
 
     virtual void alert(const std::string & title, const std::string & message,
                        AlertType type = AlertType::AlertType_Information) = 0;
 
     void setWindowTitle(const std::string & title) { m_title = title; }
 
-    Input & getInput() { return *m_input; }
+    Input & getInput() { return *m_input_backend; }
 
     glm::ivec2        getWindowSize() const { return m_win_size; }
     const DisplayMode getDisplayMode() const { return DisplayMode(m_win_size); }
@@ -70,9 +70,9 @@ public:
     // factory
     static std::unique_ptr<Window> CreateMainWindow();
 
-    // Events functors
-    void winResize(glm::ivec2 sz);
-    void winFullscreen();
+    // Events
+    // void winResize(glm::ivec2 sz);
+    // void winFullscreen();
 
 protected:
     std::string m_title;
@@ -85,7 +85,7 @@ protected:
     bool        m_cursor_visibility;
     MouseCursor m_cur_mouse_cursor;
 
-    std::unique_ptr<Input> m_input;
+    std::unique_ptr<Input> m_input_backend;
 };
 }   // namespace evnt
 

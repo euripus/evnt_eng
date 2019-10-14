@@ -9,7 +9,7 @@ MouseCursor::MouseCursor()
     m_hot_spot_x = 0;
     m_hot_spot_y = 0;
 
-    m_shape      = StdCursorShape::ARROW;
+    m_shape       = StdCursorShape::ARROW;
     m_is_standart = true;
 
     m_ref_texture.height = 16;
@@ -25,10 +25,10 @@ MouseCursor::~MouseCursor() {}
 
 MouseCursor::MouseCursor(const MouseCursor & rhs)
 {
-    m_filename   = rhs.m_filename;
-    m_hot_spot_x   = rhs.m_hot_spot_x;
-    m_hot_spot_y   = rhs.m_hot_spot_y;
-    m_shape      = rhs.m_shape;
+    m_filename    = rhs.m_filename;
+    m_hot_spot_x  = rhs.m_hot_spot_x;
+    m_hot_spot_y  = rhs.m_hot_spot_y;
+    m_shape       = rhs.m_shape;
     m_is_standart = rhs.m_is_standart;
 
     m_ref_texture.height = rhs.m_ref_texture.height;
@@ -45,10 +45,10 @@ MouseCursor::MouseCursor(const MouseCursor & rhs)
 
 MouseCursor & MouseCursor::operator=(const MouseCursor & rhs)
 {
-    m_filename   = rhs.m_filename;
-    m_hot_spot_x   = rhs.m_hot_spot_x;
-    m_hot_spot_y   = rhs.m_hot_spot_y;
-    m_shape      = rhs.m_shape;
+    m_filename    = rhs.m_filename;
+    m_hot_spot_x  = rhs.m_hot_spot_x;
+    m_hot_spot_y  = rhs.m_hot_spot_y;
+    m_shape       = rhs.m_shape;
     m_is_standart = rhs.m_is_standart;
 
     m_ref_texture.height = rhs.m_ref_texture.height;
