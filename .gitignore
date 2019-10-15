@@ -1,5 +1,6 @@
 *.[oa]
 *.dll
+*.lib
 *.exe
 *~
 *.user
