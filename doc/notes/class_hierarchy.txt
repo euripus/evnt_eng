@@ -1,9 +1,8 @@
 Core
     Time
-    Object <pf.> // component
     Log
     ThreadPool
-    EventMgr // boost signals2 ???
+    EventMgr
     FileSystem
     App
         ResourceMgr
@@ -11,22 +10,26 @@ Core
         GameObjMgr
             GameObj
             Component
-        SceneGraph <pf.>
-            Node                // scene_graph component
-            RenderQueue
         World
+			SceneGraph <pf.>
+				Node                      // scene_graph component
+				RenderQueue
             vec<PObjPtr> objects
-            map_ptr
-                Serializer
-        Client
-            LocaleMgr
-            GUI
-                Console
-                Font
-            MainWindow <pf. pl.>
-            Input <pf. pl.>
-                ActionList<Action>
-            FrameGraphCommands
+        NetworkMgr
+            Client
+            Server
+                Physics
+                AI
+        LocaleMgr
+        MainWindow
+            LoacalAPP<pf. pl.>            // interface for demo apps
+            Input<static_pf. pl.>
+			Action bind_array[Key::Count + MouseKey::Count]
+            Render<pf. pl.>
+                RenderCtxt<static_pf. pl.>
+                RenderState
+                FrameGraph
+                FrameGraphCommands
                 Material
                     Effects
                         GlobalEffect      // render commands extension
@@ -40,25 +43,17 @@ Core
                 Light
                 VBO
                 Queries
-            Render <pf. pl.>
-                RenderCtxt<pl.>
-                RenderState
+                GUI
+                    Console
+                    Font
             RenderQue
-            FrameGraph
+            ActionQue
             Camera
                 FrameGraphPipeline
                 Frustum
                 Culler
-            SoundMgr
-        Server
-            WorldRef
-            NetworkMgr
-                // prediction
-                ReplicationMgr
-            VariableMgr
-            ActionList
-            Physics
-            AI
+        SoundMgr
+        VariableMgr
 
 pf. - polimorfic
 pl. - platform dependent
