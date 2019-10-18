@@ -8,7 +8,7 @@ namespace evnt
 {
 class ObjHandle
 {
-    Object * m_ptr {nullptr};
+    Object * m_ptr{nullptr};
 
 public:
     ObjHandle(Object * ptr) : m_ptr(ptr) {}
@@ -31,7 +31,7 @@ public:
     uint32_t getInstanceId() const { return m_ptr != nullptr ? m_ptr->getInstanceId() : 0; }
 
 public: /* internal */
-    uint32_t m_link_key {0};
+    uint32_t m_link_key{0};
     void     nullify()
     {
         if(m_ptr != nullptr)
@@ -48,7 +48,7 @@ T * dynamic_ohdl_cast(PObjHandle ptr)
 {
     Object * o         = ptr->getPtr();
     int32_t  type_id   = ptr->getPtr()->getClassIDVirtual();
-    T *      castedPtr = (T *)(o);
+    T *      castedPtr = static_cast<T *>(o);
 
     if(castedPtr && Object::IsDerivedFromClassID(type_id, T::GetClassIDStatic()))
         return castedPtr;

@@ -1,4 +1,5 @@
 static polymorphism: https://www.reddit.com/r/cpp/comments/8po138/question_about_static_polymorphism_using/
+                     https://habr.com/ru/post/210894/
 
 
 

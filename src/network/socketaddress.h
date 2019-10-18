@@ -2,6 +2,7 @@
 #define SOCKETADDRESS_H
 
 #include <boost/asio.hpp>
+#include <boost/lexical_cast.hpp>
 #include <cstdint>
 #include <string>
 
@@ -18,7 +19,8 @@ public:
     {}
 
     SocketAddress(const std::string & inAddress, std::string inPort) :
-        m_endpoint(boost::asio::ip::address::from_string(inAddress), std::stoul(inPort))
+        m_endpoint(boost::asio::ip::address::from_string(inAddress),
+                   boost::lexical_cast<unsigned short>(inPort))
     {}
 
     bool operator==(const SocketAddress & inOther) const { return m_endpoint == inOther.m_endpoint; }

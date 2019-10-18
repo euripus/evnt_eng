@@ -118,7 +118,7 @@ void GameObjectManager::deserialize(const InputMemoryStream & inMemoryStream,
     while(inMemoryStream.getRemainingDataSize() > 0)
     {
         auto      stream_cur_ptr = inMemoryStream.getCurPosPtr();
-        int32_t * type_id        = (int32_t *)stream_cur_ptr;
+        int32_t * type_id        = reinterpret_cast<int32_t *>(const_cast<int8_t *>(stream_cur_ptr));
 
         auto obj = Object::ClassIDToRTTI(*type_id).factory();
         obj->read(inMemoryStream, *this);

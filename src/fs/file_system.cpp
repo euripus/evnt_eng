@@ -253,7 +253,7 @@ bool FileSystem::writeFile(const std::string & path, FilePtr file)
                  Log::cstr_log("FileSystem::WriteFile File: \"%s\" - not writed", filename.c_str()));
         return false;
     }
-    ofs.write((char *)file->getData(), file->getFileSize());
+    ofs.write(reinterpret_cast<char *>(const_cast<int8_t *>(file->getData())), file->getFileSize());
     ofs.close();
 
     if(!isExist(filename))
@@ -533,7 +533,7 @@ bool FileSystem::addFileToZIP(FilePtr file, const std::string & zipname)
 
     // Сжимаем данные
     zStream.avail_in  = lfh.uncompressedSize;
-    zStream.next_in   = (unsigned char *)(file->getData());
+    zStream.next_in   = reinterpret_cast<unsigned char *>(const_cast<int8_t *>(file->getData()));
     zStream.avail_out = lfh.uncompressedSize;
     zStream.next_out  = dataBuffer.data();
     deflate(&zStream, Z_FINISH);
@@ -546,7 +546,7 @@ bool FileSystem::addFileToZIP(FilePtr file, const std::string & zipname)
         lfh.compressedSize    = lfh.uncompressedSize;
         lfh.compressionMethod = 0;
 
-        data_ptr = (char *)file->getData();
+        data_ptr = reinterpret_cast<char *>(const_cast<int8_t *>(file->getData()));
         size     = lfh.uncompressedSize;
     }
     else
@@ -634,7 +634,7 @@ FileSystem::FilePtr FileSystem::loadRegularFile(const file_data & f) const
 
     auto data = std::make_unique<int8_t[]>(static_cast<size_t>(file_size));
 
-    ifs.read((char *)data.get(), file_size);
+    ifs.read(reinterpret_cast<char *>(const_cast<int8_t *>(data.get())), file_size);
 
     auto success = !ifs.fail() && file_size == ifs.gcount();
     if(!success)
