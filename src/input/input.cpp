@@ -275,7 +275,7 @@ int Input::getMouseButtonClicked() const
     for(int32_t i = Mouse::ButtonBase; i < Mouse::ButtonMax; i++)
     {
         buttonIdx = i - Mouse::ButtonBase;
-        if(m_mouse_buttons_state[i])
+        if(m_mouse_buttons_state[buttonIdx])
         {
             return i;
         }
