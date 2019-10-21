@@ -37,6 +37,7 @@ unix:{
 
 SOURCES +=  \
     src/app/app.cpp \
+    src/app/appstate.cpp \
     src/app/mousecursor.cpp \
     src/app/window.cpp \
     src/core/cmpmsgs.cpp \
@@ -44,9 +45,9 @@ SOURCES +=  \
     src/core/core.cpp \
     src/core/exception.cpp \
     src/core/gameobject.cpp \
-    src/core/gameobjectmanager.cpp \
     src/core/memory_stream.cpp \
     src/core/object.cpp \
+    src/core/objectmanager.cpp \
     src/fs/file.cpp \
     src/fs/file_system.cpp \
     src/input/input.cpp \
@@ -59,6 +60,7 @@ SOURCES +=  \
 
 HEADERS += \
     src/app/app.h \
+    src/app/appstate.h \
     src/app/mousecursor.h \
     src/app/window.h \
     src/core/classids.h \
@@ -68,10 +70,10 @@ HEADERS += \
     src/core/event.h \
     src/core/exception.h \
     src/core/gameobject.h \
-    src/core/gameobjectmanager.h \
     src/core/memory_stream.h \
     src/core/module.h \
     src/core/object.h \
+    src/core/objectmanager.h \
     src/core/objhandle.h \
     src/core/threadpool.h \
     src/fs/file.h \

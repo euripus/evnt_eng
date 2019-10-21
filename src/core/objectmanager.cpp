@@ -1,4 +1,4 @@
-#include "gameobjectmanager.h"
+#include "objectmanager.h"
 #include "exception.h"
 #include <cassert>
 #include <iostream>
@@ -7,7 +7,7 @@
 
 namespace evnt
 {
-GameObjectManager::~GameObjectManager()
+ObjectManager::~ObjectManager()
 {
     for(auto & [key, obj_entry] : m_objects)
     {
@@ -16,14 +16,14 @@ GameObjectManager::~GameObjectManager()
     }
 }
 
-PObjHandle GameObjectManager::createDefaultObj(int32_t obj_type)
+PObjHandle ObjectManager::createDefaultObj(int32_t obj_type)
 {
     PUniqueObjPtr u_ptr = Object::ClassIDToRTTI(obj_type).factory();
 
     return registerObj(std::move(u_ptr));
 }
 
-PObjHandle GameObjectManager::registerObj(PUniqueObjPtr ob)
+PObjHandle ObjectManager::registerObj(PUniqueObjPtr ob)
 {
     const uint32_t id = m_next_available_id.fetch_add(1, std::memory_order_relaxed);
     assert(id != std::numeric_limits<uint32_t>::max());
@@ -43,13 +43,13 @@ PObjHandle GameObjectManager::registerObj(PUniqueObjPtr ob)
     return sp;
 }
 
-bool GameObjectManager::objectExists(uint32_t id) const
+bool ObjectManager::objectExists(uint32_t id) const
 {
     std::lock_guard<std::mutex> lk(m_mutex);
     return m_objects.find(id) != m_objects.end();
 }
 
-PObjHandle GameObjectManager::getObject(uint32_t id)
+PObjHandle ObjectManager::getObject(uint32_t id)
 {
     std::lock_guard<std::mutex> lk(m_mutex);
 
@@ -60,7 +60,7 @@ PObjHandle GameObjectManager::getObject(uint32_t id)
     return iterFind->second.handle.lock();
 }
 
-Object * GameObjectManager::getObjectPtr(uint32_t id)
+Object * ObjectManager::getObjectPtr(uint32_t id)
 {
     std::lock_guard<std::mutex> lk(m_mutex);
 
@@ -71,7 +71,7 @@ Object * GameObjectManager::getObjectPtr(uint32_t id)
     return iterFind->second.unique.get();
 }
 
-void GameObjectManager::releaseStalledObjects()
+void ObjectManager::releaseStalledObjects()
 {
     std::lock_guard<std::mutex> lk(m_mutex);
 
@@ -84,7 +84,7 @@ void GameObjectManager::releaseStalledObjects()
     }
 }
 
-void GameObjectManager::dump() const
+void ObjectManager::dump() const
 {
     std::lock_guard<std::mutex> lk(m_mutex);
 
@@ -98,7 +98,7 @@ void GameObjectManager::dump() const
     }
 }
 
-void GameObjectManager::serialize(OutputMemoryStream & inMemoryStream) const
+void ObjectManager::serialize(OutputMemoryStream & inMemoryStream) const
 {
     std::lock_guard<std::mutex> lk(m_mutex);
 
@@ -109,7 +109,7 @@ void GameObjectManager::serialize(OutputMemoryStream & inMemoryStream) const
     }
 }
 
-void GameObjectManager::deserialize(const InputMemoryStream & inMemoryStream,
+void ObjectManager::deserialize(const InputMemoryStream & inMemoryStream,
                                     std::vector<PObjHandle> & objects)
 {
     objects.clear();

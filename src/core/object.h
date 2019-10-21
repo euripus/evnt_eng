@@ -9,19 +9,19 @@
 #include <memory>
 
 // https://stackoverflow.com/questions/34222703/how-to-override-static-method-of-template-class-in-derived-class
-#define CLASS_IMPLEMENT(inClass, inBaseClass)                                                               \
-    using Super = inBaseClass;                                                                              \
-    static evnt::StaticTypeInit sm_class_register;                                                          \
-                                                                                                            \
-    void         dump(int indentLevel = 0) const override;                                                  \
-    void         write(OutputMemoryStream & inMemoryStream, const GameObjectManager & gmgr) const override; \
-    void         read(const InputMemoryStream & inMemoryStream, GameObjectManager & gmgr) override;         \
-    void         link(GameObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) override;    \
-    int32_t      getClassIDVirtual() const override;                                                        \
-    const char * getClassString() const override;                                                           \
-                                                                                                            \
-    static int32_t                 GetClassIDStatic();                                                      \
-    static std::unique_ptr<Object> CreateInstance();                                                        \
+#define CLASS_IMPLEMENT(inClass, inBaseClass)                                                           \
+    using Super = inBaseClass;                                                                          \
+    static evnt::StaticTypeInit sm_class_register;                                                      \
+                                                                                                        \
+    void         dump(int indentLevel = 0) const override;                                              \
+    void         write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const override; \
+    void         read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr) override;         \
+    void         link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) override;    \
+    int32_t      getClassIDVirtual() const override;                                                    \
+    const char * getClassString() const override;                                                       \
+                                                                                                        \
+    static int32_t                 GetClassIDStatic();                                                  \
+    static std::unique_ptr<Object> CreateInstance();                                                    \
     static void                    InitType();
 
 #define IMPLEMENT_STRUCT(inClass, inBaseClass)                                                             \
@@ -39,7 +39,7 @@
 
 namespace evnt
 {
-class GameObjectManager;
+class ObjectManager;
 
 struct StaticTypeInit
 {
@@ -84,9 +84,9 @@ public:
     virtual const char * getClassString() const { return "Object"; }
 
     virtual void dump(int indentLevel = 0) const { (void)indentLevel; }
-    virtual void write(OutputMemoryStream & inMemoryStream, const GameObjectManager & gmgr) const {}
-    virtual void read(const InputMemoryStream & inMemoryStream, GameObjectManager & gmgr) {}
-    virtual void link(GameObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) {}
+    virtual void write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const {}
+    virtual void read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr) {}
+    virtual void link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) {}
 
     static int32_t                 GetClassIDStatic() { return ClassName(Object); }
     static std::unique_ptr<Object> CreateInstance() { return std::make_unique<Object>(); }

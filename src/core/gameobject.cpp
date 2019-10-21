@@ -1,5 +1,5 @@
 #include "gameobject.h"
-#include "gameobjectmanager.h"
+#include "objectmanager.h"
 #include "exception.h"
 
 #include <any>
@@ -80,7 +80,7 @@ void GameObject::dump(int indentLevel) const
     std::cout << std::string(4 * indentLevel, ' ') << "}";
 }
 
-void GameObject::write(OutputMemoryStream & inMemoryStream, const GameObjectManager & gmgr) const
+void GameObject::write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const
 {
     inMemoryStream.write(getClassIDVirtual());
     inMemoryStream.write(getInstanceId());
@@ -99,7 +99,7 @@ void GameObject::write(OutputMemoryStream & inMemoryStream, const GameObjectMana
     }
 }
 
-void GameObject::read(const InputMemoryStream & inMemoryStream, GameObjectManager & gmgr)
+void GameObject::read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr)
 {
     int32_t type_id{0};
     inMemoryStream.read(type_id);
@@ -129,7 +129,7 @@ void GameObject::read(const InputMemoryStream & inMemoryStream, GameObjectManage
     }
 }
 
-void GameObject::link(GameObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
+void GameObject::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
 {
     if(m_components.empty())
         return;

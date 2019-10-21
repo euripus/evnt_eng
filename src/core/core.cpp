@@ -72,7 +72,7 @@ void Core::enterMainLoop()
             lag -= MS_PER_UPDATE;
         }
 
-        getApp().onFrame();   // render
+        getApp().draw();   // render
 
         current = GetMilisecFromStart();
         elapsed = current - previous;   // elapsed after update & render

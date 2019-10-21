@@ -8,7 +8,7 @@
 
 namespace evnt
 {
-class GameObjectManager
+class ObjectManager
 {
     using PUniqueObjPtr = std::unique_ptr<Object>;
     using PWeakHandle   = std::weak_ptr<ObjHandle>;
@@ -20,13 +20,13 @@ class GameObjectManager
     };
 
     std::atomic<uint32_t>                  m_next_available_id = {1};   // 0 is not a valid ID
-    std::unordered_map<uint32_t, ObjEntry> m_objects;                 // key = instance_id, ObjEntry
+    std::unordered_map<uint32_t, ObjEntry> m_objects;                   // key = instance_id, ObjEntry
 
     mutable std::mutex m_mutex;
 
 public:
-    GameObjectManager() = default;
-    ~GameObjectManager();
+    ObjectManager() = default;
+    ~ObjectManager();
 
     void releaseStalledObjects();
 
@@ -46,7 +46,7 @@ public:
 };
 
 template<typename type>
-PObjHandle GameObjectManager::createDefaultObj()
+PObjHandle ObjectManager::createDefaultObj()
 {
     return createDefaultObj(type::GetClassIDStatic());
 }
