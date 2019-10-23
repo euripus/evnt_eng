@@ -1,4 +1,10 @@
 #include "appstate.h"
+#include "app.h"
 
 namespace evnt
-{}   // namespace evnt
+{
+void null_state::terminate()
+{
+    m_owner.stop();
+}
+}   // namespace evnt

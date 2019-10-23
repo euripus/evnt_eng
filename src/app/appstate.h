@@ -10,34 +10,34 @@ class App;
 class AppState
 {
 public:
+    using StateID = int32_t;
+
     AppState(App & owner) : m_owner{owner} {}
     virtual ~AppState() = default;
 
-    virtual bool init() { return true; }
-    virtual bool running() { return false; }
-    virtual void update() {}
-    // !!! change cur_state pointer to next state & init next state
-    virtual void terminate() = 0;
-
     /// called when state is created
-    virtual void OnCreate();
+    virtual void init() {}
     /// called when state is becoming active
-    virtual void OnStateEnter(const AppState & prevState);
+    virtual void onStateEnter(const StateID prevState) {}
     /// called when state is becoming inactive
-    virtual void OnStateLeave(const AppState & nextState);
+    virtual void onStateLeave(const StateID nextState) {}
     /// called on state to perform state logic
-    virtual void OnFrame();
-    /// called before nSceneServer::RenderScene()
-    virtual void OnFrameBefore();
-    /// called after nSceneServer::RenderScene()
-    virtual void OnFrameRendered();
+    virtual void update() {}
+    /// called on state is terminating, switch to next state
+    virtual void terminate() = 0;
 
 protected:
     App & m_owner;
 };
 
 class null_state : public AppState
-{};
+{
+public:
+    null_state(App & owner) : AppState(owner) {}
+    ~null_state() override = default;
+
+    void terminate() override;
+};
 }   // namespace evnt
 
 #endif   // APPSTATE_H

@@ -11,14 +11,13 @@ class App
 {
 public:
     using AppStatePtr = std::unique_ptr<AppState>;
-    using StateID     = std::vector<AppStatePtr>::size_type;
 
     App()  = default;
     ~App() = default;
 
     bool init(int argc, char * argv[]);
     void processInput() {}
-    void update() {}
+    void update();
     void draw() {}   // call render() for  main window
     void terminate() {}
 
@@ -26,13 +25,14 @@ public:
     void stop() { m_is_running = false; }
 
     template<class T, class... Args>
-    StateID addAppState(Args &&... args)
+    AppState::StateID addAppState(Args &&... args)
     {
         std::lock_guard lk(m_state_mutex);
         m_states.push_back(std::move(std::make_unique<T>(std::forward<Args>(args)...)));
         return m_states.size() - 1;
     }
-    void setStartState(StateID start);
+    void setStartState(AppState::StateID start);
+    void setNextState(AppState::StateID next_state);
 
     // ?????
     Window &        getMainWindow() { return *m_main_window; }
@@ -46,8 +46,8 @@ private:
 
     mutable std::mutex       m_state_mutex;
     std::vector<AppStatePtr> m_states;
-    AppState *               m_cur_state_ptr{nullptr};
-    AppState *               m_next_state{nullptr};
+    AppState::StateID        m_cur_state{-1};
+    AppState::StateID        m_next_state{-1};
 
     ObjectManager m_obj_mgr;
 };
