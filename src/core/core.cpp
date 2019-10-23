@@ -32,8 +32,15 @@ Core::Core()
     Log::BoostLog::InitBoostLog(m_root_config.get<std::string>("Logging.FileName"), ot);
     Log::BoostLog::SetSeverityFilter(sl);
 
+    m_app = std::make_unique<App>();
+
     registerEvent<evExit>();
     addFunctor<evExit>(std::bind(&Core::exit, this));
+}
+
+bool Core::init(int argc, char * argv[])
+{
+    return m_app->init(argc, argv);
 }
 
 void Core::enterMainLoop()

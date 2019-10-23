@@ -8,14 +8,16 @@ int main(int argc, char * argv[])
     {
         evnt::Core::startUp();
 
-        evnt::Core::instance().appCreate<evnt::App>();
-        if(!evnt::Core::instance().appInit(argc, argv))
+        // add AppStates
+        // and set  start state
+
+        if(!evnt::Core::instance().init(argc, argv))
         {
             std::cout << "Errror! Application couldn't be initialized" << std::endl;
             return 1;
         }
 
-        // evnt::Core::instance().enterMainLoop();
+        evnt::Core::instance().enterMainLoop();
 
         evnt::Core::shutDown();
     }

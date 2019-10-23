@@ -7,8 +7,8 @@
 #include "../fs/file_system.h"
 #include "event.h"
 #include "gameobject.h"
-#include "objectmanager.h"
 #include "module.h"
+#include "objectmanager.h"
 
 namespace pt = boost::property_tree;
 
@@ -63,12 +63,7 @@ public:
         return m_event_system->raiseEvent<EventTrait>(std::forward<Args>(args)...);
     }
 
-    template<class T, class... Args>
-    void appCreate(Args &&... args)
-    {
-        m_app = std::make_unique<T>(std::forward<Args>(args)...);
-    }
-    bool appInit(int argc, char * argv[]) { return m_app->init(argc, argv); }
+    bool init(int argc, char * argv[]);   // call after all AppState instances added and start state set
     void enterMainLoop();
 
     void exit() { m_running = false; }
