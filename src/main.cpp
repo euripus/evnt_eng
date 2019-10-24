@@ -10,6 +10,7 @@ int main(int argc, char * argv[])
 
         // add AppStates
         // and set  start state
+        evnt::Core::instance().getApp().setStartState(evnt::Core::instance().getApp().getNullStateID());
 
         if(!evnt::Core::instance().init(argc, argv))
         {

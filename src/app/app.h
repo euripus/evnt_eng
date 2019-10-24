@@ -12,7 +12,7 @@ class App
 public:
     using AppStatePtr = std::unique_ptr<AppState>;
 
-    App()  = default;
+    App();
     ~App() = default;
 
     bool init(int argc, char * argv[]);
@@ -31,8 +31,9 @@ public:
         m_states.push_back(std::move(std::make_unique<T>(std::forward<Args>(args)...)));
         return m_states.size() - 1;
     }
-    void setStartState(AppState::StateID start);
-    void setNextState(AppState::StateID next_state);
+    AppState::StateID getNullStateID() const { return m_null_state; }
+    void              setStartState(AppState::StateID start);
+    void              setNextState(AppState::StateID next_state);
 
     // ?????
     Window &        getMainWindow() { return *m_main_window; }
@@ -48,6 +49,7 @@ private:
     std::vector<AppStatePtr> m_states;
     AppState::StateID        m_cur_state{-1};
     AppState::StateID        m_next_state{-1};
+    const AppState::StateID  m_null_state;
 
     ObjectManager m_obj_mgr;
 };

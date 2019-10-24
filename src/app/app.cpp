@@ -3,6 +3,8 @@
 
 namespace evnt
 {
+App::App() : m_null_state{addAppState<null_state>(*this)} {}
+
 bool App::init(int argc, char * argv[])
 {
     if(m_cur_state == -1)

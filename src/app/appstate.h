@@ -36,6 +36,7 @@ public:
     null_state(App & owner) : AppState(owner) {}
     ~null_state() override = default;
 
+    void update() override;
     void terminate() override;
 };
 }   // namespace evnt
