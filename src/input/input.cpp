@@ -7,10 +7,7 @@
 
 namespace evnt
 {
-static const std::string              PREFIX_KEY    = "Key_";
-static const std::string              PREFIX_BUTTON = "Button";
-static const char                     SEPARATOR     = '+';
-static std::map<std::string, int32_t> s_keyNames;
+static std::map<std::string, int32_t> s_key_names;
 
 struct KeyDescription
 {
@@ -20,7 +17,7 @@ struct KeyDescription
 
 // All standard keys
 // "+" should not appear in names as it is used as a separator
-static const KeyDescription keysDescriptions[] = {
+static const KeyDescription s_keys_descriptions[] = {
     {Keyboard::Key_0, "0"},
     {Keyboard::Key_1, "1"},
     {Keyboard::Key_2, "2"},
@@ -322,8 +319,8 @@ std::string Input::GetKeyName(int32_t key)
     }
     else if(key >= Keyboard::KeyBase && key < Keyboard::KeyMax)
     {
-        static_assert(std::size(keysDescriptions) == size_t(Keyboard::KeyMax - Keyboard::KeyBase));
-        const KeyDescription & entity = keysDescriptions[key - Keyboard::KeyBase];
+        static_assert(std::size(s_keys_descriptions) == size_t(Keyboard::KeyMax - Keyboard::KeyBase));
+        const KeyDescription & entity = s_keys_descriptions[key - Keyboard::KeyBase];
         assert(entity.id == key);
         name = entity.name;
     }
@@ -379,19 +376,19 @@ int32_t Input::GetKeyId(const std::string & keyName)
         {}
     }
 
-    if(s_keyNames.empty())
+    if(s_key_names.empty())
     {
         // Initialize the key name -> id map.
-        for(size_t i = 0; i < size_t(std::size(keysDescriptions)); i++)
+        for(size_t i = 0; i < size_t(std::size(s_keys_descriptions)); i++)
         {
-            s_keyNames[keysDescriptions[i].name] = keysDescriptions[i].id;
+            s_key_names[s_keys_descriptions[i].name] = s_keys_descriptions[i].id;
         }
-        s_keyNames["WheelUp"]   = Mouse::Wheel_Up;
-        s_keyNames["WheelDown"] = Mouse::Wheel_Down;
+        s_key_names["WheelUp"]   = Mouse::Wheel_Up;
+        s_key_names["WheelDown"] = Mouse::Wheel_Down;
     }
 
-    auto it = s_keyNames.find(keyName);
-    if(it != s_keyNames.end())
+    auto it = s_key_names.find(keyName);
+    if(it != s_key_names.end())
     {
         return it->second;
     }

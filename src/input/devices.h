@@ -1,14 +1,20 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#define INPUT_KEYBOARD_MASK    0x0000ffff
-#define INPUT_MOUSE_MASK       0x2000000f
-#define INPUT_MOUSEWHEEL_MASK  0x1000000f
-#define INPUT_MASK             (INPUT_KEYBOARD_MASK | INPUT_MOUSE_MASK | INPUT_MOUSEWHEEL_MASK)
+#include <string>
+
+#define INPUT_KEYBOARD_MASK 0x0000ffff
+#define INPUT_MOUSE_MASK 0x2000000f
+#define INPUT_MOUSEWHEEL_MASK 0x1000000f
+#define INPUT_MASK (INPUT_KEYBOARD_MASK | INPUT_MOUSE_MASK | INPUT_MOUSEWHEEL_MASK)
 #define INPUT_COMBINATION_MASK (~INPUT_MASK)
 
 namespace evnt
 {
+inline static const std::string PREFIX_KEY    = "Key_";
+inline static const std::string PREFIX_BUTTON = "Button";
+inline static const char        SEPARATOR     = '+';
+
 class Keyboard
 {
 public:
