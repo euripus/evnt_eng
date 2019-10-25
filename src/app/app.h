@@ -21,7 +21,7 @@ public:
     void draw() {}   // call render() for  main window
     void terminate() {}
 
-    bool running() const { return m_is_running && m_main_window->getWindowRunning(); }
+    bool running() const { return m_is_running; }// && m_main_window->getWindowRunning(); }
     void stop() { m_is_running = false; }
 
     template<class T, class... Args>

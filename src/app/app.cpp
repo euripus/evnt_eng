@@ -33,7 +33,7 @@ void App::update()
 
 void App::setStartState(AppState::StateID start)
 {
-    if(start > static_cast<int32_t>(m_states.size() - 1))
+    if(start > static_cast<AppState::StateID>(m_states.size() - 1))
         return;
 
     std::lock_guard lk(m_state_mutex);
@@ -42,7 +42,7 @@ void App::setStartState(AppState::StateID start)
 
 void App::setNextState(AppState::StateID next_state)
 {
-    assert(next_state > 0 && next_state < m_states.size() - 1);
+    assert(next_state > 0 && next_state < static_cast<AppState::StateID>(m_states.size() - 1));
 
     if(m_cur_state != -1)
     {
