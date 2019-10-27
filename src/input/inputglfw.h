@@ -3,12 +3,24 @@
 
 #include "input.h"
 
+class GLFWwindow;
+
 namespace evnt
 {
 class InputGLFW : public Input
 {
+    GLFWwindow * m_owner_window{nullptr};
+
+    static void KeyFuncCallback(GLFWwindow * win, int key, int scancode, int action, int mods);
+    static void MouseButtonCallback(GLFWwindow * win, int button, int action, int mods);
+    static void MousePositionCallback(GLFWwindow * win, double xpos, double ypos);
+    static void MouseWheelCallback(GLFWwindow * win, double xoffset, double yoffset);
+
 public:
-    InputGLFW();
+    InputGLFW(GLFWwindow * owner);
+    ~InputGLFW() override = default;
+
+    void update() override {}
 };
 }   // namespace evnt
 

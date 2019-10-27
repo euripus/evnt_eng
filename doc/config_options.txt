@@ -1,0 +1,4 @@
+
+Logging section
+SeverityLevelFilter     all OR warning OR error
+Output      all OR console OR file

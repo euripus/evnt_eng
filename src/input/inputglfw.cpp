@@ -317,5 +317,74 @@ Keyboard::Key MapKeyCode(int platformKeyCode)
     return key;
 }
 
-InputGLFW::InputGLFW() {}
+static InputGLFW * input_ptr{nullptr};
+
+InputGLFW::InputGLFW(GLFWwindow * owner)
+{
+    assert(owner != nullptr);
+
+    m_owner_window = owner;
+    input_ptr      = this;
+
+    glfwSetKeyCallback(m_owner_window, KeyFuncCallback);
+    glfwSetCursorPosCallback(m_owner_window, MousePositionCallback);
+    glfwSetMouseButtonCallback(m_owner_window, MouseButtonCallback);
+    glfwSetScrollCallback(m_owner_window, MouseWheelCallback);
+}
+
+void InputGLFW::KeyFuncCallback(GLFWwindow * win, int key, int scancode, int action, int mods)
+{
+    auto key_internal = MapKeyCode(key);
+    bool pressed      = (action == GLFW_PRESS);
+
+    input_ptr->m_key_id                                        = key_internal;
+    input_ptr->m_keys_states[key_internal - Keyboard::KeyBase] = pressed;
+
+    if(input_ptr->m_key_callback)
+    {
+        input_ptr->m_key_callback(key_internal, pressed);
+    }
+}
+
+void InputGLFW::MouseButtonCallback(GLFWwindow * win, int button, int action, int mods)
+{
+    Mouse::Button button_id = Mouse::Button_Invalid;
+
+    if(button == GLFW_MOUSE_BUTTON_LEFT)
+        button_id = Mouse::Button_0;
+    else if(button == GLFW_MOUSE_BUTTON_MIDDLE)
+        button_id = Mouse::Button_2;
+    else if(button == GLFW_MOUSE_BUTTON_RIGHT)
+        button_id = Mouse::Button_1;
+
+    bool pressed = (action == GLFW_PRESS);
+
+    input_ptr->m_mouse_buttons_state[button_id - Mouse::ButtonBase] = pressed;
+    if(input_ptr->m_mouse_button_callback)
+    {
+        input_ptr->m_mouse_button_callback(button_id, pressed);
+    }
+}
+
+void InputGLFW::MousePositionCallback(GLFWwindow * win, double xpos, double ypos)
+{
+    glm::ivec2 pos(static_cast<int32_t>(xpos), static_cast<int32_t>(ypos));
+
+    input_ptr->setMousePosAbs(pos);
+    if(input_ptr->m_mouse_cursor_callback)
+    {
+        input_ptr->m_mouse_cursor_callback(pos.x, pos.y);
+    }
+}
+
+void InputGLFW::MouseWheelCallback(GLFWwindow * win, double xoffset, double yoffset)
+{
+    glm::ivec2 offset(static_cast<int32_t>(xoffset), static_cast<int32_t>(yoffset));
+
+    input_ptr->m_mouse_wheel = offset.y;
+    if(input_ptr->m_mouse_wheel_callback)
+    {
+        input_ptr->m_mouse_wheel_callback(offset.x, offset.y);
+    }
+}
 }   // namespace evnt

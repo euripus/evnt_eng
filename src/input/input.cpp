@@ -257,33 +257,33 @@ void Input::reset()
     m_mouse_wheel = 0;
 }
 
-bool Input::getMouseButton(int32_t buttonId) const
+bool Input::getMouseButton(int32_t button_id) const
 {
-    assert(buttonId >= Mouse::ButtonBase && buttonId < Mouse::ButtonMax);
+    assert(button_id >= Mouse::ButtonBase && button_id < Mouse::ButtonMax);
 
-    int32_t buttonIdx = buttonId - Mouse::ButtonBase;
-    return m_mouse_buttons_state[buttonIdx];
+    int32_t button_idx = button_id - Mouse::ButtonBase;
+    return m_mouse_buttons_state[button_idx];
 }
 
 int Input::getMouseButtonClicked() const
 {
-    int32_t buttonIdx = -1;
+    int32_t button_idx = -1;
 
     for(int32_t i = Mouse::ButtonBase; i < Mouse::ButtonMax; i++)
     {
-        buttonIdx = i - Mouse::ButtonBase;
-        if(m_mouse_buttons_state[buttonIdx])
+        button_idx = i - Mouse::ButtonBase;
+        if(m_mouse_buttons_state[button_idx])
         {
             return i;
         }
     }
-    return buttonIdx;
+    return button_idx;
 }
 
-bool Input::isKeyPressed(int keyId) const
+bool Input::isKeyPressed(int32_t key_id) const
 {
-    assert(keyId >= Keyboard::KeyBase && keyId < Keyboard::KeyMax);
-    return m_keys_states[keyId - Keyboard::KeyBase];
+    assert(key_id >= Keyboard::KeyBase && key_id < Keyboard::KeyMax);
+    return m_keys_states[key_id - Keyboard::KeyBase];
 }
 
 std::string Input::GetKeyName(int32_t key)
@@ -320,6 +320,7 @@ std::string Input::GetKeyName(int32_t key)
     else if(key >= Keyboard::KeyBase && key < Keyboard::KeyMax)
     {
         static_assert(std::size(s_keys_descriptions) == size_t(Keyboard::KeyMax - Keyboard::KeyBase));
+
         const KeyDescription & entity = s_keys_descriptions[key - Keyboard::KeyBase];
         assert(entity.id == key);
         name = entity.name;
@@ -335,38 +336,38 @@ std::string Input::GetKeyName(int32_t key)
     }
 }
 
-int32_t Input::GetKeyId(const std::string & keyName)
+int32_t Input::GetKeyId(const std::string & key_name)
 {
     // If a noneset key, return -1
-    if(keyName.empty() || keyName == KEY_NONE)
+    if(key_name.empty() || key_name == KEY_NONE)
     {
         return -1;
     }
 
-    size_t sep = keyName.find(SEPARATOR);
+    size_t sep = key_name.find(SEPARATOR);
     if(sep != std::string::npos)
     {
-        int32_t modifier = GetKeyId(keyName.substr(0, sep));
-        int32_t key      = GetKeyId(keyName.substr(sep + 1));
+        int32_t modifier = GetKeyId(key_name.substr(0, sep));
+        int32_t key      = GetKeyId(key_name.substr(sep + 1));
         return (modifier < 0) ? key : (modifier << 16 | key);
     }
 
-    if(!keyName.compare(0, PREFIX_KEY.length(), PREFIX_KEY))
+    if(!key_name.compare(0, PREFIX_KEY.length(), PREFIX_KEY))
     {
         try
         {
-            int key = boost::lexical_cast<int32_t>(keyName.substr(PREFIX_KEY.length()));
+            int key = boost::lexical_cast<int32_t>(key_name.substr(PREFIX_KEY.length()));
             return key;
         }
         catch(const boost::bad_lexical_cast &)
         {}
     }
 
-    if(!keyName.compare(0, PREFIX_BUTTON.length(), PREFIX_BUTTON))
+    if(!key_name.compare(0, PREFIX_BUTTON.length(), PREFIX_BUTTON))
     {
         try
         {
-            int key = boost::lexical_cast<int32_t>(keyName.substr(PREFIX_BUTTON.length()));
+            int key = boost::lexical_cast<int32_t>(key_name.substr(PREFIX_BUTTON.length()));
             if(key >= 0 && key < Mouse::ButtonCount)
             {
                 return Mouse::ButtonBase + key - 1;
@@ -387,7 +388,7 @@ int32_t Input::GetKeyId(const std::string & keyName)
         s_key_names["WheelDown"] = Mouse::Wheel_Down;
     }
 
-    auto it = s_key_names.find(keyName);
+    auto it = s_key_names.find(key_name);
     if(it != s_key_names.end())
     {
         return it->second;

@@ -301,9 +301,9 @@ public:
 
         ButtonBase = 0x20000000,
 
-        Button_0 = ButtonBase,
-        Button_1,
-        Button_2,
+        Button_0 = ButtonBase,   // left
+        Button_1,                // right
+        Button_2,                // middle
         Button_3,
         Button_4,
         Button_5,

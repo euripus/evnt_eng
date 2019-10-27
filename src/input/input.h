@@ -36,13 +36,13 @@ public:
     Input();
     virtual ~Input() = default;
 
-    virtual void update(uint32_t time) = 0;
+    virtual void update() = 0;
     void         reset();
 
     // Mouse
     const glm::ivec2 & getMousePosition() const { return m_mouse_position; }
-    void               setMousePosAbs(const glm::ivec2 & mousePos);
-    bool               getMouseButton(int32_t buttonId) const;
+    void               setMousePosAbs(const glm::ivec2 & mouse_pos) { m_mouse_position = mouse_pos; }
+    bool               getMouseButton(int32_t button_id) const;
     int32_t            getMouseButtonClicked() const;
     int32_t            getMouseWheel() const { return m_mouse_wheel; }
     void               setMouseCursorCallback(MouseCursorCallback cb) { m_mouse_cursor_callback = cb; }
@@ -52,11 +52,11 @@ public:
     // Keyboard
     int32_t getKeyPressed() const { return m_key_id; }
     bool    isAnyKeyPressed() const { return m_key_id >= 0; }
-    bool    isKeyPressed(int keyId) const;
+    bool    isKeyPressed(int32_t key_id) const;
     void    setKeyBoardCallback(KeyboardCallback cb) { m_key_callback = cb; }
 
     static std::string GetKeyName(int32_t key);
-    static int32_t     GetKeyId(const std::string & keyName);
+    static int32_t     GetKeyId(const std::string & key_name);
 };
 }   // namespace evnt
 

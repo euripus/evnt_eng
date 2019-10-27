@@ -33,6 +33,7 @@ unix:{
     DEFINES += BOOST_LOG_DYN_LINK
     LIBS += -lboost_thread -lboost_system -lboost_filesystem -lboost_log -lboost_locale
     LIBS += -lz -lpthread -lstdc++fs
+    LIBS += -lglfw
 }
 
 SOURCES +=  \
