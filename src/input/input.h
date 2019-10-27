@@ -30,6 +30,11 @@ protected:
     MouseButtonCallback m_mouse_button_callback;
     MouseWheelCallback  m_mouse_wheel_callback;
 
+    void onCursorPos(int32_t xpos, int32_t ypos);
+    void onMouseButton(int32_t button_code, bool press);
+    void onMouseWheel(int32_t xoffset, int32_t yoffset);
+    void onKey(int32_t key_code, bool press);
+
 public:
     inline static const std::string KEY_NONE{"---"};
 
