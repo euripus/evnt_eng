@@ -1,37 +1,42 @@
-{
-   "version": "1",
-   "Logging":{
-      "Output": "all",
-      "SeverityLevelFilter": "all",
-      "FileName": "log.txt"
+{ 
+   "version":"1",
+   "Logging":{ 
+      "Output":"all",
+      "SeverityLevelFilter":"all",
+      "FileName":"log.txt"
    },
-   "FileSystem":{
-      "RootPathRelative": "./data",
-      "ResMgrDrivesNames":{
-         "TextureDrive": "textures",
-         "FontDrive": "fonts"
+   "FileSystem":{ 
+      "RootPathRelative":"./data",
+      "ResMgrDrivesNames":{ 
+         "TextureDrive":"textures",
+         "FontDrive":"fonts"
       }
    },
-   "Render":{
-      "PlatformType":{
-         "type": "glfw"
-      },
-      "Window":{
-         "fullscreen": "false",
-         "Title": "Sample window",
-         "Size":{
-            "x": "800",
-            "y": "600"
+   "App":{ 
+      "Window":{ 
+         "PlatformType":{ 
+            "type":"glfw"
          },
-         "Cursor":{
-            "File": "textures/cursor.tga",
-            "Visibility": "true"
+         "fullscreen":"false",
+         "Title":"Sample window",
+         "Size":{ 
+            "x":"800",
+            "y":"600"
+         },
+         "Cursor":{ 
+            "File":"textures/cursor.tga",
+            "Visibility":"true"
          }
       },
-      "TargetOpenGLVersion":{
-         "major": "1",
-         "minor": "5"
-      },
-      "GLProfileMode": "CORE"
+      "Render":{ 
+         "RenderType":{ 
+            "type":"glfw"
+         },
+         "TargetOpenGLVersion":{ 
+            "major":"1",
+            "minor":"5"
+         },
+         "GLProfileMode":"CORE"
+      }
    }
 }

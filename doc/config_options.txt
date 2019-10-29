@@ -1,4 +1,10 @@
 
 Logging section
 SeverityLevelFilter     all OR warning OR error
-Output      all OR console OR file
+Output                  all OR console OR file
+
+App section
+    Window section
+        PlatformType    glfw OR ...
+        Title           string name
+
