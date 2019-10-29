@@ -2,18 +2,15 @@
 #define COMMAND_H
 
 #include <string>
+#include <vector>
 
+namespace evnt
+{
 class Command
 {
 public:
-    Command(int num_arguments, const char ** arguments);
-
-    // Set bounds for numerical arguments.  If bounds are required, they must
-    // be set for each argument.
-    Command & min(double value);
-    Command & max(double value);
-    Command & inf(double value);
-    Command & sup(double value);
+    Command() = default;
+    Command(uint32_t num_arguments, char ** arguments);
 
     // The return value of each of the following methods is the option index
     // within the argument array.
@@ -22,14 +19,19 @@ public:
     // example in
     //     myprogram -debug -x 10 -y 20 filename
     // the option -debug has no argument.
+    uint32_t getOption(std::string const & name);   // returns existence of option
+    uint32_t getBoolean(std::string const & name, bool & value);
+    uint32_t getInteger(std::string const & name, int32_t & value);
+    uint32_t getFloat(std::string const & name, float & value);
+    uint32_t getDouble(std::string const & name, double & value);
+    uint32_t getString(std::string const & name, std::string & value);
+    uint32_t getFilename(std::string & value, uint32_t start_arg_index = 1);
 
-    int getBoolean(std::string name);   // returns existence of option
-    int getBoolean(std::string name, bool & value);
-    int getInteger(std::string name, int & value);
-    int getFloat(std::string name, float & value);
-    int getDouble(std::string name, double & value);
-    int getString(std::string name, char *& value);
-    int getFilename(std::string & out_name);
+private:
+    std::vector<std::string> m_options;
+
+    inline static std::string const s_dash{"-"};
 };
+}   // namespace evnt
 
 #endif   // COMMAND_H

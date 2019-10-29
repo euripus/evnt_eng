@@ -3,6 +3,7 @@
 
 #include "../core/objectmanager.h"
 #include "appstate.h"
+#include "command.h"
 #include "window.h"
 
 namespace evnt
@@ -21,7 +22,7 @@ public:
     void draw() {}   // call render() for  main window
     void terminate() {}
 
-    bool running() const { return m_is_running; }// && m_main_window->getWindowRunning(); }
+    bool running() const { return m_is_running; }   // && m_main_window->getWindowRunning(); }
     void stop() { m_is_running = false; }
 
     template<class T, class... Args>
@@ -52,6 +53,7 @@ private:
     const AppState::StateID  m_null_state;
 
     ObjectManager m_obj_mgr;
+    Command       m_command_line;
 };
 }   // namespace evnt
 #endif   // APP_H

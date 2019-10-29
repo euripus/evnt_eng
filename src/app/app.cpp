@@ -14,8 +14,9 @@ bool App::init(int argc, char * argv[])
     }
 
     // command string parse
+    m_command_line = Command(argc, argv);
 
-    // window creeate
+    // window create
 
     return true;
 }
