@@ -21,10 +21,10 @@ Core
                 Physics
                 AI
         LocaleMgr
+		ActionList
         MainWindow
             LoacalAPP<pf. pl.>            // interface for demo apps
             Input<static_pf. pl.>
-            Action bind_array[Key::Count + MouseKey::Count]
             Render<pf. pl.>
                 RenderCtxt<static_pf. pl.>
                 RenderState
