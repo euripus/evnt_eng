@@ -30,7 +30,7 @@
       },
       "Render":{ 
          "RenderType":{ 
-            "type":"glfw"
+            "type":"gl"
          },
          "TargetOpenGLVersion":{ 
             "major":"1",

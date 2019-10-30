@@ -1,9 +1,6 @@
 #include "core/core.h"
 
-#include <codecvt>
-#include <iomanip>
 #include <iostream>
-#include <locale>
 
 #ifdef WIN32
 #include <shellapi.h>
