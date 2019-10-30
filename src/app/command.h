@@ -19,13 +19,13 @@ public:
     // example in
     //     myprogram -debug -x 10 -y 20 filename
     // the option -debug has no argument.
-    uint32_t getOption(std::string const & name);   // returns existence of option
-    uint32_t getBoolean(std::string const & name, bool & value);
-    uint32_t getInteger(std::string const & name, int32_t & value);
-    uint32_t getFloat(std::string const & name, float & value);
-    uint32_t getDouble(std::string const & name, double & value);
-    uint32_t getString(std::string const & name, std::string & value);
-    uint32_t getFilename(std::string & value, uint32_t start_arg_index = 1);
+    uint32_t getOption(std::string const & name) const;   // returns existence of option
+    uint32_t getBoolean(std::string const & name, bool & value) const;
+    uint32_t getInteger(std::string const & name, int32_t & value) const;
+    uint32_t getFloat(std::string const & name, float & value) const;
+    uint32_t getDouble(std::string const & name, double & value) const;
+    uint32_t getString(std::string const & name, std::string & value) const;
+    uint32_t getFilename(std::string & value, uint32_t start_arg_index = 1) const;
 
 private:
     std::vector<std::string> m_options;

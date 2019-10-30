@@ -3,12 +3,7 @@
 
 namespace evnt
 {
-void null_state::update()
-{
-    terminate();
-}
-
-void null_state::terminate()
+void end_state::update()
 {
     m_owner.stop();
 }

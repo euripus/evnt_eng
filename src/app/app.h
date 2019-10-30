@@ -32,13 +32,15 @@ public:
         m_states.push_back(std::move(std::make_unique<T>(std::forward<Args>(args)...)));
         return m_states.size() - 1;
     }
-    AppState::StateID getNullStateID() const { return m_null_state; }
+    AppState::StateID getEndStateID() const { return m_end_state; }
     void              setStartState(AppState::StateID start);
     void              setNextState(AppState::StateID next_state);
+    AppState::StateID getStateID(std::string const & state_name);   // if not found return 0
 
     // ?????
     Window &        getMainWindow() { return *m_main_window; }
     ObjectManager & getObjectManager() { return m_obj_mgr; }
+    const Command & getAppCommandLineParam() const { return m_command_line; }
 
 private:
     void doStateTransition();
@@ -50,7 +52,7 @@ private:
     std::vector<AppStatePtr> m_states;
     AppState::StateID        m_cur_state{-1};
     AppState::StateID        m_next_state{-1};
-    const AppState::StateID  m_null_state;
+    const AppState::StateID  m_end_state;
 
     ObjectManager m_obj_mgr;
     Command       m_command_line;

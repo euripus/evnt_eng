@@ -3,7 +3,7 @@
 
 namespace evnt
 {
-App::App() : m_null_state{addAppState<null_state>(*this)} {}
+App::App() : m_end_state{addAppState<end_state>(*this)} {}
 
 bool App::init(int argc, char * argv[])
 {
@@ -13,7 +13,7 @@ bool App::init(int argc, char * argv[])
         return false;
     }
 
-    // command string parse
+    // command line string parse
     m_command_line = Command(argc, argv);
 
     // window create
@@ -32,6 +32,25 @@ void App::update()
     m_states[m_cur_state]->update();
 }
 
+AppState::StateID App::getStateID(std::string const & state_name)
+{
+    AppState::StateID found_id{0};
+    {
+        std::lock_guard lk(m_state_mutex);
+        for(uint32_t i = 0; i < m_states.size(); ++i)
+        {
+            auto & state = m_states[i];
+            if(state->getStateName() == state_name)
+            {
+                found_id = i;
+                break;
+            }
+        }
+    }
+
+    return found_id;
+}
+
 void App::setStartState(AppState::StateID start)
 {
     if(start > static_cast<AppState::StateID>(m_states.size() - 1))
@@ -45,6 +64,7 @@ void App::setNextState(AppState::StateID next_state)
 {
     assert(next_state > 0 && next_state < static_cast<AppState::StateID>(m_states.size() - 1));
 
+    std::lock_guard lk(m_state_mutex);
     if(m_cur_state != -1)
     {
         if(m_cur_state != m_next_state)

@@ -2,6 +2,7 @@
 #define APPSTATE_H
 
 #include <stdint.h>
+#include <string>
 
 namespace evnt
 {
@@ -12,8 +13,10 @@ class AppState
 public:
     using StateID = int32_t;
 
-    AppState(App & owner) : m_owner{owner} {}
+    AppState(App & owner, std::string state_name) : m_owner{owner}, m_state_name{std::move(state_name)} {}
     virtual ~AppState() = default;
+
+    const std::string & getStateName() const { return m_state_name; }
 
     /// called when state is created
     virtual void init() {}
@@ -23,21 +26,19 @@ public:
     virtual void onStateLeave(const StateID nextState) {}
     /// called on state to perform state logic
     virtual void update() {}
-    /// called on state is terminating, switch to next state
-    virtual void terminate() = 0;
 
 protected:
-    App & m_owner;
+    App &       m_owner;
+    std::string m_state_name;
 };
 
-class null_state : public AppState
+class end_state : public AppState
 {
 public:
-    null_state(App & owner) : AppState(owner) {}
-    ~null_state() override = default;
+    end_state(App & owner) : AppState(owner, "end_state") {}
+    ~end_state() override = default;
 
     void update() override;
-    void terminate() override;
 };
 }   // namespace evnt
 

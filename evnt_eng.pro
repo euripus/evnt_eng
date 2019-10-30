@@ -26,7 +26,7 @@ win32:{
     LIBS += -lboost_log-mgw73-mt-x32-1_69 -lboost_system-mgw73-mt-x32-1_69
     LIBS += -lboost_locale-mgw73-mt-x32-1_69 -lboost_thread-mgw73-mt-x32-1_69
     LIBS += -lboost_filesystem-mgw73-mt-x32-1_69
-    LIBS += -liconv -lz -lws2_32
+    LIBS += -liconv -lz -lws2_32 -lshell32
     LIBS += -lstdc++fs -static-libgcc -static-libstdc++ -static -lpthread
 	LIBS += -lglfw3dll
 }

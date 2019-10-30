@@ -14,13 +14,13 @@ Command::Command(uint32_t num_arguments, char ** arguments)
     }
 }
 
-uint32_t Command::getOption(std::string const & name)
+uint32_t Command::getOption(std::string const & name) const
 {
     bool value = false;
     return getBoolean(name, value);
 }
 
-uint32_t Command::getBoolean(std::string const & name, bool & value)
+uint32_t Command::getBoolean(std::string const & name, bool & value) const
 {
     uint32_t match_found = 0;
     value                = false;
@@ -38,7 +38,7 @@ uint32_t Command::getBoolean(std::string const & name, bool & value)
     return match_found;
 }
 
-uint32_t Command::getInteger(std::string const & name, int32_t & value)
+uint32_t Command::getInteger(std::string const & name, int32_t & value) const
 {
     uint32_t match_found = 0;
 
@@ -55,7 +55,7 @@ uint32_t Command::getInteger(std::string const & name, int32_t & value)
     return match_found;
 }
 
-uint32_t Command::getFloat(std::string const & name, float & value)
+uint32_t Command::getFloat(std::string const & name, float & value) const
 {
     uint32_t match_found = 0;
 
@@ -72,7 +72,7 @@ uint32_t Command::getFloat(std::string const & name, float & value)
     return match_found;
 }
 
-uint32_t Command::getDouble(std::string const & name, double & value)
+uint32_t Command::getDouble(std::string const & name, double & value) const
 {
     uint32_t match_found = 0;
 
@@ -89,7 +89,7 @@ uint32_t Command::getDouble(std::string const & name, double & value)
     return match_found;
 }
 
-uint32_t Command::getString(std::string const & name, std::string & value)
+uint32_t Command::getString(std::string const & name, std::string & value) const
 {
     uint32_t match_found = 0;
 
@@ -114,7 +114,7 @@ uint32_t Command::getString(std::string const & name, std::string & value)
     return match_found;
 }
 
-uint32_t Command::getFilename(std::string & value, uint32_t start_arg_index)
+uint32_t Command::getFilename(std::string & value, uint32_t start_arg_index) const
 {
     uint32_t match_found = 0;
 
