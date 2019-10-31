@@ -19,7 +19,7 @@ public:
     const std::string & getStateName() const { return m_state_name; }
 
     /// called when state is created
-    virtual void init() {}
+    virtual bool init() { return true; }
     /// called when state is becoming active
     virtual void onStateEnter(const StateID prevState) {}
     /// called when state is becoming inactive

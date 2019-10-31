@@ -7,7 +7,7 @@
 
 namespace evnt
 {
-IMPLEMENT_STRUCT(GameObject, Object)
+OBJECT_IMPLEMENT(GameObject, Object)
 
 void GameObject::addComponent(PObjHandle com)
 {

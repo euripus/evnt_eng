@@ -7,7 +7,7 @@
 
 namespace evnt
 {
-IMPLEMENT_STRUCT(Component, Object)
+OBJECT_IMPLEMENT(Component, Object)
 
 void Component::setOwnerInternal(GameObject * go)
 {

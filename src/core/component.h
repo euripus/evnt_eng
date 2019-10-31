@@ -11,7 +11,7 @@ class GameObject;
 class Component : public Object
 {
 public:
-    CLASS_IMPLEMENT(Component, Object)
+    OBJECT_DEFINE(Component, Object)
 
     Component() = default;
 

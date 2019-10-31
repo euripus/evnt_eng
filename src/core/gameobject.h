@@ -11,7 +11,7 @@ namespace evnt
 class GameObject : public Object
 {
 public:
-    CLASS_IMPLEMENT(GameObject, Object)
+    OBJECT_DEFINE(GameObject, Object)
 
     GameObject() = default;
 

@@ -1,4 +1,5 @@
 #include "app.h"
+#include "../core/core.h"
 #include "../log/log.h"
 
 namespace evnt
@@ -13,12 +14,27 @@ bool App::init(int argc, char * argv[])
         return false;
     }
 
+    bool init_result{true};
+
     // command line string parse
     m_command_line = Command(argc, argv);
 
     // window create
+    auto        config   = Core::instance().getRootConfig();
+    std::string platform = config.get<std::string>("App.Window.PlatformType");
+    m_main_window        = Window::CreateMainWindow(platform, *this);
+    init_result          = init_result && m_main_window->init();
 
-    return true;
+    // AppStates init
+    {
+        std::lock_guard lk(m_state_mutex);
+        for(auto & state : m_states)
+        {
+            init_result = init_result && state->init();
+        }
+    }
+
+    return init_result;
 }
 
 void App::update()

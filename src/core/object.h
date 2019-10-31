@@ -9,9 +9,9 @@
 #include <memory>
 
 // https://stackoverflow.com/questions/34222703/how-to-override-static-method-of-template-class-in-derived-class
-#define CLASS_IMPLEMENT(inClass, inBaseClass)                                                           \
+#define OBJECT_DEFINE(inClass, inBaseClass)                                                             \
     using Super = inBaseClass;                                                                          \
-    static evnt::StaticTypeInit sm_class_register;                                                      \
+    static evnt::Object::StaticObjectInit sm_class_register;                                            \
                                                                                                         \
     void         dump(int indentLevel = 0) const override;                                              \
     void         write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const override; \
@@ -24,8 +24,8 @@
     static std::unique_ptr<Object> CreateInstance();                                                    \
     static void                    InitType();
 
-#define IMPLEMENT_STRUCT(inClass, inBaseClass)                                                             \
-    evnt::StaticTypeInit inClass::sm_class_register{inClass::InitType};                                    \
+#define OBJECT_IMPLEMENT(inClass, inBaseClass)                                                             \
+    evnt::Object::StaticObjectInit inClass::sm_class_register{inClass::InitType};                          \
                                                                                                            \
     int32_t                 inClass::getClassIDVirtual() const { return ClassName(inClass); }              \
     const char *            inClass::getClassString() const { return #inClass; }                           \
@@ -41,11 +41,6 @@ namespace evnt
 {
 class ObjectManager;
 
-struct StaticTypeInit
-{
-    StaticTypeInit(void (*init)()) { init(); }
-};
-
 class Object
 {
     uint32_t m_instance_id{0};   // 0 - not initialized
@@ -53,6 +48,10 @@ class Object
 
 public:
     using CreateFunc = std::function<std::unique_ptr<Object>()>;
+    struct StaticObjectInit
+    {
+        StaticObjectInit(void (*init)()) { init(); }
+    };
 
     struct RTTI
     {
@@ -62,7 +61,7 @@ public:
         CreateFunc  factory;     // the factory function of the class
     };
 
-    static StaticTypeInit sm_class_register;
+    static StaticObjectInit sm_class_register;
 
     static void InitType();
 

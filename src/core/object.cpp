@@ -7,7 +7,7 @@
 
 namespace evnt
 {
-StaticTypeInit Object::sm_class_register {Object::InitType};
+Object::StaticObjectInit Object::sm_class_register {Object::InitType};
 
 void Object::InitType()
 {

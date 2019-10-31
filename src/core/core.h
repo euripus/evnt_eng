@@ -63,7 +63,7 @@ public:
         return m_event_system->raiseEvent<EventTrait>(std::forward<Args>(args)...);
     }
 
-    bool init(int argc, char * argv[]);   // call after all AppState instances added and start state set
+    bool appInit(int argc, char * argv[]);   // call after all AppState instances added and start state set
     void enterMainLoop();
 
     void exit() { m_running = false; }

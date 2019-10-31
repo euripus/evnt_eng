@@ -14,9 +14,7 @@
    },
    "App":{ 
       "Window":{ 
-         "PlatformType":{ 
-            "type":"glfw"
-         },
+         "PlatformType":"glfw",
          "fullscreen":"false",
          "Title":"Sample window",
          "Size":{ 

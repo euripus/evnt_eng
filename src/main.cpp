@@ -17,7 +17,7 @@ int utf8_main(int argc, char * argv[])
         // and set  start state
         evnt::Core::instance().getApp().setStartState(evnt::Core::instance().getApp().getEndStateID());
 
-        if(!evnt::Core::instance().init(argc, argv))
+        if(!evnt::Core::instance().appInit(argc, argv))
         {
             std::cout << "Errror! Application couldn't be initialized" << std::endl;
             return 1;

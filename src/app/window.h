@@ -42,10 +42,10 @@ public:
     Window(App & app);
     virtual ~Window() = default;
 
-    virtual void alert(const std::string & title, const std::string & message,
+    virtual void alert(std::string const & title, std::string const & message,
                        AlertType type = AlertType::AlertType_Information) = 0;
 
-    void setWindowTitle(const std::string & title) { m_title = title; }
+    void setWindowTitle(std::string const & title) { m_title = title; }
 
     Input & getInput() { return *m_input_backend; }
 
@@ -63,8 +63,8 @@ public:
     virtual void destroy() {}
     virtual void pollEvents() const {}
 
-    virtual void         fullscreen(bool fullscreen) = 0;
-    virtual DisplayModes getDisplayModes() const     = 0;
+    virtual void         fullscreen(bool is_fullscreen) = 0;
+    virtual DisplayModes getDisplayModes() const        = 0;
 
     virtual void adjustGamma() {}
 
@@ -74,11 +74,11 @@ public:
     virtual bool                isCursorVisible() const { return m_cursor_visibility; }
 
     // factory
-    static std::unique_ptr<Window> CreateMainWindow();
+    static std::unique_ptr<Window> CreateMainWindow(std::string const & platform_type, App & owner);
 
     // Events
     void winResize(glm::ivec2 sz);
-    void winFullscreen(bool fullscreen);
+    void winFullscreen(bool is_fullscreen);
 
 protected:
     App & m_owner;
