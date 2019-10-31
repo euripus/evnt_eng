@@ -1,5 +1,5 @@
 #include "input.h"
-#include "action.h"
+#include "keybinding.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <cassert>
@@ -282,7 +282,7 @@ void Input::onKey(int32_t key_code, bool press)
 
     if(press)
     {
-        Action::KeyPressed(key_code);
+        KeyBinding::KeyPressed(key_code);
     }
 
     if(m_key_callback)

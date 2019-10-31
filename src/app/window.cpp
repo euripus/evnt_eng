@@ -2,5 +2,5 @@
 
 namespace evnt
 {
-Window::Window() {}
+Window::Window(App & app) : m_owner{app} {}
 }   // namespace evnt

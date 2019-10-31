@@ -41,6 +41,7 @@ public:
     Input();
     virtual ~Input() = default;
 
+    virtual bool init() { return true; }
     virtual void update() = 0;
     void         reset();
 

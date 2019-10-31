@@ -53,9 +53,9 @@ SOURCES +=  \
     src/core/objectmanager.cpp \
     src/fs/file.cpp \
     src/fs/file_system.cpp \
-    src/input/action.cpp \
     src/input/input.cpp \
     src/input/inputglfw.cpp \
+    src/input/keybinding.cpp \
     src/log/log.cpp \
     src/main.cpp \
     src/network/connection.cpp \
@@ -85,10 +85,10 @@ HEADERS += \
     src/fs/file.h \
     src/fs/file_system.h \
     src/fs/zip.h \
-    src/input/action.h \
     src/input/devices.h \
     src/input/input.h \
     src/input/inputglfw.h \
+    src/input/keybinding.h \
     src/log/log.h \
     src/network/connection.h \
     src/network/socketaddress.h \

@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include "../core/event.h"
 #include "../input/input.h"
 #include "mousecursor.h"
 #include <glm/glm.hpp>
@@ -23,6 +24,11 @@ struct DisplayMode
 
 using DisplayModes = std::vector<DisplayMode>;
 
+class App;
+
+DECLARE_EVENT_TRAIT(evResize, void, glm::ivec2);
+DECLARE_EVENT_TRAIT(evFullscreen, void, bool);
+
 class Window
 {
 public:
@@ -33,7 +39,7 @@ public:
         AlertType_Error
     };
 
-    Window();
+    Window(App & app);
     virtual ~Window() = default;
 
     virtual void alert(const std::string & title, const std::string & message,
@@ -53,8 +59,8 @@ public:
     void              setGamma(float g) { m_gamma = g; }
 
     // virtual's
-    virtual bool create()  = 0;
-    virtual void destroy() = 0;
+    virtual bool init() { return true; }
+    virtual void destroy() {}
     virtual void pollEvents() const {}
 
     virtual void         fullscreen(bool fullscreen) = 0;
@@ -71,10 +77,12 @@ public:
     static std::unique_ptr<Window> CreateMainWindow();
 
     // Events
-    // void winResize(glm::ivec2 sz);
-    // void winFullscreen();
+    void winResize(glm::ivec2 sz);
+    void winFullscreen(bool fullscreen);
 
 protected:
+    App & m_owner;
+
     std::string m_title;
     glm::ivec2  m_win_size;
     bool        m_full_screen;

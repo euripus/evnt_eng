@@ -123,8 +123,13 @@ public:
     void registerEvent()
     {
         const std::size_t eventHash = get_event_trait_hash<EventTrait>();
-        FlagLock          lk(m_access_flag);
-        m_events[eventHash] = std::make_unique<SpecEvent<EventTrait>>();
+        auto              it        = m_events.find(eventHash);
+
+        if(it == m_events.end())
+        {
+            FlagLock lk(m_access_flag);
+            m_events[eventHash] = std::make_unique<SpecEvent<EventTrait>>();
+        }
     }
 
     template<typename EventTrait>
