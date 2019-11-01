@@ -26,6 +26,7 @@ public:
     virtual void onStateLeave(const StateID nextState) {}
     /// called on state to perform state logic
     virtual void update() {}
+    virtual void terminate() {}
 
 protected:
     App &       m_owner;

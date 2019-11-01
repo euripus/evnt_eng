@@ -15,7 +15,7 @@
    "App":{ 
       "Window":{ 
          "PlatformType":"glfw",
-         "fullscreen":"false",
+         "Fullscreen":"false",
          "Title":"Sample window",
          "Size":{ 
             "x":"800",

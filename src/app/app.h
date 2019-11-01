@@ -20,7 +20,7 @@ public:
     void processInput() {}
     void update();
     void draw() {}   // call render() for  main window
-    void terminate() {}
+    void terminate();
 
     bool running() const { return m_is_running; }   // && m_main_window->getWindowRunning(); }
     void stop() { m_is_running = false; }

@@ -39,6 +39,8 @@ bool App::init(int argc, char * argv[])
 
 void App::update()
 {
+    m_main_window->update();
+
     // perform state transition
     if((m_next_state != -1 && (m_next_state != m_cur_state)))
     {
@@ -46,6 +48,21 @@ void App::update()
     }
 
     m_states[m_cur_state]->update();
+}
+
+void App::terminate()
+{
+    // AppStates terminate
+    {
+        std::lock_guard lk(m_state_mutex);
+        for(auto & state : m_states)
+        {
+            state->terminate();
+        }
+    }
+
+    // window terminate
+    m_main_window->terminate();
 }
 
 AppState::StateID App::getStateID(std::string const & state_name)

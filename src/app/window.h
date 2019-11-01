@@ -60,8 +60,8 @@ public:
 
     // virtual's
     virtual bool init() { return true; }
-    virtual void destroy() {}
-    virtual void pollEvents() const {}
+    virtual void terminate() {}
+    virtual void update() {}
 
     virtual void         fullscreen(bool is_fullscreen) = 0;
     virtual DisplayModes getDisplayModes() const        = 0;

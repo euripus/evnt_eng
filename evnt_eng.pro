@@ -41,6 +41,7 @@ SOURCES +=  \
     src/app/app.cpp \
     src/app/appstate.cpp \
     src/app/command.cpp \
+    src/app/glfwwindow.cpp \
     src/app/mousecursor.cpp \
     src/app/window.cpp \
     src/core/cmpmsgs.cpp \
@@ -67,6 +68,7 @@ HEADERS += \
     src/app/app.h \
     src/app/appstate.h \
     src/app/command.h \
+    src/app/glfwwindow.h \
     src/app/mousecursor.h \
     src/app/window.h \
     src/core/classids.h \

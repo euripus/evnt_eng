@@ -1,11 +1,12 @@
 #include "window.h"
 #include "../core/core.h"
+#include "glfwwindow.h"
 
 namespace evnt
 {
 std::unique_ptr<Window> Window::CreateMainWindow(std::string const & platform_type, App & owner)
 {
-    return std::unique_ptr<Window>{};
+    return std::make_unique<GLFWWindow>(owner);
 }
 
 Window::Window(App & app) : m_owner{app}
