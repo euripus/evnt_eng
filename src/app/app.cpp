@@ -21,7 +21,7 @@ bool App::init(int argc, char * argv[])
 
     // window create
     auto        config   = Core::instance().getRootConfig();
-    std::string platform = config.get<std::string>("App.Window.PlatformType");
+    std::string platform = config.get<std::string>("App.Window.Platform.Type");
     m_main_window        = Window::CreateMainWindow(platform, *this);
     init_result          = init_result && m_main_window->init();
 

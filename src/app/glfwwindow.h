@@ -10,9 +10,6 @@ namespace evnt
 {
 class GLFWWindow : public Window
 {
-    GLFWvidmode const * m_base_video_mode;
-    GLFWwindow *        m_glfw_window;
-
 public:
     GLFWWindow(App & app) : Window(app), m_base_video_mode{nullptr}, m_glfw_window{nullptr} {}
     ~GLFWWindow() override = default;
@@ -24,13 +21,22 @@ public:
     void terminate() override;
     void update() override;
 
-    void         fullscreen(bool is_fullscreen) override {}
+    void         fullscreen(bool is_fullscreen) override;
     DisplayModes getDisplayModes() const override;
 
-    void adjustGamma() override {}
+    void adjustGamma() override;
 
     void setMouseCursor(MouseCursor cursor) override;
     void setCursorVisibility(bool type) override;
+
+private:
+    bool create(int width, int height);
+
+    GLFWvidmode const * m_base_video_mode{nullptr};
+    GLFWwindow *        m_glfw_window{nullptr};
+
+    int m_gl_major{1};
+    int m_gl_minor{5};
 };
 }   // namespace evnt
 

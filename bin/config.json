@@ -1,38 +1,38 @@
-{ 
+{
    "version":"1",
-   "Logging":{ 
+   "Logging":{
       "Output":"all",
       "SeverityLevelFilter":"all",
       "FileName":"log.txt"
    },
-   "FileSystem":{ 
+   "FileSystem":{
       "RootPathRelative":"./data",
-      "ResMgrDrivesNames":{ 
+      "ResMgrDrivesNames":{
          "TextureDrive":"textures",
          "FontDrive":"fonts"
       }
    },
-   "App":{ 
-      "Window":{ 
-         "PlatformType":"glfw",
+   "App":{
+      "Window":{
+         "Platform":{
+            "Type":"glfw",
+            "Major_gl":1,
+            "Minor_gl":5
+         },
          "Fullscreen":"false",
          "Title":"Sample window",
-         "Size":{ 
+         "Size":{
             "x":"800",
             "y":"600"
          },
-         "Cursor":{ 
+         "Cursor":{
             "File":"textures/cursor.tga",
             "Visibility":"true"
          }
       },
-      "Render":{ 
-         "RenderType":{ 
+      "Render":{
+         "RenderType":{
             "type":"gl"
-         },
-         "TargetOpenGLVersion":{ 
-            "major":"1",
-            "minor":"5"
          },
          "GLProfileMode":"CORE"
       }

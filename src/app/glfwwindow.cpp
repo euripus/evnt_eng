@@ -17,24 +17,10 @@ void GLFWWindow::alert(std::string const & title, std::string const & message, A
     Log::Log(sl, Log::cstr_log("\"%s\" - %s", title.c_str(), message.c_str()));
 }
 
-bool GLFWWindow::init()
+bool GLFWWindow::create(int width, int height)
 {
-    int width, height;
-
-    if(!glfwInit())
-        return false;
-
-    if(!m_cur_mouse_cursor.isStdShapeCursor())
-        if(!m_cur_mouse_cursor.load())
-            return false;
-
-    m_base_video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    auto config       = Core::instance().getRootConfig();
-
-    m_running = true;   // Context initialization may change value
-
-    m_full_screen = config.get<bool>("App.Window.Fullscreen");
-    m_title       = config.get<std::string>("App.Window.Title");
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, m_gl_major);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, m_gl_minor);
 
     GLFWmonitor * mon;
     if(m_full_screen)
@@ -46,14 +32,15 @@ bool GLFWWindow::init()
     else
     {
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-        mon    = nullptr;
-        width  = config.get<int>("App.Window.Size.x");
-        height = config.get<int>("App.Window.Size.y");
+        mon = nullptr;
     }
 
     glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
     glfwWindowHint(GLFW_CONTEXT_RELEASE_BEHAVIOR, GLFW_ANY_RELEASE_BEHAVIOR);
     glfwWindowHint(GLFW_SAMPLES, m_MSAA_level);
+
+    if(m_glfw_window != nullptr)
+        glfwDestroyWindow(m_glfw_window);
     m_glfw_window = glfwCreateWindow(width, height, "", mon, nullptr);
 
     if(m_glfw_window == nullptr)
@@ -71,6 +58,30 @@ bool GLFWWindow::init()
     return true;
 }
 
+bool GLFWWindow::init()
+{
+    if(!glfwInit())
+        return false;
+
+    if(!m_cur_mouse_cursor.isStdShapeCursor())
+        if(!m_cur_mouse_cursor.load())
+            return false;
+
+    m_base_video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    auto config       = Core::instance().getRootConfig();
+
+    m_running = true;   // Context initialization may change value
+
+    m_full_screen     = config.get<bool>("App.Window.Fullscreen");
+    m_title           = config.get<std::string>("App.Window.Title");
+    m_gl_major        = config.get<int>("App.Window.Platform.Major_gl");
+    m_gl_minor        = config.get<int>("App.Window.Platform.Minor_gl");
+    m_init_win_size.x = config.get<int>("App.Window.Size.x");
+    m_init_win_size.y = config.get<int>("App.Window.Size.y");
+
+    return create(m_init_win_size.x, m_init_win_size.y);
+}
+
 void GLFWWindow::terminate()
 {
     glfwDestroyWindow(m_glfw_window);
@@ -86,6 +97,15 @@ void GLFWWindow::update()
         m_owner.stop();
 
     glfwPollEvents();
+}
+
+void GLFWWindow::fullscreen(bool is_fullscreen)
+{
+    if(m_full_screen == is_fullscreen)
+        return;
+
+    m_full_screen = is_fullscreen;
+    create(m_init_win_size.x, m_init_win_size.y);
 }
 
 DisplayModes GLFWWindow::getDisplayModes() const
@@ -109,6 +129,11 @@ DisplayModes GLFWWindow::getDisplayModes() const
     }
 
     return dms;
+}
+
+void GLFWWindow::adjustGamma()
+{
+    glfwSetGamma(glfwGetPrimaryMonitor(), m_gamma);
 }
 
 void GLFWWindow::setMouseCursor(MouseCursor cursor)

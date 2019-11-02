@@ -85,6 +85,7 @@ protected:
 
     std::string m_title;
     glm::ivec2  m_win_size;
+    glm::ivec2  m_init_win_size;
     bool        m_full_screen;
     bool        m_running;
     int         m_MSAA_level;
