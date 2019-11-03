@@ -5,6 +5,8 @@ Output                  all OR console OR file
 
 App section
     Window section
-        PlatformType    glfw OR ...
-        Title           string name
+        PlatformType        glfw OR ...
+        Title               string name
+        Cursor
+            StdCursorShape  ARROW OR IBEAM OR CROSSHAIR OR HAND OR HRESIZE OR VRESIZE
 

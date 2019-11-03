@@ -6,6 +6,7 @@ CONFIG -= qt
 CONFIG(release, debug|release) {
     #This is a release build
     DEFINES += NDEBUG
+    QMAKE_CXXFLAGS += -s
 } else {
     #This is a debug build
     DEFINES += DEBUG
