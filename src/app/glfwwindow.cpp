@@ -63,17 +63,27 @@ bool GLFWWindow::init()
     if(!glfwInit())
         return false;
 
+    auto config = Core::instance().getRootConfig();
+
+    m_cursor_visibility = config.get<bool>("App.Window.Cursor.Visibility");
+    bool is_std_shape   = config.get<bool>("App.Window.Cursor.IsSTD");
+    if(is_std_shape)
+        m_cur_mouse_cursor.setStdShape(
+            MouseCursor::GetShape(config.get<std::string>("App.Window.Cursor.StdCursorShape")));
+    else
+        m_cur_mouse_cursor.setFilename(config.get<std::string>("App.Window.Cursor.File"));
+
     if(!m_cur_mouse_cursor.isStdShapeCursor())
         if(!m_cur_mouse_cursor.load())
             return false;
 
     m_base_video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    auto config       = Core::instance().getRootConfig();
 
-    m_running = true;   // Context initialization may change value
+    m_running = true;
 
     m_full_screen     = config.get<bool>("App.Window.Fullscreen");
     m_title           = config.get<std::string>("App.Window.Title");
+    m_MSAA_level      = config.get<int>("App.Window.MSAA");
     m_gl_major        = config.get<int>("App.Window.Platform.Major_gl");
     m_gl_minor        = config.get<int>("App.Window.Platform.Minor_gl");
     m_init_win_size.x = config.get<int>("App.Window.Size.x");

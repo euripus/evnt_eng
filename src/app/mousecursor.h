@@ -25,7 +25,11 @@ public:
     MouseCursor(const MouseCursor & rhs);
     MouseCursor & operator=(const MouseCursor & rhs);
 
-    void        setFilename(std::string path) { m_filename = std::move(path); }
+    void setFilename(std::string path)
+    {
+        m_is_standart = false;
+        m_filename    = std::move(path);
+    }
     std::string getFilename() const { return m_filename; }
 
     void setHotspotX(int x) { m_hot_spot_x = x; }
@@ -34,12 +38,18 @@ public:
     int  getHotspotY() const { return m_hot_spot_y; }
 
     StdCursorShape getStdShape() const { return m_shape; }
-    void           setStdShape(StdCursorShape s) { m_shape = s; }
-    bool           isStdShapeCursor() const { return m_is_standart; }
+    void           setStdShape(StdCursorShape s)
+    {
+        m_is_standart = true;
+        m_shape       = s;
+    }
+    bool isStdShapeCursor() const { return m_is_standart; }
 
     const ImageData & getTexture() const { return m_ref_texture; }
 
     bool load();
+
+    static MouseCursor::StdCursorShape GetShape(std::string const & shape_name);
 
 private:
     std::string m_filename;

@@ -9,7 +9,16 @@ std::unique_ptr<Window> Window::CreateMainWindow(std::string const & platform_ty
     return std::make_unique<GLFWWindow>(owner);
 }
 
-Window::Window(App & app) : m_owner{app}
+Window::Window(App & app) :
+    m_owner{app},
+    m_title{},
+    m_win_size{0, 0},
+    m_init_win_size{0, 0},
+    m_full_screen{false},
+    m_running{false},
+    m_MSAA_level{0},
+    m_gamma{0.0f},
+    m_cursor_visibility{false}
 {
     Core::instance().registerEvent<evResize>();
     Core::instance().registerEvent<evFullscreen>();

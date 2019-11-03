@@ -2,6 +2,7 @@
 #include "../core/core.h"
 #include <cstring>
 
+
 namespace evnt
 {
 MouseCursor::MouseCursor()
@@ -74,5 +75,29 @@ bool MouseCursor::load()
     }
 
     return false;
+}
+
+MouseCursor::StdCursorShape MouseCursor::GetShape(std::string const & shape_name)
+{
+    // https://stackoverflow.com/questions/735204/convert-a-string-in-c-to-upper-case
+    MouseCursor::StdCursorShape ret           = MouseCursor::StdCursorShape::ARROW;
+    std::string                 up_shape_name = shape_name;
+    std::transform(up_shape_name.begin(), up_shape_name.end(), up_shape_name.begin(),
+                   [](unsigned char c) { return std::toupper(c); });
+
+    if(up_shape_name == "ARROW")
+        ret = MouseCursor::StdCursorShape::ARROW;
+    else if(up_shape_name == "IBEAM")
+        ret = MouseCursor::StdCursorShape::IBEAM;
+    else if(up_shape_name == "CROSSHAIR")
+        ret = MouseCursor::StdCursorShape::CROSSHAIR;
+    else if(up_shape_name == "HAND")
+        ret = MouseCursor::StdCursorShape::HAND;
+    else if(up_shape_name == "HRESIZE")
+        ret = MouseCursor::StdCursorShape::HRESIZE;
+    else if(up_shape_name == "VRESIZE")
+        ret = MouseCursor::StdCursorShape::VRESIZE;
+
+    return ret;
 }
 }   // namespace evnt

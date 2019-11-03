@@ -21,11 +21,14 @@
          },
          "Fullscreen":"false",
          "Title":"Sample window",
+         "MSAA":"0",
          "Size":{
             "x":"800",
             "y":"600"
          },
          "Cursor":{
+            "IsSTD":"true",
+            "StdCursorShape":"Hand",
             "File":"textures/cursor.tga",
             "Visibility":"true"
          }
