@@ -96,5 +96,21 @@ HEADERS += \
     src/network/connection.h \
     src/network/socketaddress.h \
     src/network/udpsocket.h \
+    src/render/blend.h \
+    src/render/depthstencilstate.h \
+    src/render/devicecaps.h \
     src/render/graphics_types.h \
+    src/render/ibuffer.h \
+    src/render/ideviceobject.h \
+    src/render/ifence.h \
+    src/render/inputlayout.h \
+    src/render/ipipelinestate.h \
+    src/render/iresourcemapping.h \
+    src/render/isampler.h \
+    src/render/ishader.h \
+    src/render/ishaderresourcebinding.h \
+    src/render/ishaderresourcevariable.h \
+    src/render/itexture.h \
+    src/render/itextureview.h \
+    src/render/rasterizerstate.h \
     src/resource/imagedata.h

@@ -7,9 +7,6 @@
 
 namespace evnt
 {
-class ITexture;
-class IBuffer;
-
 /// Value type
 /// This enumeration describes value type. It is used by
 /// - BufferDesc structure to describe value type of a formatted buffer
@@ -126,11 +123,11 @@ enum MAP_FLAGS : uint8_t
     /// using the same resource completes. Map returns null pointer if the resource
     /// is still in use.
     /// D3D11 counterpart:  D3D11_MAP_FLAG_DO_NOT_WAIT
-    /// note: OpenGL does not have corresponding flag, so a buffer will always be mapped
+    /// \note: OpenGL does not have corresponding flag, so a buffer will always be mapped
     MAP_FLAG_DO_NOT_WAIT = 0x001,
     /// Previous contents of the resource will be undefined. This flag is only compatible with MAP_WRITE
     /// D3D11 counterpart: D3D11_MAP_WRITE_DISCARD. OpenGL counterpart: GL_MAP_INVALIDATE_BUFFER_BIT
-    /// note OpenGL implementation may orphan a buffer instead
+    /// \note OpenGL implementation may orphan a buffer instead
     MAP_FLAG_DISCARD = 0x002,
     /// The system will not synchronize pending operations before mapping the buffer. It is responsibility
     /// of the application to make sure that the buffer contents is not overwritten while it is in use by
@@ -1186,29 +1183,6 @@ struct FullScreenModeDesc
     DisplayModeAttribs::SCALING scaling = DisplayModeAttribs::SCALING_UNSPECIFIED;
     /// The scaling mode.
     DisplayModeAttribs::SCANLINE_ORDER scanline_order = DisplayModeAttribs::SCANLINE_ORDER_UNSPECIFIED;
-};
-
-/// Box
-struct Box
-{
-    uint32_t MinX = 0;   ///< Minimal X coordinate. Default value is 0
-    uint32_t MaxX = 0;   ///< Maximal X coordinate. Default value is 0
-    uint32_t MinY = 0;   ///< Minimal Y coordinate. Default value is 0
-    uint32_t MaxY = 0;   ///< Maximal Y coordinate. Default value is 0
-    uint32_t MinZ = 0;   ///< Minimal Z coordinate. Default value is 0
-    uint32_t MaxZ = 1;   ///< Maximal Z coordinate. Default value is 1
-
-    Box(uint32_t _MinX, uint32_t _MaxX, uint32_t _MinY, uint32_t _MaxY, uint32_t _MinZ, uint32_t _MaxZ) :
-        MinX(_MinX), MaxX(_MaxX), MinY(_MinY), MaxY(_MaxY), MinZ(_MinZ), MaxZ(_MaxZ)
-    {}
-
-    Box(uint32_t _MinX, uint32_t _MaxX, uint32_t _MinY, uint32_t _MaxY) :
-        Box(_MinX, _MaxX, _MinY, _MaxY, 0, 1)
-    {}
-
-    Box(uint32_t _MinX, uint32_t _MaxX) : Box(_MinX, _MaxX, 0, 0, 0, 1) {}
-
-    Box() {}
 };
 
 /// Describes texture format component type
