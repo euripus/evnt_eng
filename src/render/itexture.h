@@ -63,15 +63,15 @@ struct TextureDesc : DeviceObjectAttribs
     /// Number of Mip levels in the texture. Multisampled textures can only have 1 Mip level.
     /// Specify 0 to generate full mipmap chain.
     uint32_t mip_levels = 1;
-    /// Number of samples.\n
+    /// Number of samples.
     /// Only 2D textures or 2D texture arrays can be multisampled.
     uint32_t sample_count = 1;
     /// Texture usage. See Diligent::USAGE for details.
     USAGE usage = USAGE_DEFAULT;
-    /// Bind flags, see Diligent::BIND_FLAGS for details. \n
+    /// Bind flags, see Diligent::BIND_FLAGS for details. 
     /// The following bind flags are allowed:
     /// Diligent::BIND_SHADER_RESOURCE, Diligent::BIND_RENDER_TARGET, Diligent::BIND_DEPTH_STENCIL,
-    /// Diligent::and BIND_UNORDERED_ACCESS. \n
+    /// Diligent::and BIND_UNORDERED_ACCESS. 
     /// Multisampled textures cannot have Diligent::BIND_UNORDERED_ACCESS flag set
     BIND_FLAGS bind_flags = BIND_NONE;
     /// CPU access flags or 0 if no CPU access is allowed,
@@ -207,15 +207,15 @@ public:
     /// TextureViewDesc::ViewType
     ///          member of the ViewDesc parameter to Diligent::TEXTURE_VIEW_SHADER_RESOURCE and leave all
     ///          other members in their default values. Using the same method, you can create render target or
-    ///          depth stencil view addressing the largest mip level.\n If texture view format is
-    ///          Diligent::TEX_FORMAT_UNKNOWN, the view format will match the texture format.\n If texture
-    ///          view type is Diligent::TEXTURE_VIEW_UNDEFINED, the type will match the texture type.\n If the
+    ///          depth stencil view addressing the largest mip level. If texture view format is
+    ///          Diligent::TEX_FORMAT_UNKNOWN, the view format will match the texture format. If texture
+    ///          view type is Diligent::TEXTURE_VIEW_UNDEFINED, the type will match the texture type. If the
     ///          number of mip levels is 0, and the view type is shader resource, the view will address all
-    ///          mip levels. For other view types it will address one mip level.\n If the number of slices is
+    ///          mip levels. For other view types it will address one mip level. If the number of slices is
     ///          0, all slices from FirstArraySlice or FirstDepthSlice will be referenced by the view. For
-    ///          non-array textures, the only allowed values for the number of slices are 0 and 1.\n Texture
+    ///          non-array textures, the only allowed values for the number of slices are 0 and 1. Texture
     ///          view will contain strong reference to the texture, so the texture will not be destroyed until
-    ///          all views are released.\n The function calls AddRef() for the created interface, so it must
+    ///          all views are released. The function calls AddRef() for the created interface, so it must
     ///          be released by a call to Release() when it is no longer needed.
     virtual void createView(const struct TextureViewDesc & ViewDesc, class ITextureView ** ppView) = 0;
     /// Returns the pointer to the default view.
@@ -226,8 +226,8 @@ public:
     ///       Release() must *NOT* be called.
     virtual ITextureView * getDefaultView(TEXTURE_VIEW_TYPE ViewType) = 0;
     /// Returns native texture handle specific to the underlying graphics API
-    /// \return pointer to ID3D11Resource interface, for D3D11 implementation\n
-    ///         pointer to ID3D12Resource interface, for D3D12 implementation\n
+    /// \return pointer to ID3D11Resource interface, for D3D11 implementation
+    ///         pointer to ID3D12Resource interface, for D3D12 implementation
     ///         GL buffer handle, for GL implementation
     virtual void * getNativeHandle() = 0;
     /// Sets the usage state for all texture subresources.

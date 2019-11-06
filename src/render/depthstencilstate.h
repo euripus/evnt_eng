@@ -16,33 +16,33 @@ enum STENCIL_OP : int8_t
 {
     /// Undefined operation.
     STENCIL_OP_UNDEFINED = 0,
-    /// Keep the existing stencil data.\n
+    /// Keep the existing stencil data.
     /// Direct3D counterpart: D3D11_STENCIL_OP_KEEP/D3D12_STENCIL_OP_KEEP. OpenGL counterpart: GL_KEEP.
     STENCIL_OP_KEEP = 1,
-    /// Set the stencil data to 0.\n
+    /// Set the stencil data to 0.
     /// Direct3D counterpart: D3D11_STENCIL_OP_ZERO/D3D12_STENCIL_OP_ZERO. OpenGL counterpart: GL_ZERO.
     STENCIL_OP_ZERO = 2,
-    /// Set the stencil data to the reference value set by calling IDeviceContext::SetStencilRef().\n
+    /// Set the stencil data to the reference value set by calling IDeviceContext::SetStencilRef().
     /// Direct3D counterpart: D3D11_STENCIL_OP_REPLACE/D3D12_STENCIL_OP_REPLACE. OpenGL counterpart:
     /// GL_REPLACE.
     STENCIL_OP_REPLACE = 3,
-    /// Increment the current stencil value, and clamp to the maximum representable unsigned value.\n
+    /// Increment the current stencil value, and clamp to the maximum representable unsigned value.
     /// Direct3D counterpart: D3D11_STENCIL_OP_INCR_SAT/D3D12_STENCIL_OP_INCR_SAT. OpenGL counterpart:
     /// GL_INCR.
     STENCIL_OP_INCR_SAT = 4,
-    /// Decrement the current stencil value, and clamp to 0.\n
+    /// Decrement the current stencil value, and clamp to 0.
     /// Direct3D counterpart: D3D11_STENCIL_OP_DECR_SAT/D3D12_STENCIL_OP_DECR_SAT. OpenGL counterpart:
     /// GL_DECR.
     STENCIL_OP_DECR_SAT = 5,
-    /// Bitwise invert the current stencil buffer value.\n
+    /// Bitwise invert the current stencil buffer value.
     /// Direct3D counterpart: D3D11_STENCIL_OP_INVERT/D3D12_STENCIL_OP_INVERT. OpenGL counterpart: GL_INVERT.
     STENCIL_OP_INVERT = 6,
     /// Increment the current stencil value, and wrap the value to zero when incrementing
-    /// the maximum representable unsigned value. \n
+    /// the maximum representable unsigned value. 
     /// Direct3D counterpart: D3D11_STENCIL_OP_INCR/D3D12_STENCIL_OP_INCR. OpenGL counterpart: GL_INCR_WRAP.
     STENCIL_OP_INCR_WRAP = 7,
     /// Decrement the current stencil value, and wrap the value to the maximum representable
-    /// unsigned value when decrementing a value of zero.\n
+    /// unsigned value when decrementing a value of zero.
     /// Direct3D counterpart: D3D11_STENCIL_OP_DECR/D3D12_STENCIL_OP_DECR. OpenGL counterpart: GL_DECR_WRAP.
     STENCIL_OP_DECR_WRAP = 8,
     /// Helper value that stores the total number of stencil operations in the enumeration.

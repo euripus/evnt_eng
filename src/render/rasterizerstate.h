@@ -15,10 +15,10 @@ enum FILL_MODE : int8_t
 {
     /// Undefined fill mode.
     FILL_MODE_UNDEFINED = 0,
-    /// Rasterize triangles using wireframe fill. \n
+    /// Rasterize triangles using wireframe fill. 
     /// Direct3D counterpart: D3D11_FILL_WIREFRAME/D3D12_FILL_MODE_WIREFRAME. OpenGL counterpart: GL_LINE.
     FILL_MODE_WIREFRAME,
-    /// Rasterize triangles using solid fill. \n
+    /// Rasterize triangles using solid fill. 
     /// Direct3D counterpart: D3D11_FILL_SOLID/D3D12_FILL_MODE_SOLID. OpenGL counterpart: GL_FILL.
     FILL_MODE_SOLID,
     /// Helper value that stores the total number of fill modes in the enumeration.
@@ -26,7 +26,6 @@ enum FILL_MODE : int8_t
 };
 
 /// Cull mode
-
 /// [D3D11_CULL_MODE]: https://msdn.microsoft.com/en-us/library/windows/desktop/ff476108(v=vs.85).aspx
 /// [D3D12_CULL_MODE]: https://msdn.microsoft.com/en-us/library/windows/desktop/dn770354(v=vs.85).aspx
 /// This enumeration defines which triangles are not drawn during the rasterization and mirrors
@@ -36,16 +35,16 @@ enum CULL_MODE : int8_t
 {
     /// Undefined cull mode.
     CULL_MODE_UNDEFINED = 0,
-    /// Draw all triangles. \n
+    /// Draw all triangles. 
     /// Direct3D counterpart: D3D11_CULL_NONE/D3D12_CULL_MODE_NONE. OpenGL counterpart: glDisable(
     /// GL_CULL_FACE ).
     CULL_MODE_NONE,
     /// Do not draw triangles that are front-facing. Front- and back-facing triangles are determined
-    /// by the RasterizerStateDesc::FrontCounterClockwise member. \n
+    /// by the RasterizerStateDesc::FrontCounterClockwise member. 
     /// Direct3D counterpart: D3D11_CULL_FRONT/D3D12_CULL_MODE_FRONT. OpenGL counterpart: GL_FRONT.
     CULL_MODE_FRONT,
     /// Do not draw triangles that are back-facing. Front- and back-facing triangles are determined
-    /// by the RasterizerStateDesc::FrontCounterClockwise member. \n
+    /// by the RasterizerStateDesc::FrontCounterClockwise member. 
     /// Direct3D counterpart: D3D11_CULL_BACK/D3D12_CULL_MODE_BACK. OpenGL counterpart: GL_BACK.
     CULL_MODE_BACK,
     /// Helper value that stores the total number of cull modes in the enumeration.

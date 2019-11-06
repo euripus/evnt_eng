@@ -68,6 +68,7 @@ struct BufferDesc : public DeviceObjectAttribs
         size_in_bytes(_uiSizeInBytes),
         bind_flags(_BindFlags),
         usage(_Usage),
+        cpu_access_flags(_CPUAccessFlags),
         mode(_Mode),
         element_byte_stride(_ElementByteStride),
         command_queue_mask(_CommandQueueMask)
@@ -120,9 +121,9 @@ public:
     /// written to.
     ///
     /// \remarks To create a view addressing the entire buffer, set only BufferViewDesc::ViewType member
-    ///          of the ViewDesc structure and leave all other members in their default values.\n
+    ///          of the ViewDesc structure and leave all other members in their default values.
     ///          Buffer view will contain strong reference to the buffer, so the buffer will not be destroyed
-    ///          until all views are released.\n
+    ///          until all views are released.
     ///          The function calls AddRef() for the created interface, so it must be released by
     ///          a call to Release() when it is no longer needed.
     virtual void createView(const struct BufferViewDesc & view_desc, class IBufferView ** pp_view) = 0;
@@ -139,8 +140,8 @@ public:
     virtual IBufferView * getDefaultView(BUFFER_VIEW_TYPE view_type) = 0;
 
     /// Returns native buffer handle specific to the underlying graphics API
-    /// \return pointer to ID3D11Resource interface, for D3D11 implementation\n
-    ///         pointer to ID3D12Resource interface, for D3D12 implementation\n
+    /// \return pointer to ID3D11Resource interface, for D3D11 implementation
+    ///         pointer to ID3D12Resource interface, for D3D12 implementation
     ///         GL buffer handle, for GL implementation
     virtual void * getNativeHandle() = 0;
 
