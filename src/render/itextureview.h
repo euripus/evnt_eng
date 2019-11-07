@@ -26,15 +26,15 @@ struct TextureViewDesc : DeviceObjectAttribs
     static constexpr uint32_t RemainingMipLevels   = static_cast<uint32_t>(-1);
     static constexpr uint32_t RemainingArraySlices = static_cast<uint32_t>(-1);
 
-    /// Describes the texture view type, see Diligent::TEXTURE_VIEW_TYPE for details.
+    /// Describes the texture view type, see evnt::TEXTURE_VIEW_TYPE for details.
     TEXTURE_VIEW_TYPE ViewType = TEXTURE_VIEW_UNDEFINED;
     /// View interpretation of the original texture. For instance,
     /// one slice of a 2D texture array can be viewed as a 2D texture.
-    /// See Diligent::RESOURCE_DIMENSION for a list of texture types.
-    /// If default value Diligent::RESOURCE_DIM_UNDEFINED is provided,
+    /// See evnt::RESOURCE_DIMENSION for a list of texture types.
+    /// If default value evnt::RESOURCE_DIM_UNDEFINED is provided,
     /// the view type will match the type of the referenced texture.
     RESOURCE_DIMENSION TextureDim = RESOURCE_DIM_UNDEFINED;
-    /// View format. If default value Diligent::TEX_FORMAT_UNKNOWN is provided,
+    /// View format. If default value evnt::TEX_FORMAT_UNKNOWN is provided,
     /// the view format will match the referenced texture format.
     TEXTURE_FORMAT Format = TEX_FORMAT_UNKNOWN;
     /// Most detailed mip level to use
@@ -61,7 +61,7 @@ struct TextureViewDesc : DeviceObjectAttribs
         /// Set to 0 to address all depth slices.
         uint32_t NumDepthSlices;
     };
-    /// For an unordered access view, allowed access flags. See Diligent::UAV_ACCESS_FLAG
+    /// For an unordered access view, allowed access flags. See evnt::UAV_ACCESS_FLAG
     /// for details.
     uint32_t AccessFlags = 0;
 

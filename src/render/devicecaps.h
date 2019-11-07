@@ -48,7 +48,7 @@ struct TextureCaps
 /// Device capabilities
 struct DeviceCaps
 {
-    /// Device type. See Diligent::DeviceType.
+    /// Device type. See evnt::DeviceType.
     DeviceType dev_type = DeviceType::Undefined;
     /// Major API revision. For instance, for D3D11.2 this value would be 11,
     /// and for OpenGL4.3 this value would be 4.
@@ -70,9 +70,9 @@ struct DeviceCaps
     bool is_geometry_shaders_supported = true;
     /// Indicates if device supports tessellation
     bool is_tessellation_supported = true;
-    /// Texture sampling capabilities. See Diligent::SamplerCaps.
+    /// Texture sampling capabilities. See evnt::SamplerCaps.
     SamplerCaps sam_caps;
-    /// Texture capabilities. See Diligent::TextureCaps.
+    /// Texture capabilities. See evnt::TextureCaps.
     TextureCaps tex_caps;
 
     bool isGLDevice() const { return dev_type == DeviceType::OpenGL || dev_type == DeviceType::OpenGLES; }

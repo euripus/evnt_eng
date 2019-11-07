@@ -1146,27 +1146,6 @@ struct DisplayModeAttribs
     SCANLINE_ORDER scanline_order = SCANLINE_ORDER_UNSPECIFIED;
 };
 
-/// Swap chain description
-struct SwapChainDesc
-{
-    /// The swap chain width. Default value is 0
-    uint32_t width = 0;
-    /// The swap chain height. Default value is 0
-    uint32_t height = 0;
-    /// Back buffer format. Default value is Diligent::TEX_FORMAT_RGBA8_UNORM_SRGB
-    TEXTURE_FORMAT color_buffer_format = TEX_FORMAT_RGBA8_UNORM_SRGB;
-    /// Depth buffer format. Default value is Diligent::TEX_FORMAT_D32_FLOAT
-    TEXTURE_FORMAT depth_buffer_format = TEX_FORMAT_D32_FLOAT;
-    /// Sample count. Default value is 1
-    uint32_t samples_count = 1;
-    /// Number of buffers int the swap chain
-    uint32_t buffer_count = 2;
-    /// Default depth value, which is used as optimized depth clear value in D3D12
-    float default_depth_value = 1.f;
-    /// Default stencil value, which is used as optimized stencil clear value in D3D12
-    uint8_t default_stencil_value = 0;
-};
-
 /// Full screen mode description
 /// \sa <a href =
 /// "https://msdn.microsoft.com/en-us/library/windows/desktop/hh404531(v=vs.85).aspx">DXGI_SWAP_CHAIN_FULLSCREEN_DESC
@@ -1216,12 +1195,12 @@ enum COMPONENT_TYPE : uint8_t
 /// Describes invariant texture format attributes. These attributes are
 /// intrinsic to the texture format itself and do not depend on the
 /// format support.
-struct TextureFormatAttribs
+struct TextureFormatInfo
 {
     /// Literal texture format name (for instance, for TEX_FORMAT_RGBA8_UNORM format, this
     /// will be "TEX_FORMAT_RGBA8_UNORM")
     std::string name = "TEX_FORMAT_UNKNOWN";
-    /// Texture format, see Diligent::TEXTURE_FORMAT for a list of supported texture formats
+    /// Texture format, see evnt::TEXTURE_FORMAT for a list of supported texture formats
     TEXTURE_FORMAT format = TEX_FORMAT_UNKNOWN;
     /// Size of one component in bytes (for instance, for TEX_FORMAT_RGBA8_UNORM format, this will be 1)
     /// For compressed formats, this is the block size in bytes (for TEX_FORMAT_BC1_UNORM format, this will be
@@ -1229,7 +1208,7 @@ struct TextureFormatAttribs
     uint8_t component_size = 0;
     /// Number of components
     uint8_t num_components = 0;
-    /// Component type, see Diligent::COMPONENT_TYPE for details.
+    /// Component type, see evnt::COMPONENT_TYPE for details.
     COMPONENT_TYPE component_type = COMPONENT_TYPE_UNDEFINED;
     /// Bool flag indicating if the format is a typeless format
     bool is_typeless = false;

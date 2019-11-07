@@ -205,32 +205,32 @@ struct RenderTargetBlendDesc
     /// Enable or disable a logical operation for this render target. Default value: false.
     bool logic_operation_enable = false;
     /// Specifies the blend factor to apply to the RGB value output from the pixel shader
-    /// Default value: Diligent::BLEND_FACTOR_ONE.
+    /// Default value: evnt::BLEND_FACTOR_ONE.
     BLEND_FACTOR src_blend = BLEND_FACTOR_ONE;
     /// Specifies the blend factor to apply to the RGB value in the render target
-    /// Default value: Diligent::BLEND_FACTOR_ZERO.
+    /// Default value: evnt::BLEND_FACTOR_ZERO.
     BLEND_FACTOR dest_blend = BLEND_FACTOR_ZERO;
     /// Defines how to combine the source and destination RGB values
     /// after applying the SrcBlend and DestBlend factors.
-    /// Default value: Diligent::BLEND_OPERATION_ADD.
+    /// Default value: evnt::BLEND_OPERATION_ADD.
     BLEND_OPERATION blend_op = BLEND_OPERATION_ADD;
     /// Specifies the blend factor to apply to the alpha value output from the pixel shader.
     /// Blend factors that end in _COLOR are not allowed.
-    /// Default value: Diligent::BLEND_FACTOR_ONE.
+    /// Default value: evnt::BLEND_FACTOR_ONE.
     BLEND_FACTOR src_blend_alpha = BLEND_FACTOR_ONE;
     /// Specifies the blend factor to apply to the alpha value in the render target.
     /// Blend factors that end in _COLOR are not allowed.
-    /// Default value: Diligent::BLEND_FACTOR_ZERO.
+    /// Default value: evnt::BLEND_FACTOR_ZERO.
     BLEND_FACTOR dest_blend_alpha = BLEND_FACTOR_ZERO;
     /// Defines how to combine the source and destination alpha values
     /// after applying the SrcBlendAlpha and DestBlendAlpha factors.
-    /// Default value: Diligent::BLEND_OPERATION_ADD.
+    /// Default value: evnt::BLEND_OPERATION_ADD.
     BLEND_OPERATION blend_op_alpha = BLEND_OPERATION_ADD;
     /// Defines logical operation for the render target.
-    /// Default value: Diligent::LOGIC_OP_NOOP.
+    /// Default value: evnt::LOGIC_OP_NOOP.
     LOGIC_OPERATION logic_op = LOGIC_OP_NOOP;
     /// Render target write mask.
-    /// Default value: Diligent::COLOR_MASK_ALL.
+    /// Default value: evnt::COLOR_MASK_ALL.
     uint8_t render_target_write_mask = COLOR_MASK_ALL;
 
     // We have to explicitly define constructors because otherwise Apple's clang fails to compile the
@@ -238,7 +238,6 @@ struct RenderTargetBlendDesc
     //     RenderTargetBlendDesc{false, false}
 
     RenderTargetBlendDesc() noexcept {}
-
     explicit RenderTargetBlendDesc(
         bool _BlendEnable, bool _LogicOperationEnable = RenderTargetBlendDesc{}.logic_operation_enable,
         BLEND_FACTOR    _SrcBlend              = RenderTargetBlendDesc{}.src_blend,
@@ -298,7 +297,6 @@ struct BlendStateDesc
     //     BlendStateDesc{false, false}
 
     BlendStateDesc() noexcept {}
-
     BlendStateDesc(bool _AlphaToCoverageEnable, bool _IndependentBlendEnable,
                    const RenderTargetBlendDesc & RT0 = RenderTargetBlendDesc{}) noexcept :
         alpha_to_coverage_enable(_AlphaToCoverageEnable),

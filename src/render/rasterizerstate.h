@@ -56,11 +56,11 @@ enum CULL_MODE : int8_t
 /// This structure describes the rasterizer state and is part of the GraphicsPipelineDesc.
 struct RasterizerStateDesc
 {
-    /// Determines traingle fill mode, see Diligent::FILL_MODE for details.
-    /// Default value: Diligent::FILL_MODE_SOLID.
+    /// Determines traingle fill mode, see evnt::FILL_MODE for details.
+    /// Default value: evnt::FILL_MODE_SOLID.
     FILL_MODE fill_mode = FILL_MODE_SOLID;
-    /// Determines traingle cull mode, see Diligent::CULL_MODE for details.
-    /// Default value: Diligent::CULL_MODE_BACK.
+    /// Determines traingle cull mode, see evnt::CULL_MODE for details.
+    /// Default value: evnt::CULL_MODE_BACK.
     CULL_MODE cull_mode = CULL_MODE_BACK;
     /// Determines if a triangle is front- or back-facing. If this parameter is true,
     /// a triangle will be considered front-facing if its vertices are counter-clockwise

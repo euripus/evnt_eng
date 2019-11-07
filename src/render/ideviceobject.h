@@ -19,7 +19,7 @@ struct DeviceObjectAttribs
     explicit DeviceObjectAttribs(const char * _name) : name(_name) {}
 };
 
-/// Base interface for all objects created by the render device Diligent::IRenderDevice
+/// Base interface for all objects created by the render device evnt::IRenderDevice
 class IDeviceObject
 {
 public:

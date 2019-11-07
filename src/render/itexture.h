@@ -45,7 +45,7 @@ struct OptimizedClearValue
 /// Texture description
 struct TextureDesc : DeviceObjectAttribs
 {
-    /// Texture type. See Diligent::RESOURCE_DIMENSION for details.
+    /// Texture type. See evnt::RESOURCE_DIMENSION for details.
     RESOURCE_DIMENSION type = RESOURCE_DIM_UNDEFINED;
     /// Texture width, in pixels.
     uint32_t width = 0;
@@ -58,7 +58,7 @@ struct TextureDesc : DeviceObjectAttribs
         /// For a 3D texture, number of depth slices
         uint32_t depth;
     };
-    /// Texture format, see Diligent::TEXTURE_FORMAT.
+    /// Texture format, see evnt::TEXTURE_FORMAT.
     TEXTURE_FORMAT format = TEX_FORMAT_UNKNOWN;
     /// Number of Mip levels in the texture. Multisampled textures can only have 1 Mip level.
     /// Specify 0 to generate full mipmap chain.
@@ -66,18 +66,18 @@ struct TextureDesc : DeviceObjectAttribs
     /// Number of samples.
     /// Only 2D textures or 2D texture arrays can be multisampled.
     uint32_t sample_count = 1;
-    /// Texture usage. See Diligent::USAGE for details.
+    /// Texture usage. See evnt::USAGE for details.
     USAGE usage = USAGE_DEFAULT;
-    /// Bind flags, see Diligent::BIND_FLAGS for details. 
+    /// Bind flags, see evnt::BIND_FLAGS for details. 
     /// The following bind flags are allowed:
-    /// Diligent::BIND_SHADER_RESOURCE, Diligent::BIND_RENDER_TARGET, Diligent::BIND_DEPTH_STENCIL,
-    /// Diligent::and BIND_UNORDERED_ACCESS. 
-    /// Multisampled textures cannot have Diligent::BIND_UNORDERED_ACCESS flag set
+    /// evnt::BIND_SHADER_RESOURCE, evnt::BIND_RENDER_TARGET, evnt::BIND_DEPTH_STENCIL,
+    /// evnt::and BIND_UNORDERED_ACCESS. 
+    /// Multisampled textures cannot have evnt::BIND_UNORDERED_ACCESS flag set
     BIND_FLAGS bind_flags = BIND_NONE;
     /// CPU access flags or 0 if no CPU access is allowed,
-    /// see Diligent::CPU_ACCESS_FLAGS for details.
+    /// see evnt::CPU_ACCESS_FLAGS for details.
     CPU_ACCESS_FLAGS cpu_access_flags = CPU_ACCESS_NONE;
-    /// Miscellaneous flags, see Diligent::MISC_TEXTURE_FLAGS for details.
+    /// Miscellaneous flags, see evnt::MISC_TEXTURE_FLAGS for details.
     MISC_TEXTURE_FLAGS misc_flags = MISC_TEXTURE_FLAG_NONE;
     /// Optimized clear value
     OptimizedClearValue clear_value;
@@ -199,17 +199,17 @@ public:
     /// Returns the texture description used to create the object
     const TextureDesc & getDesc() const override = 0;
     /// Creates a new texture view
-    /// \param [in] ViewDesc - View description. See Diligent::TextureViewDesc for details.
+    /// \param [in] ViewDesc - View description. See evnt::TextureViewDesc for details.
     /// \param [out] ppView - Address of the memory location where the pointer to the view interface will be
     /// written to.
     ///
     /// \remarks To create a shader resource view addressing the entire texture, set only
     /// TextureViewDesc::ViewType
-    ///          member of the ViewDesc parameter to Diligent::TEXTURE_VIEW_SHADER_RESOURCE and leave all
+    ///          member of the ViewDesc parameter to evnt::TEXTURE_VIEW_SHADER_RESOURCE and leave all
     ///          other members in their default values. Using the same method, you can create render target or
     ///          depth stencil view addressing the largest mip level. If texture view format is
-    ///          Diligent::TEX_FORMAT_UNKNOWN, the view format will match the texture format. If texture
-    ///          view type is Diligent::TEXTURE_VIEW_UNDEFINED, the type will match the texture type. If the
+    ///          evnt::TEX_FORMAT_UNKNOWN, the view format will match the texture format. If texture
+    ///          view type is evnt::TEXTURE_VIEW_UNDEFINED, the type will match the texture type. If the
     ///          number of mip levels is 0, and the view type is shader resource, the view will address all
     ///          mip levels. For other view types it will address one mip level. If the number of slices is
     ///          0, all slices from FirstArraySlice or FirstDepthSlice will be referenced by the view. For
@@ -219,7 +219,7 @@ public:
     ///          be released by a call to Release() when it is no longer needed.
     virtual void createView(const struct TextureViewDesc & ViewDesc, class ITextureView ** ppView) = 0;
     /// Returns the pointer to the default view.
-    /// \param [in] ViewType - Type of the requested view. See Diligent::TEXTURE_VIEW_TYPE.
+    /// \param [in] ViewType - Type of the requested view. See evnt::TEXTURE_VIEW_TYPE.
     /// \return Pointer to the interface
     ///
     /// \note The function does not increase the reference counter for the returned interface, so

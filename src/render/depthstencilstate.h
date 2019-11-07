@@ -10,7 +10,7 @@ namespace evnt
 /// [D3D12_STENCIL_OP]: https://msdn.microsoft.com/en-us/library/windows/desktop/dn770409(v=vs.85).aspx
 /// This enumeration describes the stencil operation and generally mirrors
 /// [D3D11_STENCIL_OP][]/[D3D12_STENCIL_OP][] enumeration.
-/// It is used by Diligent::StencilOpDesc structure to describe the stencil fail, depth fail
+/// It is used by evnt::StencilOpDesc structure to describe the stencil fail, depth fail
 /// and stencil pass operations
 enum STENCIL_OP : int8_t
 {
@@ -55,21 +55,21 @@ enum STENCIL_OP : int8_t
 /// [D3D12_DEPTH_STENCILOP_DESC]:
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/dn770355(v=vs.85).aspx The structure generally
 /// mirrors [D3D11_DEPTH_STENCILOP_DESC][]/[D3D12_DEPTH_STENCILOP_DESC][] structure. It is used by
-/// Diligent::DepthStencilStateDesc structure to describe the stencil operations for the front and back facing
+/// evnt::DepthStencilStateDesc structure to describe the stencil operations for the front and back facing
 /// polygons.
 struct StencilOpDesc
 {
     /// The stencil operation to perform when stencil testing fails.
-    /// Default value: Diligent::STENCIL_OP_KEEP.
+    /// Default value: evnt::STENCIL_OP_KEEP.
     STENCIL_OP StencilFailOp = STENCIL_OP_KEEP;
     /// The stencil operation to perform when stencil testing passes and depth testing fails.
-    /// Default value: Diligent::STENCIL_OP_KEEP.
+    /// Default value: evnt::STENCIL_OP_KEEP.
     STENCIL_OP StencilDepthFailOp = STENCIL_OP_KEEP;
     /// The stencil operation to perform when stencil testing and depth testing both pass.
-    /// Default value: Diligent::STENCIL_OP_KEEP.
+    /// Default value: evnt::STENCIL_OP_KEEP.
     STENCIL_OP StencilPassOp = STENCIL_OP_KEEP;
     /// A function that compares stencil data against existing stencil data.
-    /// Default value: Diligent::COMPARISON_FUNC_ALWAYS. See Diligent::COMPARISON_FUNCTION.
+    /// Default value: evnt::COMPARISON_FUNC_ALWAYS. See evnt::COMPARISON_FUNCTION.
     COMPARISON_FUNCTION StencilFunc = COMPARISON_FUNC_ALWAYS;
 
     // We have to explicitly define constructors because otherwise Apple's clang fails to compile the
@@ -113,8 +113,8 @@ struct DepthStencilStateDesc
     /// Enable or disable writes to a depth buffer. Default value: true.
     bool depth_write_enable = true;
     /// A function that compares depth data against existing depth data.
-    /// See Diligent::COMPARISON_FUNCTION for details.
-    /// Default value: Diligent::COMPARISON_FUNC_LESS.
+    /// See evnt::COMPARISON_FUNCTION for details.
+    /// Default value: evnt::COMPARISON_FUNC_LESS.
     COMPARISON_FUNCTION depth_func = COMPARISON_FUNC_LESS;
     /// Enable stencil opertaions. Default value: false.
     bool stencil_enable = false;
@@ -124,9 +124,9 @@ struct DepthStencilStateDesc
     /// Identify which bits of the depth-stencil buffer are accessed when writing stencil data.
     /// Default value: 0xFF.
     uint8_t stenci_write_mask = 0xFF;
-    /// Identify stencil operations for the front-facing triangles, see Diligent::StencilOpDesc.
+    /// Identify stencil operations for the front-facing triangles, see evnt::StencilOpDesc.
     StencilOpDesc front_face;
-    /// Identify stencil operations for the back-facing triangles, see Diligent::StencilOpDesc.
+    /// Identify stencil operations for the back-facing triangles, see evnt::StencilOpDesc.
     StencilOpDesc back_face;
 
     // We have to explicitly define constructors because otherwise Apple's clang fails to compile the

@@ -33,7 +33,7 @@ struct ShaderResourceVariableDesc
     SHADER_TYPE shader_stages = SHADER_TYPE_UNKNOWN;
     /// Shader variable name
     std::string name = nullptr;
-    /// Shader variable type. See Diligent::SHADER_RESOURCE_VARIABLE_TYPE for a list of allowed types
+    /// Shader variable type. See evnt::SHADER_RESOURCE_VARIABLE_TYPE for a list of allowed types
     SHADER_RESOURCE_VARIABLE_TYPE Type = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
     ShaderResourceVariableDesc() noexcept {}
@@ -163,16 +163,14 @@ public:
     const PipelineStateDesc & getDesc() const override = 0;
 
     /// Binds resources for all shaders in the pipeline state
-
     /// \param [in] ShaderFlags - Flags that specify shader stages, for which resources will be bound.
-    ///                           Any combination of Diligent::SHADER_TYPE may be used.
+    ///                           Any combination of evnt::SHADER_TYPE may be used.
     /// \param [in] pResourceMapping - Pointer to the resource mapping interface.
-    /// \param [in] Flags - Additional flags. See Diligent::BIND_SHADER_RESOURCES_FLAGS.
+    /// \param [in] Flags - Additional flags. See evnt::BIND_SHADER_RESOURCES_FLAGS.
     virtual void bindStaticResources(uint32_t ShaderFlags, IResourceMapping * pResourceMapping,
                                      uint32_t Flags) = 0;
 
     /// Returns the number of static shader resource variables.
-
     /// \param [in] ShaderType - Type of the shader.
     /// \remark Only static variables (that can be accessed directly through the PSO) are counted.
     ///         Mutable and dynamic variables are accessed through Shader Resource Binding object.
@@ -180,18 +178,16 @@ public:
 
     /// Returns static shader resource variable. If the variable is not found,
     /// returns nullptr.
-
     /// \param [in] ShaderType - Type of the shader to look up the variable.
-    ///                          Must be one of Diligent::SHADER_TYPE.
+    ///                          Must be one of evnt::SHADER_TYPE.
     /// \param [in] Name - Name of the variable.
     /// \remark The method does not increment the reference counter
     ///         of the returned interface.
     virtual IShaderResourceVariable * getStaticShaderVariable(SHADER_TYPE ShaderType, const char * Name) = 0;
 
     /// Returns static shader resource variable by its index.
-
     /// \param [in] ShaderType - Type of the shader to look up the variable.
-    ///                          Must be one of Diligent::SHADER_TYPE.
+    ///                          Must be one of evnt::SHADER_TYPE.
     /// \param [in] Index - Shader variable index. The index must be between
     ///                     0 and the total number of variables returned by
     ///                     GetStaticVariableCount().
@@ -201,7 +197,6 @@ public:
     virtual IShaderResourceVariable * getStaticShaderVariable(SHADER_TYPE ShaderType, uint32_t Index) = 0;
 
     /// Creates a shader resource binding object
-
     /// \param [out] ppShaderResourceBinding - memory location where pointer to the new shader resource
     ///                                        binding object is written.
     /// \param [in] InitStaticResources      - if set to true, the method will initialize static resources in
@@ -211,7 +206,6 @@ public:
                                              bool                      InitStaticResources = false) = 0;
 
     /// Checks if this pipeline state object is compatible with another PSO
-
     /// If two pipeline state objects are compatible, they can use shader resource binding
     /// objects interchangebly, i.e. SRBs created by one PSO can be committed
     /// when another PSO is bound.

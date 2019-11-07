@@ -19,7 +19,7 @@ struct LayoutElement
     uint32_t buffer_slot = 0;
     /// Number of components in the element. Allowed values are 1, 2, 3, and 4.
     uint32_t num_components = 0;
-    /// Type of the element components, see Diligent::VALUE_TYPE for details.
+    /// Type of the element components, see evnt::VALUE_TYPE for details.
     VALUE_TYPE value_type = VT_FLOAT32;
     /// For signed and unsigned integer value types
     /// (VT_INT8, VT_INT16, VT_INT32, VT_UINT8, VT_UINT16, VT_uint32_t)

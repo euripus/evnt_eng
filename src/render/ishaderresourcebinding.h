@@ -20,14 +20,14 @@ public:
 
     /// Binds mutable and dynamice resources using the resource mapping
     /// \param [in] ShaderFlags - Flags that specify shader stages, for which resources will be bound.
-    ///                           Any combination of Diligent::SHADER_TYPE may be used.
+    ///                           Any combination of evnt::SHADER_TYPE may be used.
     /// \param [in] pResMapping - Shader resource mapping, where required resources will be looked up
-    /// \param [in] Flags       - Additional flags. See Diligent::BIND_SHADER_RESOURCES_FLAGS.
+    /// \param [in] Flags       - Additional flags. See evnt::BIND_SHADER_RESOURCES_FLAGS.
     virtual void bindResources(uint32_t ShaderFlags, IResourceMapping * pResMapping, uint32_t Flags) = 0;
 
     /// Returns variable
     /// \param [in] ShaderType - Type of the shader to look up the variable.
-    ///                          Must be one of Diligent::SHADER_TYPE.
+    ///                          Must be one of evnt::SHADER_TYPE.
     /// \param [in] Name       - Variable name
     virtual IShaderResourceVariable * getVariable(SHADER_TYPE ShaderType, const char * Name) = 0;
 
@@ -40,7 +40,7 @@ public:
 
     /// Returns variable
     /// \param [in] ShaderType - Type of the shader to look up the variable.
-    ///                          Must be one of Diligent::SHADER_TYPE.
+    ///                          Must be one of evnt::SHADER_TYPE.
     /// \param [in] Index      - Variable index. The index must be between 0 and the total number
     ///                          of variables in this shader stage as returned by
     ///                          IShaderResourceBinding::GetVariableCount().
@@ -50,7 +50,7 @@ public:
 
     /// Initializes static resources
     /// If the parent pipeline state object contain static resources
-    /// (see Diligent::SHADER_RESOURCE_VARIABLE_TYPE_STATIC), this method must be called
+    /// (see evnt::SHADER_RESOURCE_VARIABLE_TYPE_STATIC), this method must be called
     /// once to initialize static resources in this shader resource binding object.
     /// The method must be called after all static variables are initialized
     /// in the PSO.
