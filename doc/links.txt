@@ -1,0 +1,3 @@
+https://gamedev.stackexchange.com/questions/131825/opengl-threaded-loading
+https://stackoverflow.com/questions/998247/are-static-fields-inherited
+
