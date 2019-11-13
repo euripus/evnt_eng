@@ -363,7 +363,7 @@ class IDeviceContext
 public:
     /// Sets the pipeline state.
     /// \param [in] pPipelineState - Pointer to IPipelineState interface to bind to the context.
-    virtual void SetPipelineState(IPipelineState * pPipelineState) = 0;
+    virtual void setPipelineState(IPipelineState * pPipelineState) = 0;
 
     /// Transitions shader resources to the states required by Draw or Dispatch command.
     ///
@@ -386,7 +386,7 @@ public:
     ///          needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
     ///          method. Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for
     ///          detailed explanation of resource state management in evnt Engine.
-    virtual void TransitionShaderResources(IPipelineState *         pPipelineState,
+    virtual void transitionShaderResources(IPipelineState *         pPipelineState,
                                            IShaderResourceBinding * pShaderResourceBinding) = 0;
 
     /// Commits shader resources to the device context
@@ -428,12 +428,12 @@ public:
     ///          IDeviceContext::TransitionResourceStates().
     ///          Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed
     ///          explanation of resource state management in evnt Engine.
-    virtual void CommitShaderResources(IShaderResourceBinding *       pShaderResourceBinding,
+    virtual void commitShaderResources(IShaderResourceBinding *       pShaderResourceBinding,
                                        RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
     /// Sets the stencil reference value
     /// \param [in] StencilRef - Stencil reference value.
-    virtual void SetStencilRef(uint32_t StencilRef) = 0;
+    virtual void setStencilRef(uint32_t StencilRef) = 0;
 
     /// \param [in] pBlendFactors - Array of four blend factors, one for each RGBA component.
     ///                             Theses factors are used if the blend state uses one of the
@@ -441,7 +441,7 @@ public:
     ///                             evnt::BLEND_FACTOR_INV_BLEND_FACTOR
     ///                             blend factors. If nullptr is provided,
     ///                             default blend factors array {1,1,1,1} will be used.
-    virtual void SetBlendFactors(const float * pBlendFactors = nullptr) = 0;
+    virtual void setBlendFactors(const float * pBlendFactors = nullptr) = 0;
 
     /// Binds vertex buffers to the pipeline
     /// \param [in] StartSlot           - The first input slot for binding. The first vertex buffer is
@@ -477,14 +477,14 @@ public:
     ///          needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
     ///          method. Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for
     ///          detailed explanation of resource state management in evnt Engine.
-    virtual void SetVertexBuffers(uint32_t StartSlot, uint32_t NumBuffersSet, IBuffer ** ppBuffers,
+    virtual void setVertexBuffers(uint32_t StartSlot, uint32_t NumBuffersSet, IBuffer ** ppBuffers,
                                   uint32_t * pOffsets, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode,
                                   SET_VERTEX_BUFFERS_FLAGS Flags) = 0;
 
     /// Invalidates the cached context state
     /// This method should be called by say Unity plugin before (or after)
     /// issuing draw commands to invalidate cached states.
-    virtual void InvalidateState() = 0;
+    virtual void invalidateState() = 0;
 
     /// Binds an index buffer to the pipeline
     /// \param [in] pIndexBuffer        - Pointer to the index buffer. The buffer must have been created
@@ -508,7 +508,7 @@ public:
     ///          to explicitly manage the states using IDeviceContext::TransitionResourceStates() method.
     ///          Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed
     ///          explanation of resource state management in evnt Engine.
-    virtual void SetIndexBuffer(IBuffer * pIndexBuffer, uint32_t ByteOffset,
+    virtual void setIndexBuffer(IBuffer * pIndexBuffer, uint32_t ByteOffset,
                                 RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
     /// Sets an array of viewports
@@ -529,7 +529,7 @@ public:
     /// following call:
     ///
     ///     pContext->SetViewports(1, nullptr, 0, 0);
-    virtual void SetViewports(uint32_t NumViewports, const Viewport * pViewports, uint32_t RTWidth,
+    virtual void setViewports(uint32_t NumViewports, const Viewport * pViewports, uint32_t RTWidth,
                               uint32_t RTHeight) = 0;
 
     /// Sets active scissor rects
@@ -546,7 +546,7 @@ public:
     /// required to convert viewport from DirectX to OpenGL coordinate system if OpenGL device is used.\n\n
     /// All scissor rects must be set atomically as one operation. Any rects not
     /// defined by the call are disabled.
-    virtual void SetScissorRects(uint32_t NumRects, const Rect * pRects, uint32_t RTWidth,
+    virtual void setScissorRects(uint32_t NumRects, const Rect * pRects, uint32_t RTWidth,
                                  uint32_t RTHeight) = 0;
 
     /// Binds one or more render targets and the depth-stencil buffer to the pipeline. It also
@@ -581,7 +581,7 @@ public:
     ///          to explicitly manage the states using IDeviceContext::TransitionResourceStates() method.
     ///          Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed
     ///          explanation of resource state management in evnt Engine.
-    virtual void SetRenderTargets(uint32_t NumRenderTargets, ITextureView * ppRenderTargets[],
+    virtual void setRenderTargets(uint32_t NumRenderTargets, ITextureView * ppRenderTargets[],
                                   ITextureView *                 pDepthStencil,
                                   RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
@@ -601,7 +601,7 @@ public:
     ///           If the application intends to use the same resources in other threads simultaneously, it
     ///           needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
     ///           method.
-    virtual void Draw(DrawAttribs & DrawAttribs) = 0;
+    virtual void draw(DrawAttribs & DrawAttribs) = 0;
 
     /// Executes a dispatch compute command
     /// \param [in] DispatchAttrs - Structure describing dispatch command attributes,
@@ -616,7 +616,7 @@ public:
     ///           If the application intends to use the same resources in other threads simultaneously, it
     ///           needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
     ///           method.
-    virtual void DispatchCompute(const DispatchComputeAttribs & DispatchAttrs) = 0;
+    virtual void dispatchCompute(const DispatchComputeAttribs & DispatchAttrs) = 0;
 
     /// Clears a depth-stencil view
     /// \param [in] pView               - Pointer to ITextureView interface to clear. The view type must be
@@ -639,7 +639,7 @@ public:
     ///          write the state of resources used by the command. Refer to
     ///          http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed explanation of
     ///          resource state management in evnt Engine.
-    virtual void ClearDepthStencil(ITextureView * pView, CLEAR_DEPTH_STENCIL_FLAGS ClearFlags, float fDepth,
+    virtual void clearDepthStencil(ITextureView * pView, CLEAR_DEPTH_STENCIL_FLAGS ClearFlags, float fDepth,
                                    uint8_t Stencil, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
     /// Clears a render target view
@@ -672,18 +672,18 @@ public:
     ///          pass it must be in evnt::RESOURCE_STATE_RENDER_TARGET state. When using
     ///          evnt::RESOURCE_STATE_TRANSITION_TRANSITION mode, the engine takes care of proper resource
     ///          state transition, otherwise it is the responsibility of the application.
-    virtual void ClearRenderTarget(ITextureView * pView, const float * RGBA,
+    virtual void clearRenderTarget(ITextureView * pView, const float * RGBA,
                                    RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
     /// Finishes recording commands and generates a command list.
     /// \param [out] ppCommandList - Memory location where pointer to the recorded command list will be
     /// written.
-    virtual void FinishCommandList(ICommandList ** ppCommandList) = 0;
+    virtual void finishCommandList(ICommandList ** ppCommandList) = 0;
 
     /// Executes recorded commands in a command list.
     /// \param [in] pCommandList - Pointer to the command list to executre.
     /// \remarks After command list is executed, it is no longer valid and should be released.
-    virtual void ExecuteCommandList(ICommandList * pCommandList) = 0;
+    virtual void executeCommandList(ICommandList * pCommandList) = 0;
 
     /// Tells the GPU to set a fence to a specified value after all previous work has completed.
     /// \note The method does not flush the context (an application can do this explcitly if needed)
@@ -694,10 +694,10 @@ public:
     /// \param [in] pFence - The fence to signal
     /// \param [in] Value  - The value to set the fence to. This value must be greater than the
     ///                      previously signalled value on the same fence.
-    virtual void SignalFence(IFence * pFence, uint64_t Value) = 0;
+    virtual void signalFence(IFence * pFence, uint64_t Value) = 0;
 
     /// Flushes the command buffer.
-    virtual void Flush() = 0;
+    virtual void flush() = 0;
 
     /// Updates the data in the buffer.
     /// \param [in] pBuffer             - Pointer to the buffer to updates.
@@ -705,7 +705,7 @@ public:
     /// region. \param [in] Size                - Size in bytes of the data region to update. \param [in]
     /// pData               - Pointer to the data to write to the buffer. \param [in] StateTransitionMode -
     /// Buffer state transition mode (see evnt::RESOURCE_STATE_TRANSITION_MODE)
-    virtual void UpdateBuffer(IBuffer * pBuffer, uint32_t Offset, uint32_t Size, const void * pData,
+    virtual void updateBuffer(IBuffer * pBuffer, uint32_t Offset, uint32_t Size, const void * pData,
                               RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
     /// Copies the data from one buffer to another.
@@ -719,7 +719,7 @@ public:
     /// \param [in] Size                    - Size in bytes of data to copy.
     /// \param [in] DstBufferTransitionMode - State transition mode of the destination buffer (see
     /// evnt::RESOURCE_STATE_TRANSITION_MODE).
-    virtual void CopyBuffer(IBuffer * pSrcBuffer, uint32_t SrcOffset,
+    virtual void copyBuffer(IBuffer * pSrcBuffer, uint32_t SrcOffset,
                             RESOURCE_STATE_TRANSITION_MODE SrcBufferTransitionMode, IBuffer * pDstBuffer,
                             uint32_t DstOffset, uint32_t Size,
                             RESOURCE_STATE_TRANSITION_MODE DstBufferTransitionMode) = 0;
@@ -729,13 +729,13 @@ public:
     /// \param [in] MapType      - Type of the map operation. See evnt::MAP_TYPE.
     /// \param [in] MapFlags     - Special map flags. See evnt::MAP_FLAGS.
     /// \param [out] pMappedData - Reference to the void pointer to store the address of the mapped region.
-    virtual void MapBuffer(IBuffer * pBuffer, MAP_TYPE MapType, MAP_FLAGS MapFlags, void *& pMappedData) = 0;
+    virtual void mapBuffer(IBuffer * pBuffer, MAP_TYPE MapType, MAP_FLAGS MapFlags, void *& pMappedData) = 0;
 
     /// Unmaps the previously mapped buffer.
     /// \param [in] pBuffer - Pointer to the buffer to unmap.
     /// \param [in] MapType - Type of the map operation. This parameter must match the type that was
     ///                       provided to the Map() method.
-    virtual void UnmapBuffer(IBuffer * pBuffer, MAP_TYPE MapType) = 0;
+    virtual void unmapBuffer(IBuffer * pBuffer, MAP_TYPE MapType) = 0;
 
     /// Updates the data in the texture.
     /// \param [in] pTexture    - Pointer to the device context interface to be used to perform the operation.
@@ -749,7 +749,7 @@ public:
     ///                                       If pSrcBuffer is null, this parameter is ignored.
     /// \param [in] TextureTransitionMode   - Texture state transition mode (see
     /// evnt::RESOURCE_STATE_TRANSITION_MODE)
-    virtual void UpdateTexture(ITexture * pTexture, uint32_t MipLevel, uint32_t Slice, const Box & DstBox,
+    virtual void updateTexture(ITexture * pTexture, uint32_t MipLevel, uint32_t Slice, const Box & DstBox,
                                const TextureSubResData &      SubresData,
                                RESOURCE_STATE_TRANSITION_MODE SrcBufferTransitionMode,
                                RESOURCE_STATE_TRANSITION_MODE TextureTransitionMode) = 0;
@@ -757,7 +757,7 @@ public:
     /// Copies data from one texture to another.
     /// \param [in] CopyAttribs - Structure describing copy command attributes, see
     /// evnt::CopyTextureAttribs for details.
-    virtual void CopyTexture(const CopyTextureAttribs & CopyAttribs) = 0;
+    virtual void copyTexture(const CopyTextureAttribs & CopyAttribs) = 0;
 
     /// Maps the texture subresource.
     /// \param [in] pTexture    - Pointer to the texture to map.
@@ -773,18 +773,18 @@ public:
     ///          subresource can be mapped, so pMapRegion must either be null, or cover the entire
     ///          subresource. In D3D11 and Vulkan backends, dynamic textures are no different from non-dynamic
     ///          textures, and mapping with MAP_FLAG_DISCARD has exactly the same behavior.
-    virtual void MapTextureSubresource(ITexture * pTexture, uint32_t MipLevel, uint32_t ArraySlice,
+    virtual void mapTextureSubresource(ITexture * pTexture, uint32_t MipLevel, uint32_t ArraySlice,
                                        MAP_TYPE MapType, MAP_FLAGS MapFlags, const Box * pMapRegion,
                                        MappedTextureSubresource & MappedData) = 0;
 
     /// Unmaps the texture subresource.
-    virtual void UnmapTextureSubresource(ITexture * pTexture, uint32_t MipLevel, uint32_t ArraySlice) = 0;
+    virtual void unmapTextureSubresource(ITexture * pTexture, uint32_t MipLevel, uint32_t ArraySlice) = 0;
 
     /// Generates a mipmap chain.
     /// \param [in] pTextureView - Texture view to generate mip maps for.
     /// \remarks This function can only be called for a shader resource view.
     ///          The texture must be created with MISC_TEXTURE_FLAG_GENERATE_MIPS flag.
-    virtual void GenerateMips(ITextureView * pTextureView) = 0;
+    virtual void generateMips(ITextureView * pTextureView) = 0;
 
     /// Sets the swap chain in the device context.
     /// The swap chain is used by the device context to work with the
@@ -801,7 +801,7 @@ public:
     /// attaching to existing d3d11/d3d12 device or OpenGL/GLES context, the swap chain needs to be set
     /// manually if the device context will be using any of the commands above.\n Device context keeps strong
     /// reference to the swap chain.
-    virtual void SetSwapChain(ISwapChain * pSwapChain) = 0;
+    virtual void setSwapChain(ISwapChain * pSwapChain) = 0;
 
     /// Finishes the current frame and releases dynamic resources allocated by the context.
     /// For immediate context, this method is called automatically by Present(), but can
@@ -815,7 +815,7 @@ public:
     ///       For deferred contexts, this method must be called after all command lists referencing dynamic
     ///       resources have been executed through immediate context.\n The method does not Flush() the
     ///       context.
-    virtual void FinishFrame() = 0;
+    virtual void finishFrame() = 0;
 };
 }   // namespace evnt
 #endif   // IDEVICECONTEXT_H

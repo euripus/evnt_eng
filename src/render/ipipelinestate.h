@@ -32,7 +32,7 @@ struct ShaderResourceVariableDesc
     /// Shader stages this resources variable applies to. More than one shader stage can be specified.
     SHADER_TYPE shader_stages = SHADER_TYPE_UNKNOWN;
     /// Shader variable name
-    std::string name = nullptr;
+    std::string name;
     /// Shader variable type. See evnt::SHADER_RESOURCE_VARIABLE_TYPE for a list of allowed types
     SHADER_RESOURCE_VARIABLE_TYPE Type = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
@@ -50,7 +50,7 @@ struct StaticSamplerDesc
     SHADER_TYPE shader_stages = SHADER_TYPE_UNKNOWN;
     /// The name of the sampler itself or the name of the texture variable that
     /// this static sampler is assigned to if combined texture samplers are used.
-    std::string sampler_or_texture_name = nullptr;
+    std::string sampler_or_texture_name;
     /// Sampler description
     SamplerDesc desc;
 

@@ -9,7 +9,7 @@ namespace evnt
 struct DeviceObjectAttribs
 {
     /// Object name
-    const std::string name = {};
+    const std::string name;
 
     // We have to explicitly define constructors because otherwise Apple's clang fails to compile the
     // following legitimate code:

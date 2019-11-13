@@ -17,9 +17,9 @@ enum VALUE_TYPE : uint8_t
     VT_INT8,            ///< Signed 8-bit integer
     VT_INT16,           ///< Signed 16-bit integer
     VT_INT32,           ///< Signed 32-bit integer
-    VT_uint8_t,         ///< Unsigned 8-bit integer
+    VT_UINT8_T,         ///< Unsigned 8-bit integer
     VT_UINT16,          ///< Unsigned 16-bit integer
-    VT_uint32_t,        ///< Unsigned 32-bit integer
+    VT_UINT32_T,        ///< Unsigned 32-bit integer
     VT_FLOAT16,         ///< Half-precision 16-bit floating point
     VT_FLOAT32,         ///< Full-precision 32-bit floating point
     VT_NUM_TYPES        ///< Helper value storing total number of types in the enumeration
@@ -1070,11 +1070,83 @@ enum PRIMITIVE_TOPOLOGY : uint8_t
     PRIMITIVE_TOPOLOGY_NUM_TOPOLOGIES
 };
 
+/// Describes texture format component type
+enum COMPONENT_TYPE : uint8_t
+{
+    /// Undefined component type
+    COMPONENT_TYPE_UNDEFINED,
+    /// Floating point component type
+    COMPONENT_TYPE_FLOAT,
+    /// Signed-normalized-integer component type
+    COMPONENT_TYPE_SNORM,
+    /// Unsigned-normalized-integer component type
+    COMPONENT_TYPE_UNORM,
+    /// Unsigned-normalized-integer sRGB component type
+    COMPONENT_TYPE_UNORM_SRGB,
+    /// Signed-integer component type
+    COMPONENT_TYPE_SINT,
+    /// Unsigned-integer component type
+    COMPONENT_TYPE_UINT,
+    /// Depth component type
+    COMPONENT_TYPE_DEPTH,
+    /// Depth-stencil component type
+    COMPONENT_TYPE_DEPTH_STENCIL,
+    /// Compound component type (example texture formats: TEX_FORMAT_R11G11B10_FLOAT or
+    /// TEX_FORMAT_RGB9E5_SHAREDEXP)
+    COMPONENT_TYPE_COMPOUND,
+    /// Compressed component type
+    COMPONENT_TYPE_COMPRESSED,
+};
+
+/// Resource usage state
+enum RESOURCE_STATE : uint32_t
+{
+    /// The resource state is not known to the engine and is managed by the application
+    RESOURCE_STATE_UNKNOWN = 0x0000,
+    /// The resource state is known to the engine, but is undefined. A resource is typically in an undefined
+    /// state right after initialization.
+    RESOURCE_STATE_UNDEFINED = 0x0001,
+    /// The resource is accessed as vertex buffer
+    RESOURCE_STATE_VERTEX_BUFFER = 0x0002,
+    /// The resource is accessed as constant (uniform) buffer
+    RESOURCE_STATE_CONSTANT_BUFFER = 0x0004,
+    /// The resource is accessed as index buffer
+    RESOURCE_STATE_INDEX_BUFFER = 0x0008,
+    /// The resource is accessed as render target
+    RESOURCE_STATE_RENDER_TARGET = 0x0010,
+    /// The resource is used for unordered access
+    RESOURCE_STATE_UNORDERED_ACCESS = 0x0020,
+    /// The resource is used in a writable depth-stencil view or in clear operation
+    RESOURCE_STATE_DEPTH_WRITE = 0x0040,
+    /// The resource is used in a read-only depth-stencil view
+    RESOURCE_STATE_DEPTH_READ = 0x0080,
+    /// The resource is accessed from a shader
+    RESOURCE_STATE_SHADER_RESOURCE = 0x0100,
+    /// The resource is used as the destination for stream output
+    RESOURCE_STATE_STREAM_OUT = 0x0200,
+    /// The resource is used as indirect draw/dispatch arguments buffer
+    RESOURCE_STATE_INDIRECT_ARGUMENT = 0x0400,
+    /// The resource is used as the destination in a copy operation
+    RESOURCE_STATE_COPY_DEST = 0x0800,
+    /// The resource is used as the source in a copy operation
+    RESOURCE_STATE_COPY_SOURCE = 0x1000,
+    /// The resource is used as the destination in a resolve operation
+    RESOURCE_STATE_RESOLVE_DEST = 0x2000,
+    /// The resource is used as the source in a resolve operation
+    RESOURCE_STATE_RESOLVE_SOURCE = 0x4000,
+    /// The resource is used for present
+    RESOURCE_STATE_PRESENT      = 0x8000,
+    RESOURCE_STATE_MAX_BIT      = 0x8000,
+    RESOURCE_STATE_GENERIC_READ = RESOURCE_STATE_VERTEX_BUFFER | RESOURCE_STATE_CONSTANT_BUFFER
+                                  | RESOURCE_STATE_INDEX_BUFFER | RESOURCE_STATE_SHADER_RESOURCE
+                                  | RESOURCE_STATE_INDIRECT_ARGUMENT | RESOURCE_STATE_COPY_SOURCE
+};
+
 /// Hardware adapter attributes
 struct HardwareAdapterAttribs
 {
     /// A string that contains the adapter description
-    std::string description = {};
+    std::string description;
     /// Dedicated video memory, in bytes
     size_t dedicated_video_memory = 0;
     /// Dedicated system memory, in bytes
@@ -1164,34 +1236,6 @@ struct FullScreenModeDesc
     DisplayModeAttribs::SCANLINE_ORDER scanline_order = DisplayModeAttribs::SCANLINE_ORDER_UNSPECIFIED;
 };
 
-/// Describes texture format component type
-enum COMPONENT_TYPE : uint8_t
-{
-    /// Undefined component type
-    COMPONENT_TYPE_UNDEFINED,
-    /// Floating point component type
-    COMPONENT_TYPE_FLOAT,
-    /// Signed-normalized-integer component type
-    COMPONENT_TYPE_SNORM,
-    /// Unsigned-normalized-integer component type
-    COMPONENT_TYPE_UNORM,
-    /// Unsigned-normalized-integer sRGB component type
-    COMPONENT_TYPE_UNORM_SRGB,
-    /// Signed-integer component type
-    COMPONENT_TYPE_SINT,
-    /// Unsigned-integer component type
-    COMPONENT_TYPE_UINT,
-    /// Depth component type
-    COMPONENT_TYPE_DEPTH,
-    /// Depth-stencil component type
-    COMPONENT_TYPE_DEPTH_STENCIL,
-    /// Compound component type (example texture formats: TEX_FORMAT_R11G11B10_FLOAT or
-    /// TEX_FORMAT_RGB9E5_SHAREDEXP)
-    COMPONENT_TYPE_COMPOUND,
-    /// Compressed component type
-    COMPONENT_TYPE_COMPRESSED,
-};
-
 /// Describes invariant texture format attributes. These attributes are
 /// intrinsic to the texture format itself and do not depend on the
 /// format support.
@@ -1235,50 +1279,6 @@ struct TextureFormatInfo
     /// A bitmask specifying all the supported sample counts for this texture format.
     /// If the format supports n samples, then (SampleCounts & n) != 0
     uint32_t sample_counts = 0;
-};
-
-/// Resource usage state
-enum RESOURCE_STATE : uint32_t
-{
-    /// The resource state is not known to the engine and is managed by the application
-    RESOURCE_STATE_UNKNOWN = 0x0000,
-    /// The resource state is known to the engine, but is undefined. A resource is typically in an undefined
-    /// state right after initialization.
-    RESOURCE_STATE_UNDEFINED = 0x0001,
-    /// The resource is accessed as vertex buffer
-    RESOURCE_STATE_VERTEX_BUFFER = 0x0002,
-    /// The resource is accessed as constant (uniform) buffer
-    RESOURCE_STATE_CONSTANT_BUFFER = 0x0004,
-    /// The resource is accessed as index buffer
-    RESOURCE_STATE_INDEX_BUFFER = 0x0008,
-    /// The resource is accessed as render target
-    RESOURCE_STATE_RENDER_TARGET = 0x0010,
-    /// The resource is used for unordered access
-    RESOURCE_STATE_UNORDERED_ACCESS = 0x0020,
-    /// The resource is used in a writable depth-stencil view or in clear operation
-    RESOURCE_STATE_DEPTH_WRITE = 0x0040,
-    /// The resource is used in a read-only depth-stencil view
-    RESOURCE_STATE_DEPTH_READ = 0x0080,
-    /// The resource is accessed from a shader
-    RESOURCE_STATE_SHADER_RESOURCE = 0x0100,
-    /// The resource is used as the destination for stream output
-    RESOURCE_STATE_STREAM_OUT = 0x0200,
-    /// The resource is used as indirect draw/dispatch arguments buffer
-    RESOURCE_STATE_INDIRECT_ARGUMENT = 0x0400,
-    /// The resource is used as the destination in a copy operation
-    RESOURCE_STATE_COPY_DEST = 0x0800,
-    /// The resource is used as the source in a copy operation
-    RESOURCE_STATE_COPY_SOURCE = 0x1000,
-    /// The resource is used as the destination in a resolve operation
-    RESOURCE_STATE_RESOLVE_DEST = 0x2000,
-    /// The resource is used as the source in a resolve operation
-    RESOURCE_STATE_RESOLVE_SOURCE = 0x4000,
-    /// The resource is used for present
-    RESOURCE_STATE_PRESENT      = 0x8000,
-    RESOURCE_STATE_MAX_BIT      = 0x8000,
-    RESOURCE_STATE_GENERIC_READ = RESOURCE_STATE_VERTEX_BUFFER | RESOURCE_STATE_CONSTANT_BUFFER
-                                  | RESOURCE_STATE_INDEX_BUFFER | RESOURCE_STATE_SHADER_RESOURCE
-                                  | RESOURCE_STATE_INDIRECT_ARGUMENT | RESOURCE_STATE_COPY_SOURCE
 };
 
 }   // namespace evnt

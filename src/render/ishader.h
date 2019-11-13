@@ -1,12 +1,12 @@
 #ifndef ISHADER_H
 #define ISHADER_H
 
+#include "../core/memory_stream.h"
 #include "ideviceobject.h"
 
 namespace evnt
 {
 class IShaderSourceInputStreamFactory;
-class IDataBlob;
 
 /// Describes the shader type
 enum SHADER_TYPE : uint32_t
@@ -57,8 +57,8 @@ public:
 
 struct ShaderMacro
 {
-    const char * name       = nullptr;
-    const char * definition = nullptr;
+    std::string name;
+    std::string definition;
 
     ShaderMacro() noexcept {}
     ShaderMacro(const char * _Name, const char * _Def) noexcept : name(_Name), definition(_Def) {}
@@ -69,7 +69,7 @@ struct ShaderCreateInfo
 {
     /// Source file path
     /// If source file path is provided, Source and ByteCode members must be null
-    const char * file_path = nullptr;
+    std::string file_path;
     /// Pointer to the shader source input stream factory.
     /// The factory is used to load the shader source file if FilePath is not null.
     /// It is also used to create additional input streams for shader include files
@@ -87,7 +87,7 @@ struct ShaderCreateInfo
     class IHLSL2GLSLConversionStream ** conversion_stream = nullptr;
     /// Shader source
     /// If shader source is provided, FilePath and ByteCode members must be null
-    const char * source = nullptr;
+    std::string source;
     /// Compiled shader bytecode.
     /// If shader byte code is provided, FilePath and Source members must be null
     /// \note. This option is supported for D3D11, D3D12 and Vulkan backends.
@@ -102,7 +102,7 @@ struct ShaderCreateInfo
     size_t byte_code_size = 0;
     /// Shader entry point
     /// This member is ignored if ByteCode is not null
-    const char * entry_point = "main";
+    std::string entry_point{"main"};
     /// Shader macros
     /// This member is ignored if ByteCode is not null
     const ShaderMacro * macros = nullptr;
@@ -118,7 +118,7 @@ struct ShaderCreateInfo
     /// for default value "_sampler", a texture named "tex" will be combined
     /// with sampler named "tex_sampler".
     /// If UseCombinedTextureSamplers is false, this member is ignored.
-    const char * combined_sampler_suffix = "_sampler";
+    std::string combined_sampler_suffix{"_sampler"};
     /// Shader description. See evnt::ShaderDesc.
     ShaderDesc desc;
     /// Shader source language. See evnt::SHADER_SOURCE_LANGUAGE.
@@ -127,7 +127,7 @@ struct ShaderCreateInfo
     /// The buffer contains two null-terminated strings. The first one is the compiler
     /// output message. The second one is the full shader source code including definitions added
     /// by the engine. Data blob object must be released by the client.
-    IDataBlob ** compiler_output = nullptr;
+    InputMemoryStream compiler_output;
 };
 
 /// Describes shader resource type
@@ -153,7 +153,7 @@ enum SHADER_RESOURCE_TYPE : uint8_t
 struct ShaderResourceDesc : public DeviceObjectAttribs
 {
     /// Shader resource name
-    std::string shader_name = {};
+    std::string shader_name;
     /// Shader resource type, see evnt::SHADER_RESOURCE_TYPE.
     SHADER_RESOURCE_TYPE type = SHADER_RESOURCE_TYPE_UNKNOWN;
     /// Array size. For non-array resource this value is 1.

@@ -9,7 +9,7 @@ namespace evnt
 struct ResourceMappingEntry
 {
     /// Object name
-    std::string name = {};
+    std::string name;
     /// Pointer to the object's interface
     IDeviceObject * p_object    = nullptr;
     uint32_t        array_index = 0;
