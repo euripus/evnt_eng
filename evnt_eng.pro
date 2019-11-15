@@ -99,8 +99,10 @@ HEADERS += \
     src/render/blend.h \
     src/render/depthstencilstate.h \
     src/render/devicecaps.h \
+    src/render/gl/globjwrapper.h \
     src/render/graphics_types.h \
     src/render/ibuffer.h \
+    src/render/ibufferview.h \
     src/render/idevicecontext.h \
     src/render/ideviceobject.h \
     src/render/ifence.h \
