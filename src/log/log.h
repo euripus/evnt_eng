@@ -1,6 +1,7 @@
 #ifndef ILOG_H
 #define ILOG_H
 
+#include <ostream>
 #include <string>
 
 /*
@@ -42,6 +43,13 @@ namespace Log
     // C-style printf fuction
     std::wstring cstr_log(const wchar_t * format, ...);
     std::string  cstr_log(const char * format, ...);
+
+    // variadic print
+    template<typename... Args>
+    void stream_print(std::ostream & out, Args... args)
+    {
+        ((out << " " << args), ...) << std::endl;
+    }
 
     SeverityLevel ConvertStrToSeverity(std::string sl_txt);
     Output        ConvertStrToOutput(std::string ot_txt);

@@ -1,4 +1,6 @@
 #include "glcontextstate.h"
+#include "../../log/log.h"
+#include <sstream>
 
 #define CHECK_GL_ERROR(...)                                                                  \
     do                                                                                       \
@@ -13,16 +15,23 @@
 namespace evnt
 {
 template<typename... ArgsType>
-std::string LogError(const char * Function, const char * FullFilePath, int Line, const ArgsType &... Args)
+std::string LogError(const char * function, const char * full_file_path, int line, const ArgsType &... args)
 {
-    std::string FileName(FullFilePath);
-    auto        LastSlashPos = FileName.find_last_of("/\\");
-    if(LastSlashPos != std::string::npos)
-        FileName.erase(0, LastSlashPos + 1);
-    auto Msg = Diligent::FormatString(Args...);
-    // No callback set - output to cerr
-    std::cerr << "Diligent Engine: " << (bThrowException ? "Fatal Error" : "Error") << " in " << Function
-              << "() (" << FileName << ", " << Line << "): " << Msg << '\n';
+    std::ostringstream ss;
+
+    std::string file_name(full_file_path);
+    auto        last_slash_pos = file_name.find_last_of("//");
+    if(last_slash_pos != std::string::npos)
+        file_name.erase(0, last_slash_pos + 1);
+
+    Log::stream_print(ss, args...);
+    std::string msg = ss.str();
+    ss.str({});
+
+    ss << "Error"
+       << " in " << function << "() (" << file_name << ", " << line << "): " << msg << '\n';
+
+    return ss.str();
 }
 
 GLContextState::GLContextState() {}
@@ -43,7 +52,27 @@ void GLContextState::setProgram(const GLObjectWrappers::GLProgramObj & program)
     if(UpdateBoundObject(m_prog_id, prog_handle))
     {
         glUseProgram(prog_handle);
-        // CHECK_GL_ERROR("Failed to set GL program");
+        CHECK_GL_ERROR("Failed to set GL program");
+    }
+}
+
+void GLContextState::setPipeline(const GLObjectWrappers::GLPipelineObj & pipeline)
+{
+    GLuint handle = pipeline;
+    if(UpdateBoundObject(m_pipeline_id, handle))
+    {
+        glBindProgramPipeline(handle);
+        CHECK_GL_ERROR("Failed to bind program pipeline");
+    }
+}
+
+void GLContextState::bindVAO(const GLObjectWrappers::GLVertexArrayObj & vao)
+{
+    GLuint handle = vao;
+    if(UpdateBoundObject(m_vao_id, handle))
+    {
+        glBindVertexArray(handle);
+        CHECK_GL_ERROR("Failed to set VAO");
     }
 }
 }   // namespace evnt
