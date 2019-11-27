@@ -7,6 +7,16 @@
 
 namespace evnt
 {
+/// Maximum number of input buffer slots.
+/// D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT == 32
+static constexpr uint32_t MaxBufferSlots = 32;
+/// Maximum number of simultaneous render targets.
+static constexpr uint32_t MaxRenderTargets = 8;
+/// Maximum number of viewports.
+static constexpr uint32_t MaxViewports = 16;
+/// Maximum number of shader stages in a pipeline.
+static constexpr uint32_t MaxShadersInPipeline = 5;
+
 /// Value type
 /// This enumeration describes value type. It is used by
 /// - BufferDesc structure to describe value type of a formatted buffer

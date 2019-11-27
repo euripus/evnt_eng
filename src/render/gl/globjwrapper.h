@@ -40,8 +40,8 @@ public:
 
     GLObjectWrapper(GLObjectWrapper && other)
     {
-        m_gl_obj_id = other.m_gl_obj_id;
-        m_gen       = other.m_gen;
+        std::swap(m_gl_obj_id, other.m_gl_obj_id);
+        std::swap(m_gen, other.m_gen);
     }
 
     operator GLuint() const { return m_gl_obj_id; }
