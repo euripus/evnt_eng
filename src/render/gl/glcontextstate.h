@@ -47,8 +47,8 @@ public:
     void setBlendFactors(const float * blend_factors);
     void setBlendState(const BlendStateDesc & bs_dsc, uint32_t sample_mask);
 
-    bool getDepthWritesEnabled();
-    bool getScissorTestEnabled();
+    bool getDepthWritesEnabled() const { return m_ds_state.m_depth_writes_enable_state; }
+    bool getScissorTestEnabled() const { return m_rs_state.scissor_test_enable; }
     void getColorWriteMask(uint32_t rt_index, uint32_t & write_mask, bool & is_independent);
     void setColorWriteMask(uint32_t rt_index, uint32_t write_mask, bool is_independent);
 
@@ -69,7 +69,6 @@ public:
 private:
     struct BoundImageInfo
     {
-        // Diligent::UniqueIdentifier InterfaceID = -1;
         GLint     mip_level  = 0;
         GLboolean is_layered = 0;
         GLint     layer      = 0;
@@ -88,8 +87,6 @@ private:
                    && access == rhs.access && format == rhs.format;
         }
     };
-    std::vector<BoundImageInfo> m_bound_images;
-    uint32_t                    m_pending_memory_barriers = 0;
 
     class EnableStateHelper
     {
@@ -137,7 +134,7 @@ private:
             int32_t             ref                   = std::numeric_limits<int32_t>::min();
             uint32_t            mask                  = static_cast<uint32_t>(-1);
         } m_StencilOpState[2];
-    } m_ds_state;
+    };
 
     struct RasterizerGLState
     {
@@ -148,14 +145,28 @@ private:
         float             slope_scaled_depth_bias = std::numeric_limits<float>::max();
         EnableStateHelper depth_clamp_enable;
         EnableStateHelper scissor_test_enable;
-    } m_rs_state;
+    };
 
-    ContextCaps m_caps;
+    GLuint              m_prog_id     = static_cast<GLuint>(-1);
+    GLuint              m_pipeline_id = static_cast<GLuint>(-1);
+    GLuint              m_vao_id      = static_cast<GLuint>(-1);
+    GLuint              m_fbo_id      = static_cast<GLuint>(-1);
+    std::vector<GLuint> m_bound_textures;
+    std::vector<GLuint> m_bound_samplers;
+
+    std::vector<BoundImageInfo> m_bound_images;
+    uint32_t                    m_pending_memory_barriers = 0;
+
+    DepthStencilGLState m_ds_state;
+    RasterizerGLState   m_rs_state;
+    ContextCaps         m_caps;
 
     uint32_t m_color_write_masks[MaxRenderTargets] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
     EnableStateHelper m_independent_write_masks;
     int32_t           m_active_texture     = -1;
     int32_t           m_num_patch_vertices = -1;
+
+    // GLContext::NativeGLContextType m_CurrentGLContext = {};
 };
 
 }   // namespace evnt
