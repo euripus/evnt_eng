@@ -27,9 +27,9 @@ enum VALUE_TYPE : uint8_t
     VT_INT8,            ///< Signed 8-bit integer
     VT_INT16,           ///< Signed 16-bit integer
     VT_INT32,           ///< Signed 32-bit integer
-    VT_UINT8_T,         ///< Unsigned 8-bit integer
+    VT_UINT8,           ///< Unsigned 8-bit integer
     VT_UINT16,          ///< Unsigned 16-bit integer
-    VT_UINT32_T,        ///< Unsigned 32-bit integer
+    VT_UINT32,          ///< Unsigned 32-bit integer
     VT_FLOAT16,         ///< Half-precision 16-bit floating point
     VT_FLOAT32,         ///< Full-precision 32-bit floating point
     VT_NUM_TYPES        ///< Helper value storing total number of types in the enumeration

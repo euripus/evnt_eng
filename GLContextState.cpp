@@ -135,51 +135,6 @@ namespace Diligent
         return UpdateBoundObject( BoundObjectIDs[Index], NewObject, NewGLHandle );
     }
 
-    void GLContextState::SetActiveTexture( Int32 Index )
-    {
-        if( Index < 0 )
-        {
-            Index += m_Caps.m_iMaxCombinedTexUnits;
-        }
-        VERIFY( 0 <= Index && Index < m_Caps.m_iMaxCombinedTexUnits, "Texture unit is out of range" );
-
-        if( m_iActiveTexture != Index )
-        {
-            glActiveTexture( GL_TEXTURE0 + Index );
-            CHECK_GL_ERROR( "Failed to activate texture slot ", Index );
-            m_iActiveTexture = Index;
-        }
-    }
-
-    void GLContextState::BindTexture( Int32 Index, GLenum BindTarget, const GLObjectWrappers::GLTextureObj &Tex)
-    {
-        if( Index < 0 )
-        {
-            Index += m_Caps.m_iMaxCombinedTexUnits;
-        }
-        VERIFY( 0 <= Index && Index < m_Caps.m_iMaxCombinedTexUnits, "Texture unit is out of range" );
-
-        // Always update active texture unit
-        SetActiveTexture( Index );
-
-        GLuint GLTexHandle = 0;
-        if( UpdateBoundObjectsArr( m_BoundTextures, Index, Tex, GLTexHandle ) )
-        {
-            glBindTexture( BindTarget, GLTexHandle );
-            CHECK_GL_ERROR( "Failed to bind texture to slot ", Index );
-        }
-    }
-
-    void GLContextState::BindSampler( Uint32 Index, const GLObjectWrappers::GLSamplerObj &GLSampler)
-    {
-        GLuint GLSamplerHandle = 0;
-        if( UpdateBoundObjectsArr( m_BoundSamplers, Index, GLSampler, GLSamplerHandle ) )
-        {
-            glBindSampler( Index, GLSamplerHandle );
-            CHECK_GL_ERROR( "Failed to bind sampler to slot ", Index );
-        }
-    }
-
     void GLContextState::BindImage( Uint32 Index,
         TextureViewGLImpl *pTexView,
         GLint MipLevel,
@@ -258,40 +213,6 @@ namespace Diligent
 #else
         UNSUPPORTED("GL_ARB_shader_image_load_store is not supported");
 #endif
-    }
-
-    void GLContextState::SetPendingMemoryBarriers( Uint32 PendingBarriers )
-    {
-        m_PendingMemoryBarriers |= PendingBarriers;
-    }
-
-    void GLContextState::EnableDepthTest( bool bEnable )
-    {
-        if( m_DSState.m_DepthEnableState != bEnable )
-        {
-            if( bEnable )
-            {
-                glEnable( GL_DEPTH_TEST );
-                CHECK_GL_ERROR( "Failed to enable detph test" );
-            }
-            else
-            {
-                glDisable( GL_DEPTH_TEST );
-                CHECK_GL_ERROR( "Failed to disable detph test" );
-            }
-            m_DSState.m_DepthEnableState = bEnable;
-        }
-    }
-
-    void GLContextState::EnableDepthWrites( bool bEnable )
-    {
-        if( m_DSState.m_DepthWritesEnableState != bEnable )
-        {
-            // If mask is non-zero, the depth buffer is enabled for writing; otherwise, it is disabled.
-            glDepthMask( bEnable ? 1 : 0 );
-            CHECK_GL_ERROR( "Failed to enale/disable depth writes" );
-            m_DSState.m_DepthWritesEnableState = bEnable;
-        }
     }
 
     void GLContextState::SetDepthFunc( COMPARISON_FUNCTION CmpFunc )

@@ -133,7 +133,7 @@ private:
             STENCIL_OP          stencil_pass_op       = STENCIL_OP_UNDEFINED;
             int32_t             ref                   = std::numeric_limits<int32_t>::min();
             uint32_t            mask                  = static_cast<uint32_t>(-1);
-        } m_StencilOpState[2];
+        } m_stencil_op_state[2];
     };
 
     struct RasterizerGLState

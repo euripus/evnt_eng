@@ -64,6 +64,7 @@ SOURCES +=  \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
     src/render/gl/glcontextstate.cpp \
+    src/render/gl/typeconversions.cpp \
     src/resource/imagedata.cpp
 
 HEADERS += \
@@ -102,6 +103,7 @@ HEADERS += \
     src/render/devicecaps.h \
     src/render/gl/glcontextstate.h \
     src/render/gl/globjwrapper.h \
+    src/render/gl/typeconversions.h \
     src/render/graphics_types.h \
     src/render/ibuffer.h \
     src/render/ibufferview.h \

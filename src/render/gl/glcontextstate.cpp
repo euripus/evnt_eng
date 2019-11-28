@@ -48,12 +48,12 @@ bool UpdateBoundObject(GLuint & current_object_id, GLuint & new_handle)
 }
 
 template<class ObjectType>
-bool UpdateBoundObjectsArr( std::vector< UniqueIdentifier >& BoundObjectIDs, Uint32 Index, GLuint &NewGLHandle )
+bool UpdateBoundObjectsArr(std::vector<ObjectType> & bound_object_ids, uint32_t index, GLuint & new_handle)
 {
-    if( Index >= BoundObjectIDs.size() )
-        BoundObjectIDs.resize( Index + 1, -1 );
+    if(index >= bound_object_ids.size())
+        bound_object_ids.resize(index + 1, -1);
 
-    return UpdateBoundObject( BoundObjectIDs[Index], NewGLHandle );
+    return UpdateBoundObject(bound_object_ids[index], new_handle);
 }
 
 void GLContextState::setProgram(const GLObjectWrappers::GLProgramObj & program)
@@ -120,4 +120,88 @@ void GLContextState::setActiveTexture(int32_t index)
         m_active_texture = index;
     }
 }
+
+void GLContextState::bindTexture(int32_t index, GLenum bind_target,
+                                 const GLObjectWrappers::GLTextureObj & tex)
+{
+    if(index < 0)
+    {
+        index += m_caps.m_max_combined_tex_units;
+    }
+    assert(0 <= index && index < m_caps.m_max_combined_tex_units);
+
+    // Always update active texture unit
+    setActiveTexture(index);
+
+    GLuint tex_handle = tex;
+    if(UpdateBoundObjectsArr(m_bound_textures, index, tex_handle))
+    {
+        glBindTexture(bind_target, tex_handle);
+        CHECK_GL_ERROR("Failed to bind texture to slot ", index);
+    }
+}
+
+void GLContextState::bindSampler(uint32_t index, const GLObjectWrappers::GLSamplerObj & sampler)
+{
+    GLuint sampler_handle = sampler;
+    if(UpdateBoundObjectsArr(m_bound_samplers, index, sampler_handle))
+    {
+        glBindSampler(index, sampler_handle);
+        CHECK_GL_ERROR("Failed to bind sampler to slot ", index);
+    }
+}
+
+void GLContextState::bindImage(uint32_t index, class TextureViewGLImpl * tex_view, GLint mip_level,
+                               GLboolean is_layered, GLint layer, GLenum access, GLenum format)
+{}
+
+void GLContextState::ensureMemoryBarrier(uint32_t required_barriers, class AsyncWritableResource * res) {}
+
+void GLContextState::setPendingMemoryBarriers(uint32_t pending_barriers)
+{
+    m_pending_memory_barriers |= pending_barriers;
+}
+
+void GLContextState::enableDepthTest(bool enable)
+{
+    if(m_ds_state.m_depth_enable_state != enable)
+    {
+        if(enable)
+        {
+            glEnable(GL_DEPTH_TEST);
+            CHECK_GL_ERROR("Failed to enable detph test");
+        }
+        else
+        {
+            glDisable(GL_DEPTH_TEST);
+            CHECK_GL_ERROR("Failed to disable detph test");
+        }
+        m_ds_state.m_depth_enable_state = enable;
+    }
+}
+
+void GLContextState::enableDepthWrites(bool enable)
+{
+    if(m_ds_state.m_depth_writes_enable_state != enable)
+    {
+        // If mask is non-zero, the depth buffer is enabled for writing; otherwise, it is disabled.
+        glDepthMask(enable ? 1 : 0);
+        CHECK_GL_ERROR("Failed to enale/disable depth writes");
+        m_ds_state.m_depth_writes_enable_state = enable;
+    }
+}
+
+void GLContextState::setDepthFunc(COMPARISON_FUNCTION cmp_func) {}
+
+void GLContextState::enableStencilTest(bool enable) {}
+
+void GLContextState::setStencilWriteMask(uint8_t stencil_writeMask) {}
+
+void GLContextState::setStencilRef(GLenum face, int32_t ref) {}
+
+void GLContextState::setStencilFunc(GLenum face, COMPARISON_FUNCTION func, int32_t ref, uint32_t mask) {}
+
+void GLContextState::setStencilOp(GLenum face, STENCIL_OP stencil_fail_op, STENCIL_OP stencil_depth_fail_op,
+                                  STENCIL_OP stencil_pass_op)
+{}
 }   // namespace evnt
