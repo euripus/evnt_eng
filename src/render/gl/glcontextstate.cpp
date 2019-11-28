@@ -15,7 +15,7 @@
 namespace evnt
 {
 template<typename... ArgsType>
-std::string LogError(const char * function, const char * full_file_path, int line, const ArgsType &... args)
+void LogError(const char * function, const char * full_file_path, int line, const ArgsType &... args)
 {
     std::ostringstream ss;
 
@@ -31,7 +31,7 @@ std::string LogError(const char * function, const char * full_file_path, int lin
     ss << "Error"
        << " in " << function << "() (" << file_name << ", " << line << "): " << msg << '\n';
 
-    return ss.str();
+    Log::Log(Log::error, ss.str());
 }
 
 GLContextState::GLContextState() {}
@@ -73,6 +73,25 @@ void GLContextState::bindVAO(const GLObjectWrappers::GLVertexArrayObj & vao)
     {
         glBindVertexArray(handle);
         CHECK_GL_ERROR("Failed to set VAO");
+    }
+}
+
+void GLContextState::bindFBO(const GLObjectWrappers::GLFrameBufferObj & fbo)
+{
+    GLuint handle = fbo;
+    if(UpdateBoundObject(m_fbo_id, handle))
+    {
+        // Even though the write mask only applies to writes to a framebuffer, the mask state is NOT
+        // Framebuffer state. So it is NOT part of a Framebuffer Object or the Default Framebuffer.
+        // Binding a new framebuffer will NOT affect the mask.
+
+        // NOTE: if attachment image is a NON-immutable format texture and the selected
+        // level is NOT level_base, the texture MUST BE MIPMAP COMPLETE
+        // If image is part of a cubemap texture, the texture must also be mipmap cube complete.
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, handle);
+        CHECK_GL_ERROR("Failed to bind FBO as draw framebuffer");
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, handle);
+        CHECK_GL_ERROR("Failed to bind FBO as read framebuffer");
     }
 }
 }   // namespace evnt
