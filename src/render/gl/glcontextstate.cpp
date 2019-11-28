@@ -1,5 +1,6 @@
 #include "glcontextstate.h"
 #include "../../log/log.h"
+#include <cassert>
 #include <sstream>
 
 #define CHECK_GL_ERROR(...)                                                                  \
@@ -44,6 +45,15 @@ bool UpdateBoundObject(GLuint & current_object_id, GLuint & new_handle)
         return true;
     }
     return false;
+}
+
+template<class ObjectType>
+bool UpdateBoundObjectsArr( std::vector< UniqueIdentifier >& BoundObjectIDs, Uint32 Index, GLuint &NewGLHandle )
+{
+    if( Index >= BoundObjectIDs.size() )
+        BoundObjectIDs.resize( Index + 1, -1 );
+
+    return UpdateBoundObject( BoundObjectIDs[Index], NewGLHandle );
 }
 
 void GLContextState::setProgram(const GLObjectWrappers::GLProgramObj & program)
@@ -92,6 +102,22 @@ void GLContextState::bindFBO(const GLObjectWrappers::GLFrameBufferObj & fbo)
         CHECK_GL_ERROR("Failed to bind FBO as draw framebuffer");
         glBindFramebuffer(GL_READ_FRAMEBUFFER, handle);
         CHECK_GL_ERROR("Failed to bind FBO as read framebuffer");
+    }
+}
+
+void GLContextState::setActiveTexture(int32_t index)
+{
+    if(index < 0)
+    {
+        index += m_caps.m_max_combined_tex_units;
+    }
+    assert(0 <= index && index < m_caps.m_max_combined_tex_units);
+
+    if(m_active_texture != index)
+    {
+        glActiveTexture(GL_TEXTURE0 + index);
+        CHECK_GL_ERROR("Failed to activate texture slot ", index);
+        m_active_texture = index;
     }
 }
 }   // namespace evnt
