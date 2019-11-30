@@ -65,6 +65,8 @@ SOURCES +=  \
     src/network/udpsocket.cpp \
     src/render/gl/glcontextstate.cpp \
     src/render/gl/typeconversions.cpp \
+    src/render/utils/colorconversion.cpp \
+    src/render/utils/graphicsaccessories.cpp \
     src/resource/imagedata.cpp
 
 HEADERS += \
@@ -94,6 +96,7 @@ HEADERS += \
     src/input/input.h \
     src/input/inputglfw.h \
     src/input/keybinding.h \
+    src/log/debug_messages.h \
     src/log/log.h \
     src/network/connection.h \
     src/network/socketaddress.h \
@@ -122,4 +125,6 @@ HEADERS += \
     src/render/itexture.h \
     src/render/itextureview.h \
     src/render/rasterizerstate.h \
+    src/render/utils/colorconversion.h \
+    src/render/utils/graphicsaccessories.h \
     src/resource/imagedata.h

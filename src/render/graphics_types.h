@@ -1289,6 +1289,21 @@ struct TextureFormatInfo
     /// A bitmask specifying all the supported sample counts for this texture format.
     /// If the format supports n samples, then (SampleCounts & n) != 0
     uint32_t sample_counts = 0;
+
+    TextureFormatInfo() {}
+    TextureFormatInfo(std::string tex_fmt_name, TEXTURE_FORMAT tex_fmt, uint8_t tex_fmt_component_size,
+                      uint8_t tex_fmt_num_components, COMPONENT_TYPE tex_fmt_component_type,
+                      bool tex_fmt_is_typeless, uint8_t tex_fmt_block_width, uint8_t tex_fmt_block_height)
+    {
+        name           = tex_fmt_name;
+        format         = tex_fmt;
+        component_size = tex_fmt_component_size;
+        num_components = tex_fmt_num_components;
+        component_type = tex_fmt_component_type;
+        is_typeless    = tex_fmt_is_typeless;
+        block_width    = tex_fmt_block_width;
+        block_height   = tex_fmt_block_height;
+    }
 };
 
 }   // namespace evnt

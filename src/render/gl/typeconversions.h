@@ -1,29 +1,16 @@
 #ifndef TYPECONVERSIONS_H
 #define TYPECONVERSIONS_H
 
-#include "../../log/log.h"
+#include "../../log/debug_messages.h"
 #include "../blend.h"
 #include "../depthstencilstate.h"
 #include <GL/glew.h>
 #include <cassert>
 #include <iterator>
-#include <sstream>
-
-#define UNEXPECTED(Message, ...)                                                                           \
-    do                                                                                                     \
-    {                                                                                                      \
-        std::ostringstream ss;                                                                             \
-        Log::stream_print(ss, Message, ##__VA_ARGS__);                                                     \
-        std::string msg = ss.str();                                                                        \
-        ss.str({});                                                                                        \
-        ss << msg << " in function " << __FUNCTION__ << " in file " << __FILE__ << " in line " << __LINE__ \
-           << std::endl;                                                                                   \
-        Log::Log(Log::error, ss.str());                                                                    \
-    } while(false)
 
 namespace evnt
 {
-static const GLenum PrimTopologyToGLTopologyMap[] = {
+static const GLenum s_prim_topology_to_gltopology_map[] = {
     0,                   // PRIMITIVE_TOPOLOGY_UNDEFINED = 0
     GL_TRIANGLES,        // PRIMITIVE_TOPOLOGY_TRIANGLE_LIST
     GL_TRIANGLE_STRIP,   // PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP,
@@ -33,13 +20,13 @@ static const GLenum PrimTopologyToGLTopologyMap[] = {
 
 inline GLenum PrimitiveTopologyToGLTopology(PRIMITIVE_TOPOLOGY prim_topology)
 {
-    assert(prim_topology < std::size(PrimTopologyToGLTopologyMap));
-    auto GLTopology = PrimTopologyToGLTopologyMap[prim_topology];
+    assert(prim_topology < std::size(s_prim_topology_to_gltopology_map));
+    auto GLTopology = s_prim_topology_to_gltopology_map[prim_topology];
 
     return GLTopology;
 }
 
-static const GLenum TypeToGLTypeMap[] = {
+static const GLenum s_type_to_gltype_map[] = {
     0,                   // VT_UNDEFINED = 0
     GL_BYTE,             // VT_INT8
     GL_SHORT,            // VT_INT16
@@ -53,8 +40,8 @@ static const GLenum TypeToGLTypeMap[] = {
 
 inline GLenum TypeToGLType(VALUE_TYPE value)
 {
-    assert(value < std::size(TypeToGLTypeMap));
-    auto GLType = TypeToGLTypeMap[value];
+    assert(value < std::size(s_type_to_gltype_map));
+    auto GLType = s_type_to_gltype_map[value];
 
     return GLType;
 }
@@ -278,14 +265,14 @@ inline uint32_t GetPixelTypeSize(GLenum type)
     }
 }
 
-GLenum             TexFormatToGLInternalTexFormat(TEXTURE_FORMAT TexFormat, uint32_t BindFlags = 0);
-TEXTURE_FORMAT     GLInternalTexFormatToTexFormat(GLenum GlFormat);
-GLenum             CorrectGLTexFormat(GLenum GLTexFormat, uint32_t BindFlags);
-NativePixelAttribs GetNativePixelTransferAttribs(TEXTURE_FORMAT TexFormat);
-GLenum             AccessFlags2GLAccess(uint32_t UAVAccessFlags);
-GLenum             TypeToGLTexFormat(VALUE_TYPE ValType, uint32_t NumComponents, bool bIsNormalized);
-GLenum             StencilOp2GlStencilOp(STENCIL_OP StencilOp);
+GLenum             TexFormatToGLInternalTexFormat(TEXTURE_FORMAT tex_format, uint32_t bind_flags = 0);
+TEXTURE_FORMAT     GLInternalTexFormatToTexFormat(GLenum glformat);
+GLenum             CorrectGLTexFormat(GLenum gltex_format, uint32_t bind_flags);
+NativePixelAttribs GetNativePixelTransferAttribs(TEXTURE_FORMAT tex_format);
+GLenum             AccessFlags2GLAccess(uint32_t uav_access_flags);
+GLenum             TypeToGLTexFormat(VALUE_TYPE val_type, uint32_t num_components, bool is_normalized);
+GLenum             StencilOp2GlStencilOp(STENCIL_OP stencil_op);
 GLenum             BlendFactor2GLBlend(BLEND_FACTOR bf);
-GLenum             BlendOperation2GLBlendOp(BLEND_OPERATION BlendOp);
+GLenum             BlendOperation2GLBlendOp(BLEND_OPERATION blend_op);
 }   // namespace evnt
 #endif   // TYPECONVERSIONS_H
