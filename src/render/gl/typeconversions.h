@@ -33,7 +33,7 @@ static const GLenum s_type_to_gltype_map[] = {
     GL_INT,              // VT_INT32
     GL_UNSIGNED_BYTE,    // VT_UINT8
     GL_UNSIGNED_SHORT,   // VT_UINT16
-    GL_UNSIGNED_INT,     // VT_uint32_t
+    GL_UNSIGNED_INT,     // VT_UINT32
     0,                   // VT_FLOAT16
     GL_FLOAT             // VT_FLOAT32
 };

@@ -1290,12 +1290,13 @@ struct TextureFormatInfo
     /// If the format supports n samples, then (SampleCounts & n) != 0
     uint32_t sample_counts = 0;
 
-    TextureFormatInfo() {}
+    TextureFormatInfo() noexcept {}
     TextureFormatInfo(std::string tex_fmt_name, TEXTURE_FORMAT tex_fmt, uint8_t tex_fmt_component_size,
                       uint8_t tex_fmt_num_components, COMPONENT_TYPE tex_fmt_component_type,
-                      bool tex_fmt_is_typeless, uint8_t tex_fmt_block_width, uint8_t tex_fmt_block_height)
+                      bool tex_fmt_is_typeless, uint8_t tex_fmt_block_width,
+                      uint8_t tex_fmt_block_height) noexcept
     {
-        name           = tex_fmt_name;
+        name           = std::move(tex_fmt_name);
         format         = tex_fmt;
         component_size = tex_fmt_component_size;
         num_components = tex_fmt_num_components;
@@ -1303,6 +1304,23 @@ struct TextureFormatInfo
         is_typeless    = tex_fmt_is_typeless;
         block_width    = tex_fmt_block_width;
         block_height   = tex_fmt_block_height;
+    }
+
+    /// Comparison operator tests if two structures are equivalent
+    /// \param [in] rhs - reference to the structure to perform comparison with
+    /// \return
+    /// - True if all members of the two structures are equal.
+    /// - false otherwise
+    bool operator==(const TextureFormatInfo & rhs) const noexcept
+    {
+        return name == rhs.name && format == rhs.format && component_size == rhs.component_size
+               && num_components == rhs.num_components && component_type == rhs.component_type
+               && is_typeless == rhs.is_typeless && block_width == rhs.block_width
+               && block_height == rhs.block_height && supported == rhs.supported
+               && filterable == rhs.filterable && color_renderable == rhs.color_renderable
+               && depth_renderable == rhs.depth_renderable && tex_1D_fmt == rhs.tex_1D_fmt
+               && tex_2D_fmt == rhs.tex_2D_fmt && tex_3D_fmt == rhs.tex_3D_fmt
+               && tex_Cube_fmt == rhs.tex_Cube_fmt && sample_counts == rhs.sample_counts;
     }
 };
 

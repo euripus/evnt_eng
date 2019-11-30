@@ -31,7 +31,7 @@ public:
     void enableDepthWrites(bool enable);
     void setDepthFunc(COMPARISON_FUNCTION cmp_func);
     void enableStencilTest(bool enable);
-    void setStencilWriteMask(uint8_t stencil_writeMask);
+    void setStencilWriteMask(uint8_t stencil_write_mask);
     void setStencilRef(GLenum face, int32_t ref);
     void setStencilFunc(GLenum face, COMPARISON_FUNCTION func, int32_t ref, uint32_t mask);
     void setStencilOp(GLenum face, STENCIL_OP stencil_fail_op, STENCIL_OP stencil_depth_fail_op,

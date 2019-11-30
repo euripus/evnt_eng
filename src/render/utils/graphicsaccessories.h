@@ -297,13 +297,12 @@ struct MipLevelProperties
     uint32_t mip_size         = 0;
 };
 
-uint32_t ComputeMipLevelsCount(uint32_t width);
-uint32_t ComputeMipLevelsCount(uint32_t width, uint32_t height);
-uint32_t ComputeMipLevelsCount(uint32_t width, uint32_t height, uint32_t depth);
+uint32_t           ComputeMipLevelsCount(uint32_t width);
+uint32_t           ComputeMipLevelsCount(uint32_t width, uint32_t height);
+uint32_t           ComputeMipLevelsCount(uint32_t width, uint32_t height, uint32_t depth);
+MipLevelProperties GetMipLevelProperties(const TextureDesc & tex_desc, uint32_t mip_level);
 
 bool VerifyResourceStates(RESOURCE_STATE state, bool is_texture);
-
-MipLevelProperties GetMipLevelProperties(const TextureDesc & tex_desc, uint32_t mip_level);
 
 }   // namespace evnt
 

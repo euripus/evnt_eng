@@ -1,5 +1,6 @@
 #include "glcontextstate.h"
 #include "../../log/log.h"
+#include "typeconversions.h"
 #include <cassert>
 #include <sstream>
 
@@ -191,17 +192,398 @@ void GLContextState::enableDepthWrites(bool enable)
     }
 }
 
-void GLContextState::setDepthFunc(COMPARISON_FUNCTION cmp_func) {}
+void GLContextState::setDepthFunc(COMPARISON_FUNCTION cmp_func)
+{
+    if(m_ds_state.m_depth_cmp_func != cmp_func)
+    {
+        auto glcmp_func = CompareFuncToGLCompareFunc(cmp_func);
+        glDepthFunc(glcmp_func);
+        CHECK_GL_ERROR("Failed to set GL comparison function");
+        m_ds_state.m_depth_cmp_func = cmp_func;
+    }
+}
 
-void GLContextState::enableStencilTest(bool enable) {}
+void GLContextState::enableStencilTest(bool enable)
+{
+    if(m_ds_state.m_stencil_test_enable_state != enable)
+    {
+        if(enable)
+        {
+            glEnable(GL_STENCIL_TEST);
+            CHECK_GL_ERROR("Failed to enable stencil test");
+        }
+        else
+        {
+            glDisable(GL_STENCIL_TEST);
+            CHECK_GL_ERROR("Failed to disable stencil test");
+        }
+        m_ds_state.m_stencil_test_enable_state = enable;
+    }
+}
 
-void GLContextState::setStencilWriteMask(uint8_t stencil_writeMask) {}
+void GLContextState::setStencilWriteMask(uint8_t stencil_write_mask)
+{
+    if(m_ds_state.m_stencil_write_mask != stencil_write_mask)
+    {
+        glStencilMask(stencil_write_mask);
+        m_ds_state.m_stencil_write_mask = stencil_write_mask;
+    }
+}
 
-void GLContextState::setStencilRef(GLenum face, int32_t ref) {}
+void GLContextState::setStencilRef(GLenum face, int32_t ref)
+{
+    auto & face_stencil_op = m_ds_state.m_stencil_op_state[face == GL_FRONT ? 0 : 1];
+    auto   glstencil_func  = CompareFuncToGLCompareFunc(face_stencil_op.func);
+    glStencilFuncSeparate(face, glstencil_func, ref, face_stencil_op.mask);
+    CHECK_GL_ERROR("Failed to set stencil function");
+}
 
-void GLContextState::setStencilFunc(GLenum face, COMPARISON_FUNCTION func, int32_t ref, uint32_t mask) {}
+void GLContextState::setStencilFunc(GLenum face, COMPARISON_FUNCTION func, int32_t ref, uint32_t mask)
+{
+    auto & face_stencil_op = m_ds_state.m_stencil_op_state[face == GL_FRONT ? 0 : 1];
+    if(face_stencil_op.func != func || face_stencil_op.ref != ref || face_stencil_op.mask != mask)
+    {
+        face_stencil_op.func = func;
+        face_stencil_op.ref  = ref;
+        face_stencil_op.mask = mask;
+
+        setStencilRef(face, ref);
+    }
+}
 
 void GLContextState::setStencilOp(GLenum face, STENCIL_OP stencil_fail_op, STENCIL_OP stencil_depth_fail_op,
                                   STENCIL_OP stencil_pass_op)
-{}
+{
+    auto & face_stencil_op = m_ds_state.m_stencil_op_state[face == GL_FRONT ? 0 : 1];
+    if(face_stencil_op.stencil_fail_op != stencil_fail_op
+       || face_stencil_op.stencil_depth_fail_op != stencil_depth_fail_op
+       || face_stencil_op.stencil_pass_op != stencil_pass_op)
+    {
+        auto glsfail = StencilOp2GlStencilOp(stencil_fail_op);
+        auto dpfail  = StencilOp2GlStencilOp(stencil_depth_fail_op);
+        auto dppass  = StencilOp2GlStencilOp(stencil_pass_op);
+
+        glStencilOpSeparate(face, glsfail, dpfail, dppass);
+        CHECK_GL_ERROR("Failed to set stencil operation");
+
+        face_stencil_op.stencil_fail_op       = stencil_fail_op;
+        face_stencil_op.stencil_depth_fail_op = stencil_depth_fail_op;
+        face_stencil_op.stencil_pass_op       = stencil_pass_op;
+    }
+}
+
+void GLContextState::setFillMode(FILL_MODE fill_mode)
+{
+    if(m_caps.m_fill_mode_selection_supported)
+    {
+        if(m_rs_state.fill_mode != fill_mode)
+        {
+            if(glPolygonMode != nullptr)
+            {
+                auto PolygonMode = fill_mode == FILL_MODE_WIREFRAME ? GL_LINE : GL_FILL;
+                glPolygonMode(GL_FRONT_AND_BACK, PolygonMode);
+                CHECK_GL_ERROR("Failed to set polygon mode");
+            }
+            else
+            {
+                if(fill_mode != FILL_MODE_SOLID)
+                    Log::Log(Log::error, "This API/device only supports solid fill mode");
+            }
+
+            m_rs_state.fill_mode = fill_mode;
+        }
+    }
+    else
+    {
+        if(fill_mode == FILL_MODE_WIREFRAME)
+            Log::Log(Log::warning, "Wireframe fill mode is not supported on this device\n");
+    }
+}
+
+void GLContextState::setCullMode(CULL_MODE cull_mode)
+{
+    if(m_rs_state.cull_mode != cull_mode)
+    {
+        if(cull_mode == CULL_MODE_NONE)
+        {
+            glDisable(GL_CULL_FACE);
+            CHECK_GL_ERROR("Failed to disable face culling");
+        }
+        else
+        {
+            assert(cull_mode == CULL_MODE_FRONT || cull_mode == CULL_MODE_BACK);   // Unexpected cull mode
+            glEnable(GL_CULL_FACE);
+            CHECK_GL_ERROR("Failed to enable face culling");
+            auto cull_face = cull_mode == CULL_MODE_BACK ? GL_BACK : GL_FRONT;
+            glCullFace(cull_face);
+            CHECK_GL_ERROR("Failed to set cull face");
+        }
+
+        m_rs_state.cull_mode = cull_mode;
+    }
+}
+
+void GLContextState::setFrontFace(bool front_counter_clockwise)
+{
+    if(m_rs_state.front_counter_clockwise != front_counter_clockwise)
+    {
+        auto front_face = front_counter_clockwise ? GL_CCW : GL_CW;
+        glFrontFace(front_face);
+        CHECK_GL_ERROR("Failed to set front face");
+        m_rs_state.front_counter_clockwise = front_counter_clockwise;
+    }
+}
+
+void GLContextState::setDepthBias(float depth_bias, float slope_scaled_depth_bias)
+{
+    if(m_rs_state.depth_bias != depth_bias || m_rs_state.slope_scaled_depth_bias != slope_scaled_depth_bias)
+    {
+        if(depth_bias != 0 || slope_scaled_depth_bias != 0)
+        {
+            glEnable(GL_POLYGON_OFFSET_FILL);
+            CHECK_GL_ERROR("Failed to enable polygon offset fill");
+        }
+        else
+        {
+            glDisable(GL_POLYGON_OFFSET_FILL);
+            CHECK_GL_ERROR("Failed to disable polygon offset fill");
+        }
+
+        glPolygonOffset(slope_scaled_depth_bias, depth_bias);
+        CHECK_GL_ERROR("Failed to set polygon offset");
+
+        m_rs_state.depth_bias              = depth_bias;
+        m_rs_state.slope_scaled_depth_bias = slope_scaled_depth_bias;
+    }
+}
+
+void GLContextState::setDepthClamp(bool enable_depth_clamp)
+{
+    if(m_rs_state.depth_clamp_enable != enable_depth_clamp)
+    {
+        if(enable_depth_clamp)
+        {
+            if(GL_DEPTH_CLAMP)
+            {
+                glEnable(GL_DEPTH_CLAMP);
+                CHECK_GL_ERROR("Failed to enable depth clamp");
+            }
+        }
+        else
+        {
+            if(GL_DEPTH_CLAMP)
+            {
+                // WARNING: on OpenGL, depth clamping is disabled against
+                // both far and near clip planes. On DirectX, only clipping
+                // against far clip plane can be disabled
+                glDisable(GL_DEPTH_CLAMP);
+                CHECK_GL_ERROR("Failed to disable depth clamp");
+            }
+            else
+            {
+                Log::Log(Log::warning, "Disabling depth clamp is not supported");
+            }
+        }
+        m_rs_state.depth_clamp_enable = enable_depth_clamp;
+    }
+}
+
+void GLContextState::enableScissorTest(bool enable_scissor_test)
+{
+    if(m_rs_state.scissor_test_enable != enable_scissor_test)
+    {
+        if(enable_scissor_test)
+        {
+            glEnable(GL_SCISSOR_TEST);
+            CHECK_GL_ERROR("Failed to enable scissor test");
+        }
+        else
+        {
+            glDisable(GL_SCISSOR_TEST);
+            CHECK_GL_ERROR("Failed to disable scissor clamp");
+        }
+
+        m_rs_state.scissor_test_enable = enable_scissor_test;
+    }
+}
+
+void GLContextState::setBlendFactors(const float * blend_factors)
+{
+    glBlendColor(blend_factors[0], blend_factors[1], blend_factors[2], blend_factors[3]);
+    CHECK_GL_ERROR("Failed to set blend color");
+}
+
+void GLContextState::setBlendState(const BlendStateDesc & bs_dsc, uint32_t sample_mask)
+{
+    assert(sample_mask == 0xFFFFFFFF);   // Sample mask is not currently implemented in GL
+
+    bool enable_blend = false;
+    if(bs_dsc.independent_blend_enable)
+    {
+        for(int i = 0; i < bs_dsc.s_max_render_targets; ++i)
+        {
+            const auto & rt = bs_dsc.render_targets[i];
+            if(rt.blend_enable)
+                enable_blend = true;
+
+            if(i < m_caps.m_max_draw_buffers)
+            {
+                setColorWriteMask(i, rt.render_target_write_mask, true);
+            }
+            else
+            {
+                assert(rt.render_target_write_mask == RenderTargetBlendDesc{}.render_target_write_mask);
+            }
+        }
+    }
+    else
+    {
+        const auto & rt0 = bs_dsc.render_targets[0];
+        enable_blend     = rt0.blend_enable;
+        setColorWriteMask(0, rt0.render_target_write_mask, false);
+    }
+
+    if(enable_blend)
+    {
+        //  Sets the blend enable flag for ALL color buffers.
+        glEnable(GL_BLEND);
+        CHECK_GL_ERROR("Failed to enable alpha blending");
+
+        if(bs_dsc.alpha_to_coverage_enable)
+        {
+            glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+            CHECK_GL_ERROR("Failed to enable alpha to coverage");
+        }
+        else
+        {
+            glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+            CHECK_GL_ERROR("Failed to disable alpha to coverage");
+        }
+
+        if(bs_dsc.independent_blend_enable)
+        {
+            for(int i = 0; i < bs_dsc.s_max_render_targets; ++i)
+            {
+                const auto & rt = bs_dsc.render_targets[i];
+
+                if(i >= m_caps.m_max_draw_buffers)
+                {
+                    if(rt.blend_enable)
+                    {
+                        std::ostringstream ss;
+                        ss << "Blend is enabled for render target " << i << " but this device only supports "
+                           << m_caps.m_max_draw_buffers << " draw buffers";
+
+                        Log::Log(Log::error, ss.str());
+                    }
+                    continue;
+                }
+
+                if(rt.blend_enable)
+                {
+                    glEnablei(GL_BLEND, i);
+                    CHECK_GL_ERROR("Failed to enable alpha blending");
+
+                    auto src_factor_RGB   = BlendFactor2GLBlend(rt.src_blend);
+                    auto dst_factor_RGB   = BlendFactor2GLBlend(rt.dest_blend);
+                    auto src_factor_alpha = BlendFactor2GLBlend(rt.src_blend_alpha);
+                    auto dst_factor_alpha = BlendFactor2GLBlend(rt.dest_blend_alpha);
+                    glBlendFuncSeparatei(i, src_factor_RGB, dst_factor_RGB, src_factor_alpha,
+                                         dst_factor_alpha);
+                    CHECK_GL_ERROR("Failed to set separate blending factors");
+                    auto mode_RGB   = BlendOperation2GLBlendOp(rt.blend_op);
+                    auto mode_alpha = BlendOperation2GLBlendOp(rt.blend_op_alpha);
+                    glBlendEquationSeparatei(i, mode_RGB, mode_alpha);
+                    CHECK_GL_ERROR("Failed to set separate blending equations");
+                }
+                else
+                {
+                    glDisablei(GL_BLEND, i);
+                    CHECK_GL_ERROR("Failed to disable alpha blending");
+                }
+            }
+        }
+        else
+        {
+            const auto & rt0              = bs_dsc.render_targets[0];
+            auto         src_factor_RGB   = BlendFactor2GLBlend(rt0.src_blend);
+            auto         dst_factor_RGB   = BlendFactor2GLBlend(rt0.dest_blend);
+            auto         src_factor_alpha = BlendFactor2GLBlend(rt0.src_blend_alpha);
+            auto         dst_factor_alpha = BlendFactor2GLBlend(rt0.dest_blend_alpha);
+            glBlendFuncSeparate(src_factor_RGB, dst_factor_RGB, src_factor_alpha, dst_factor_alpha);
+            CHECK_GL_ERROR("Failed to set blending factors");
+
+            auto mode_RGB   = BlendOperation2GLBlendOp(rt0.blend_op);
+            auto mode_alpha = BlendOperation2GLBlendOp(rt0.blend_op_alpha);
+            glBlendEquationSeparate(mode_RGB, mode_alpha);
+            CHECK_GL_ERROR("Failed to set blending equations");
+        }
+    }
+    else
+    {
+        //  Sets the blend disable flag for ALL color buffers.
+        glDisable(GL_BLEND);
+        CHECK_GL_ERROR("Failed to disable alpha blending");
+    }
+}
+
+void GLContextState::getColorWriteMask(uint32_t rt_index, uint32_t & write_mask, bool & is_independent)
+{
+    if(!m_independent_write_masks)
+        rt_index = 0;
+    write_mask     = m_color_write_masks[rt_index];
+    is_independent = m_independent_write_masks;
+}
+
+void GLContextState::setColorWriteMask(uint32_t rt_index, uint32_t write_mask, bool is_independent)
+{
+    // Even though the write mask only applies to writes to a framebuffer, the mask state is NOT
+    // Framebuffer state. So it is NOT part of a Framebuffer Object or the Default Framebuffer.
+    // Binding a new framebuffer will NOT affect the mask.
+
+    if(!is_independent)
+        rt_index = 0;
+
+    if(m_color_write_masks[rt_index] != write_mask || m_independent_write_masks != is_independent)
+    {
+        if(is_independent)
+        {
+            // Note that glColorMaski() does not set color mask for the framebuffer
+            // attachment point RTIndex. Rather it sets the mask for what was set
+            // by the glDrawBuffers() function for the i-th output
+            glColorMaski(rt_index, (write_mask & COLOR_MASK_RED) ? GL_TRUE : GL_FALSE,
+                         (write_mask & COLOR_MASK_GREEN) ? GL_TRUE : GL_FALSE,
+                         (write_mask & COLOR_MASK_BLUE) ? GL_TRUE : GL_FALSE,
+                         (write_mask & COLOR_MASK_ALPHA) ? GL_TRUE : GL_FALSE);
+            CHECK_GL_ERROR("Failed to set GL color mask");
+
+            m_color_write_masks[rt_index] = write_mask;
+        }
+        else
+        {
+            // glColorMask() sets the mask for ALL draw buffers
+            glColorMask((write_mask & COLOR_MASK_RED) ? GL_TRUE : GL_FALSE,
+                        (write_mask & COLOR_MASK_GREEN) ? GL_TRUE : GL_FALSE,
+                        (write_mask & COLOR_MASK_BLUE) ? GL_TRUE : GL_FALSE,
+                        (write_mask & COLOR_MASK_ALPHA) ? GL_TRUE : GL_FALSE);
+            CHECK_GL_ERROR("Failed to set GL color mask");
+
+            for(int rt = 0; rt < std::size(m_color_write_masks); ++rt)
+                m_color_write_masks[rt] = write_mask;
+        }
+        m_independent_write_masks = is_independent;
+    }
+}
+
+void GLContextState::setNumPatchVertices(int32_t num_vertices)
+{
+#if GL_ARB_tessellation_shader
+    if(num_vertices != m_num_patch_vertices)
+    {
+        m_num_patch_vertices = num_vertices;
+        glPatchParameteri(GL_PATCH_VERTICES, static_cast<GLint>(num_vertices));
+        CHECK_GL_ERROR("Failed to set the number of patch vertices");
+    }
+#endif
+}
 }   // namespace evnt
