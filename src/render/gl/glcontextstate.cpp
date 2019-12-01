@@ -1,9 +1,11 @@
 #include "glcontextstate.h"
 #include "../../log/log.h"
+#include "asyncwritableresource.h"
 #include "typeconversions.h"
 #include <cassert>
 #include <sstream>
 
+#ifdef DEBUG
 #define CHECK_GL_ERROR(...)                                                                  \
     do                                                                                       \
     {                                                                                        \
@@ -13,9 +15,13 @@
             LogError(__FUNCTION__, __FILE__, __LINE__, __VA_ARGS__, "GL Error Code: ", err); \
         }                                                                                    \
     } while(false)
+#else
+#define CHECK_GL_ERROR(...)
+#endif
 
 namespace evnt
 {
+
 template<typename... ArgsType>
 void LogError(const char * function, const char * full_file_path, int line, const ArgsType &... args)
 {
@@ -156,7 +162,54 @@ void GLContextState::bindImage(uint32_t index, class TextureViewGLImpl * tex_vie
                                GLboolean is_layered, GLint layer, GLenum access, GLenum format)
 {}
 
-void GLContextState::ensureMemoryBarrier(uint32_t required_barriers, class AsyncWritableResource * res) {}
+void GLContextState::ensureMemoryBarrier(uint32_t required_barriers, AsyncWritableResource * res)
+{
+#if GL_ARB_shader_image_load_store
+    // Every resource tracks its own pending memory barriers.
+    // Device context also tracks which barriers have not been executed
+    // When a resource with pending memory barrier flag is bound to the context,
+    // the context checks if the same flag is set in its own pending barriers.
+    // Thus a memory barrier is only executed if some resource required that barrier
+    // and it has not been executed yet. This is almost optimal strategy, but slightly
+    // imperfect as the following scenario shows:
+
+    // Draw 1: Barriers_A |= BARRIER_FLAG, Barrier_Ctx |= BARRIER_FLAG
+    // Draw 2: Barriers_B |= BARRIER_FLAG, Barrier_Ctx |= BARRIER_FLAG
+    // Draw 3: Bind B, execute BARRIER: Barriers_B = 0, Barrier_Ctx = 0 (Barriers_A == BARRIER_FLAG)
+    // Draw 4: Barriers_B |= BARRIER_FLAG, Barrier_Ctx |= BARRIER_FLAG
+    // Draw 5: Bind A, execute BARRIER, Barriers_A = 0, Barrier_Ctx = 0 (Barriers_B == BARRIER_FLAG)
+
+    // In the last draw call, barrier for resource A has already been executed when resource B was
+    // bound to the pipeline. Since Resource A has not been bound since then, its flag has not been
+    // cleared.
+    // This situation does not seem to be a problem though since a barier cannot be executed
+    // twice in any situation
+
+    uint32_t resource_pending_barriers = 0;
+    if(res)
+    {
+        // If resource is specified, only set up memory barriers
+        // that are required by the resource
+        resource_pending_barriers = res->GetPendingMemortBarriers();
+        required_barriers &= resource_pending_barriers;
+    }
+
+    // Leave only pending barriers
+    required_barriers &= m_pending_memory_barriers;
+    if(required_barriers)
+    {
+        glMemoryBarrier(required_barriers);
+        CHECK_GL_ERROR("glMemoryBarrier() failed");
+        m_pending_memory_barriers &= ~required_barriers;
+    }
+
+    // Leave only these barriers that are still pending
+    if(res)
+        res->ResetPendingMemoryBarriers(m_pending_memory_barriers & resource_pending_barriers);
+#else
+    UNEXPECTED("GL_ARB_shader_image_load_store is not supported");
+#endif
+}
 
 void GLContextState::setPendingMemoryBarriers(uint32_t pending_barriers)
 {
@@ -531,6 +584,7 @@ void GLContextState::getColorWriteMask(uint32_t rt_index, uint32_t & write_mask,
 {
     if(!m_independent_write_masks)
         rt_index = 0;
+
     write_mask     = m_color_write_masks[rt_index];
     is_independent = m_independent_write_masks;
 }

@@ -63,6 +63,7 @@ SOURCES +=  \
     src/network/connection.cpp \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
+    src/render/gl/glcontext.cpp \
     src/render/gl/glcontextstate.cpp \
     src/render/gl/typeconversions.cpp \
     src/render/utils/colorconversion.cpp \
@@ -104,6 +105,8 @@ HEADERS += \
     src/render/blend.h \
     src/render/depthstencilstate.h \
     src/render/devicecaps.h \
+    src/render/gl/asyncwritableresource.h \
+    src/render/gl/glcontext.h \
     src/render/gl/glcontextstate.h \
     src/render/gl/globjwrapper.h \
     src/render/gl/typeconversions.h \
