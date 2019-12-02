@@ -934,14 +934,14 @@ bool VerifyResourceStates(RESOURCE_STATE state, bool is_texture)
     static_assert(RESOURCE_STATE_MAX_BIT == 0x8000,
                   "Please update this function to handle the new resource state");
 
-#define VERIFY_EXCLUSIVE_STATE(ExclusiveState)                                                \
-    if((state & ExclusiveState) != 0 && (state & ~ExclusiveState) != 0)                       \
-    {                                                                                         \
-        std::ostringstream ss;                                                                \
-        ss << "State " << GetResourceStateString(state) << " is invalid: " << #ExclusiveState \
-           << " can't be combined with any other state";                                      \
-        Log::Log(Log::error, ss.str());                                                       \
-        return false;                                                                         \
+#define VERIFY_EXCLUSIVE_STATE(exclusive_state)                                                \
+    if((state & exclusive_state) != 0 && (state & ~exclusive_state) != 0)                      \
+    {                                                                                          \
+        std::ostringstream ss;                                                                 \
+        ss << "State " << GetResourceStateString(state) << " is invalid: " << #exclusive_state \
+           << " can't be combined with any other state";                                       \
+        Log::Log(Log::error, ss.str());                                                        \
+        return false;                                                                          \
     }
 
     VERIFY_EXCLUSIVE_STATE(RESOURCE_STATE_UNDEFINED);

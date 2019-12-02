@@ -29,7 +29,7 @@ win32:{
     LIBS += -lboost_filesystem-mgw73-mt-x32-1_69
     LIBS += -liconv -lz -lws2_32 -lshell32
     LIBS += -lstdc++fs -static-libgcc -static-libstdc++ -static -lpthread
-    LIBS += -lglfw3dll -lglewdll -lopengl32
+    LIBS += -lglfw3dll -lglew32dll -lopengl32
 }
 unix:{
     DEFINES += BOOST_LOG_DYN_LINK

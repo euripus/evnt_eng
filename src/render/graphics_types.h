@@ -1246,6 +1246,22 @@ struct FullScreenModeDesc
     DisplayModeAttribs::SCANLINE_ORDER scanline_order = DisplayModeAttribs::SCANLINE_ORDER_UNSPECIFIED;
 };
 
+/// Attributes of the OpenGL-based engine implementation
+struct RenderCreateInfo
+{
+    /// Native window handle
+
+    /// * On Win32 platform, this is a window handle (HWND)
+    /// * On Android platform, this is a pointer to the native window (ANativeWindow*)
+    /// * On Linux, this is the native window (Window)
+    void * native_window_handle = nullptr;
+
+#if PLATFORM_LINUX
+    /// For linux platform only, this is the pointer to the display
+    void * display = nullptr;
+#endif
+};
+
 /// Describes invariant texture format attributes. These attributes are
 /// intrinsic to the texture format itself and do not depend on the
 /// format support.

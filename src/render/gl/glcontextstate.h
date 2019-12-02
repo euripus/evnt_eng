@@ -5,6 +5,7 @@
 #include "../depthstencilstate.h"
 #include "../graphics_types.h"
 #include "../rasterizerstate.h"
+#include "glcontext.h"
 #include "globjwrapper.h"
 #include <vector>
 
@@ -55,8 +56,8 @@ public:
     void setNumPatchVertices(int32_t num_vertices);
     void invalidate();
 
-    /*void SetCurrentGLContext(GLContext::NativeGLContextType Context) { m_CurrentGLContext = Context; }
-    GLContext::NativeGLContextType GetCurrentGLContext() const { return m_CurrentGLContext; }*/
+    void SetCurrentGLContext(GLContext::NativeGLContextType Context) { m_current_gl_context = Context; }
+    GLContext::NativeGLContextType GetCurrentGLContext() const { return m_current_gl_context; }
 
     struct ContextCaps
     {
@@ -166,7 +167,7 @@ private:
     int32_t           m_active_texture     = -1;
     int32_t           m_num_patch_vertices = -1;
 
-    // GLContext::NativeGLContextType m_CurrentGLContext = {};
+    GLContext::NativeGLContextType m_current_gl_context = {};
 };
 
 }   // namespace evnt
