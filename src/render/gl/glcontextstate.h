@@ -15,6 +15,7 @@ class GLContextState
 {
 public:
     GLContextState();
+    void invalidate();
 
     void setProgram(const GLObjectWrappers::GLProgramObj & program);
     void setPipeline(const GLObjectWrappers::GLPipelineObj & pipeline);
@@ -54,7 +55,6 @@ public:
     void setColorWriteMask(uint32_t rt_index, uint32_t write_mask, bool is_independent);
 
     void setNumPatchVertices(int32_t num_vertices);
-    void invalidate();
 
     void SetCurrentGLContext(GLContext::NativeGLContextType Context) { m_current_gl_context = Context; }
     GLContext::NativeGLContextType GetCurrentGLContext() const { return m_current_gl_context; }

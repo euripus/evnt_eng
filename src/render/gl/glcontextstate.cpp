@@ -21,7 +21,6 @@
 
 namespace evnt
 {
-
 template<typename... ArgsType>
 void LogError(const char * function, const char * full_file_path, int line, const ArgsType &... args)
 {
@@ -44,6 +43,47 @@ void LogError(const char * function, const char * full_file_path, int line, cons
 
 GLContextState::GLContextState() {}
 
+void GLContextState::invalidate()
+{
+#if !PLATFORM_ANDROID
+    // On Android this results in OpenGL error, so we will not
+    // clear the barriers. All the required barriers will be
+    // executed next frame when needed
+    if(m_pending_memory_barriers != 0)
+        ensureMemoryBarrier(m_pending_memory_barriers);
+    m_pending_memory_barriers = 0;
+#endif
+
+    // Unity messes up at least VAO left in the context,
+    // so unbid what we bound
+    glUseProgram(0);
+    glBindProgramPipeline(0);
+    glBindVertexArray(0);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+    CHECK_GL_ERROR("Failed to reset GL context state");
+
+    m_prog_id     = static_cast<GLuint>(-1);
+    m_pipeline_id = static_cast<GLuint>(-1);
+    m_vao_id      = static_cast<GLuint>(-1);
+    m_fbo_id      = static_cast<GLuint>(-1);
+
+    m_bound_textures.clear();
+    m_bound_samplers.clear();
+    m_bound_images.clear();
+
+    m_ds_state = DepthStencilGLState();
+    m_rs_state = RasterizerGLState();
+
+    for(unsigned int rt = 0; rt < std::size(m_color_write_masks); ++rt)
+        m_color_write_masks[rt] = 0xFF;
+
+    m_independent_write_masks = EnableStateHelper();
+
+    m_active_texture     = -1;
+    m_num_patch_vertices = -1;
+}
+
 bool UpdateBoundObject(GLuint & current_object_id, GLuint & new_handle)
 {
     if(current_object_id != new_handle)
@@ -58,7 +98,7 @@ template<class ObjectType>
 bool UpdateBoundObjectsArr(std::vector<ObjectType> & bound_object_ids, uint32_t index, GLuint & new_handle)
 {
     if(index >= bound_object_ids.size())
-        bound_object_ids.resize(index + 1, -1);
+        bound_object_ids.resize(index + 1, static_cast<ObjectType>(-1));
 
     return UpdateBoundObject(bound_object_ids[index], new_handle);
 }
@@ -622,7 +662,7 @@ void GLContextState::setColorWriteMask(uint32_t rt_index, uint32_t write_mask, b
                         (write_mask & COLOR_MASK_ALPHA) ? GL_TRUE : GL_FALSE);
             CHECK_GL_ERROR("Failed to set GL color mask");
 
-            for(int rt = 0; rt < std::size(m_color_write_masks); ++rt)
+            for(unsigned int rt = 0; rt < std::size(m_color_write_masks); ++rt)
                 m_color_write_masks[rt] = write_mask;
         }
         m_independent_write_masks = is_independent;

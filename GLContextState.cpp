@@ -62,47 +62,6 @@ namespace Diligent
         m_CurrentGLContext = pDeviceGL->m_GLContext.GetCurrentNativeGLContext();
     }
 
-    void GLContextState::Invalidate()
-    {
-#if !PLATFORM_ANDROID
-        // On Android this results in OpenGL error, so we will not
-        // clear the barriers. All the required barriers will be
-        // executed next frame when needed
-        if(m_PendingMemoryBarriers != 0)
-            EnsureMemoryBarrier(m_PendingMemoryBarriers);
-        m_PendingMemoryBarriers = 0;
-#endif
-
-        // Unity messes up at least VAO left in the context,
-        // so unbid what we bound
-        glUseProgram( 0 );
-        glBindProgramPipeline( 0 );
-        glBindVertexArray( 0 );
-        glBindFramebuffer( GL_DRAW_FRAMEBUFFER, 0 );
-        glBindFramebuffer( GL_READ_FRAMEBUFFER, 0 );
-        CHECK_GL_ERROR( "Failed to reset GL context state" );
-
-        m_GLProgId = -1;
-        m_GLPipelineId = -1;
-        m_VAOId = -1;
-        m_FBOId = -1;
-        
-        m_BoundTextures.clear();
-        m_BoundSamplers.clear();
-        m_BoundImages.clear();
-
-        m_DSState = DepthStencilGLState();
-        m_RSState = RasterizerGLState();
-
-        for( Uint32 rt = 0; rt < _countof( m_ColorWriteMasks ); ++rt )
-            m_ColorWriteMasks[rt] = 0xFF;
-
-        m_bIndependentWriteMasks = EnableStateHelper();
-
-        m_iActiveTexture = -1;
-        m_NumPatchVertices = -1;
-    }
-
     void GLContextState::BindImage( Uint32 Index,
         TextureViewGLImpl *pTexView,
         GLint MipLevel,
