@@ -377,8 +377,7 @@ public:
     ///          write these states.
     ///          If the application intends to use the same resources in other threads simultaneously, it
     ///          needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
-    ///          method. Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for
-    ///          detailed explanation of resource state management in evnt Engine.
+    ///          method.
     virtual void transitionShaderResources(IPipelineState *         pPipelineState,
                                            IShaderResourceBinding * pShaderResourceBinding) = 0;
 
@@ -413,8 +412,6 @@ public:
     ///          (which will disable automatic state management) using IBuffer::SetState() or
     ///          ITexture::SetState() and explicitly transitioning the states with
     ///          IDeviceContext::TransitionResourceStates().
-    ///          Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed
-    ///          explanation of resource state management in evnt Engine.
     virtual void commitShaderResources(IShaderResourceBinding *       pShaderResourceBinding,
                                        RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
@@ -459,8 +456,7 @@ public:
     ///          states of these buffers.
     ///          If the application intends to use the same resources in other threads simultaneously, it
     ///          needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
-    ///          method. Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for
-    ///          detailed explanation of resource state management in evnt Engine.
+    ///          method.
     virtual void setVertexBuffers(uint32_t StartSlot, uint32_t NumBuffersSet, IBuffer ** ppBuffers,
                                   uint32_t * pOffsets, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode,
                                   SET_VERTEX_BUFFERS_FLAGS Flags) = 0;
@@ -485,9 +481,7 @@ public:
     ///          unknown). Resource state transitioning is not thread safe, so no other thread is allowed to
     ///          read or write the state of the buffer. If the application intends to use the same resource in
     ///          other threads simultaneously, it needs to explicitly manage the states using
-    ///          IDeviceContext::TransitionResourceStates() method. Refer to
-    ///          http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed explanation of
-    ///          resource state management in evnt Engine.
+    ///          IDeviceContext::TransitionResourceStates() method.
     virtual void setIndexBuffer(IBuffer * pIndexBuffer, uint32_t ByteOffset,
                                 RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
@@ -545,8 +539,7 @@ public:
     ///              Any render targets not defined by this call are set to nullptr.
     ///              You can set the default render target and depth stencil using the
     ///              following call:
-    ///
-    ///     pContext->SetRenderTargets(0, nullptr, nullptr);
+    ///                 pContext->SetRenderTargets(0, nullptr, nullptr);
     /// \remarks When StateTransitionMode is evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION, the method
     ///          will transition all render targets in known states to evnt::RESOURCE_STATE_REDER_TARGET,
     ///          and the depth-stencil buffer to evnt::RESOURCE_STATE_DEPTH_WRITE state.
@@ -554,8 +547,6 @@ public:
     ///          write the states of resources used by the command.
     ///          If the application intends to use the same resource in other threads simultaneously, it needs
     ///          to explicitly manage the states using IDeviceContext::TransitionResourceStates() method.
-    ///          Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed
-    ///          explanation of resource state management in evnt Engine.
     virtual void setRenderTargets(uint32_t NumRenderTargets, ITextureView * ppRenderTargets[],
                                   ITextureView *                 pDepthStencil,
                                   RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
@@ -578,7 +569,6 @@ public:
     /// Executes a dispatch compute command
     /// \param [in] DispatchAttrs - Structure describing dispatch command attributes,
     ///                             see evnt::DispatchComputeAttribs for details.
-    ///
     /// \remarks  If IndirectAttribsBufferStateTransitionMode member is
     ///           evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
     ///           the method may transition the state of indirect dispatch arguments buffer. This is not a
@@ -604,9 +594,7 @@ public:
     ///          In Direct3D12, this satate is always evnt::RESOURCE_STATE_DEPTH_WRITE, however in Vulkan
     ///          the state depends on whether the depth buffer is bound to the pipeline.
     ///          Resource state transitioning is not thread safe, so no other thread is allowed to read or
-    ///          write the state of resources used by the command. Refer to
-    ///          http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed explanation of
-    ///          resource state management in evnt Engine.
+    ///          write the state of resources used by the command.
     virtual void clearDepthStencil(ITextureView * pView, CLEAR_DEPTH_STENCIL_FLAGS ClearFlags, float fDepth,
                                    uint8_t Stencil, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 

@@ -1,5 +1,5 @@
 #include "typeconversions.h"
-#include "../itextureview.h"
+#include "../interface/itextureview.h"
 #include "../utils/graphicsaccessories.h"
 #include <unordered_map>
 

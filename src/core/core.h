@@ -24,10 +24,10 @@ class Core : public Module<Core>
     uint32_t                     m_fps{0};
 
     pt::ptree                    m_root_config;
-    std::unique_ptr<ThreadPool>  m_thread_pool;
-    std::unique_ptr<EventSystem> m_event_system;
-    std::unique_ptr<FileSystem>  m_file_system;
-    std::unique_ptr<App>         m_app;
+    std::unique_ptr<ThreadPool>  mup_thread_pool;
+    std::unique_ptr<EventSystem> mup_event_system;
+    std::unique_ptr<FileSystem>  mup_file_system;
+    std::unique_ptr<App>         mup_app;
 
     bool m_running{false};
 
@@ -40,19 +40,19 @@ public:
     template<typename EventTrait>
     void registerEvent()
     {
-        m_event_system->registerEvent<EventTrait>();
+        mup_event_system->registerEvent<EventTrait>();
     }
 
     template<typename EventTrait>
     EvntHandle addFunctor(typename EventTrait::DelegateType fn)
     {
-        return m_event_system->subscribeToEvent<EventTrait>(std::move(fn));
+        return mup_event_system->subscribeToEvent<EventTrait>(std::move(fn));
     }
 
     template<typename EventTrait>
     void removeFunctor(EvntHandle evh)
     {
-        m_event_system->unSubscribeFromEvent<EventTrait>(evh);
+        mup_event_system->unSubscribeFromEvent<EventTrait>(evh);
     }
 
     template<typename EventTrait, typename... Args>
@@ -60,7 +60,7 @@ public:
     {
         static_assert(EventTrait::numArgs == sizeof...(Args), "Incorrect arguments number!");
 
-        return m_event_system->raiseEvent<EventTrait>(std::forward<Args>(args)...);
+        return mup_event_system->raiseEvent<EventTrait>(std::forward<Args>(args)...);
     }
 
     bool appInit(int argc, char * argv[]);   // call after all AppState instances added and start state set
@@ -69,10 +69,10 @@ public:
     void exit() { m_running = false; }
 
     // getters
-    ThreadPool &      getThreadPool() { return *m_thread_pool; }
-    FileSystem &      getFileSystem() { return *m_file_system; }
+    ThreadPool &      getThreadPool() { return *mup_thread_pool; }
+    FileSystem &      getFileSystem() { return *mup_file_system; }
     const pt::ptree & getRootConfig() const { return m_root_config; }
-    App &             getApp() { return *m_app; }
+    App &             getApp() { return *mup_app; }
     uint32_t          getFPS() const { return m_fps; }
 };
 }   // namespace evnt

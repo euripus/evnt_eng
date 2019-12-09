@@ -38,7 +38,7 @@ enum STENCIL_OP : int8_t
     /// Direct3D counterpart: D3D11_STENCIL_OP_INVERT/D3D12_STENCIL_OP_INVERT. OpenGL counterpart: GL_INVERT.
     STENCIL_OP_INVERT = 6,
     /// Increment the current stencil value, and wrap the value to zero when incrementing
-    /// the maximum representable unsigned value. 
+    /// the maximum representable unsigned value.
     /// Direct3D counterpart: D3D11_STENCIL_OP_INCR/D3D12_STENCIL_OP_INCR. OpenGL counterpart: GL_INCR_WRAP.
     STENCIL_OP_INCR_WRAP = 7,
     /// Decrement the current stencil value, and wrap the value to the maximum representable
@@ -61,16 +61,16 @@ struct StencilOpDesc
 {
     /// The stencil operation to perform when stencil testing fails.
     /// Default value: evnt::STENCIL_OP_KEEP.
-    STENCIL_OP StencilFailOp = STENCIL_OP_KEEP;
+    STENCIL_OP stencil_fail_op = STENCIL_OP_KEEP;
     /// The stencil operation to perform when stencil testing passes and depth testing fails.
     /// Default value: evnt::STENCIL_OP_KEEP.
-    STENCIL_OP StencilDepthFailOp = STENCIL_OP_KEEP;
+    STENCIL_OP stencil_depth_fail_op = STENCIL_OP_KEEP;
     /// The stencil operation to perform when stencil testing and depth testing both pass.
     /// Default value: evnt::STENCIL_OP_KEEP.
-    STENCIL_OP StencilPassOp = STENCIL_OP_KEEP;
+    STENCIL_OP stencil_pass_op = STENCIL_OP_KEEP;
     /// A function that compares stencil data against existing stencil data.
     /// Default value: evnt::COMPARISON_FUNC_ALWAYS. See evnt::COMPARISON_FUNCTION.
-    COMPARISON_FUNCTION StencilFunc = COMPARISON_FUNC_ALWAYS;
+    COMPARISON_FUNCTION stencil_func = COMPARISON_FUNC_ALWAYS;
 
     // We have to explicitly define constructors because otherwise Apple's clang fails to compile the
     // following legitimate code:
@@ -79,10 +79,10 @@ struct StencilOpDesc
     StencilOpDesc() noexcept {}
     StencilOpDesc(STENCIL_OP _StencilFailOp, STENCIL_OP _StencilDepthFailOp, STENCIL_OP _StencilPassOp,
                   COMPARISON_FUNCTION _StencilFunc) noexcept :
-        StencilFailOp(_StencilFailOp),
-        StencilDepthFailOp(_StencilDepthFailOp),
-        StencilPassOp(_StencilPassOp),
-        StencilFunc(_StencilFunc)
+        stencil_fail_op(_StencilFailOp),
+        stencil_depth_fail_op(_StencilDepthFailOp),
+        stencil_pass_op(_StencilPassOp),
+        stencil_func(_StencilFunc)
     {}
 
     /// Tests if two structures are equivalent
@@ -92,8 +92,8 @@ struct StencilOpDesc
     /// - false otherwise
     bool operator==(const StencilOpDesc & rhs) const
     {
-        return StencilFailOp == rhs.StencilFailOp && StencilDepthFailOp == rhs.StencilDepthFailOp
-               && StencilPassOp == rhs.StencilPassOp && StencilFunc == rhs.StencilFunc;
+        return stencil_fail_op == rhs.stencil_fail_op && stencil_depth_fail_op == rhs.stencil_depth_fail_op
+               && stencil_pass_op == rhs.stencil_pass_op && stencil_func == rhs.stencil_func;
     }
 };
 

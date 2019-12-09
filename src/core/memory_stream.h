@@ -83,18 +83,18 @@ class InputMemoryStream
 {
 public:
     InputMemoryStream(std::unique_ptr<int8_t[]> inData, size_t inByteCount) :
-        m_data{std::move(inData)}, m_head{0}, m_capacity{inByteCount}
+        mup_data{std::move(inData)}, m_head{0}, m_capacity{inByteCount}
     {}
     InputMemoryStream(size_t inByteCount) :
-        m_data{std::make_unique<int8_t[]>(inByteCount)}, m_head{0}, m_capacity{inByteCount}
+        mup_data{std::make_unique<int8_t[]>(inByteCount)}, m_head{0}, m_capacity{inByteCount}
     {}
     InputMemoryStream()  = default;
     ~InputMemoryStream() = default;
 
     InputMemoryStream(const InputMemoryStream & other) : m_head{other.m_head}, m_capacity{other.m_capacity}
     {
-        m_data = std::make_unique<int8_t[]>(m_capacity);
-        std::memcpy(m_data.get(), other.m_data.get(), m_capacity);
+        mup_data = std::make_unique<int8_t[]>(m_capacity);
+        std::memcpy(mup_data.get(), other.mup_data.get(), m_capacity);
     }
     InputMemoryStream & operator=(const InputMemoryStream & other)
     {
@@ -104,8 +104,8 @@ public:
 
         m_head     = other.m_head;
         m_capacity = other.m_capacity;
-        m_data     = std::make_unique<int8_t[]>(m_capacity);
-        std::memcpy(m_data.get(), other.m_data.get(), m_capacity);
+        mup_data   = std::make_unique<int8_t[]>(m_capacity);
+        std::memcpy(mup_data.get(), other.mup_data.get(), m_capacity);
 
         return *this;
     }
@@ -126,7 +126,7 @@ public:
     {
         using std::swap;
 
-        swap(left.m_data, right.m_data);
+        swap(left.mup_data, right.mup_data);
         swap(left.m_head, right.m_head);
         swap(left.m_capacity, right.m_capacity);
     }
@@ -152,8 +152,8 @@ public:
 
     uint32_t       getRemainingDataSize() const { return m_capacity - m_head; }
     uint32_t       getCapacity() const { return m_capacity; }
-    const int8_t * getCurPosPtr() const { return m_data.get() + m_head; }
-    const int8_t * getPtr() const { return m_data.get(); }
+    const int8_t * getCurPosPtr() const { return mup_data.get() + m_head; }
+    const int8_t * getPtr() const { return mup_data.get(); }
 
     void resetHead() { m_head = 0; }
     void setCapacity(uint32_t newCapacity) { m_capacity = newCapacity; }
@@ -161,7 +161,7 @@ public:
     static InputMemoryStream ConvertToInputMemoryStream(const OutputMemoryStream & inStream);
 
 private:
-    std::unique_ptr<int8_t[]> m_data;
+    std::unique_ptr<int8_t[]> mup_data;
     mutable size_t            m_head;
     size_t                    m_capacity;
 };

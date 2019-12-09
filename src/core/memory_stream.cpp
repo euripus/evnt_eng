@@ -25,7 +25,7 @@ void InputMemoryStream::read(void * outData, uint32_t inByteCount) const
         throw std::range_error("InputMemoryStream::Read - no data to read!");
     }
 
-    std::memcpy(outData, m_data.get() + m_head, inByteCount);
+    std::memcpy(outData, mup_data.get() + m_head, inByteCount);
 
     m_head = resultHead;
 }

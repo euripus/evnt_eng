@@ -54,8 +54,7 @@ public:
     /// of subresources in the texture (which is the number of mip levels times the number of array slices.
     /// For a 3D texture, this is just the number of mip levels).
     /// For example, for a 15 x 6 x 2 2D texture array, the following array of subresources should be
-    /// provided:
-    /// 15x6, 7x3, 3x1, 1x1, 15x6, 7x3, 3x1, 1x1.
+    /// provided: 15x6, 7x3, 3x1, 1x1, 15x6, 7x3, 3x1, 1x1.
     /// For a 15 x 6 x 4 3D texture, the following array of subresources should be provided:
     /// 15x6x4, 7x3x2, 3x1x1, 1x1x1
     virtual void createTexture(const TextureDesc & TexDesc, const TextureData * pData,

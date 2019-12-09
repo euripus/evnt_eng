@@ -38,14 +38,14 @@ public:
     AppState::StateID getStateID(std::string const & state_name);   // if not found return 0
 
     // ?????
-    Window &        getMainWindow() { return *m_main_window; }
+    Window &        getMainWindow() { return *mup_main_window; }
     ObjectManager & getObjectManager() { return m_obj_mgr; }
     const Command & getAppCommandLineParam() const { return m_command_line; }
 
 private:
     void doStateTransition();
 
-    std::unique_ptr<Window> m_main_window;
+    std::unique_ptr<Window> mup_main_window;
     bool                    m_is_running{true};
 
     mutable std::mutex       m_state_mutex;

@@ -2,9 +2,9 @@
 #define GRAPHICSACCESSORIES_H
 
 #include "../graphics_types.h"
-#include "../ibufferview.h"
-#include "../ishaderresourcevariable.h"
-#include "../itexture.h"
+#include "../interface/ibufferview.h"
+#include "../interface/ishaderresourcevariable.h"
+#include "../interface/itexture.h"
 #include <cassert>
 #include <iterator>
 #include <string>
@@ -106,7 +106,7 @@ struct VALUE_TYPE2CType<VT_FLOAT32>
     using CType = float;
 };
 
-static const uint32_t ValueTypeToSizeMap[] = {0,
+static const uint32_t s_value_type_to_size_map[] = {0,
                                               sizeof(VALUE_TYPE2CType<VT_INT8>::CType),
                                               sizeof(VALUE_TYPE2CType<VT_INT16>::CType),
                                               sizeof(VALUE_TYPE2CType<VT_INT32>::CType),
@@ -120,8 +120,8 @@ static_assert(VT_NUM_TYPES == VT_FLOAT32 + 1, "Not all value type sizes initiali
 /// Returns the size of the specified value type
 inline uint32_t GetValueSize(VALUE_TYPE val)
 {
-    assert(val < std::size(ValueTypeToSizeMap));
-    return ValueTypeToSizeMap[val];
+    assert(val < std::size(s_value_type_to_size_map));
+    return s_value_type_to_size_map[val];
 }
 
 /// Returns the string representing the specified value type

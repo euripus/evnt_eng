@@ -26,8 +26,8 @@ bool GLFWWindow::create(int width, int height)
     if(m_full_screen)
     {
         mon    = glfwGetPrimaryMonitor();
-        width  = m_base_video_mode->width;
-        height = m_base_video_mode->height;
+        width  = mp_base_video_mode->width;
+        height = mp_base_video_mode->height;
     }
     else
     {
@@ -39,21 +39,21 @@ bool GLFWWindow::create(int width, int height)
     glfwWindowHint(GLFW_CONTEXT_RELEASE_BEHAVIOR, GLFW_ANY_RELEASE_BEHAVIOR);
     glfwWindowHint(GLFW_SAMPLES, m_MSAA_level);
 
-    if(m_glfw_window != nullptr)
-        glfwDestroyWindow(m_glfw_window);
-    m_glfw_window = glfwCreateWindow(width, height, "", mon, nullptr);
+    if(mp_glfw_window != nullptr)
+        glfwDestroyWindow(mp_glfw_window);
+    mp_glfw_window = glfwCreateWindow(width, height, "", mon, nullptr);
 
-    if(m_glfw_window == nullptr)
+    if(mp_glfw_window == nullptr)
     {
         return false;
     }
 
     glm::ivec2 sz(width, height);
     winResize(sz);
-    glfwSetWindowTitle(m_glfw_window, m_title.c_str());
+    glfwSetWindowTitle(mp_glfw_window, m_title.c_str());
     setMouseCursor(getMouseCursor());
 
-    m_input_backend = std::make_unique<InputGLFW>(m_glfw_window);
+    mup_input_backend = std::make_unique<InputGLFW>(mp_glfw_window);
 
     return true;
 }
@@ -77,7 +77,7 @@ bool GLFWWindow::init()
         if(!m_cur_mouse_cursor.load())
             return false;
 
-    m_base_video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    mp_base_video_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
     m_running = true;
 
@@ -94,15 +94,15 @@ bool GLFWWindow::init()
 
 void GLFWWindow::terminate()
 {
-    glfwDestroyWindow(m_glfw_window);
-    m_glfw_window = nullptr;
+    glfwDestroyWindow(mp_glfw_window);
+    mp_glfw_window = nullptr;
 
     glfwTerminate();
 }
 
 void GLFWWindow::update()
 {
-    m_running = !glfwWindowShouldClose(m_glfw_window);
+    m_running = !glfwWindowShouldClose(mp_glfw_window);
     if(!m_running)
         m_owner.stop();
 
@@ -192,7 +192,7 @@ void GLFWWindow::setMouseCursor(MouseCursor cursor)
 
     if(glfw_cursor != nullptr)
     {
-        glfwSetCursor(m_glfw_window, glfw_cursor);
+        glfwSetCursor(mp_glfw_window, glfw_cursor);
     }
 }
 
@@ -200,11 +200,11 @@ void GLFWWindow::setCursorVisibility(bool type)
 {
     if(type)
     {
-        glfwSetInputMode(m_glfw_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        glfwSetInputMode(mp_glfw_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
     else
     {
-        glfwSetInputMode(m_glfw_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        glfwSetInputMode(mp_glfw_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     }
 }
 }   // namespace evnt

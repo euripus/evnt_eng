@@ -9,13 +9,13 @@ namespace evnt
 {
 /// Maximum number of input buffer slots.
 /// D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT == 32
-static constexpr uint32_t MaxBufferSlots = 32;
+static constexpr uint32_t s_max_buffer_slots = 32;
 /// Maximum number of simultaneous render targets.
-static constexpr uint32_t MaxRenderTargets = 8;
+static constexpr uint32_t s_max_render_targets = 8;
 /// Maximum number of viewports.
-static constexpr uint32_t MaxViewports = 16;
+static constexpr uint32_t s_max_viewports = 16;
 /// Maximum number of shader stages in a pipeline.
-static constexpr uint32_t MaxShadersInPipeline = 5;
+static constexpr uint32_t s_max_shaders_in_pipeline = 5;
 
 /// Value type
 /// This enumeration describes value type. It is used by
@@ -210,11 +210,9 @@ enum BUFFER_VIEW_TYPE : uint8_t
 /// This enumeration describes available texture formats and generally mirrors DXGI_FORMAT enumeration.
 /// The table below provides detailed information on each format. Most of the formats are widely supported
 /// by all modern APIs (DX10+, OpenGL3.3+ and OpenGLES3.0+). Specific requirements are additionally indicated.
-/// \sa <a href =
-/// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb173059(v=vs.85).aspx">DXGI_FORMAT enumeration
-/// on MSDN</a>,
-///     <a href = "https://www.opengl.org/wiki/Image_Format">OpenGL Texture Formats</a>
-///
+/// https://msdn.microsoft.com/en-us/library/windows/desktop/bb173059(v=vs.85).aspx - DXGI_FORMAT enumeration
+/// on MSDN,
+/// https://www.opengl.org/wiki/Image_Format - OpenGL Texture Formats
 enum TEXTURE_FORMAT : int16_t
 {
     /// Unknown format
@@ -1175,9 +1173,8 @@ struct HardwareAdapterAttribs
 struct DisplayModeAttribs
 {
     /// Flags indicating how an image is stretched to fit a given monitor's resolution.
-    /// \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb173066(v=vs.85).aspx">DXGI_MODE_SCALING
-    /// enumeration on MSDN</a>,
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb173066(v=vs.85).aspx - DXGI_MODE_SCALING
+    /// enumeration on MSDN
     enum SCALING
     {
         /// Unspecified scaling.
@@ -1193,9 +1190,8 @@ struct DisplayModeAttribs
     };
 
     /// Flags indicating the method the raster uses to create an image on a surface.
-    /// \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb173067">DXGI_MODE_SCANLINE_ORDER
-    /// enumeration on MSDN</a>,
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb173067 - DXGI_MODE_SCANLINE_ORDER
+    /// enumeration on MSDN
     enum SCANLINE_ORDER
     {
         /// Scanline order is unspecified
@@ -1229,9 +1225,8 @@ struct DisplayModeAttribs
 };
 
 /// Full screen mode description
-/// \sa <a href =
-/// "https://msdn.microsoft.com/en-us/library/windows/desktop/hh404531(v=vs.85).aspx">DXGI_SWAP_CHAIN_FULLSCREEN_DESC
-/// structure on MSDN</a>,
+/// https://msdn.microsoft.com/en-us/library/windows/desktop/hh404531(v=vs.85).aspx -
+/// DXGI_SWAP_CHAIN_FULLSCREEN_DESC structure on MSDN
 struct FullScreenModeDesc
 {
     /// A Boolean value that specifies whether the swap chain is in fullscreen mode.

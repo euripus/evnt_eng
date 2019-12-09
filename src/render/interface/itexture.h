@@ -68,10 +68,10 @@ struct TextureDesc : DeviceObjectAttribs
     uint32_t sample_count = 1;
     /// Texture usage. See evnt::USAGE for details.
     USAGE usage = USAGE_DEFAULT;
-    /// Bind flags, see evnt::BIND_FLAGS for details. 
+    /// Bind flags, see evnt::BIND_FLAGS for details.
     /// The following bind flags are allowed:
     /// evnt::BIND_SHADER_RESOURCE, evnt::BIND_RENDER_TARGET, evnt::BIND_DEPTH_STENCIL,
-    /// evnt::and BIND_UNORDERED_ACCESS. 
+    /// evnt::and BIND_UNORDERED_ACCESS.
     /// Multisampled textures cannot have evnt::BIND_UNORDERED_ACCESS flag set
     BIND_FLAGS bind_flags = BIND_NONE;
     /// CPU access flags or 0 if no CPU access is allowed,
@@ -200,27 +200,25 @@ public:
     const TextureDesc & getDesc() const override = 0;
     /// Creates a new texture view
     /// \param [in] ViewDesc - View description. See evnt::TextureViewDesc for details.
-    /// \param [out] ppView - Address of the memory location where the pointer to the view interface will be
-    /// written to.
+    /// \param [out] ppView  - Address of the memory location where the pointer to the view interface will be
+    ///                        written to.
     /// \remarks To create a shader resource view addressing the entire texture, set only
-    /// TextureViewDesc::ViewType
-    ///          member of the ViewDesc parameter to evnt::TEXTURE_VIEW_SHADER_RESOURCE and leave all
-    ///          other members in their default values. Using the same method, you can create render target or
-    ///          depth stencil view addressing the largest mip level. If texture view format is
-    ///          evnt::TEX_FORMAT_UNKNOWN, the view format will match the texture format. If texture
-    ///          view type is evnt::TEXTURE_VIEW_UNDEFINED, the type will match the texture type. If the
-    ///          number of mip levels is 0, and the view type is shader resource, the view will address all
-    ///          mip levels. For other view types it will address one mip level. If the number of slices is
-    ///          0, all slices from FirstArraySlice or FirstDepthSlice will be referenced by the view. For
-    ///          non-array textures, the only allowed values for the number of slices are 0 and 1. Texture
-    ///          view will contain strong reference to the texture, so the texture will not be destroyed until
-    ///          all views are released. The function calls AddRef() for the created interface, so it must
-    ///          be released by a call to Release() when it is no longer needed.
+    ///          TextureViewDesc::ViewType member of the ViewDesc parameter to
+    ///          evnt::TEXTURE_VIEW_SHADER_RESOURCE and leave all other members in their default values. Using
+    ///          the same method, you can create render target or depth stencil view addressing the largest
+    ///          mip level. If texture view format is evnt::TEX_FORMAT_UNKNOWN, the view format will match the
+    ///          texture format. If texture view type is evnt::TEXTURE_VIEW_UNDEFINED, the type will match the
+    ///          texture type. If the number of mip levels is 0, and the view type is shader resource, the
+    ///          view will address all mip levels. For other view types it will address one mip level. If the
+    ///          number of slices is 0, all slices from FirstArraySlice or FirstDepthSlice will be referenced
+    ///          by the view. For non-array textures, the only allowed values for the number of slices are 0
+    ///          and 1. Texture view will contain strong reference to the texture, so the texture will not be
+    ///          destroyed until all views are released. The function calls AddRef() for the created
+    ///          interface, so it must be released by a call to Release() when it is no longer needed.
     virtual void createView(const struct TextureViewDesc & ViewDesc, class ITextureView ** ppView) = 0;
     /// Returns the pointer to the default view.
     /// \param [in] ViewType - Type of the requested view. See evnt::TEXTURE_VIEW_TYPE.
     /// \return Pointer to the interface
-    ///
     /// \note The function does not increase the reference counter for the returned interface, so
     ///       Release() must *NOT* be called.
     virtual ITextureView * getDefaultView(TEXTURE_VIEW_TYPE ViewType) = 0;

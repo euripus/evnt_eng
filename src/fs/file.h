@@ -49,18 +49,18 @@ public:
     {
         std::swap(m_name, name);
         m_last_write_time = timestamp;
-        std::swap(m_data, data);
+        std::swap(mup_data, data);
     }
     ~BufferedFile() override = default;
 
-    const int8_t * getData() const override { return m_data.get(); }
+    const int8_t * getData() const override { return mup_data.get(); }
     size_t         getFileSize() const override { return m_file_size; }
     std::string    getName() const override { return m_name; }
 
 private:
     std::string               m_name;
     size_t                    m_file_size = 0;
-    std::unique_ptr<int8_t[]> m_data;
+    std::unique_ptr<int8_t[]> mup_data;
 };
 }   // namespace evnt
 #endif   // FILE_H

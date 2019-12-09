@@ -36,16 +36,18 @@ enum CULL_MODE : int8_t
     /// Undefined cull mode.
     CULL_MODE_UNDEFINED = 0,
     /// Draw all triangles.
-    /// Direct3D counterpart: D3D11_CULL_NONE/D3D12_CULL_MODE_NONE. OpenGL counterpart: glDisable(
-    /// GL_CULL_FACE ).
+    /// Direct3D counterpart: D3D11_CULL_NONE/D3D12_CULL_MODE_NONE.
+    /// OpenGL counterpart: glDisable(GL_CULL_FACE ).
     CULL_MODE_NONE,
     /// Do not draw triangles that are front-facing. Front- and back-facing triangles are determined
     /// by the RasterizerStateDesc::FrontCounterClockwise member.
-    /// Direct3D counterpart: D3D11_CULL_FRONT/D3D12_CULL_MODE_FRONT. OpenGL counterpart: GL_FRONT.
+    /// Direct3D counterpart: D3D11_CULL_FRONT/D3D12_CULL_MODE_FRONT.
+    /// OpenGL counterpart: GL_FRONT.
     CULL_MODE_FRONT,
     /// Do not draw triangles that are back-facing. Front- and back-facing triangles are determined
     /// by the RasterizerStateDesc::FrontCounterClockwise member.
-    /// Direct3D counterpart: D3D11_CULL_BACK/D3D12_CULL_MODE_BACK. OpenGL counterpart: GL_BACK.
+    /// Direct3D counterpart: D3D11_CULL_BACK/D3D12_CULL_MODE_BACK.
+    /// OpenGL counterpart: GL_BACK.
     CULL_MODE_BACK,
     /// Helper value that stores the total number of cull modes in the enumeration.
     CULL_MODE_NUM_MODES

@@ -1,6 +1,4 @@
 #include "textureviewbase.h"
 
-TextureViewBase::TextureViewBase()
-{
-
-}
+namespace evnt
+{}

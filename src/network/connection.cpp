@@ -6,7 +6,7 @@ namespace evnt
 extern int64_t                 GetMilisecFromStart();
 static boost::asio::io_service io_serv;
 
-Connection::Connection() : m_socket{std::make_shared<UDPSocket>(io_serv)} {}
+Connection::Connection() : msp_socket{std::make_shared<UDPSocket>(io_serv)} {}
 
 void Connection::processIncomingPackets()
 {
@@ -31,7 +31,7 @@ void Connection::readIncomingPacketsIntoQueue()
         try
         {
             size_t readByteCount =
-                m_socket->receiveFrom(static_cast<void *>(const_cast<int8_t *>(inputStream.getCurPosPtr())),
+                msp_socket->receiveFrom(static_cast<void *>(const_cast<int8_t *>(inputStream.getCurPosPtr())),
                                       packetSize, fromAddress);
             if(readByteCount > 0)
             {
@@ -82,7 +82,7 @@ void Connection::processQueuedPackets()
 void Connection::sendPacket(const OutputMemoryStream & inOutputStream, const SocketAddress & inToAddress)
 {
     int sentByteCount =
-        m_socket->sendTo(inOutputStream.getBufferPtr(), inOutputStream.getLength(), inToAddress);
+        msp_socket->sendTo(inOutputStream.getBufferPtr(), inOutputStream.getLength(), inToAddress);
     if(sentByteCount > 0)
     {
         // mBytesSentThisFrame += sentByteCount;

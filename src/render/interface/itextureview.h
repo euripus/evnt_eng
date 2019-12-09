@@ -23,64 +23,64 @@ enum UAV_ACCESS_FLAG : int32_t
 /// Texture view description
 struct TextureViewDesc : DeviceObjectAttribs
 {
-    static constexpr uint32_t RemainingMipLevels   = static_cast<uint32_t>(-1);
-    static constexpr uint32_t RemainingArraySlices = static_cast<uint32_t>(-1);
+    static constexpr uint32_t s_remaining_mip_levels   = static_cast<uint32_t>(-1);
+    static constexpr uint32_t s_remaining_array_slices = static_cast<uint32_t>(-1);
 
     /// Describes the texture view type, see evnt::TEXTURE_VIEW_TYPE for details.
-    TEXTURE_VIEW_TYPE ViewType = TEXTURE_VIEW_UNDEFINED;
+    TEXTURE_VIEW_TYPE view_type = TEXTURE_VIEW_UNDEFINED;
     /// View interpretation of the original texture. For instance,
     /// one slice of a 2D texture array can be viewed as a 2D texture.
     /// See evnt::RESOURCE_DIMENSION for a list of texture types.
     /// If default value evnt::RESOURCE_DIM_UNDEFINED is provided,
     /// the view type will match the type of the referenced texture.
-    RESOURCE_DIMENSION TextureDim = RESOURCE_DIM_UNDEFINED;
+    RESOURCE_DIMENSION texture_dim = RESOURCE_DIM_UNDEFINED;
     /// View format. If default value evnt::TEX_FORMAT_UNKNOWN is provided,
     /// the view format will match the referenced texture format.
-    TEXTURE_FORMAT Format = TEX_FORMAT_UNKNOWN;
+    TEXTURE_FORMAT format = TEX_FORMAT_UNKNOWN;
     /// Most detailed mip level to use
-    uint32_t MostDetailedMip = 0;
+    uint32_t most_detailed_mip = 0;
     /// Total number of mip levels for the view of the texture.
     /// Render target and depth stencil views can address only one mip level.
     /// If 0 is provided, then for a shader resource view all mip levels will be
     /// referenced, and for a render target or a depth stencil view, one mip level
     /// will be referenced.
-    uint32_t NumMipLevels = 0;
+    uint32_t num_mip_levels = 0;
     union
     {
         /// For a texture array, first array slice to address in the view
-        uint32_t FirstArraySlice = 0;
+        uint32_t first_array_slice = 0;
         /// For a 3D texture, first depth slice to address the view
-        uint32_t FirstDepthSlice;
+        uint32_t first_depth_slice;
     };
     union
     {
         /// For a texture array, number of array slices to address in the view.
         /// Set to 0 to address all array slices.
-        uint32_t NumArraySlices = 0;
+        uint32_t num_array_slices = 0;
         /// For a 3D texture, number of depth slices to address in the view
         /// Set to 0 to address all depth slices.
-        uint32_t NumDepthSlices;
+        uint32_t num_depth_slices;
     };
     /// For an unordered access view, allowed access flags. See evnt::UAV_ACCESS_FLAG
     /// for details.
-    uint32_t AccessFlags = 0;
+    uint32_t access_flags = 0;
 
     TextureViewDesc() noexcept {}
     TextureViewDesc(TEXTURE_VIEW_TYPE _ViewType, RESOURCE_DIMENSION _TextureDim,
-                    TEXTURE_FORMAT _Format                 = TextureViewDesc{}.Format,
-                    uint32_t       _MostDetailedMip        = TextureViewDesc{}.MostDetailedMip,
-                    uint32_t       _NumMipLevels           = TextureViewDesc{}.NumMipLevels,
-                    uint32_t       _FirstArrayOrDepthSlice = TextureViewDesc{}.FirstArraySlice,
-                    uint32_t       _NumArrayOrDepthSlices  = TextureViewDesc{}.NumArraySlices,
-                    uint32_t       _AccessFlags            = TextureViewDesc{}.AccessFlags) noexcept :
-        ViewType(_ViewType),
-        TextureDim(_TextureDim),
-        Format(_Format),
-        MostDetailedMip(_MostDetailedMip),
-        NumMipLevels(_NumMipLevels),
-        FirstArraySlice(_FirstArrayOrDepthSlice),
-        NumArraySlices(_NumArrayOrDepthSlices),
-        AccessFlags(_AccessFlags)
+                    TEXTURE_FORMAT _Format                 = TextureViewDesc{}.format,
+                    uint32_t       _MostDetailedMip        = TextureViewDesc{}.most_detailed_mip,
+                    uint32_t       _NumMipLevels           = TextureViewDesc{}.num_mip_levels,
+                    uint32_t       _FirstArrayOrDepthSlice = TextureViewDesc{}.first_array_slice,
+                    uint32_t       _NumArrayOrDepthSlices  = TextureViewDesc{}.num_array_slices,
+                    uint32_t       _AccessFlags            = TextureViewDesc{}.access_flags) noexcept :
+        view_type(_ViewType),
+        texture_dim(_TextureDim),
+        format(_Format),
+        most_detailed_mip(_MostDetailedMip),
+        num_mip_levels(_NumMipLevels),
+        first_array_slice(_FirstArrayOrDepthSlice),
+        num_array_slices(_NumArrayOrDepthSlices),
+        access_flags(_AccessFlags)
     {}
 
     /// Tests if two structures are equivalent
@@ -93,11 +93,11 @@ struct TextureViewDesc : DeviceObjectAttribs
         // Name is primarily used for debug purposes and does not affect the view.
         // It is ignored in comparison operation.
         return   // strcmp(Name, RHS.Name) == 0            &&
-            ViewType == RHS.ViewType && TextureDim == RHS.TextureDim && Format == RHS.Format
-            && MostDetailedMip == RHS.MostDetailedMip && NumMipLevels == RHS.NumMipLevels
-            && FirstArraySlice == RHS.FirstArraySlice && FirstDepthSlice == RHS.FirstDepthSlice
-            && NumArraySlices == RHS.NumArraySlices && NumDepthSlices == RHS.NumDepthSlices
-            && AccessFlags == RHS.AccessFlags;
+            view_type == RHS.view_type && texture_dim == RHS.texture_dim && format == RHS.format
+            && most_detailed_mip == RHS.most_detailed_mip && num_mip_levels == RHS.num_mip_levels
+            && first_array_slice == RHS.first_array_slice && first_depth_slice == RHS.first_depth_slice
+            && num_array_slices == RHS.num_array_slices && num_depth_slices == RHS.num_depth_slices
+            && access_flags == RHS.access_flags;
     }
 };
 

@@ -44,7 +44,7 @@ class ObjectManager;
 class Object
 {
     uint32_t m_instance_id{0};   // 0 - not initialized
-    bool     is_delete{false};
+    bool     m_is_delete{false};
 
 public:
     using CreateFunc = std::function<std::unique_ptr<Object>()>;
@@ -74,8 +74,8 @@ public:
     uint32_t getInstanceId() const { return m_instance_id; }
     void     setInstanceId(uint32_t inNetworkId) { m_instance_id = inNetworkId; }
 
-    bool isDeleted() const { return is_delete; }
-    void deleteObj() { is_delete = true; }
+    bool isDeleted() const { return m_is_delete; }
+    void deleteObj() { m_is_delete = true; }
 
     bool isDerivedFrom(int32_t classID) { return IsDerivedFromClassID(getClassIDVirtual(), classID); }
 

@@ -16,14 +16,14 @@ int64_t GetMilisecFromStart()
 
 Core::Core()
 {
-    m_thread_pool  = std::make_unique<ThreadPool>();
-    m_event_system = std::make_unique<EventSystem>(*m_thread_pool);
+    mup_thread_pool  = std::make_unique<ThreadPool>();
+    mup_event_system = std::make_unique<EventSystem>(*mup_thread_pool);
 
     // http://techgate.fr/boost-property-tree/
     // Load the config.json file in this ptree
     pt::read_json(root_config_filename, m_root_config);
 
-    m_file_system =
+    mup_file_system =
         std::make_unique<FileSystem>(m_root_config.get<std::string>("FileSystem.RootPathRelative"));
 
     Log::SeverityLevel sl =
@@ -32,7 +32,7 @@ Core::Core()
     Log::BoostLog::InitBoostLog(m_root_config.get<std::string>("Logging.FileName"), ot);
     Log::BoostLog::SetSeverityFilter(sl);
 
-    m_app = std::make_unique<App>();
+    mup_app = std::make_unique<App>();
 
     registerEvent<evExit>();
     addFunctor<evExit>(std::bind(&Core::exit, this));
@@ -40,7 +40,7 @@ Core::Core()
 
 bool Core::appInit(int argc, char * argv[])
 {
-    return m_app->init(argc, argv);
+    return mup_app->init(argc, argv);
 }
 
 void Core::enterMainLoop()

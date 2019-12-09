@@ -68,6 +68,7 @@ public:
     const ContextCaps & GetContextCaps() { return m_caps; }
 
 private:
+    /// types
     struct BoundImageInfo
     {
         GLint     mip_level  = 0;
@@ -148,6 +149,7 @@ private:
         EnableStateHelper scissor_test_enable;
     };
 
+    /// variables
     GLuint              m_prog_id     = static_cast<GLuint>(-1);
     GLuint              m_pipeline_id = static_cast<GLuint>(-1);
     GLuint              m_vao_id      = static_cast<GLuint>(-1);
@@ -162,7 +164,7 @@ private:
     RasterizerGLState   m_rs_state;
     ContextCaps         m_caps;
 
-    uint32_t m_color_write_masks[MaxRenderTargets] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+    uint32_t m_color_write_masks[s_max_render_targets] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
     EnableStateHelper m_independent_write_masks;
     int32_t           m_active_texture     = -1;
     int32_t           m_num_patch_vertices = -1;

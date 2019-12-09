@@ -11,7 +11,7 @@ namespace evnt
 class GLFWWindow : public Window
 {
 public:
-    GLFWWindow(App & app) : Window(app), m_base_video_mode{nullptr}, m_glfw_window{nullptr} {}
+    GLFWWindow(App & app) : Window(app), mp_base_video_mode{nullptr}, mp_glfw_window{nullptr} {}
     ~GLFWWindow() override = default;
 
     void alert(std::string const & title, std::string const & message,
@@ -32,8 +32,8 @@ public:
 private:
     bool create(int width, int height);
 
-    GLFWvidmode const * m_base_video_mode{nullptr};
-    GLFWwindow *        m_glfw_window{nullptr};
+    GLFWvidmode const * mp_base_video_mode{nullptr};
+    GLFWwindow *        mp_glfw_window{nullptr};
 
     int m_gl_major{1};
     int m_gl_minor{5};

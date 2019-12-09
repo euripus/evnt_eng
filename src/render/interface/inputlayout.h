@@ -5,13 +5,13 @@
 
 namespace evnt
 {
-static constexpr uint32_t sMaxLayoutElements = 16;
+static constexpr uint32_t s_max_layout_elements = 16;
 
 /// Description of a single element of the input layout
 struct LayoutElement
 {
-    static constexpr uint32_t sAutoOffset = static_cast<uint32_t>(-1);
-    static constexpr uint32_t sAutoStride = static_cast<uint32_t>(-1);
+    static constexpr uint32_t s_auto_offset = static_cast<uint32_t>(-1);
+    static constexpr uint32_t s_auto_stride = static_cast<uint32_t>(-1);
 
     /// Input index of the element, which is specified in the vertex shader.
     uint32_t input_index = 0;
@@ -30,13 +30,13 @@ struct LayoutElement
     /// Relative offset, in bytes, to the element bits.
     /// If this value is set to LayoutElement::AutoOffset (default value), the offset will
     /// be computed automatically by placing the element right after the previous one.
-    uint32_t relative_offset = sAutoOffset;
+    uint32_t relative_offset = s_auto_offset;
     /// Stride, in bytes, between two elements, for this buffer slot.
     /// If this value is set to LayoutElement::AutoStride, the stride will be
     /// computed automatically assuming that all elements in the same buffer slot are
     /// packed one after another. If the buffer slot contains multiple layout elements,
     /// they all must specify the same stride or use AutoStride value.
-    uint32_t stride = sAutoStride;
+    uint32_t stride = s_auto_stride;
     /// Input frequency
     enum FREQUENCY : int32_t
     {

@@ -47,7 +47,7 @@ private:
     };
 
     std::queue<ReceivedPacket, std::list<ReceivedPacket>> m_packet_queue;
-    UDPSocketPtr                                          m_socket;
+    UDPSocketPtr                                          msp_socket;
 };
 }   // namespace evnt
 
