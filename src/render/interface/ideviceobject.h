@@ -1,7 +1,7 @@
 #ifndef IDEVICEOBJECT_H
 #define IDEVICEOBJECT_H
 
-#include "graphics_types.h"
+#include "../graphics_types.h"
 
 namespace evnt
 {

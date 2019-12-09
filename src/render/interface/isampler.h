@@ -8,13 +8,10 @@ namespace evnt
 /// Sampler description
 /// This structure describes the sampler state which is used in a call to
 /// IRenderDevice::CreateSampler() to create a sampler object.
-///
 /// To create an anisotropic filter, all three filters must either be evnt::FILTER_TYPE_ANISOTROPIC
 /// or evnt::FILTER_TYPE_COMPARISON_ANISOTROPIC.
-///
 /// MipFilter cannot be comparison filter except for evnt::FILTER_TYPE_ANISOTROPIC if all
 /// three filters have that value.
-///
 /// Both MinFilter and MagFilter must either be regular filters or comparison filters.
 /// Mixing comparison and regular filters is an error.
 struct SamplerDesc : public DeviceObjectAttribs

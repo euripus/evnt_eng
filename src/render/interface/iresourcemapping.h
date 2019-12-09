@@ -49,7 +49,6 @@ public:
     /// \param [in] bIsUnique - Flag indicating if a resource with the same name
     ///                         is allowed to be found in the mapping. In the latter
     ///                         case, the new resource replaces the existing one.
-    ///
     /// \remarks Resource mapping increases the reference counter for referenced objects. So an
     ///          object will not be released as long as it is in the resource mapping.
     virtual void addResource(const char * Name, IDeviceObject * pObject, bool bIsUnique) = 0;
@@ -61,7 +60,6 @@ public:
     /// \param [in] bIsUnique - Flag indicating if a resource with the same name
     ///                         is allowed to be found in the mapping. In the latter
     ///                         case, the new resource replaces the existing one.
-    ///
     /// \remarks Resource mapping increases the reference counter for referenced objects. So an
     ///          object will not be released as long as it is in the resource mapping.
     virtual void addResourceArray(const char * Name, uint32_t StartIndex, IDeviceObject * const * ppObjects,

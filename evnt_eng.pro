@@ -66,6 +66,7 @@ SOURCES +=  \
     src/render/gl/glcontext.cpp \
     src/render/gl/glcontextstate.cpp \
     src/render/gl/typeconversions.cpp \
+    src/render/textureviewbase.cpp \
     src/render/utils/colorconversion.cpp \
     src/render/utils/graphicsaccessories.cpp \
     src/resource/imagedata.cpp
@@ -102,7 +103,7 @@ HEADERS += \
     src/network/connection.h \
     src/network/socketaddress.h \
     src/network/udpsocket.h \
-    src/render/blend.h \
+    src/render/blendstate.h \
     src/render/depthstencilstate.h \
     src/render/devicecaps.h \
     src/render/gl/asyncwritableresource.h \
@@ -111,23 +112,24 @@ HEADERS += \
     src/render/gl/globjwrapper.h \
     src/render/gl/typeconversions.h \
     src/render/graphics_types.h \
-    src/render/ibuffer.h \
-    src/render/ibufferview.h \
-    src/render/idevicecontext.h \
-    src/render/ideviceobject.h \
-    src/render/ifence.h \
-    src/render/inputlayout.h \
-    src/render/ipipelinestate.h \
-    src/render/irenderdevice.h \
-    src/render/iresourcemapping.h \
-    src/render/isampler.h \
-    src/render/ishader.h \
-    src/render/ishaderresourcebinding.h \
-    src/render/ishaderresourcevariable.h \
-    src/render/iswapchain.h \
-    src/render/itexture.h \
-    src/render/itextureview.h \
+    src/render/interface/ibuffer.h \
+    src/render/interface/ibufferview.h \
+    src/render/interface/idevicecontext.h \
+    src/render/interface/ideviceobject.h \
+    src/render/interface/ifence.h \
+    src/render/interface/inputlayout.h \
+    src/render/interface/ipipelinestate.h \
+    src/render/interface/irenderdevice.h \
+    src/render/interface/iresourcemapping.h \
+    src/render/interface/isampler.h \
+    src/render/interface/ishader.h \
+    src/render/interface/ishaderresourcebinding.h \
+    src/render/interface/ishaderresourcevariable.h \
+    src/render/interface/iswapchain.h \
+    src/render/interface/itexture.h \
+    src/render/interface/itextureview.h \
     src/render/rasterizerstate.h \
+    src/render/textureviewbase.h \
     src/render/utils/colorconversion.h \
     src/render/utils/graphicsaccessories.h \
     src/resource/imagedata.h

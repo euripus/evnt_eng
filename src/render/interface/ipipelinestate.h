@@ -1,15 +1,15 @@
 #ifndef IPIPELINESTATE_H
 #define IPIPELINESTATE_H
 
-#include "blend.h"
-#include "depthstencilstate.h"
+#include "../blendstate.h"
+#include "../depthstencilstate.h"
 #include "ideviceobject.h"
 #include "inputlayout.h"
 #include "isampler.h"
 #include "ishader.h"
 #include "ishaderresourcebinding.h"
 #include "ishaderresourcevariable.h"
-#include "rasterizerstate.h"
+#include "../rasterizerstate.h"
 
 namespace evnt
 {

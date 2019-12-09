@@ -15,10 +15,10 @@ enum FILL_MODE : int8_t
 {
     /// Undefined fill mode.
     FILL_MODE_UNDEFINED = 0,
-    /// Rasterize triangles using wireframe fill. 
+    /// Rasterize triangles using wireframe fill.
     /// Direct3D counterpart: D3D11_FILL_WIREFRAME/D3D12_FILL_MODE_WIREFRAME. OpenGL counterpart: GL_LINE.
     FILL_MODE_WIREFRAME,
-    /// Rasterize triangles using solid fill. 
+    /// Rasterize triangles using solid fill.
     /// Direct3D counterpart: D3D11_FILL_SOLID/D3D12_FILL_MODE_SOLID. OpenGL counterpart: GL_FILL.
     FILL_MODE_SOLID,
     /// Helper value that stores the total number of fill modes in the enumeration.
@@ -35,16 +35,16 @@ enum CULL_MODE : int8_t
 {
     /// Undefined cull mode.
     CULL_MODE_UNDEFINED = 0,
-    /// Draw all triangles. 
+    /// Draw all triangles.
     /// Direct3D counterpart: D3D11_CULL_NONE/D3D12_CULL_MODE_NONE. OpenGL counterpart: glDisable(
     /// GL_CULL_FACE ).
     CULL_MODE_NONE,
     /// Do not draw triangles that are front-facing. Front- and back-facing triangles are determined
-    /// by the RasterizerStateDesc::FrontCounterClockwise member. 
+    /// by the RasterizerStateDesc::FrontCounterClockwise member.
     /// Direct3D counterpart: D3D11_CULL_FRONT/D3D12_CULL_MODE_FRONT. OpenGL counterpart: GL_FRONT.
     CULL_MODE_FRONT,
     /// Do not draw triangles that are back-facing. Front- and back-facing triangles are determined
-    /// by the RasterizerStateDesc::FrontCounterClockwise member. 
+    /// by the RasterizerStateDesc::FrontCounterClockwise member.
     /// Direct3D counterpart: D3D11_CULL_BACK/D3D12_CULL_MODE_BACK. OpenGL counterpart: GL_BACK.
     CULL_MODE_BACK,
     /// Helper value that stores the total number of cull modes in the enumeration.
@@ -52,7 +52,6 @@ enum CULL_MODE : int8_t
 };
 
 /// Rasterizer state description
-
 /// This structure describes the rasterizer state and is part of the GraphicsPipelineDesc.
 struct RasterizerStateDesc
 {
@@ -117,19 +116,18 @@ struct RasterizerStateDesc
     {}
 
     /// Tests if two structures are equivalent
-
     /// \param [in] RHS - reference to the structure to perform comparison with
     /// \return
     /// - true if all members of the two structures are equal.
     /// - false otherwise
-    bool operator==(const RasterizerStateDesc & RHS) const
+    bool operator==(const RasterizerStateDesc & rhs) const
     {
-        return fill_mode == RHS.fill_mode && cull_mode == RHS.cull_mode
-               && front_counter_clockwise == RHS.front_counter_clockwise && depth_bias == RHS.depth_bias
-               && depth_bias_clamp == RHS.depth_bias_clamp
-               && slope_scaled_depth_bias == RHS.slope_scaled_depth_bias
-               && depth_clip_enable == RHS.depth_clip_enable && scissor_enable == RHS.scissor_enable
-               && antialiased_line_enable == RHS.antialiased_line_enable;
+        return fill_mode == rhs.fill_mode && cull_mode == rhs.cull_mode
+               && front_counter_clockwise == rhs.front_counter_clockwise && depth_bias == rhs.depth_bias
+               && depth_bias_clamp == rhs.depth_bias_clamp
+               && slope_scaled_depth_bias == rhs.slope_scaled_depth_bias
+               && depth_clip_enable == rhs.depth_clip_enable && scissor_enable == rhs.scissor_enable
+               && antialiased_line_enable == rhs.antialiased_line_enable;
     }
 };
 }   // namespace evnt

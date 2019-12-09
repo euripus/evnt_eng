@@ -2,7 +2,7 @@
 #define TYPECONVERSIONS_H
 
 #include "../../log/debug_messages.h"
-#include "../blend.h"
+#include "../blendstate.h"
 #include "../depthstencilstate.h"
 #include <GL/glew.h>
 #include <cassert>

@@ -202,7 +202,6 @@ public:
     /// \param [in] ViewDesc - View description. See evnt::TextureViewDesc for details.
     /// \param [out] ppView - Address of the memory location where the pointer to the view interface will be
     /// written to.
-    ///
     /// \remarks To create a shader resource view addressing the entire texture, set only
     /// TextureViewDesc::ViewType
     ///          member of the ViewDesc parameter to evnt::TEXTURE_VIEW_SHADER_RESOURCE and leave all

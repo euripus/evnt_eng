@@ -1,8 +1,8 @@
 #ifndef IRENDERDEVICE_H
 #define IRENDERDEVICE_H
 
-#include "devicecaps.h"
-#include "graphics_types.h"
+#include "../devicecaps.h"
+#include "../graphics_types.h"
 #include "ibuffer.h"
 #include "ifence.h"
 #include "ipipelinestate.h"
@@ -23,9 +23,8 @@ public:
     ///                          buffer interface will be stored. The function calls AddRef(),
     ///                          so that the new buffer will contain one refernce and must be
     ///                          released by a call to Release().
-    ///
     /// \remarks
-    /// Size of a uniform buffer (BIND_UNIFORM_BUFFER) must be multiple of 16.\n
+    /// Size of a uniform buffer (BIND_UNIFORM_BUFFER) must be multiple of 16.
     /// Stride of a formatted buffer will be computed automatically from the format if
     /// ElementByteStride member of buffer description is set to default value (0).
     virtual void createBuffer(const BufferDesc & BuffDesc, const BufferData * pBuffData,
@@ -44,21 +43,20 @@ public:
     /// \param [in] pData   - Pointer to evnt::TextureData structure that describes
     ///                       initial texture data or nullptr if no data is provided.
     ///                       Static textures (USAGE_STATIC) must be initialized at creation time.
-    ///
     /// \param [out] ppTexture - Address of the memory location where the pointer to the
     ///                          texture interface will be stored.
     ///                          The function calls AddRef(), so that the new object will contain
     ///                          one refernce.
     /// \remarks
-    /// To create all mip levels, set the TexDesc.MipLevels to zero.\n
-    /// Multisampled resources cannot be initialzed with data when they are created. \n
+    /// To create all mip levels, set the TexDesc.MipLevels to zero.
+    /// Multisampled resources cannot be initialzed with data when they are created.
     /// If initial data is provided, number of subresources must exactly match the number
     /// of subresources in the texture (which is the number of mip levels times the number of array slices.
     /// For a 3D texture, this is just the number of mip levels).
     /// For example, for a 15 x 6 x 2 2D texture array, the following array of subresources should be
-    /// provided: \n
-    /// 15x6, 7x3, 3x1, 1x1, 15x6, 7x3, 3x1, 1x1.\n
-    /// For a 15 x 6 x 4 3D texture, the following array of subresources should be provided:\n
+    /// provided:
+    /// 15x6, 7x3, 3x1, 1x1, 15x6, 7x3, 3x1, 1x1.
+    /// For a 15 x 6 x 4 3D texture, the following array of subresources should be provided:
     /// 15x6x4, 7x3x2, 3x1x1, 1x1x1
     virtual void createTexture(const TextureDesc & TexDesc, const TextureData * pData,
                                ITexture ** ppTexture) = 0;
@@ -76,7 +74,8 @@ public:
 
     /// Creates a new resource mapping
     /// \param [in]  MappingDesc - Resource mapping description, see evnt::ResourceMappingDesc for
-    /// details. \param [out] ppMapping   - Address of the memory location where the pointer to the
+    ///                            details.
+    /// \param [out] ppMapping   - Address of the memory location where the pointer to the
     ///                            resource mapping interface will be stored.
     ///                            The function calls AddRef(), so that the new object will contain
     ///                            one refernce.
@@ -85,7 +84,8 @@ public:
 
     /// Creates a new pipeline state object
     /// \param [in]  PipelineDesc    - Pipeline state description, see evnt::PipelineStateDesc for
-    /// details. \param [out] ppPipelineState - Address of the memory location where the pointer to the
+    ///                                details.
+    /// \param [out] ppPipelineState - Address of the memory location where the pointer to the
     ///                                pipeline state interface will be stored.
     ///                                The function calls AddRef(), so that the new object will contain
     ///                                one refernce.

@@ -1,7 +1,7 @@
 #ifndef ISHADER_H
 #define ISHADER_H
 
-#include "../core/memory_stream.h"
+#include "../../core/memory_stream.h"
 #include "ideviceobject.h"
 
 namespace evnt

@@ -75,7 +75,6 @@ public:
     /// \param [in] ppObjects    - pointer to the array of objects
     /// \param [in] FirstElement - first array element to set
     /// \param [in] NumElements  - number of objects in ppObjects array
-    ///
     /// \remark The method performs run-time correctness checks.
     ///         For instance, shader resource view cannot
     ///         be assigned to a constant buffer variable.

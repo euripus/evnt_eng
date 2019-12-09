@@ -32,7 +32,6 @@ enum RESOURCE_STATE_TRANSITION_MODE : uint8_t
     RESOURCE_STATE_TRANSITION_MODE_NONE = 0,
     /// Transition resources to the states required by the specific command.
     /// Resources in unknown state are ignored.
-    ///
     /// \note    Any method that uses this mode may alter the state of the resources it works with.
     ///          As automatic state management is not thread-safe, no other thread is allowed to read
     ///          or write the state of the resources being transitioned.
@@ -45,7 +44,6 @@ enum RESOURCE_STATE_TRANSITION_MODE : uint8_t
     /// No validation is performed if the state is unknown to the engine.
     /// This mode only has effect in debug and development builds. No validation
     /// is performed in release build.
-    ///
     /// \note    Any method that uses this mode will read the state of resources it works with.
     ///          As automatic state management is not thread-safe, no other thread is allowed to alter
     ///          the state of resources being used by the command. It is safe to read these states.
@@ -295,7 +293,6 @@ struct Box
 
 /// Describes the rectangle.
 /// This structure is used by IDeviceContext::SetScissorRects().
-///
 /// \remarks When defining a viewport, Windows convention is used:
 ///          window coordinate systems originates in the LEFT TOP corner
 ///          of the screen with Y axis pointing down.
@@ -366,22 +363,18 @@ public:
     virtual void setPipelineState(IPipelineState * pPipelineState) = 0;
 
     /// Transitions shader resources to the states required by Draw or Dispatch command.
-    ///
     /// \param [in] pPipelineState         - Pipeline state object that was used to create the shader resource
-    /// binding. \param [in] pShaderResourceBinding - Shader resource binding whose resources will be
-    /// transitioned.
-    ///
+    ///                                      binding.
+    /// \param [in] pShaderResourceBinding - Shader resource binding whose resources will be
+    ///                                      transitioned.
     /// \remarks This method explicitly transitiones all resources except ones in unknown state to the states
-    /// required
-    ///          by Draw or Dispatch command.
+    ///          required by Draw or Dispatch command.
     ///          If this method was called, there is no need to use
     ///          evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION when calling
     ///          IDeviceContext::CommitShaderResources()
-    ///
     /// \remarks Resource state transitioning is not thread safe. As the method may alter the states
     ///          of resources referenced by the shader resource binding, no other thread is allowed to read or
     ///          write these states.
-    ///
     ///          If the application intends to use the same resources in other threads simultaneously, it
     ///          needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
     ///          method. Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for
@@ -394,33 +387,27 @@ public:
     ///                                      If pipeline state contains no shader resources, this parameter
     ///                                      can be null.
     /// \param [in] StateTransitionMode    - State transition mode (see
-    /// evnt::RESOURCE_STATE_TRANSITION_MODE).
-    ///
+    ///                                      evnt::RESOURCE_STATE_TRANSITION_MODE).
     /// \remarks Pipeline state object that was used to create the shader resource binding must be bound
     ///          to the pipeline when CommitShaderResources() is called. If no pipeline state object is bound
     ///          or the pipeline state object does not match the shader resource binding, the method will
-    ///          fail.\n If evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode is used, the engine will
+    ///          fail. If evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode is used, the engine will
     ///          also transition all shader resources to required states. If the flag is not set, it is
-    ///          assumed that all resources are already in correct states.\n Resources can be explicitly
+    ///          assumed that all resources are already in correct states. Resources can be explicitly
     ///          transitioned to required states by calling IDeviceContext::TransitionShaderResources() or
-    ///          IDeviceContext::TransitionResourceStates().\n
-    ///
+    ///          IDeviceContext::TransitionResourceStates().
     /// \remarks Automatic resource state transitioning is not thread-safe.
-    ///
     ///          - If evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode is used, the method may alter
     ///          the states
     ///            of resources referenced by the shader resource binding and no other thread is allowed to
     ///            read or write these states.
-    ///
     ///          - If evnt::RESOURCE_STATE_TRANSITION_MODE_VERIFY mode is used, the method will read the
     ///          states, so no other thread
     ///            should alter the states by calling any of the methods that use
     ///            evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION mode. It is safe for other threads to
     ///            read the states.
-    ///
     ///          - If evnt::RESOURCE_STATE_TRANSITION_MODE_NONE mode is used, the method does not access
     ///          the states of resources.
-    ///
     ///          If the application intends to use the same resources in other threads simultaneously, it
     ///          should manage the states manually by setting the state to evnt::RESOURCE_STATE_UNKNOWN
     ///          (which will disable automatic state management) using IBuffer::SetState() or
@@ -458,21 +445,18 @@ public:
     ///                                   that will be used. If this parameter is nullptr, zero offsets for
     ///                                   all buffers will be used.
     /// \param [in] StateTransitionMode - State transition mode for buffers being set (see
-    /// evnt::RESOURCE_STATE_TRANSITION_MODE). \param [in] Flags               - Additional flags. See
-    /// evnt::SET_VERTEX_BUFFERS_FLAGS for a list of allowed values.
-    ///
+    ///                                   evnt::RESOURCE_STATE_TRANSITION_MODE).
+    /// \param [in] Flags               - Additional flags. See
+    ///                                   evnt::SET_VERTEX_BUFFERS_FLAGS for a list of allowed values.
     /// \remarks The device context keeps strong references to all bound vertex buffers.
-    ///          Thus a buffer cannot be released until it is unbound from the context.\n
+    ///          Thus a buffer cannot be released until it is unbound from the context.
     ///          It is suggested to specify evnt::SET_VERTEX_BUFFERS_FLAG_RESET flag
     ///          whenever possible. This will assure that no buffers from previous draw calls
     ///          are bound to the pipeline.
-    ///
     /// \remarks When StateTransitionMode is evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION, the method
-    /// will
-    ///          transition all buffers in known states to evnt::RESOURCE_STATE_VERTEX_BUFFER. Resource
+    ///          will transition all buffers in known states to evnt::RESOURCE_STATE_VERTEX_BUFFER. Resource
     ///          state transitioning is not thread safe, so no other thread is allowed to read or write the
     ///          states of these buffers.
-    ///
     ///          If the application intends to use the same resources in other threads simultaneously, it
     ///          needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
     ///          method. Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for
@@ -492,22 +476,18 @@ public:
     /// \param [in] ByteOffset          - Offset from the beginning of the buffer to
     ///                                   the start of index data.
     /// \param [in] StateTransitionMode - State transiton mode for the index buffer to bind (see
-    /// evnt::RESOURCE_STATE_TRANSITION_MODE).
-    ///
+    ///                                   evnt::RESOURCE_STATE_TRANSITION_MODE).
     /// \remarks The device context keeps strong reference to the index buffer.
     ///          Thus an index buffer object cannot be released until it is unbound
     ///          from the context.
-    ///
     /// \remarks When StateTransitionMode is evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION, the method
-    /// will
-    ///          transition the buffer to evnt::RESOURCE_STATE_INDEX_BUFFER (if its state is not unknown).
-    ///          Resource state transitioning is not thread safe, so no other thread is allowed to read or
-    ///          write the state of the buffer.
-    ///
-    ///          If the application intends to use the same resource in other threads simultaneously, it needs
-    ///          to explicitly manage the states using IDeviceContext::TransitionResourceStates() method.
-    ///          Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed
-    ///          explanation of resource state management in evnt Engine.
+    ///          will transition the buffer to evnt::RESOURCE_STATE_INDEX_BUFFER (if its state is not
+    ///          unknown). Resource state transitioning is not thread safe, so no other thread is allowed to
+    ///          read or write the state of the buffer. If the application intends to use the same resource in
+    ///          other threads simultaneously, it needs to explicitly manage the states using
+    ///          IDeviceContext::TransitionResourceStates() method. Refer to
+    ///          http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed explanation of
+    ///          resource state management in evnt Engine.
     virtual void setIndexBuffer(IBuffer * pIndexBuffer, uint32_t ByteOffset,
                                 RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
@@ -515,19 +495,18 @@ public:
     /// \param [in] NumViewports - Number of viewports to set.
     /// \param [in] pViewports   - An array of Viewport structures describing the viewports to bind.
     /// \param [in] RTWidth      - Render target width. If 0 is provided, width of the currently bound render
-    /// target will be used. \param [in] RTHeight     - Render target height. If 0 is provided, height of the
-    /// currently bound render target will be used.
-    ///
+    ///                            target will be used.
+    /// \param [in] RTHeight     - Render target height. If 0 is provided, height of the
+    ///                            currently bound render target will be used.
     /// \remarks
     /// DirectX and OpenGL use different window coordinate systems. In DirectX, the coordinate system origin
     /// is in the left top corner of the screen with Y axis pointing down. In OpenGL, the origin
     /// is in the left bottom corener of the screen with Y axis pointing up. Render target size is
-    /// required to convert viewport from DirectX to OpenGL coordinate system if OpenGL device is used.\n\n
+    /// required to convert viewport from DirectX to OpenGL coordinate system if OpenGL device is used.
     /// All viewports must be set atomically as one operation. Any viewports not
-    /// defined by the call are disabled.\n\n
+    /// defined by the call are disabled.
     /// You can set the viewport size to match the currently bound render target using the
     /// following call:
-    ///
     ///     pContext->SetViewports(1, nullptr, 0, 0);
     virtual void setViewports(uint32_t NumViewports, const Viewport * pViewports, uint32_t RTWidth,
                               uint32_t RTHeight) = 0;
@@ -536,14 +515,14 @@ public:
     /// \param [in] NumRects - Number of scissor rectangles to set.
     /// \param [in] pRects   - An array of Rect structures describing the scissor rectangles to bind.
     /// \param [in] RTWidth  - Render target width. If 0 is provided, width of the currently bound render
-    /// target will be used. \param [in] RTHeight - Render target height. If 0 is provided, height of the
-    /// currently bound render target will be used.
-    ///
+    ///                        target will be used.
+    /// \param [in] RTHeight - Render target height. If 0 is provided, height of the
+    ///                        currently bound render target will be used.
     /// \remarks
     /// DirectX and OpenGL use different window coordinate systems. In DirectX, the coordinate system origin
     /// is in the left top corner of the screen with Y axis pointing down. In OpenGL, the origin
     /// is in the left bottom corener of the screen with Y axis pointing up. Render target size is
-    /// required to convert viewport from DirectX to OpenGL coordinate system if OpenGL device is used.\n\n
+    /// required to convert viewport from DirectX to OpenGL coordinate system if OpenGL device is used.
     /// All scissor rects must be set atomically as one operation. Any rects not
     /// defined by the call are disabled.
     virtual void setScissorRects(uint32_t NumRects, const Rect * pRects, uint32_t RTWidth,
@@ -560,23 +539,19 @@ public:
     ///                                   evnt::TEXTURE_VIEW_DEPTH_STENCIL.
     /// \param [in] StateTransitionMode - State transition mode of the render targets and depth stencil buffer
     /// being set (see evnt::RESOURCE_STATE_TRANSITION_MODE).
-    ///
     /// \remarks     The device context will keep strong references to all bound render target
     ///              and depth-stencil views. Thus these views (and consequently referenced textures)
-    ///              cannot be released until they are unbound from the context.\n
-    ///              Any render targets not defined by this call are set to nullptr.\n\n
+    ///              cannot be released until they are unbound from the context.
+    ///              Any render targets not defined by this call are set to nullptr.
     ///              You can set the default render target and depth stencil using the
     ///              following call:
     ///
     ///     pContext->SetRenderTargets(0, nullptr, nullptr);
-    ///
     /// \remarks When StateTransitionMode is evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION, the method
-    /// will
-    ///          transition all render targets in known states to evnt::RESOURCE_STATE_REDER_TARGET,
+    ///          will transition all render targets in known states to evnt::RESOURCE_STATE_REDER_TARGET,
     ///          and the depth-stencil buffer to evnt::RESOURCE_STATE_DEPTH_WRITE state.
     ///          Resource state transitioning is not thread safe, so no other thread is allowed to read or
     ///          write the states of resources used by the command.
-    ///
     ///          If the application intends to use the same resource in other threads simultaneously, it needs
     ///          to explicitly manage the states using IDeviceContext::TransitionResourceStates() method.
     ///          Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed
@@ -587,17 +562,14 @@ public:
 
     /// Executes a draw command
     /// \param [in] DrawAttribs - Structure describing draw command attributes, see evnt::DrawAttribs for
-    /// details.
-    ///
+    ///             details.
     /// \remarks  If IndirectAttribsBufferStateTransitionMode member is
-    /// evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
+    ///           evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
     ///           the method may transition the state of indirect draw arguments buffer. This is not a thread
     ///           safe operation, so no other thread is allowed to read or write the state of the buffer.
-    ///
     ///           If evnt::DRAW_FLAG_VERIFY_STATES flag is set, the method reads the state of vertex/index
     ///           buffers, so no other threads are allowed to alter the states of the same resources.
     ///           It is OK to read these states.
-    ///
     ///           If the application intends to use the same resources in other threads simultaneously, it
     ///           needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
     ///           method.
@@ -608,11 +580,10 @@ public:
     ///                             see evnt::DispatchComputeAttribs for details.
     ///
     /// \remarks  If IndirectAttribsBufferStateTransitionMode member is
-    /// evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
+    ///           evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
     ///           the method may transition the state of indirect dispatch arguments buffer. This is not a
     ///           thread safe operation, so no other thread is allowed to read or write the state of the same
     ///           resource.
-    ///
     ///           If the application intends to use the same resources in other threads simultaneously, it
     ///           needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
     ///           method.
@@ -623,18 +594,15 @@ public:
     ///                                   evnt::TEXTURE_VIEW_DEPTH_STENCIL.
     /// \param [in] StateTransitionMode - state transition mode of the depth-stencil buffer to clear.
     /// \param [in] ClearFlags          - Idicates which parts of the buffer to clear, see
-    /// evnt::CLEAR_DEPTH_STENCIL_FLAGS. \param [in] fDepth              - Value to clear depth part of
-    /// the view with. \param [in] Stencil             - Value to clear stencil part of the view with.
-    ///
+    ///                                   evnt::CLEAR_DEPTH_STENCIL_FLAGS.
+    /// \param [in] fDepth              - Value to clear depth part of the view with.
+    /// \param [in] Stencil             - Value to clear stencil part of the view with.
     /// \remarks The full extent of the view is always cleared. Viewport and scissor settings are not applied.
     /// \note The depth-stencil view must be bound to the pipeline for clear operation to be performed.
-    ///
     /// \remarks When StateTransitionMode is evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION, the method
-    /// will
-    ///          transition the state of the texture to the state required by clear operation.
+    ///          will transition the state of the texture to the state required by clear operation.
     ///          In Direct3D12, this satate is always evnt::RESOURCE_STATE_DEPTH_WRITE, however in Vulkan
     ///          the state depends on whether the depth buffer is bound to the pipeline.
-    ///
     ///          Resource state transitioning is not thread safe, so no other thread is allowed to read or
     ///          write the state of resources used by the command. Refer to
     ///          http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed explanation of
@@ -646,25 +614,19 @@ public:
     /// \param [in] pView               - Pointer to ITextureView interface to clear. The view type must be
     ///                                   evnt::TEXTURE_VIEW_RENDER_TARGET.
     /// \param [in] RGBA                - A 4-component array that represents the color to fill the render
-    /// target with.
-    ///                                   If nullptr is provided, the default array {0,0,0,0} will be used.
+    ///                                   target with. If nullptr is provided, the default array {0,0,0,0}
+    ///                                   will be used.
     /// \param [in] StateTransitionMode - Defines required state transitions (see
-    /// evnt::RESOURCE_STATE_TRANSITION_MODE)
-    ///
+    ///                                   evnt::RESOURCE_STATE_TRANSITION_MODE)
     /// \remarks The full extent of the view is always cleared. Viewport and scissor settings are not applied.
-    ///
     ///          The render target view must be bound to the pipeline for clear operation to be performed in
     ///          OpenGL backend.
-    ///
     /// \remarks When StateTransitionMode is evnt::RESOURCE_STATE_TRANSITION_MODE_TRANSITION, the method
-    /// will
-    ///          transition the texture to the state required by the command. Resource state transitioning is
-    ///          not thread safe, so no other thread is allowed to read or write the states of the same
-    ///          textures.
-    ///
+    ///          will transition the texture to the state required by the command. Resource state
+    ///          transitioning is not thread safe, so no other thread is allowed to read or write the states
+    ///          of the same textures.
     ///          If the application intends to use the same resource in other threads simultaneously, it needs
     ///          to explicitly manage the states using IDeviceContext::TransitionResourceStates() method.
-    ///
     /// \note    In D3D12 backend clearing render targets requires textures to always be transitioned to
     ///          evnt::RESOURCE_STATE_RENDER_TARGET state. In Vulkan backend however this depends on
     ///          whether a render pass has been started. To clear render target outside of a render pass, the
@@ -677,7 +639,7 @@ public:
 
     /// Finishes recording commands and generates a command list.
     /// \param [out] ppCommandList - Memory location where pointer to the recorded command list will be
-    /// written.
+    ///                              written.
     virtual void finishCommandList(ICommandList ** ppCommandList) = 0;
 
     /// Executes recorded commands in a command list.
@@ -690,7 +652,6 @@ public:
     ///       and the fence will be signalled only when the command context is flushed next time.
     ///       If an application needs to wait for the fence in a loop, it must flush the context
     ///       after signalling the fence.
-    ///
     /// \param [in] pFence - The fence to signal
     /// \param [in] Value  - The value to set the fence to. This value must be greater than the
     ///                      previously signalled value on the same fence.
@@ -702,23 +663,26 @@ public:
     /// Updates the data in the buffer.
     /// \param [in] pBuffer             - Pointer to the buffer to updates.
     /// \param [in] Offset              - Offset in bytes from the beginning of the buffer to the update
-    /// region. \param [in] Size                - Size in bytes of the data region to update. \param [in]
-    /// pData               - Pointer to the data to write to the buffer. \param [in] StateTransitionMode -
-    /// Buffer state transition mode (see evnt::RESOURCE_STATE_TRANSITION_MODE)
+    ///                                   region.
+    /// \param [in] Size                - Size in bytes of the data region to update.
+    /// \param [in] pData               - Pointer to the data to write to the buffer.
+    /// \param [in] StateTransitionMode - Buffer state transition mode (see
+    ///                                   evnt::RESOURCE_STATE_TRANSITION_MODE)
     virtual void updateBuffer(IBuffer * pBuffer, uint32_t Offset, uint32_t Size, const void * pData,
                               RESOURCE_STATE_TRANSITION_MODE StateTransitionMode) = 0;
 
     /// Copies the data from one buffer to another.
     /// \param [in] pSrcBuffer              - Source buffer to copy data from.
     /// \param [in] SrcOffset               - Offset in bytes from the beginning of the source buffer to the
-    /// beginning of data to copy. \param [in] SrcBufferTransitionMode - State transition mode of the source
-    /// buffer (see evnt::RESOURCE_STATE_TRANSITION_MODE). \param [in] pDstBuffer              -
-    /// Destination buffer to copy data to. \param [in] DstOffset               - Offset in bytes from the
-    /// beginning of the destination buffer to the beginning
-    ///                                       of the destination region.
+    ///                                       beginning of data to copy.
+    /// \param [in] SrcBufferTransitionMode - State transition mode of the source
+    ///                                       buffer (see evnt::RESOURCE_STATE_TRANSITION_MODE).
+    /// \param [in] pDstBuffer              - Destination buffer to copy data to.
+    /// \param [in] DstOffset               - Offset in bytes from the beginning of the destination buffer to
+    ///                                       the beginning of the destination region.
     /// \param [in] Size                    - Size in bytes of data to copy.
     /// \param [in] DstBufferTransitionMode - State transition mode of the destination buffer (see
-    /// evnt::RESOURCE_STATE_TRANSITION_MODE).
+    ///                                       evnt::RESOURCE_STATE_TRANSITION_MODE).
     virtual void copyBuffer(IBuffer * pSrcBuffer, uint32_t SrcOffset,
                             RESOURCE_STATE_TRANSITION_MODE SrcBufferTransitionMode, IBuffer * pDstBuffer,
                             uint32_t DstOffset, uint32_t Size,
@@ -744,11 +708,10 @@ public:
     /// \param [in] DstBox      - Destination region on the texture to update.
     /// \param [in] SubresData  - Source data to copy to the texture.
     /// \param [in] SrcBufferTransitionMode - If pSrcBuffer member of TextureSubResData structure is not null,
-    /// this
-    ///                                       parameter defines state transition mode of the source buffer.
-    ///                                       If pSrcBuffer is null, this parameter is ignored.
+    ///                                       this parameter defines state transition mode of the source
+    ///                                       buffer. If pSrcBuffer is null, this parameter is ignored.
     /// \param [in] TextureTransitionMode   - Texture state transition mode (see
-    /// evnt::RESOURCE_STATE_TRANSITION_MODE)
+    ///                                       evnt::RESOURCE_STATE_TRANSITION_MODE)
     virtual void updateTexture(ITexture * pTexture, uint32_t MipLevel, uint32_t Slice, const Box & DstBox,
                                const TextureSubResData &      SubresData,
                                RESOURCE_STATE_TRANSITION_MODE SrcBufferTransitionMode,
@@ -756,7 +719,7 @@ public:
 
     /// Copies data from one texture to another.
     /// \param [in] CopyAttribs - Structure describing copy command attributes, see
-    /// evnt::CopyTextureAttribs for details.
+    ///                           evnt::CopyTextureAttribs for details.
     virtual void copyTexture(const CopyTextureAttribs & CopyAttribs) = 0;
 
     /// Maps the texture subresource.
@@ -766,11 +729,10 @@ public:
     /// \param [in] MapType     - Type of the map operation. See evnt::MAP_TYPE.
     /// \param [in] MapFlags    - Special map flags. See evnt::MAP_FLAGS.
     /// \param [in] pMapRegion  - Texture region to map. If this parameter is null, the entire subresource is
-    /// mapped. \param [out] MappedData - Mapped texture region data
-    ///
+    ///                           mapped.
+    /// \param [out] MappedData - Mapped texture region data
     /// \remarks This method is supported in D3D11, D3D12 and Vulkan backends. In D3D11 backend, only the
-    /// entire
-    ///          subresource can be mapped, so pMapRegion must either be null, or cover the entire
+    ///          entire subresource can be mapped, so pMapRegion must either be null, or cover the entire
     ///          subresource. In D3D11 and Vulkan backends, dynamic textures are no different from non-dynamic
     ///          textures, and mapping with MAP_FLAG_DISCARD has exactly the same behavior.
     virtual void mapTextureSubresource(ITexture * pTexture, uint32_t MipLevel, uint32_t ArraySlice,
@@ -799,7 +761,7 @@ public:
     /// EngineFactoryD3D12Impl::CreateSwapChainD3D12(), and
     /// EngineFactoryOpenGLImpl::CreateDeviceAndSwapChainGL(). However, when the engine is initialized by
     /// attaching to existing d3d11/d3d12 device or OpenGL/GLES context, the swap chain needs to be set
-    /// manually if the device context will be using any of the commands above.\n Device context keeps strong
+    /// manually if the device context will be using any of the commands above. Device context keeps strong
     /// reference to the swap chain.
     virtual void setSwapChain(ISwapChain * pSwapChain) = 0;
 
@@ -811,9 +773,9 @@ public:
     /// the resources may actually be released several frames after the one they were used in last time.
     /// \note After the call all dynamic resources become invalid and must be written again before the next
     /// use.
-    ///       Also, all committed resources become invalid.\n
+    ///       Also, all committed resources become invalid.
     ///       For deferred contexts, this method must be called after all command lists referencing dynamic
-    ///       resources have been executed through immediate context.\n The method does not Flush() the
+    ///       resources have been executed through immediate context. The method does not Flush() the
     ///       context.
     virtual void finishFrame() = 0;
 };

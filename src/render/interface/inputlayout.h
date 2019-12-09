@@ -1,7 +1,7 @@
 #ifndef INPUTLAYOUT_H
 #define INPUTLAYOUT_H
 
-#include "graphics_types.h"
+#include "../graphics_types.h"
 
 namespace evnt
 {

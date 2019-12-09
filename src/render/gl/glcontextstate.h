@@ -1,7 +1,7 @@
 #ifndef GLCONTEXTSTATE_H
 #define GLCONTEXTSTATE_H
 
-#include "../blend.h"
+#include "../blendstate.h"
 #include "../depthstencilstate.h"
 #include "../graphics_types.h"
 #include "../rasterizerstate.h"
