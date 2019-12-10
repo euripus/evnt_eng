@@ -59,20 +59,20 @@ struct LayoutElement
 
     LayoutElement() noexcept {}
     /// Initializes the structure
-    LayoutElement(uint32_t _InputIndex, uint32_t _BufferSlot, uint32_t _NumComponents, VALUE_TYPE _ValueType,
-                  bool     _IsNormalized   = LayoutElement{}.is_normalized,
-                  uint32_t _RelativeOffset = LayoutElement{}.relative_offset,
-                  uint32_t _Stride = LayoutElement{}.stride, FREQUENCY _Frequency = LayoutElement{}.frequency,
-                  uint32_t _InstanceDataStepRate = LayoutElement{}.instance_data_step_rate) noexcept :
-        input_index(_InputIndex),
-        buffer_slot(_BufferSlot),
-        num_components(_NumComponents),
-        value_type(_ValueType),
-        is_normalized(_IsNormalized),
-        relative_offset(_RelativeOffset),
-        stride(_Stride),
+    LayoutElement(uint32_t _input_index, uint32_t _buffer_slot, uint32_t _num_components,
+                  VALUE_TYPE _value_type, bool _is_normalized = LayoutElement{}.is_normalized,
+                  uint32_t _relative_offset = LayoutElement{}.relative_offset,
+                  uint32_t _stride = LayoutElement{}.stride, FREQUENCY _Frequency = LayoutElement{}.frequency,
+                  uint32_t _instance_data_step_rate = LayoutElement{}.instance_data_step_rate) noexcept :
+        input_index(_input_index),
+        buffer_slot(_buffer_slot),
+        num_components(_num_components),
+        value_type(_value_type),
+        is_normalized(_is_normalized),
+        relative_offset(_relative_offset),
+        stride(_stride),
         frequency(_Frequency),
-        instance_data_step_rate(_InstanceDataStepRate)
+        instance_data_step_rate(_instance_data_step_rate)
     {}
 };
 
@@ -86,8 +86,8 @@ struct InputLayoutDesc
     uint32_t num_elements = 0;
 
     InputLayoutDesc() noexcept {}
-    InputLayoutDesc(const LayoutElement * _LayoutElements, uint32_t _NumElements) noexcept :
-        layout_elements(_LayoutElements), num_elements(_NumElements)
+    InputLayoutDesc(const LayoutElement * _layout_elements, uint32_t _num_elements) noexcept :
+        layout_elements(_layout_elements), num_elements(_num_elements)
     {}
 };
 }   // namespace evnt

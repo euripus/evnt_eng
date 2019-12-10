@@ -1,43 +1,48 @@
-{
+{ 
    "version":"1",
-   "Logging":{
+   "Logging":{ 
       "Output":"all",
       "SeverityLevelFilter":"all",
       "FileName":"log.txt"
    },
-   "FileSystem":{
+   "FileSystem":{ 
       "RootPathRelative":"./data",
-      "ResMgrDrivesNames":{
+      "ResMgrDrivesNames":{ 
          "TextureDrive":"textures",
          "FontDrive":"fonts"
       }
    },
-   "App":{
-      "Window":{
-         "Platform":{
-            "Type":"glfw",
-            "Major_gl":1,
-            "Minor_gl":5
+   "App":{ 
+      "Window":{ 
+         "Platform":{ 
+            "Type":"glfw"
          },
          "Fullscreen":"false",
          "Title":"Sample window",
          "MSAA":"0",
-         "Size":{
+         "Size":{ 
             "x":"800",
             "y":"600"
          },
-         "Cursor":{
+         "Cursor":{ 
             "IsSTD":"true",
             "StdCursorShape":"Hand",
             "File":"textures/cursor.tga",
             "Visibility":"true"
          }
       },
-      "Render":{
-         "RenderType":{
-            "type":"gl"
-         },
-         "GLProfileMode":"CORE"
+      "Render":{ 
+         "RenderType":{ 
+            "Type":"OpenGL",
+            "Version":{ 
+               "Major_gl":3,
+               "Minor_gl":0
+            },
+            "Extensions":[ 
+               "GL_ARB_texture_view",
+               "GL_ARB_framebuffer_object"
+            ]
+         }
       }
    }
 }

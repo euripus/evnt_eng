@@ -23,7 +23,7 @@ struct SampleDesc
     int8_t quality = 0;
 
     SampleDesc() noexcept {}
-    SampleDesc(int8_t _Count, int8_t _Quality) noexcept : count(_Count), quality(_Quality) {}
+    SampleDesc(int8_t _count, int8_t _quality) noexcept : count(_count), quality(_quality) {}
 };
 
 /// Describes shader variable
@@ -121,9 +121,6 @@ struct GraphicsPipelineDesc
     SampleDesc smpl_desc;
     /// Node mask.
     uint32_t node_mask = 0;
-
-    // D3D12_CACHED_PIPELINE_STATE CachedPSO;
-    // D3D12_PIPELINE_STATE_FLAGS Flags;
 };
 
 /// Compute pipeline state description

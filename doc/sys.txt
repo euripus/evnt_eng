@@ -1,6 +1,3 @@
-GL extensions: GL_ARB_texture_view, GL_ARB_framebuffer_object
-
-
 https://software.intel.com/ru-ru/articles/introduction-to-resource-binding-in-microsoft-directx-12
 https://stackoverflow.com/questions/46493782/directx-11-what-is-a-shader-resource-view
 

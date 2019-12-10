@@ -1,7 +1,7 @@
 #include "glfwwindow.h"
 #include "../core/core.h"
 #include "../input/inputglfw.h"
-#include "../log/log.h"
+#include "../log/debug_messages.h"
 #include <GLFW/glfw3.h>
 
 namespace evnt
@@ -45,6 +45,7 @@ bool GLFWWindow::create(int width, int height)
 
     if(mp_glfw_window == nullptr)
     {
+        UNEXPECTED("Creating window error!");
         return false;
     }
 
@@ -84,8 +85,8 @@ bool GLFWWindow::init()
     m_full_screen     = config.get<bool>("App.Window.Fullscreen");
     m_title           = config.get<std::string>("App.Window.Title");
     m_MSAA_level      = config.get<int>("App.Window.MSAA");
-    m_gl_major        = config.get<int>("App.Window.Platform.Major_gl");
-    m_gl_minor        = config.get<int>("App.Window.Platform.Minor_gl");
+    m_gl_major        = config.get<int>("App.Render.RenderType.Version.Major_gl");
+    m_gl_minor        = config.get<int>("App.Render.RenderType.Version.Minor_gl");
     m_init_win_size.x = config.get<int>("App.Window.Size.x");
     m_init_win_size.y = config.get<int>("App.Window.Size.y");
 

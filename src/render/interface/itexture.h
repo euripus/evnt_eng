@@ -20,7 +20,7 @@ struct DepthStencilClearValue
     //     DepthStencilClearValue{1, 0}
 
     DepthStencilClearValue() noexcept {}
-    DepthStencilClearValue(float _Depth, uint8_t _Stencil) noexcept : depth(_Depth), stencil(_Stencil) {}
+    DepthStencilClearValue(float _depth, uint8_t _stencil) noexcept : depth(_depth), stencil(_stencil) {}
 };
 
 /// Defines optimized clear value.
@@ -85,27 +85,27 @@ struct TextureDesc : DeviceObjectAttribs
     uint64_t command_queue_mask = 1;
 
     TextureDesc() noexcept {}
-    TextureDesc(RESOURCE_DIMENSION _Type, uint32_t _Width, uint32_t _Height, uint32_t _ArraySizeOrDepth,
-                TEXTURE_FORMAT _Format, uint32_t _MipLevels = TextureDesc{}.mip_levels,
-                uint32_t _SampleCount = TextureDesc{}.sample_count, USAGE _Usage = TextureDesc{}.usage,
-                BIND_FLAGS          _BindFlags        = TextureDesc{}.bind_flags,
-                CPU_ACCESS_FLAGS    _CPUAccessFlags   = TextureDesc{}.cpu_access_flags,
-                MISC_TEXTURE_FLAGS  _MiscFlags        = TextureDesc{}.misc_flags,
-                OptimizedClearValue _ClearValue       = TextureDesc{}.clear_value,
-                uint64_t            _CommandQueueMask = TextureDesc{}.command_queue_mask) :
-        type(_Type),
-        width(_Width),
-        height(_Height),
-        array_size(_ArraySizeOrDepth),
-        format(_Format),
-        mip_levels(_MipLevels),
-        sample_count(_SampleCount),
-        usage(_Usage),
-        bind_flags(_BindFlags),
-        cpu_access_flags(_CPUAccessFlags),
-        misc_flags(_MiscFlags),
-        clear_value(_ClearValue),
-        command_queue_mask(_CommandQueueMask)
+    TextureDesc(RESOURCE_DIMENSION _type, uint32_t _width, uint32_t _height, uint32_t _array_size_or_depth,
+                TEXTURE_FORMAT _format, uint32_t _mip_levels = TextureDesc{}.mip_levels,
+                uint32_t _sample_count = TextureDesc{}.sample_count, USAGE _usage = TextureDesc{}.usage,
+                BIND_FLAGS          _bind_flags         = TextureDesc{}.bind_flags,
+                CPU_ACCESS_FLAGS    _cpu_access_flags   = TextureDesc{}.cpu_access_flags,
+                MISC_TEXTURE_FLAGS  _misc_flags         = TextureDesc{}.misc_flags,
+                OptimizedClearValue _clear_value        = TextureDesc{}.clear_value,
+                uint64_t            _command_queue_mask = TextureDesc{}.command_queue_mask) :
+        type(_type),
+        width(_width),
+        height(_height),
+        array_size(_array_size_or_depth),
+        format(_format),
+        mip_levels(_mip_levels),
+        sample_count(_sample_count),
+        usage(_usage),
+        bind_flags(_bind_flags),
+        cpu_access_flags(_cpu_access_flags),
+        misc_flags(_misc_flags),
+        clear_value(_clear_value),
+        command_queue_mask(_command_queue_mask)
     {}
 
     /// Tests if two structures are equivalent
@@ -157,18 +157,18 @@ struct TextureSubResData
     TextureSubResData() noexcept {}
 
     /// Initializes the structure members to perform copy from the CPU memory
-    TextureSubResData(void * _pData, uint32_t _Stride, uint32_t _DepthStride = 0) noexcept :
-        data(_pData), src_buffer(nullptr), src_offset(0), stride(_Stride), depth_stride(_DepthStride)
+    TextureSubResData(void * _p_data, uint32_t _stride, uint32_t _depth_stride = 0) noexcept :
+        data(_p_data), src_buffer(nullptr), src_offset(0), stride(_stride), depth_stride(_depth_stride)
     {}
 
     /// Initializes the structure members to perform copy from the GPU buffer
-    TextureSubResData(IBuffer * _pBuffer, uint32_t _SrcOffset, uint32_t _Stride,
-                      uint32_t _DepthStride = 0) noexcept :
+    TextureSubResData(IBuffer * _p_buffer, uint32_t _src_offset, uint32_t _stride,
+                      uint32_t _depth_stride = 0) noexcept :
         data(nullptr),
-        src_buffer(_pBuffer),
-        src_offset(_SrcOffset),
-        stride(_Stride),
-        depth_stride(_DepthStride)
+        src_buffer(_p_buffer),
+        src_offset(_src_offset),
+        stride(_stride),
+        depth_stride(_depth_stride)
     {}
 };
 

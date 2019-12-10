@@ -66,21 +66,21 @@ struct TextureViewDesc : DeviceObjectAttribs
     uint32_t access_flags = 0;
 
     TextureViewDesc() noexcept {}
-    TextureViewDesc(TEXTURE_VIEW_TYPE _ViewType, RESOURCE_DIMENSION _TextureDim,
-                    TEXTURE_FORMAT _Format                 = TextureViewDesc{}.format,
-                    uint32_t       _MostDetailedMip        = TextureViewDesc{}.most_detailed_mip,
-                    uint32_t       _NumMipLevels           = TextureViewDesc{}.num_mip_levels,
-                    uint32_t       _FirstArrayOrDepthSlice = TextureViewDesc{}.first_array_slice,
-                    uint32_t       _NumArrayOrDepthSlices  = TextureViewDesc{}.num_array_slices,
-                    uint32_t       _AccessFlags            = TextureViewDesc{}.access_flags) noexcept :
-        view_type(_ViewType),
-        texture_dim(_TextureDim),
-        format(_Format),
-        most_detailed_mip(_MostDetailedMip),
-        num_mip_levels(_NumMipLevels),
-        first_array_slice(_FirstArrayOrDepthSlice),
-        num_array_slices(_NumArrayOrDepthSlices),
-        access_flags(_AccessFlags)
+    TextureViewDesc(TEXTURE_VIEW_TYPE _view_type, RESOURCE_DIMENSION _texture_dim,
+                    TEXTURE_FORMAT _format                     = TextureViewDesc{}.format,
+                    uint32_t       _most_detailed_mip          = TextureViewDesc{}.most_detailed_mip,
+                    uint32_t       _num_mip_levels             = TextureViewDesc{}.num_mip_levels,
+                    uint32_t       _first_array_or_depth_slice = TextureViewDesc{}.first_array_slice,
+                    uint32_t       _num_array_or_depth_slices  = TextureViewDesc{}.num_array_slices,
+                    uint32_t       _access_flags               = TextureViewDesc{}.access_flags) noexcept :
+        view_type(_view_type),
+        texture_dim(_texture_dim),
+        format(_format),
+        most_detailed_mip(_most_detailed_mip),
+        num_mip_levels(_num_mip_levels),
+        first_array_slice(_first_array_or_depth_slice),
+        num_array_slices(_num_array_or_depth_slices),
+        access_flags(_access_flags)
     {}
 
     /// Tests if two structures are equivalent

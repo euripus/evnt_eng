@@ -9,7 +9,6 @@
 
 namespace evnt
 {
-// class Box;
 class ICommandList;
 /// Draw command flags
 enum DRAW_FLAGS : uint8_t
@@ -23,8 +22,6 @@ enum DRAW_FLAGS : uint8_t
 };
 
 /// Defines resource state transition mode performed by various commands.
-/// Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for detailed explanation
-/// of resource state management in evnt Engine.
 enum RESOURCE_STATE_TRANSITION_MODE : uint8_t
 {
     /// Perform no state transitions and no state validation.
@@ -37,8 +34,7 @@ enum RESOURCE_STATE_TRANSITION_MODE : uint8_t
     ///          or write the state of the resources being transitioned.
     ///          If the application intends to use the same resources in other threads simultaneously, it
     ///          needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
-    ///          method. Refer to http://evntgraphics.com/2018/12/09/resource-state-management/ for
-    ///          detailed explanation of resource state management in evnt Engine.
+    ///          method. 
     RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
     /// Do not transition, but verify that states are correct.
     /// No validation is performed if the state is unknown to the engine.
@@ -258,14 +254,14 @@ struct Viewport
     float max_depth = 1.f;
 
     /// Initializes the structure.
-    Viewport(float _TopLeftX, float _TopLeftY, float _Width, float _Height, float _MinDepth = 0,
-             float _MaxDepth = 1) noexcept :
-        top_left_x(_TopLeftX),
-        top_left_y(_TopLeftY),
-        width(_Width),
-        height(_Height),
-        min_depth(_MinDepth),
-        max_depth(_MaxDepth)
+    Viewport(float _topleftx, float _toplefty, float _width, float _height, float _mindepth = 0,
+             float _maxdepth = 1) noexcept :
+        top_left_x(_topleftx),
+        top_left_y(_toplefty),
+        width(_width),
+        height(_height),
+        min_depth(_mindepth),
+        max_depth(_maxdepth)
     {}
 
     Viewport() noexcept {}
@@ -281,13 +277,13 @@ struct Box
     uint32_t min_z = 0;   ///< Minimal Z coordinate. Default value is 0
     uint32_t max_z = 1;   ///< Maximal Z coordinate. Default value is 1
 
-    Box(uint32_t _MinX, uint32_t _MaxX, uint32_t _MinY, uint32_t _MaxY, uint32_t _MinZ, uint32_t _MaxZ) :
-        min_x(_MinX), max_x(_MaxX), min_y(_MinY), max_y(_MaxY), min_z(_MinZ), max_z(_MaxZ)
+    Box(uint32_t _minx, uint32_t _maxx, uint32_t _miny, uint32_t _maxy, uint32_t _minz, uint32_t _maxz) :
+        min_x(_minx), max_x(_maxx), min_y(_miny), max_y(_maxy), min_z(_minz), max_z(_maxz)
     {}
-    Box(uint32_t _MinX, uint32_t _MaxX, uint32_t _MinY, uint32_t _MaxY) :
-        Box(_MinX, _MaxX, _MinY, _MaxY, 0, 1)
+    Box(uint32_t _minx, uint32_t _maxx, uint32_t _miny, uint32_t _maxy) :
+        Box(_minx, _maxx, _miny, _maxy, 0, 1)
     {}
-    Box(uint32_t _MinX, uint32_t _MaxX) : Box(_MinX, _MaxX, 0, 0, 0, 1) {}
+    Box(uint32_t _minx, uint32_t _maxx) : Box(_minx, _maxx, 0, 0, 0, 1) {}
     Box() {}
 };
 
@@ -760,8 +756,7 @@ public:
     /// per frame, though it can be called with different frequency. Note that unless the GPU is idled,
     /// the resources may actually be released several frames after the one they were used in last time.
     /// \note After the call all dynamic resources become invalid and must be written again before the next
-    /// use.
-    ///       Also, all committed resources become invalid.
+    ///       use. Also, all committed resources become invalid.
     ///       For deferred contexts, this method must be called after all command lists referencing dynamic
     ///       resources have been executed through immediate context. The method does not Flush() the
     ///       context.

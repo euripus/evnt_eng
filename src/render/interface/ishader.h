@@ -52,7 +52,7 @@ struct ShaderDesc : DeviceObjectAttribs
 /*class IShaderSourceInputStreamFactory
 {
 public:
-    virtual void CreateInputStream(const evnt::char * Name, IFileStream ** ppStream) = 0;
+    virtual void CreateInputStream(const char * name, IFileStream ** ppStream) = 0;
 };*/
 
 struct ShaderMacro
