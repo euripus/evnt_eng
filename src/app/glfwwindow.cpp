@@ -85,8 +85,8 @@ bool GLFWWindow::init()
     m_full_screen     = config.get<bool>("App.Window.Fullscreen");
     m_title           = config.get<std::string>("App.Window.Title");
     m_MSAA_level      = config.get<int>("App.Window.MSAA");
-    m_gl_major        = config.get<int>("App.Render.RenderType.Version.Major_gl");
-    m_gl_minor        = config.get<int>("App.Render.RenderType.Version.Minor_gl");
+    m_gl_major        = config.get<int>("App.Render.RenderType.Version.Major");
+    m_gl_minor        = config.get<int>("App.Render.RenderType.Version.Minor");
     m_init_win_size.x = config.get<int>("App.Window.Size.x");
     m_init_win_size.y = config.get<int>("App.Window.Size.y");
 

@@ -35,8 +35,8 @@
          "RenderType":{ 
             "Type":"OpenGL",
             "Version":{ 
-               "Major_gl":3,
-               "Minor_gl":0
+               "Major":3,
+               "Minor":0
             },
             "Extensions":[ 
                "GL_ARB_texture_view",
