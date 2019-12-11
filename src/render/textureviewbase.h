@@ -2,22 +2,46 @@
 #define TEXTUREVIEWBASE_H
 
 #include "./interface/itextureview.h"
-#include <memory>
+#include "deviceobjectbase.h"
 
 namespace evnt
 {
-class TextureViewBase : public ITextureView
+template<class RenderDeviceImplType>
+class TextureViewBase : public DeviceObjectBase<RenderDeviceImplType, TextureViewDesc>,
+                        public ITextureView
 {
 public:
+    using TDeviceObjectBase = DeviceObjectBase<RenderDeviceImplType, TextureViewDesc>;
+
+    /// \param pDevice - pointer to the render device.
+    /// \param ViewDesc - texture view description.
+    /// \param pTexture - pointer to the texture that the view is to be created for.
+    /// \param bIsDefaultView - flag indicating if the view is default view, and is thus
+    ///						    part of the texture object. In this case the view will
+    ///                         attach to the texture's reference counters.
+    TextureViewBase(RenderDeviceImplType * pDevice, const TextureViewDesc & ViewDesc,
+                    class ITexture * pTexture, bool bIsDefaultView) :
+        // Default views are created as part of the texture, so we cannot not keep strong
+        // reference to the texture to avoid cyclic links. Instead, we will attach to the
+        // reference counters of the texture.
+        TDeviceObjectBase(pDevice, ViewDesc),
+        mp_texture(pTexture)   //,
+    // For non-default view, we will keep strong reference to texture
+    // m_spTexture(bIsDefaultView ? nullptr : pTexture)
+    {}
+
     // Implementation of ITextureView::SetSampler()
-    virtual void setSampler(class ISampler * sampler) override final{}// { mup_sampler = sampler; }
+    virtual void setSampler(std::unique_ptr<ISampler> sampler) override final
+    {
+        mup_sampler = std::move(sampler);
+    }
 
     /// Implementation of ITextureView::GetSampler()
-    virtual ISampler * getSampler() override final { return mup_sampler.get(); }
+    ISampler * getSampler() override final { return mup_sampler.get(); }
     const ISampler *   getSampler() const { return mup_sampler.get(); }
 
     /// Implementation of ITextureView::GetTexture()
-    virtual ITexture * getTexture() override final { return mp_texture; }
+    ITexture * getTexture() override final { return mp_texture; }
     const ITexture *   getTexture() const { return mp_texture; }
 
     template<typename TextureType>

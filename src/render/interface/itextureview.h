@@ -6,6 +6,7 @@
 namespace evnt
 {
 class IDeviceContext;
+class ISampler;
 
 /// Describes allowed unordered access view mode
 enum UAV_ACCESS_FLAG : int32_t
@@ -92,7 +93,7 @@ struct TextureViewDesc : DeviceObjectAttribs
     {
         // Name is primarily used for debug purposes and does not affect the view.
         // It is ignored in comparison operation.
-        return   // strcmp(Name, RHS.Name) == 0            &&
+        return   // name == RHS.name &&
             view_type == RHS.view_type && texture_dim == RHS.texture_dim && format == RHS.format
             && most_detailed_mip == RHS.most_detailed_mip && num_mip_levels == RHS.num_mip_levels
             && first_array_slice == RHS.first_array_slice && first_depth_slice == RHS.first_depth_slice
@@ -118,7 +119,7 @@ public:
     /// when accessing a texture from shaders. Only
     /// shader resource views can be assigned a sampler.
     /// The view will keep strong reference to the sampler.
-    virtual void setSampler(class ISampler * pSampler) = 0;
+    virtual void setSampler(std::unique_ptr<ISampler> pSampler) = 0;
 
     /// Returns the pointer to the sampler object set by the ITextureView::SetSampler().
     /// The method does *NOT* call AddRef() on the returned interface,

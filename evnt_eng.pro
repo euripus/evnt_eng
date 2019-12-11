@@ -106,6 +106,7 @@ HEADERS += \
     src/render/blendstate.h \
     src/render/depthstencilstate.h \
     src/render/devicecaps.h \
+    src/render/deviceobjectbase.h \
     src/render/gl/asyncwritableresource.h \
     src/render/gl/glcontext.h \
     src/render/gl/glcontextstate.h \

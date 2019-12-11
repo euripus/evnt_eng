@@ -2,6 +2,7 @@
 #define IDEVICEOBJECT_H
 
 #include "../graphics_types.h"
+#include <memory>
 
 namespace evnt
 {
