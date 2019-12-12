@@ -211,8 +211,7 @@ enum BUFFER_VIEW_TYPE : uint8_t
 /// The table below provides detailed information on each format. Most of the formats are widely supported
 /// by all modern APIs (DX10+, OpenGL3.3+ and OpenGLES3.0+). Specific requirements are additionally indicated.
 /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb173059(v=vs.85).aspx - DXGI_FORMAT enumeration
-/// on MSDN,
-/// https://www.opengl.org/wiki/Image_Format - OpenGL Texture Formats
+/// on MSDN, https://www.opengl.org/wiki/Image_Format - OpenGL Texture Formats
 enum TEXTURE_FORMAT : int16_t
 {
     /// Unknown format
@@ -518,10 +517,9 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL does not have direct counterpart, GL_COMPRESSED_RGB_S3TC_DXT1_EXT is used.
     /// [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC1">BC1 on MSDN
-    /// </a>,
-    /// <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT1_Format">DXT1 on OpenGL.org </a>
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC1 BC1 on MSDN,
+    /// https://www.opengl.org/wiki/S3_Texture_Compression#DXT1_Format DXT1 on OpenGL.org
     TEX_FORMAT_BC1_TYPELESS,
     /// Four-component unsigned-normalized-integer block-compression format with 5 bits for R, 6 bits for G, 5
     /// bits for B, and 0 or 1 bit for A channel. The pixel data is encoded using 8 bytes per 4x4 block (4
@@ -530,10 +528,9 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_RGB_S3TC_DXT1_EXT.
     /// [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC1">BC1 on MSDN
-    /// </a>,
-    /// <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT1_Format">DXT1 on OpenGL.org </a>
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC1 BC1 on MSDN,
+    /// https://www.opengl.org/wiki/S3_Texture_Compression#DXT1_Format DXT1 on OpenGL.org
     TEX_FORMAT_BC1_UNORM,
     /// Four-component unsigned-normalized-integer block-compression sRGB format with 5 bits for R, 6 bits for
     /// G, 5 bits for B, and 0 or 1 bit for A channel.  The pixel data is encoded using 8 bytes per 4x4
@@ -542,20 +539,19 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_SRGB_S3TC_DXT1_EXT.
     /// [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC1">BC1 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT1_Format">DXT1 on OpenGL.org </a>
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC1 BC1 on MSDN,
+    /// https://www.opengl.org/wiki/S3_Texture_Compression#DXT1_Format DXT1 on OpenGL.org
     TEX_FORMAT_BC1_UNORM_SRGB,
     /// Four component typeless block-compression format with 1:4 compression ratio.
     /// D3D counterpart: DXGI_FORMAT_BC2_TYPELESS.
     /// OpenGL does not have direct counterpart, GL_COMPRESSED_RGBA_S3TC_DXT3_EXT is used.
     /// [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC2">BC2 on MSDN
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC2 BC2 on MSDN
     /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT3_Format">DXT3 on OpenGL.org </a>
+    ///     <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT3_Format DXT3 on OpenGL.org </a>
     TEX_FORMAT_BC2_TYPELESS,
     /// Four-component unsigned-normalized-integer block-compression format with 5 bits for R, 6 bits for G, 5
     /// bits for B, and 4 bits for low-coherent separate A channel. The pixel data is encoded using 16 bytes
@@ -564,10 +560,9 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_RGBA_S3TC_DXT3_EXT.
     /// [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC2">BC2 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT3_Format">DXT3 on OpenGL.org </a>
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC2 BC2 on MSDN,
+    /// https://www.opengl.org/wiki/S3_Texture_Compression#DXT3_Format DXT3 on OpenGL.org
     TEX_FORMAT_BC2_UNORM,
     /// Four-component signed-normalized-integer block-compression sRGB format with 5 bits for R, 6 bits for
     /// G, 5 bits for B, and 4 bits for low-coherent separate A channel. The pixel data is encoded using 16
@@ -576,20 +571,18 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT.
     ///  [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC2">BC2 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT3_Format">DXT3 on OpenGL.org </a>
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC2 BC2 on MSDN,
+    /// https://www.opengl.org/wiki/S3_Texture_Compression#DXT3_Format DXT3 on OpenGL.org
     TEX_FORMAT_BC2_UNORM_SRGB,
     /// Four-component typeless block-compression format with 1:4 compression ratio.
     /// D3D counterpart: DXGI_FORMAT_BC3_TYPELESS.
     /// OpenGL does not have direct counterpart, GL_COMPRESSED_RGBA_S3TC_DXT5_EXT is used.
     /// [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC3">BC3 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT5_Format">DXT5 on OpenGL.org </a>
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC3 BC3 on MSDN,
+    /// https://www.opengl.org/wiki/S3_Texture_Compression#DXT5_Format DXT5 on OpenGL.org
     TEX_FORMAT_BC3_TYPELESS,
     /// Four-component unsigned-normalized-integer block-compression format with 5 bits for R, 6 bits for G, 5
     /// bits for B, and 8 bits for highly-coherent A channel. The pixel data is encoded using 16 bytes per 4x4
@@ -598,10 +591,9 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_RGBA_S3TC_DXT5_EXT.
     /// [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC3">BC3 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT5_Format">DXT5 on OpenGL.org </a>
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC3 BC3 on MSDN,
+    /// https://www.opengl.org/wiki/S3_Texture_Compression#DXT5_Format DXT5 on OpenGL.org
     TEX_FORMAT_BC3_UNORM,
     /// Four-component unsigned-normalized-integer block-compression sRGB format with 5 bits for R, 6 bits for
     /// G, 5 bits for B, and 8 bits for highly-coherent A channel. The pixel data is encoded using 16 bytes
@@ -610,21 +602,18 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT.
     ///  [GL_EXT_texture_compression_s3tc]:
     /// https://www.khronos.org/registry/gles/extensions/EXT/texture_compression_s3tc.txt OpenGL & OpenGLES:
-    /// [GL_EXT_texture_compression_s3tc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC3">BC3 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/S3_Texture_Compression#DXT5_Format">DXT5 on OpenGL.org </a>
+    /// [GL_EXT_texture_compression_s3tc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC3 BC3 on MSDN,
+    /// https://www.opengl.org/wiki/S3_Texture_Compression#DXT5_Format DXT5 on OpenGL.org
     TEX_FORMAT_BC3_UNORM_SRGB,
     /// One-component typeless block-compression format with 1:2 compression ratio.
     /// D3D counterpart: DXGI_FORMAT_BC4_TYPELESS.
     /// OpenGL does not have direct counterpart, GL_COMPRESSED_RED_RGTC1 is used.
     /// [GL_ARB_texture_compression_rgtc]:
     /// https://www.opengl.org/registry/specs/ARB/texture_compression_rgtc.txt OpenGL & OpenGLES:
-    /// [GL_ARB_texture_compression_rgtc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC4">BC4 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/Image_Format#Compressed_formats">Compressed formats on
-    ///     OpenGL.org </a>
+    /// [GL_ARB_texture_compression_rgtc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC4 BC4 on MSDN,
+    /// https://www.opengl.org/wiki/Image_Format#Compressed_formats Compressed formats on OpenGL.org
     TEX_FORMAT_BC4_TYPELESS,
     /// One-component unsigned-normalized-integer block-compression format with 8 bits for R channel.
     /// The pixel data is encoded using 8 bytes per 4x4 block (4 bits per pixel) providing 1:2 compression
@@ -633,11 +622,9 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_RED_RGTC1.
     /// [GL_ARB_texture_compression_rgtc]:
     /// https://www.opengl.org/registry/specs/ARB/texture_compression_rgtc.txt OpenGL & OpenGLES:
-    /// [GL_ARB_texture_compression_rgtc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC4">BC4 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/Image_Format#Compressed_formats">Compressed formats on
-    ///     OpenGL.org </a>
+    /// [GL_ARB_texture_compression_rgtc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC4 BC4 on MSDN,
+    /// https://www.opengl.org/wiki/Image_Format#Compressed_formats Compressed formats on OpenGL.org
     TEX_FORMAT_BC4_UNORM,
     /// One-component signed-normalized-integer block-compression format with 8 bits for R channel.
     /// The pixel data is encoded using 8 bytes per 4x4 block (4 bits per pixel) providing 1:2 compression
@@ -646,22 +633,18 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_SIGNED_RED_RGTC1.
     /// [GL_ARB_texture_compression_rgtc]:
     /// https://www.opengl.org/registry/specs/ARB/texture_compression_rgtc.txt OpenGL & OpenGLES:
-    /// [GL_ARB_texture_compression_rgtc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC4">BC4 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/Image_Format#Compressed_formats">Compressed formats on
-    ///     OpenGL.org </a>
+    /// [GL_ARB_texture_compression_rgtc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC4" BC4 on MSDN,
+    /// https://www.opengl.org/wiki/Image_Format#Compressed_formats Compressed formats on OpenGL.org
     TEX_FORMAT_BC4_SNORM,
     /// Two-component typeless block-compression format with 1:2 compression ratio.
     /// D3D counterpart: DXGI_FORMAT_BC5_TYPELESS.
     /// OpenGL does not have direct counterpart, GL_COMPRESSED_RG_RGTC2 is used.
     /// [GL_ARB_texture_compression_rgtc]:
     /// https://www.opengl.org/registry/specs/ARB/texture_compression_rgtc.txt OpenGL & OpenGLES:
-    /// [GL_ARB_texture_compression_rgtc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC5">BC5 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/Image_Format#Compressed_formats">Compressed formats on
-    ///     OpenGL.org </a>
+    /// [GL_ARB_texture_compression_rgtc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC5 BC5 on MSDN,
+    /// https://www.opengl.org/wiki/Image_Format#Compressed_formats Compressed formats on OpenGL.org
     TEX_FORMAT_BC5_TYPELESS,
     /// Two-component unsigned-normalized-integer block-compression format with 8 bits for R and 8 bits for G
     /// channel. The pixel data is encoded using 16 bytes per 4x4 block (8 bits per pixel) providing 1:2
@@ -670,11 +653,9 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_RG_RGTC2.
     /// [GL_ARB_texture_compression_rgtc]:
     /// https://www.opengl.org/registry/specs/ARB/texture_compression_rgtc.txt OpenGL & OpenGLES:
-    /// [GL_ARB_texture_compression_rgtc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC5">BC5 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/Image_Format#Compressed_formats">Compressed formats on
-    ///     OpenGL.org </a>
+    /// [GL_ARB_texture_compression_rgtc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC5 BC5 on MSDN,
+    /// https://www.opengl.org/wiki/Image_Format#Compressed_formats Compressed formats on OpenGL.org
     TEX_FORMAT_BC5_UNORM,
     /// Two-component signed-normalized-integer block-compression format with 8 bits for R and 8 bits for G
     /// channel. The pixel data is encoded using 16 bytes per 4x4 block (8 bits per pixel) providing 1:2
@@ -683,11 +664,9 @@ enum TEXTURE_FORMAT : int16_t
     /// OpenGL counterpart: GL_COMPRESSED_SIGNED_RG_RGTC2.
     /// [GL_ARB_texture_compression_rgtc]:
     /// https://www.opengl.org/registry/specs/ARB/texture_compression_rgtc.txt OpenGL & OpenGLES:
-    /// [GL_ARB_texture_compression_rgtc][] extension is required \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC5">BC5 on MSDN
-    /// </a>,
-    ///     <a href = "https://www.opengl.org/wiki/Image_Format#Compressed_formats">Compressed formats on
-    ///     OpenGL.org </a>
+    /// [GL_ARB_texture_compression_rgtc][] extension is required
+    /// https://msdn.microsoft.com/en-us/library/windows/desktop/bb694531(v=vs.85).aspx#BC5 BC5 on MSDN,
+    /// https://www.opengl.org/wiki/Image_Format#Compressed_formats Compressed formats on OpenGL.org
     TEX_FORMAT_BC5_SNORM,
     /// Three-component 16-bit unsigned-normalized-integer format with 5 bits for blue, 6 bits for green, and
     /// 5 bits for red channel.
@@ -736,10 +715,8 @@ enum TEXTURE_FORMAT : int16_t
     /// [GL_ARB_texture_compression_bptc]:
     /// https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/specs/ARB/texture_compression_bptc.txt
     /// OpenGL: [GL_ARB_texture_compression_bptc][] extension is required. Not supported in at least
-    /// OpenGLES3.1 \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/hh308952(v=vs.85).aspx">BC6H on MSDN </a>,
-    ///     <a href = "https://www.opengl.org/wiki/BPTC_Texture_Compression">BPTC Texture Compression on
-    ///     OpenGL.org </a>
+    /// OpenGLES3.1 https://msdn.microsoft.com/en-us/library/windows/desktop/hh308952(v=vs.85).aspx BC6H on
+    /// MSDN, https://www.opengl.org/wiki/BPTC_Texture_Compression BPTC Texture Compression on OpenGL.org
     TEX_FORMAT_BC6H_TYPELESS,
     /// Three-component unsigned half-precision floating-point format with 16 bits for each channel.
     /// D3D counterpart: DXGI_FORMAT_BC6H_UF16.
@@ -747,10 +724,8 @@ enum TEXTURE_FORMAT : int16_t
     /// [GL_ARB_texture_compression_bptc]:
     /// https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/specs/ARB/texture_compression_bptc.txt
     /// OpenGL: [GL_ARB_texture_compression_bptc][] extension is required. Not supported in at least
-    /// OpenGLES3.1 \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/hh308952(v=vs.85).aspx">BC6H on MSDN </a>,
-    ///     <a href = "https://www.opengl.org/wiki/BPTC_Texture_Compression">BPTC Texture Compression on
-    ///     OpenGL.org </a>
+    /// OpenGLES3.1 https://msdn.microsoft.com/en-us/library/windows/desktop/hh308952(v=vs.85).aspx BC6H on
+    /// MSDN, https://www.opengl.org/wiki/BPTC_Texture_Compression BPTC Texture Compression on OpenGL.org
     TEX_FORMAT_BC6H_UF16,
     /// Three-channel signed half-precision floating-point format with 16 bits per each channel.
     /// D3D counterpart: DXGI_FORMAT_BC6H_SF16.
@@ -758,10 +733,8 @@ enum TEXTURE_FORMAT : int16_t
     /// [GL_ARB_texture_compression_bptc]:
     /// https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/specs/ARB/texture_compression_bptc.txt
     /// OpenGL: [GL_ARB_texture_compression_bptc][] extension is required. Not supported in at least
-    /// OpenGLES3.1 \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/hh308952(v=vs.85).aspx">BC6H on MSDN </a>,
-    ///     <a href = "https://www.opengl.org/wiki/BPTC_Texture_Compression">BPTC Texture Compression on
-    ///     OpenGL.org </a>
+    /// OpenGLES3.1 https://msdn.microsoft.com/en-us/library/windows/desktop/hh308952(v=vs.85).aspx BC6H on
+    /// MSDN, https://www.opengl.org/wiki/BPTC_Texture_Compression BPTC Texture Compression on OpenGL.org
     TEX_FORMAT_BC6H_SF16,
     /// Three-component typeless block-compression format.
     /// D3D counterpart: DXGI_FORMAT_BC7_TYPELESS.
@@ -769,10 +742,8 @@ enum TEXTURE_FORMAT : int16_t
     /// [GL_ARB_texture_compression_bptc]:
     /// https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/specs/ARB/texture_compression_bptc.txt
     /// OpenGL: [GL_ARB_texture_compression_bptc][] extension is required. Not supported in at least
-    /// OpenGLES3.1 \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/hh308953(v=vs.85).aspx">BC7 on MSDN </a>,
-    ///     <a href = "https://www.opengl.org/wiki/BPTC_Texture_Compression">BPTC Texture Compression on
-    ///     OpenGL.org </a>
+    /// OpenGLES3.1 https://msdn.microsoft.com/en-us/library/windows/desktop/hh308953(v=vs.85).aspx BC7 on
+    /// MSDN, https://www.opengl.org/wiki/BPTC_Texture_Compression BPTC Texture Compression on OpenGL.org
     TEX_FORMAT_BC7_TYPELESS,
     /// Three-component block-compression unsigned-normalized-integer format with 4 to 7 bits per color
     /// channel and 0 to 8 bits of alpha.
@@ -781,10 +752,8 @@ enum TEXTURE_FORMAT : int16_t
     /// [GL_ARB_texture_compression_bptc]:
     /// https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/specs/ARB/texture_compression_bptc.txt
     /// OpenGL: [GL_ARB_texture_compression_bptc][] extension is required. Not supported in at least
-    /// OpenGLES3.1 \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/hh308953(v=vs.85).aspx">BC7 on MSDN </a>,
-    ///     <a href = "https://www.opengl.org/wiki/BPTC_Texture_Compression">BPTC Texture Compression on
-    ///     OpenGL.org </a>
+    /// OpenGLES3.1 https://msdn.microsoft.com/en-us/library/windows/desktop/hh308953(v=vs.85).aspx BC7 on
+    /// MSDN, https://www.opengl.org/wiki/BPTC_Texture_Compression BPTC Texture Compression on OpenGL.org
     TEX_FORMAT_BC7_UNORM,
     /// Three-component block-compression unsigned-normalized-integer sRGB format with 4 to 7 bits per color
     /// channel and 0 to 8 bits of alpha.
@@ -793,10 +762,8 @@ enum TEXTURE_FORMAT : int16_t
     /// [GL_ARB_texture_compression_bptc]:
     /// https://cvs.khronos.org/svn/repos/ogl/trunk/doc/registry/public/specs/ARB/texture_compression_bptc.txt
     /// OpenGL: [GL_ARB_texture_compression_bptc][] extension is required. Not supported in at least
-    /// OpenGLES3.1 \sa <a href =
-    /// "https://msdn.microsoft.com/en-us/library/windows/desktop/hh308953(v=vs.85).aspx">BC7 on MSDN </a>,
-    ///     <a href = "https://www.opengl.org/wiki/BPTC_Texture_Compression">BPTC Texture Compression on
-    ///     OpenGL.org </a>
+    /// OpenGLES3.1 https://msdn.microsoft.com/en-us/library/windows/desktop/hh308953(v=vs.85).aspx BC7 on
+    /// MSDN https://www.opengl.org/wiki/BPTC_Texture_Compression BPTC Texture Compression on OpenGL.org
     TEX_FORMAT_BC7_UNORM_SRGB,
     /// Helper member containing the total number of texture formats in the enumeration
     TEX_FORMAT_NUM_FORMATS
@@ -1245,7 +1212,6 @@ struct FullScreenModeDesc
 struct RenderCreateInfo
 {
     /// Native window handle
-
     /// * On Win32 platform, this is a window handle (HWND)
     /// * On Android platform, this is a pointer to the native window (ANativeWindow*)
     /// * On Linux, this is the native window (Window)

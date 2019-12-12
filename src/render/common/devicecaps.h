@@ -102,23 +102,23 @@ struct DeviceCaps
             // normalized device Y to window space. However, we use negative viewport
             // height which achieves the same effect as in D3D, thererfore we need to
             // invert y (see comments in DeviceContextVkImpl::CommitViewports() for details)
-            static constexpr const NDCAttribs NDCAttribsVk{0.0f, 1.0f, -0.5f};
-            return NDCAttribsVk;
+            static constexpr const NDCAttribs ndc_attribs_vk{0.0f, 1.0f, -0.5f};
+            return ndc_attribs_vk;
         }
         else if(isD3DDevice())
         {
-            static constexpr const NDCAttribs NDCAttribsD3D{0.0f, 1.0f, -0.5f};
-            return NDCAttribsD3D;
+            static constexpr const NDCAttribs ndc_attribs_d3d{0.0f, 1.0f, -0.5f};
+            return ndc_attribs_d3d;
         }
         else if(isGLDevice())
         {
-            static constexpr const NDCAttribs NDCAttribsGL{-1.0f, 0.5f, 0.5f};
-            return NDCAttribsGL;
+            static constexpr const NDCAttribs ndc_attribs_gl{-1.0f, 0.5f, 0.5f};
+            return ndc_attribs_gl;
         }
         else
         {
-            static constexpr const NDCAttribs NDCAttribsDefault{0.0f, 1.0f, 0.5f};
-            return NDCAttribsDefault;
+            static constexpr const NDCAttribs ndc_attribs_default{0.0f, 1.0f, 0.5f};
+            return ndc_attribs_default;
         }
     }
 };

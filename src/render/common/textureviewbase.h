@@ -17,7 +17,7 @@ public:
     /// \param ViewDesc - texture view description.
     /// \param pTexture - pointer to the texture that the view is to be created for.
     /// \param bIsDefaultView - flag indicating if the view is default view, and is thus
-    ///						    part of the texture object. In this case the view will
+    ///                         part of the texture object. In this case the view will
     ///                         attach to the texture's reference counters.
     TextureViewBase(RenderDeviceImplType * pDevice, const TextureViewDesc & ViewDesc,
                     class ITexture * pTexture, bool bIsDefaultView) :

@@ -1,10 +1,10 @@
 #ifndef GRAPHICSACCESSORIES_H
 #define GRAPHICSACCESSORIES_H
 
-#include "../graphics_types.h"
-#include "../interface/ibufferview.h"
-#include "../interface/ishaderresourcevariable.h"
-#include "../interface/itexture.h"
+#include "../common/graphics_types.h"
+#include "../common/interface/ibufferview.h"
+#include "../common/interface/ishaderresourcevariable.h"
+#include "../common/interface/itexture.h"
 #include <cassert>
 #include <iterator>
 #include <string>

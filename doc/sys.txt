@@ -25,7 +25,17 @@ Resource
     
 Network
 
-
+IObject
+    IDeviceObject
+        ITextureView
+            ITextureViewGL
+            
+template<typename Base>
+class RefCountedObject : public Base
+    class ObjectBase : public RefCountedObject<BaseInterface>
+        class DeviceObjectBase : public ObjectBase<BaseInterface>
+            class TextureViewBase : public DeviceObjectBase<BaseInterface, RenderDeviceImplType, TextureViewDesc>
+                class TextureViewGLImpl final : public TextureViewBase<ITextureViewGL, RenderDeviceGLImpl>
 
 
 auto obj = GameObjMgr::Create(   );

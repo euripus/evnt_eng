@@ -98,23 +98,23 @@ struct RasterizerStateDesc
     RasterizerStateDesc() noexcept {}
 
     RasterizerStateDesc(
-        FILL_MODE _FillMode, CULL_MODE _CullMode,
-        bool    _FrontCounterClockwise = RasterizerStateDesc{}.front_counter_clockwise,
-        bool    _DepthClipEnable       = RasterizerStateDesc{}.depth_clip_enable,
-        bool    _ScissorEnable         = RasterizerStateDesc{}.scissor_enable,
-        bool    _AntialiasedLineEnable = RasterizerStateDesc{}.antialiased_line_enable,
-        int32_t _DepthBias             = RasterizerStateDesc{}.depth_bias,
-        float   _DepthBiasClamp        = RasterizerStateDesc{}.depth_bias_clamp,
-        float   _SlopeScaledDepthBias  = RasterizerStateDesc{}.slope_scaled_depth_bias) noexcept :
-        fill_mode(_FillMode),
-        cull_mode(_CullMode),
-        front_counter_clockwise(_FrontCounterClockwise),
-        depth_clip_enable(_DepthClipEnable),
-        scissor_enable(_ScissorEnable),
-        antialiased_line_enable(_AntialiasedLineEnable),
-        depth_bias(_DepthBias),
-        depth_bias_clamp(_DepthBiasClamp),
-        slope_scaled_depth_bias(_SlopeScaledDepthBias)
+        FILL_MODE _fill_mode, CULL_MODE _cull_mode,
+        bool    _front_counter_clockwise = RasterizerStateDesc{}.front_counter_clockwise,
+        bool    _depth_clip_enable       = RasterizerStateDesc{}.depth_clip_enable,
+        bool    _scissor_enable          = RasterizerStateDesc{}.scissor_enable,
+        bool    _antialiased_line_enable = RasterizerStateDesc{}.antialiased_line_enable,
+        int32_t _depth_bias              = RasterizerStateDesc{}.depth_bias,
+        float   _depth_bias_clamp        = RasterizerStateDesc{}.depth_bias_clamp,
+        float   _slope_scaled_depth_bias = RasterizerStateDesc{}.slope_scaled_depth_bias) noexcept :
+        fill_mode(_fill_mode),
+        cull_mode(_cull_mode),
+        front_counter_clockwise(_front_counter_clockwise),
+        depth_clip_enable(_depth_clip_enable),
+        scissor_enable(_scissor_enable),
+        antialiased_line_enable(_antialiased_line_enable),
+        depth_bias(_depth_bias),
+        depth_bias_clamp(_depth_bias_clamp),
+        slope_scaled_depth_bias(_slope_scaled_depth_bias)
     {}
 
     /// Tests if two structures are equivalent

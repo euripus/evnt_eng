@@ -12,8 +12,9 @@ namespace evnt
 /// This enumeration defines blend factors for alpha-blending.
 /// It generatlly mirrors [D3D11_BLEND][] and [D3D12_BLEND][] enumerations and is used by
 /// RenderTargetBlendDesc structure to define source and destination blend factors for color and alpha
-/// channels. \sa [D3D11_BLEND on MSDN][D3D11_BLEND], [D3D12_BLEND on MSDN][D3D12_BLEND], [glBlendFuncSeparate
-/// on OpenGL.org][glBlendFuncSeparate]
+/// channels.
+/// [D3D11_BLEND on MSDN][D3D11_BLEND], [D3D12_BLEND on MSDN][D3D12_BLEND],
+/// [glBlendFuncSeparate on OpenGL.org][glBlendFuncSeparate]
 enum BLEND_FACTOR : int8_t
 {
     /// Undefined blend factor
@@ -91,7 +92,7 @@ enum BLEND_FACTOR : int8_t
 /// [glBlendEquationSeparate]: https://www.opengl.org/wiki/GLAPI/glBlendEquationSeparate
 /// This enumeration describes blending operation for RGB or Alpha channels and generally mirrors
 /// [D3D11_BLEND_OP][] and [D3D12_BLEND_OP][] enums. It is used by RenderTargetBlendDesc structure to define
-/// RGB and Alpha blending operations \sa [D3D11_BLEND_OP on MSDN][D3D11_BLEND_OP], [D3D12_BLEND_OP on
+/// RGB and Alpha blending operations [D3D11_BLEND_OP on MSDN][D3D11_BLEND_OP], [D3D12_BLEND_OP on
 /// MSDN][D3D12_BLEND_OP], [glBlendEquationSeparate on OpenGL.org][glBlendEquationSeparate]
 enum BLEND_OPERATION : int8_t
 {
@@ -140,7 +141,7 @@ enum COLOR_MASK : int8_t
 /// This enumeration describes logic operation and generally mirrors [D3D12_LOGIC_OP][] enum.
 /// It is used by RenderTargetBlendDesc structure to define logic operation.
 /// Only available on D3D12 engine
-/// \sa [D3D12_LOGIC_OP on MSDN][D3D12_LOGIC_OP]
+/// [D3D12_LOGIC_OP on MSDN][D3D12_LOGIC_OP]
 enum LOGIC_OPERATION : int8_t
 {
     /// Clear the render target.
@@ -239,25 +240,25 @@ struct RenderTargetBlendDesc
 
     RenderTargetBlendDesc() noexcept {}
     explicit RenderTargetBlendDesc(
-        bool _BlendEnable, bool _LogicOperationEnable = RenderTargetBlendDesc{}.logic_operation_enable,
-        BLEND_FACTOR    _SrcBlend              = RenderTargetBlendDesc{}.src_blend,
-        BLEND_FACTOR    _DestBlend             = RenderTargetBlendDesc{}.dest_blend,
-        BLEND_OPERATION _BlendOp               = RenderTargetBlendDesc{}.blend_op,
-        BLEND_FACTOR    _SrcBlendAlpha         = RenderTargetBlendDesc{}.src_blend_alpha,
-        BLEND_FACTOR    _DestBlendAlpha        = RenderTargetBlendDesc{}.dest_blend_alpha,
-        BLEND_OPERATION _BlendOpAlpha          = RenderTargetBlendDesc{}.blend_op_alpha,
-        LOGIC_OPERATION _LogicOp               = RenderTargetBlendDesc{}.logic_op,
-        uint8_t         _RenderTargetWriteMask = RenderTargetBlendDesc{}.render_target_write_mask) :
-        blend_enable(_BlendEnable),
-        logic_operation_enable(_LogicOperationEnable),
-        src_blend(_SrcBlend),
-        dest_blend(_DestBlend),
-        blend_op(_BlendOp),
-        src_blend_alpha(_SrcBlendAlpha),
-        dest_blend_alpha(_DestBlendAlpha),
-        blend_op_alpha(_BlendOpAlpha),
-        logic_op(_LogicOp),
-        render_target_write_mask(_RenderTargetWriteMask)
+        bool _blend_enable, bool _logic_operation_enable = RenderTargetBlendDesc{}.logic_operation_enable,
+        BLEND_FACTOR    _src_blend                = RenderTargetBlendDesc{}.src_blend,
+        BLEND_FACTOR    _dest_blend               = RenderTargetBlendDesc{}.dest_blend,
+        BLEND_OPERATION _blend_op                 = RenderTargetBlendDesc{}.blend_op,
+        BLEND_FACTOR    _src_blend_alpha          = RenderTargetBlendDesc{}.src_blend_alpha,
+        BLEND_FACTOR    _dest_blend_alpha         = RenderTargetBlendDesc{}.dest_blend_alpha,
+        BLEND_OPERATION _blend_op_alpha           = RenderTargetBlendDesc{}.blend_op_alpha,
+        LOGIC_OPERATION _logic_op                 = RenderTargetBlendDesc{}.logic_op,
+        uint8_t         _render_target_write_mask = RenderTargetBlendDesc{}.render_target_write_mask) :
+        blend_enable(_blend_enable),
+        logic_operation_enable(_logic_operation_enable),
+        src_blend(_src_blend),
+        dest_blend(_dest_blend),
+        blend_op(_blend_op),
+        src_blend_alpha(_src_blend_alpha),
+        dest_blend_alpha(_dest_blend_alpha),
+        blend_op_alpha(_blend_op_alpha),
+        logic_op(_logic_op),
+        render_target_write_mask(_render_target_write_mask)
     {}
 
     /// Comparison operator tests if two structures are equivalent
@@ -297,11 +298,11 @@ struct BlendStateDesc
     //     BlendStateDesc{false, false}
 
     BlendStateDesc() noexcept {}
-    BlendStateDesc(bool _AlphaToCoverageEnable, bool _IndependentBlendEnable,
-                   const RenderTargetBlendDesc & RT0 = RenderTargetBlendDesc{}) noexcept :
-        alpha_to_coverage_enable(_AlphaToCoverageEnable),
-        independent_blend_enable(_IndependentBlendEnable),
-        render_targets{RT0}
+    BlendStateDesc(bool _alpha_to_coverage_enable, bool _independent_blend_enable,
+                   const RenderTargetBlendDesc & rt0 = RenderTargetBlendDesc{}) noexcept :
+        alpha_to_coverage_enable(_alpha_to_coverage_enable),
+        independent_blend_enable(_independent_blend_enable),
+        render_targets{rt0}
     {}
 
     /// Comparison operator tests if two structures are equivalent
@@ -313,18 +314,18 @@ struct BlendStateDesc
     ///   but differ in render target other than 0, the operator will return false
     ///   even though the two blend states created from these structures will be identical.
     /// - false otherwise
-    bool operator==(const BlendStateDesc & RHS) const
+    bool operator==(const BlendStateDesc & rhs) const
     {
         bool rt_is_equal = true;
         for(int i = 0; i < s_max_render_targets; ++i)
-            if(!(render_targets[i] == RHS.render_targets[i]))
+            if(!(render_targets[i] == rhs.render_targets[i]))
             {
                 rt_is_equal = false;
                 break;
             }
 
-        return rt_is_equal && alpha_to_coverage_enable == RHS.alpha_to_coverage_enable
-               && independent_blend_enable == RHS.independent_blend_enable;
+        return rt_is_equal && alpha_to_coverage_enable == rhs.alpha_to_coverage_enable
+               && independent_blend_enable == rhs.independent_blend_enable;
     }
 };
 }   // namespace evnt

@@ -77,12 +77,12 @@ struct StencilOpDesc
     //     StencilOpDesc{STENCIL_OP_KEEP, STENCIL_OP_KEEP, STENCIL_OP_KEEP, COMPARISON_FUNC_ALWAYS}
 
     StencilOpDesc() noexcept {}
-    StencilOpDesc(STENCIL_OP _StencilFailOp, STENCIL_OP _StencilDepthFailOp, STENCIL_OP _StencilPassOp,
-                  COMPARISON_FUNCTION _StencilFunc) noexcept :
-        stencil_fail_op(_StencilFailOp),
-        stencil_depth_fail_op(_StencilDepthFailOp),
-        stencil_pass_op(_StencilPassOp),
-        stencil_func(_StencilFunc)
+    StencilOpDesc(STENCIL_OP _stencil_fail_op, STENCIL_OP _stencil_depth_fail_op, STENCIL_OP _stencil_pass_op,
+                  COMPARISON_FUNCTION _stencil_func) noexcept :
+        stencil_fail_op(_stencil_fail_op),
+        stencil_depth_fail_op(_stencil_depth_fail_op),
+        stencil_pass_op(_stencil_pass_op),
+        stencil_func(_stencil_func)
     {}
 
     /// Tests if two structures are equivalent
@@ -134,21 +134,21 @@ struct DepthStencilStateDesc
     //     DepthStencilStateDesc{false, false}
 
     DepthStencilStateDesc() noexcept {}
-    DepthStencilStateDesc(bool _DepthEnable, bool _DepthWriteEnable,
-                          COMPARISON_FUNCTION _DepthFunc        = DepthStencilStateDesc{}.depth_func,
-                          bool                _StencilEnable    = DepthStencilStateDesc{}.stencil_enable,
-                          uint8_t             _StencilReadMask  = DepthStencilStateDesc{}.stencil_read_mask,
-                          uint8_t             _StencilWriteMask = DepthStencilStateDesc{}.stenci_write_mask,
-                          StencilOpDesc       _FrontFace        = StencilOpDesc{},
-                          StencilOpDesc       _BackFace         = StencilOpDesc{}) noexcept :
-        depth_enable(_DepthEnable),
-        depth_write_enable(_DepthWriteEnable),
-        depth_func(_DepthFunc),
-        stencil_enable(_StencilEnable),
-        stencil_read_mask(_StencilReadMask),
-        stenci_write_mask(_StencilWriteMask),
-        front_face(_FrontFace),
-        back_face(_BackFace)
+    DepthStencilStateDesc(bool _depth_enable, bool _depth_write_enable,
+                          COMPARISON_FUNCTION _depth_func         = DepthStencilStateDesc{}.depth_func,
+                          bool                _stencil_enable     = DepthStencilStateDesc{}.stencil_enable,
+                          uint8_t             _stencil_read_mask  = DepthStencilStateDesc{}.stencil_read_mask,
+                          uint8_t             _stencil_write_mask = DepthStencilStateDesc{}.stenci_write_mask,
+                          StencilOpDesc       _front_face         = StencilOpDesc{},
+                          StencilOpDesc       _back_face          = StencilOpDesc{}) noexcept :
+        depth_enable(_depth_enable),
+        depth_write_enable(_depth_write_enable),
+        depth_func(_depth_func),
+        stencil_enable(_stencil_enable),
+        stencil_read_mask(_stencil_read_mask),
+        stenci_write_mask(_stencil_write_mask),
+        front_face(_front_face),
+        back_face(_back_face)
     {}
 
     /// Tests if two structures are equivalent

@@ -1,10 +1,10 @@
 #ifndef GLCONTEXTSTATE_H
 #define GLCONTEXTSTATE_H
 
-#include "../blendstate.h"
-#include "../depthstencilstate.h"
-#include "../graphics_types.h"
-#include "../rasterizerstate.h"
+#include "../common/blendstate.h"
+#include "../common/depthstencilstate.h"
+#include "../common/graphics_types.h"
+#include "../common/rasterizerstate.h"
 #include "glcontext.h"
 #include "globjwrapper.h"
 #include <vector>
@@ -79,8 +79,9 @@ private:
 
         BoundImageInfo() {}
 
-        BoundImageInfo(GLint _MipLevel, GLboolean _IsLayered, GLint _Layer, GLenum _Access, GLenum _Format) :
-            mip_level(_MipLevel), is_layered(_IsLayered), layer(_Layer), access(_Access), format(_Format)
+        BoundImageInfo(GLint _mip_level, GLboolean _is_layered, GLint _layer, GLenum _access,
+                       GLenum _format) :
+            mip_level(_mip_level), is_layered(_is_layered), layer(_layer), access(_access), format(_format)
         {}
 
         bool operator==(const BoundImageInfo & rhs) const
