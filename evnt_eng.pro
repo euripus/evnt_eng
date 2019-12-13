@@ -63,9 +63,12 @@ SOURCES +=  \
     src/network/connection.cpp \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
+    src/render/common/renderdevicebase.cpp \
     src/render/common/textureviewbase.cpp \
     src/render/gl/glcontext.cpp \
     src/render/gl/glcontextstate.cpp \
+    src/render/gl/renderdeviceglimpl.cpp \
+    src/render/gl/textureviewglimpl.cpp \
     src/render/gl/typeconversions.cpp \
     src/render/utils/colorconversion.cpp \
     src/render/utils/graphicsaccessories.cpp \
@@ -124,12 +127,18 @@ HEADERS += \
     src/render/common/interface/iswapchain.h \
     src/render/common/interface/itexture.h \
     src/render/common/interface/itextureview.h \
+    src/render/common/objectbase.h \
     src/render/common/rasterizerstate.h \
+    src/render/common/renderdevicebase.h \
     src/render/common/textureviewbase.h \
     src/render/gl/asyncwritableresource.h \
     src/render/gl/glcontext.h \
     src/render/gl/glcontextstate.h \
     src/render/gl/globjwrapper.h \
+    src/render/gl/interface/irenderdevicegl.h \
+    src/render/gl/interface/itextureviewgl.h \
+    src/render/gl/renderdeviceglimpl.h \
+    src/render/gl/textureviewglimpl.h \
     src/render/gl/typeconversions.h \
     src/render/utils/colorconversion.h \
     src/render/utils/graphicsaccessories.h \

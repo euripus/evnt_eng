@@ -6,12 +6,11 @@
 
 namespace evnt
 {
-template<class RenderDeviceImplType>
-class TextureViewBase : public DeviceObjectBase<RenderDeviceImplType, TextureViewDesc>,
-                        public ITextureView
+template<typename BaseInterface, typename RenderDeviceImplType>
+class TextureViewBase : public DeviceObjectBase<BaseInterface, RenderDeviceImplType, TextureViewDesc>
 {
 public:
-    using TDeviceObjectBase = DeviceObjectBase<RenderDeviceImplType, TextureViewDesc>;
+    using TDeviceObjectBase = DeviceObjectBase<BaseInterface, RenderDeviceImplType, TextureViewDesc>;
 
     /// \param pDevice - pointer to the render device.
     /// \param ViewDesc - texture view description.

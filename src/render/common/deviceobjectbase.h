@@ -2,13 +2,13 @@
 #define DEVICEOBJECTBASE_H
 
 #include "./interface/ideviceobject.h"
-#include <sstream>
+#include "objectbase.h"
 
 namespace evnt
 {
 /// Template class implementing base functionality for a device object
-template<typename RenderDeviceImplType, typename ObjectDescType>
-class DeviceObjectBase : public IDeviceObject
+template<typename BaseInterface, typename RenderDeviceImplType, typename ObjectDescType>
+class DeviceObjectBase : public ObjectBase<BaseInterface>
 {
 public:
     /// \param pDevice - pointer to the render device
