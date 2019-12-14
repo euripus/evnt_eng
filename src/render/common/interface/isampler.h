@@ -58,25 +58,25 @@ struct SamplerDesc : public DeviceObjectAttribs
     float max_lod = +3.402823466e+38F;
 
     SamplerDesc() noexcept {}
-    SamplerDesc(FILTER_TYPE _MinFilter, FILTER_TYPE _MagFilter, FILTER_TYPE _MipFilter,
-                TEXTURE_ADDRESS_MODE _AddressU       = SamplerDesc{}.address_u,
-                TEXTURE_ADDRESS_MODE _AddressV       = SamplerDesc{}.address_v,
-                TEXTURE_ADDRESS_MODE _AddressW       = SamplerDesc{}.address_w,
-                float                _MipLODBias     = SamplerDesc{}.mip_lod_bias,
-                uint32_t             _MaxAnisotropy  = SamplerDesc{}.max_anisotropy,
-                COMPARISON_FUNCTION  _ComparisonFunc = SamplerDesc{}.comparison_func,
-                float _MinLOD = SamplerDesc{}.min_lod, float _MaxLOD = SamplerDesc{}.max_lod) :
-        min_filter(_MinFilter),
-        mag_filter(_MagFilter),
-        mip_filter(_MipFilter),
-        address_u(_AddressU),
-        address_v(_AddressV),
-        address_w(_AddressW),
-        mip_lod_bias(_MipLODBias),
-        max_anisotropy(_MaxAnisotropy),
-        comparison_func(_ComparisonFunc),
-        min_lod(_MinLOD),
-        max_lod(_MaxLOD)
+    SamplerDesc(FILTER_TYPE _min_filter, FILTER_TYPE _mag_filter, FILTER_TYPE _mip_filter,
+                TEXTURE_ADDRESS_MODE _address_u       = SamplerDesc{}.address_u,
+                TEXTURE_ADDRESS_MODE _address_v       = SamplerDesc{}.address_v,
+                TEXTURE_ADDRESS_MODE _address_w       = SamplerDesc{}.address_w,
+                float                _mip_lod_bias    = SamplerDesc{}.mip_lod_bias,
+                uint32_t             _max_anisotropy  = SamplerDesc{}.max_anisotropy,
+                COMPARISON_FUNCTION  _comparison_func = SamplerDesc{}.comparison_func,
+                float _min_lod = SamplerDesc{}.min_lod, float _max_lod = SamplerDesc{}.max_lod) :
+        min_filter(_min_filter),
+        mag_filter(_mag_filter),
+        mip_filter(_mip_filter),
+        address_u(_address_u),
+        address_v(_address_v),
+        address_w(_address_w),
+        mip_lod_bias(_mip_lod_bias),
+        max_anisotropy(_max_anisotropy),
+        comparison_func(_comparison_func),
+        min_lod(_min_lod),
+        max_lod(_max_lod)
     {
         border_color[0] = border_color[1] = border_color[2] = border_color[3] = 0;
     }
@@ -88,16 +88,16 @@ struct SamplerDesc : public DeviceObjectAttribs
     /// - False otherwise.
     /// The operator ignores DeviceObjectAttribs::Name field as it does not affect
     /// the sampler state.
-    bool operator==(const SamplerDesc & RHS) const
+    bool operator==(const SamplerDesc & rhs) const
     {
         // Name is primarily used for debug purposes and does not affect the state.
         // It is ignored in comparison operation.
-        return min_filter == RHS.min_filter && mag_filter == RHS.mag_filter && mip_filter == RHS.mip_filter
-               && address_u == RHS.address_u && address_v == RHS.address_v && address_w == RHS.address_w
-               && mip_lod_bias == RHS.mip_lod_bias && max_anisotropy == RHS.max_anisotropy
-               && comparison_func == RHS.comparison_func && border_color[0] == RHS.border_color[0]
-               && border_color[1] == RHS.border_color[1] && border_color[2] == RHS.border_color[2]
-               && border_color[3] == RHS.border_color[3] && min_lod == RHS.min_lod && max_lod == RHS.max_lod;
+        return min_filter == rhs.min_filter && mag_filter == rhs.mag_filter && mip_filter == rhs.mip_filter
+               && address_u == rhs.address_u && address_v == rhs.address_v && address_w == rhs.address_w
+               && mip_lod_bias == rhs.mip_lod_bias && max_anisotropy == rhs.max_anisotropy
+               && comparison_func == rhs.comparison_func && border_color[0] == rhs.border_color[0]
+               && border_color[1] == rhs.border_color[1] && border_color[2] == rhs.border_color[2]
+               && border_color[3] == rhs.border_color[3] && min_lod == rhs.min_lod && max_lod == rhs.max_lod;
     }
 };
 

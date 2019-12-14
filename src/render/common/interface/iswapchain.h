@@ -28,19 +28,20 @@ struct SwapChainDesc : public DeviceObjectAttribs
 
     SwapChainDesc() noexcept {}
     /// Constructor intializes the structure members with default values
-    SwapChainDesc(uint32_t _Width, uint32_t _Height, TEXTURE_FORMAT _ColorBufferFormat,
-                  TEXTURE_FORMAT _DepthBufferFormat, uint32_t _SamplesCount = SwapChainDesc{}.samples_count,
-                  uint32_t _BufferCount         = SwapChainDesc{}.buffer_count,
-                  float    _DefaultDepthValue   = SwapChainDesc{}.default_depth_value,
-                  uint8_t  _DefaultStencilValue = SwapChainDesc{}.default_stencil_value) :
-        width(_Width),
-        height(_Height),
-        color_buffer_format(_ColorBufferFormat),
-        depth_buffer_format(_DepthBufferFormat),
-        samples_count(_SamplesCount),
-        buffer_count(_BufferCount),
-        default_depth_value(_DefaultDepthValue),
-        default_stencil_value(_DefaultStencilValue)
+    SwapChainDesc(uint32_t _width, uint32_t _height, TEXTURE_FORMAT _color_buffer_format,
+                  TEXTURE_FORMAT _depth_buffer_format,
+                  uint32_t       _samples_count         = SwapChainDesc{}.samples_count,
+                  uint32_t       _buffer_count          = SwapChainDesc{}.buffer_count,
+                  float          _default_depth_value   = SwapChainDesc{}.default_depth_value,
+                  uint8_t        _default_stencil_value = SwapChainDesc{}.default_stencil_value) :
+        width(_width),
+        height(_height),
+        color_buffer_format(_color_buffer_format),
+        depth_buffer_format(_depth_buffer_format),
+        samples_count(_samples_count),
+        buffer_count(_buffer_count),
+        default_depth_value(_default_depth_value),
+        default_stencil_value(_default_stencil_value)
     {}
 };
 

@@ -61,7 +61,7 @@ struct ShaderMacro
     std::string definition;
 
     ShaderMacro() noexcept {}
-    ShaderMacro(const char * _Name, const char * _Def) noexcept : name(_Name), definition(_Def) {}
+    ShaderMacro(const char * _name, const char * _def) noexcept : name(_name), definition(_def) {}
 };
 
 /// Shader creation attributes

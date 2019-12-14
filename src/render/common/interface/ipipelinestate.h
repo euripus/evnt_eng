@@ -3,13 +3,13 @@
 
 #include "../blendstate.h"
 #include "../depthstencilstate.h"
+#include "../rasterizerstate.h"
 #include "ideviceobject.h"
 #include "inputlayout.h"
 #include "isampler.h"
 #include "ishader.h"
 #include "ishaderresourcebinding.h"
 #include "ishaderresourcevariable.h"
-#include "../rasterizerstate.h"
 
 namespace evnt
 {
@@ -37,9 +37,9 @@ struct ShaderResourceVariableDesc
     SHADER_RESOURCE_VARIABLE_TYPE Type = SHADER_RESOURCE_VARIABLE_TYPE_STATIC;
 
     ShaderResourceVariableDesc() noexcept {}
-    ShaderResourceVariableDesc(SHADER_TYPE _ShaderStages, const char * _Name,
-                               SHADER_RESOURCE_VARIABLE_TYPE _Type) noexcept :
-        shader_stages(_ShaderStages), name(_Name), Type(_Type)
+    ShaderResourceVariableDesc(SHADER_TYPE _shader_stages, const char * _name,
+                               SHADER_RESOURCE_VARIABLE_TYPE _type) noexcept :
+        shader_stages(_shader_stages), name(_name), Type(_type)
     {}
 };
 
@@ -55,9 +55,9 @@ struct StaticSamplerDesc
     SamplerDesc desc;
 
     StaticSamplerDesc() noexcept {}
-    StaticSamplerDesc(SHADER_TYPE _ShaderStages, const char * _SamplerOrTextureName,
-                      const SamplerDesc & _Desc) noexcept :
-        shader_stages(_ShaderStages), sampler_or_texture_name(_SamplerOrTextureName), desc(_Desc)
+    StaticSamplerDesc(SHADER_TYPE _shader_stages, const char * _sampler_or_texture_name,
+                      const SamplerDesc & _desc) noexcept :
+        shader_stages(_shader_stages), sampler_or_texture_name(_sampler_or_texture_name), desc(_desc)
     {}
 };
 

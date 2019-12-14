@@ -60,18 +60,18 @@ struct BufferDesc : public DeviceObjectAttribs
     // Apple's clang:
     //      BufferDesc{1024, BIND_UNIFORM_BUFFER, USAGE_DEFAULT}
     BufferDesc() noexcept {}
-    explicit BufferDesc(uint32_t _uiSizeInBytes, BIND_FLAGS _BindFlags, USAGE _Usage = BufferDesc{}.usage,
-                        CPU_ACCESS_FLAGS _CPUAccessFlags    = BufferDesc{}.cpu_access_flags,
-                        BUFFER_MODE      _Mode              = BufferDesc{}.mode,
-                        uint32_t         _ElementByteStride = BufferDesc{}.element_byte_stride,
-                        uint64_t         _CommandQueueMask  = BufferDesc{}.command_queue_mask) noexcept :
-        size_in_bytes(_uiSizeInBytes),
-        bind_flags(_BindFlags),
-        usage(_Usage),
-        cpu_access_flags(_CPUAccessFlags),
-        mode(_Mode),
-        element_byte_stride(_ElementByteStride),
-        command_queue_mask(_CommandQueueMask)
+    explicit BufferDesc(uint32_t _size_in_bytes, BIND_FLAGS _bind_flags, USAGE _usage = BufferDesc{}.usage,
+                        CPU_ACCESS_FLAGS _cpu_access_flags    = BufferDesc{}.cpu_access_flags,
+                        BUFFER_MODE      _mode                = BufferDesc{}.mode,
+                        uint32_t         _element_byte_stride = BufferDesc{}.element_byte_stride,
+                        uint64_t         _command_queue_mask  = BufferDesc{}.command_queue_mask) noexcept :
+        size_in_bytes(_size_in_bytes),
+        bind_flags(_bind_flags),
+        usage(_usage),
+        cpu_access_flags(_cpu_access_flags),
+        mode(_mode),
+        element_byte_stride(_element_byte_stride),
+        command_queue_mask(_command_queue_mask)
     {}
 
     /// Tests if two structures are equivalent
@@ -82,12 +82,12 @@ struct BufferDesc : public DeviceObjectAttribs
     /// - False otherwise.
     /// The operator ignores DeviceObjectAttribs::Name field as it does not affect
     /// the buffer description.
-    bool operator==(const BufferDesc & RHS) const
+    bool operator==(const BufferDesc & rhs) const
     {
-        return size_in_bytes == RHS.size_in_bytes && bind_flags == RHS.bind_flags && usage == RHS.usage
-               && cpu_access_flags == RHS.cpu_access_flags && mode == RHS.mode
-               && element_byte_stride == RHS.element_byte_stride
-               && command_queue_mask == RHS.command_queue_mask;
+        return size_in_bytes == rhs.size_in_bytes && bind_flags == rhs.bind_flags && usage == rhs.usage
+               && cpu_access_flags == rhs.cpu_access_flags && mode == rhs.mode
+               && element_byte_stride == rhs.element_byte_stride
+               && command_queue_mask == rhs.command_queue_mask;
     }
 };
 
@@ -103,7 +103,7 @@ struct BufferData
     // following legitimate code:
     //     BufferData{nullptr, 0}
     BufferData() noexcept {}
-    BufferData(const void * _pData, uint32_t _DataSize) : p_data(_pData), data_size(_DataSize) {}
+    BufferData(const void * _p_data, uint32_t _data_size) : p_data(_p_data), data_size(_data_size) {}
 };
 
 /// Buffer interface

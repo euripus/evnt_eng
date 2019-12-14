@@ -18,8 +18,8 @@ struct ResourceMappingEntry
     /// \param [in] _Name       - Object name.
     /// \param [in] _pObject    - Pointer to the object.
     /// \param [in] _ArrayIndex - For array resources, index in the array
-    ResourceMappingEntry(const char * _Name, IDeviceObject * _pObject, uint32_t _ArrayIndex = 0) noexcept :
-        name(_Name), p_object(_pObject), array_index(_ArrayIndex)
+    ResourceMappingEntry(const char * _name, IDeviceObject * _p_object, uint32_t _array_index = 0) noexcept :
+        name(_name), p_object(_p_object), array_index(_array_index)
     {}
     ResourceMappingEntry() noexcept {}
 };
@@ -33,7 +33,7 @@ struct ResourceMappingDesc
     ResourceMappingEntry * p_entries = nullptr;
 
     ResourceMappingDesc() noexcept {}
-    explicit ResourceMappingDesc(ResourceMappingEntry * _pEntries) noexcept : p_entries(_pEntries) {}
+    explicit ResourceMappingDesc(ResourceMappingEntry * _p_entries) noexcept : p_entries(_p_entries) {}
 };
 
 /// Resouce mapping

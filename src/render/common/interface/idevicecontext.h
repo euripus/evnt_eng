@@ -34,7 +34,7 @@ enum RESOURCE_STATE_TRANSITION_MODE : uint8_t
     ///          or write the state of the resources being transitioned.
     ///          If the application intends to use the same resources in other threads simultaneously, it
     ///          needs to explicitly manage the states using IDeviceContext::TransitionResourceStates()
-    ///          method. 
+    ///          method.
     RESOURCE_STATE_TRANSITION_MODE_TRANSITION,
     /// Do not transition, but verify that states are correct.
     /// No validation is performed if the state is unknown to the engine.
@@ -110,51 +110,51 @@ struct DrawAttribs
     /// pIndirectDrawAttribs                     | nullptr
     DrawAttribs() noexcept {}
     /// Initializes the structure to perform non-indexed draw call.
-    DrawAttribs(uint32_t _NumVertices, DRAW_FLAGS _Flags, uint32_t _NumInstances = 1,
-                uint32_t _BaseVertex = 0, uint32_t _StartVertexLocation = 0,
-                uint32_t _FirstInstanceLocation = 0) noexcept :
-        num_vertices(_NumVertices),
-        flags(_Flags),
-        num_instances(_NumInstances),
-        base_vertex(_BaseVertex),
-        start_vertex_location(_StartVertexLocation),
-        first_instance_location(_FirstInstanceLocation)
+    DrawAttribs(uint32_t _num_vertices, DRAW_FLAGS _flags, uint32_t _num_instances = 1,
+                uint32_t _base_vertex = 0, uint32_t _start_vertex_location = 0,
+                uint32_t _first_instance_location = 0) noexcept :
+        num_vertices(_num_vertices),
+        flags(_flags),
+        num_instances(_num_instances),
+        base_vertex(_base_vertex),
+        start_vertex_location(_start_vertex_location),
+        first_instance_location(_first_instance_location)
     {}
 
     /// Initializes the structure to perform indexed draw call.
-    DrawAttribs(uint32_t _NumIndices, VALUE_TYPE _IndexType, DRAW_FLAGS _Flags, uint32_t _NumInstances = 1,
-                uint32_t _BaseVertex = 0, uint32_t _FirstIndexLocation = 0,
-                uint32_t _FirstInstanceLocation = 0) noexcept :
-        num_indices(_NumIndices),
+    DrawAttribs(uint32_t _num_indices, VALUE_TYPE _index_type, DRAW_FLAGS _flags, uint32_t _num_instances = 1,
+                uint32_t _base_vertex = 0, uint32_t _first_index_location = 0,
+                uint32_t _first_instance_location = 0) noexcept :
+        num_indices(_num_indices),
         is_indexed(true),
-        index_type(_IndexType),
-        flags(_Flags),
-        num_instances(_NumInstances),
-        base_vertex(_BaseVertex),
-        first_index_location(_FirstIndexLocation),
-        first_instance_location(_FirstInstanceLocation)
+        index_type(_index_type),
+        flags(_flags),
+        num_instances(_num_instances),
+        base_vertex(_base_vertex),
+        first_index_location(_first_index_location),
+        first_instance_location(_first_instance_location)
     {}
 
     /// Initializes the structure to perform non-indexed indirect draw call.
-    DrawAttribs(IBuffer * _pIndirectDrawAttribs, DRAW_FLAGS _Flags,
-                RESOURCE_STATE_TRANSITION_MODE _IndirectAttribsBufferStateTransitionMode,
-                uint32_t                       _IndirectDrawArgsOffset = 0) noexcept :
-        flags(_Flags),
-        indirect_attribs_buffer_state_transition_mode(_IndirectAttribsBufferStateTransitionMode),
-        indirect_draw_args_offset(_IndirectDrawArgsOffset),
-        p_indirect_draw_attribs(_pIndirectDrawAttribs)
+    DrawAttribs(IBuffer * _p_indirect_draw_attribs, DRAW_FLAGS _flags,
+                RESOURCE_STATE_TRANSITION_MODE _indirect_attribs_buffer_state_transition_mode,
+                uint32_t                       _indirect_draw_args_offset = 0) noexcept :
+        flags(_flags),
+        indirect_attribs_buffer_state_transition_mode(_indirect_attribs_buffer_state_transition_mode),
+        indirect_draw_args_offset(_indirect_draw_args_offset),
+        p_indirect_draw_attribs(_p_indirect_draw_attribs)
     {}
 
     /// Initializes the structure to perform indirect indexed draw call.
-    DrawAttribs(IBuffer * _pIndirectDrawAttribs, VALUE_TYPE _IndexType, DRAW_FLAGS _Flags,
-                RESOURCE_STATE_TRANSITION_MODE _IndirectAttribsBufferStateTransitionMode,
-                uint32_t                       _IndirectDrawArgsOffset = 0) noexcept :
+    DrawAttribs(IBuffer * _p_indirect_draw_attribs, VALUE_TYPE _index_type, DRAW_FLAGS _flags,
+                RESOURCE_STATE_TRANSITION_MODE _indirect_attribs_buffer_state_transition_mode,
+                uint32_t                       _indirect_draw_args_offset = 0) noexcept :
         is_indexed(true),
-        index_type(_IndexType),
-        flags(_Flags),
-        indirect_attribs_buffer_state_transition_mode(_IndirectAttribsBufferStateTransitionMode),
-        indirect_draw_args_offset(_IndirectDrawArgsOffset),
-        p_indirect_draw_attribs(_pIndirectDrawAttribs)
+        index_type(_index_type),
+        flags(_flags),
+        indirect_attribs_buffer_state_transition_mode(_indirect_attribs_buffer_state_transition_mode),
+        indirect_draw_args_offset(_indirect_draw_args_offset),
+        p_indirect_draw_attribs(_p_indirect_draw_attribs)
     {}
 };
 
@@ -195,31 +195,30 @@ struct DispatchComputeAttribs
     DispatchComputeAttribs() noexcept {}
 
     /// Initializes the structure to perform non-indirect dispatch command.
-
     /// \param [in] GroupsX - Number of groups dispatched in X direction. Default value is 1.
     /// \param [in] GroupsY - Number of groups dispatched in Y direction. Default value is 1.
     /// \param [in] GroupsZ - Number of groups dispatched in Z direction. Default value is 1.
-    explicit DispatchComputeAttribs(uint32_t GroupsX, uint32_t GroupsY = 1, uint32_t GroupsZ = 1) noexcept :
-        thread_group_count_x(GroupsX),
-        thread_group_count_y(GroupsY),
-        thread_group_count_z(GroupsZ),
+    explicit DispatchComputeAttribs(uint32_t groups_x, uint32_t groups_y = 1,
+                                    uint32_t groups_z = 1) noexcept :
+        thread_group_count_x(groups_x),
+        thread_group_count_y(groups_y),
+        thread_group_count_z(groups_z),
         p_indirect_dispatch_attribs(nullptr),
         dispatch_args_byte_offset(0)
     {}
 
     /// Initializes the structure to perform indirect dispatch command.
-
     /// \param [in] pDispatchAttribs - Pointer to the buffer containing dispatch arguments.
     /// \param [in] Offset - Offset from the beginning of the buffer to the dispatch command
     ///                 arguments. Default value is 0.
-    DispatchComputeAttribs(IBuffer * pDispatchAttribs, RESOURCE_STATE_TRANSITION_MODE StateTransitionMode,
-                           uint32_t Offset = 0) :
+    DispatchComputeAttribs(IBuffer * p_dispatch_attribs, RESOURCE_STATE_TRANSITION_MODE state_transition_mode,
+                           uint32_t offset = 0) :
         thread_group_count_x(0),
         thread_group_count_y(0),
         thread_group_count_z(0),
-        p_indirect_dispatch_attribs(pDispatchAttribs),
-        dispatch_args_byte_offset(Offset),
-        indirect_attribs_buffer_state_transition_mode(StateTransitionMode)
+        p_indirect_dispatch_attribs(p_dispatch_attribs),
+        dispatch_args_byte_offset(offset),
+        indirect_attribs_buffer_state_transition_mode(state_transition_mode)
     {}
 };
 
@@ -336,13 +335,13 @@ struct CopyTextureAttribs
     RESOURCE_STATE_TRANSITION_MODE dst_texture_transition_mode = RESOURCE_STATE_TRANSITION_MODE_NONE;
 
     CopyTextureAttribs() noexcept {}
-    CopyTextureAttribs(ITexture * _pSrcTexture, RESOURCE_STATE_TRANSITION_MODE _SrcTextureTransitionMode,
-                       ITexture *                     _pDstTexture,
-                       RESOURCE_STATE_TRANSITION_MODE _DstTextureTransitionMode) noexcept :
-        p_src_texture(_pSrcTexture),
-        src_texture_transition_mode(_SrcTextureTransitionMode),
-        p_dst_texture(_pDstTexture),
-        dst_texture_transition_mode(_DstTextureTransitionMode)
+    CopyTextureAttribs(ITexture * _p_src_texture, RESOURCE_STATE_TRANSITION_MODE _src_texture_transition_mode,
+                       ITexture *                     _p_dst_texture,
+                       RESOURCE_STATE_TRANSITION_MODE _dst_texture_transition_mode) noexcept :
+        p_src_texture(_p_src_texture),
+        src_texture_transition_mode(_src_texture_transition_mode),
+        p_dst_texture(_p_dst_texture),
+        dst_texture_transition_mode(_dst_texture_transition_mode)
     {}
 };
 

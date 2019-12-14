@@ -24,16 +24,16 @@ struct BufferFormat
     // following legitimate code:
     //     BufferFormat{VT_FLOAT32, 4}
     BufferFormat() noexcept {}
-    BufferFormat(VALUE_TYPE _ValueType, uint8_t _NumComponents,
-                 bool _IsNormalized = BufferFormat{}.is_normalized) noexcept :
-        value_type(_ValueType), num_components(_NumComponents), is_normalized(_IsNormalized)
+    BufferFormat(VALUE_TYPE _value_type, uint8_t _num_components,
+                 bool _is_normalized = BufferFormat{}.is_normalized) noexcept :
+        value_type(_value_type), num_components(_num_components), is_normalized(_is_normalized)
     {}
 
     /// Tests if two structures are equivalent
-    bool operator==(const BufferFormat & RHS) const
+    bool operator==(const BufferFormat & rhs) const
     {
-        return value_type == RHS.value_type && num_components == RHS.num_components
-               && is_normalized == RHS.is_normalized;
+        return value_type == rhs.value_type && num_components == rhs.num_components
+               && is_normalized == rhs.is_normalized;
     }
 };
 
@@ -53,10 +53,10 @@ struct BufferViewDesc : DeviceObjectAttribs
     uint32_t byte_width = 0;
 
     BufferViewDesc() noexcept {}
-    explicit BufferViewDesc(BUFFER_VIEW_TYPE _ViewType, BufferFormat _Format = BufferViewDesc{}.format,
-                            uint32_t _ByteOffset = BufferViewDesc{}.byte_offset,
-                            uint32_t _ByteWidth  = BufferViewDesc{}.byte_width) noexcept :
-        view_type(_ViewType), format(_Format), byte_offset(_ByteOffset), byte_width(_ByteWidth)
+    explicit BufferViewDesc(BUFFER_VIEW_TYPE _view_type, BufferFormat _format = BufferViewDesc{}.format,
+                            uint32_t _byte_offset = BufferViewDesc{}.byte_offset,
+                            uint32_t _byte_width  = BufferViewDesc{}.byte_width) noexcept :
+        view_type(_view_type), format(_format), byte_offset(_byte_offset), byte_width(_byte_width)
     {}
 
     /// Comparison operator tests if two structures are equivalent
@@ -66,13 +66,13 @@ struct BufferViewDesc : DeviceObjectAttribs
     /// - False otherwise
     /// \remarks
     /// The operator ignores DeviceObjectAttribs::Name field.
-    bool operator==(const BufferViewDesc & RHS) const
+    bool operator==(const BufferViewDesc & rhs) const
     {
         // Name is primarily used for debug purposes and does not affect the view.
         // It is ignored in comparison operation.
         return   // strcmp(Name, RHS.Name) == 0 &&
-            view_type == RHS.view_type && byte_offset == RHS.byte_offset && byte_width == RHS.byte_width
-            && format == RHS.format;
+            view_type == rhs.view_type && byte_offset == rhs.byte_offset && byte_width == rhs.byte_width
+            && format == rhs.format;
     }
 };
 
