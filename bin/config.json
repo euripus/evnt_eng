@@ -36,7 +36,7 @@
             "Type":"OpenGL",
             "Version":{ 
                "Major":3,
-               "Minor":0
+               "Minor":3
             },
             "Extensions":[ 
                "GL_ARB_texture_view",

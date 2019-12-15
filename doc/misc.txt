@@ -28,14 +28,33 @@ Network
 IObject
     IDeviceObject
         ITextureView
-            ITextureViewGL
-            
+            ITextureViewGL            
 template<typename Base>
 class RefCountedObject : public Base
     class ObjectBase : public RefCountedObject<BaseInterface>
         class DeviceObjectBase : public ObjectBase<BaseInterface>
             class TextureViewBase : public DeviceObjectBase<BaseInterface, RenderDeviceImplType, TextureViewDesc>
                 class TextureViewGLImpl final : public TextureViewBase<ITextureViewGL, RenderDeviceGLImpl>
+                
+                
+Mapping types
+    Direct Mapping
+        IObject
+            read(stream s)=0;
+            write(stream s)=0;
+        ConcrObject : public IObject
+            read(stream s)
+            write(stream s)
+    Indirect Mapping
+        IObject
+        ConcrObject : public IObject
+        IMapper
+            static getMapper(object_type)
+            read(stream s) = 0;
+            write(streams) = 0;
+        ConcrObjectMapper
+            read(stream s)
+            write(stream s)
 
 
 auto obj = GameObjMgr::Create(   );

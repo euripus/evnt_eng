@@ -70,6 +70,7 @@ SOURCES +=  \
     src/render/gl/renderdeviceglimpl.cpp \
     src/render/gl/textureviewglimpl.cpp \
     src/render/gl/typeconversions.cpp \
+    src/render/render.cpp \
     src/render/utils/colorconversion.cpp \
     src/render/utils/graphicsaccessories.cpp \
     src/resource/imagedata.cpp
@@ -140,6 +141,7 @@ HEADERS += \
     src/render/gl/renderdeviceglimpl.h \
     src/render/gl/textureviewglimpl.h \
     src/render/gl/typeconversions.h \
+    src/render/render.h \
     src/render/utils/colorconversion.h \
     src/render/utils/graphicsaccessories.h \
     src/resource/imagedata.h
