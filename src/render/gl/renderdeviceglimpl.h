@@ -43,16 +43,11 @@ protected:
     GLContext m_GLContext;
 
     std::unordered_set<std::string> m_ExtensionStrings;
-
-    std::mutex m_VAOCacheLockFlag;
-    // std::unordered_map<GLContext::NativeGLContextType, VAOCache> m_VAOCache;
-
-    std::mutex m_FBOCacheLockFlag;
-    // std::unordered_map<GLContext::NativeGLContextType, FBOCache> m_FBOCache;
-
-    GPUInfo m_GPUInfo;
+    GPUInfo                         m_GPUInfo;
 
     // TexRegionRender m_TexRegionRender;
+
+    void testTextureFormat(TextureFormatInfo & tex_format) override;
 };
 }   // namespace evnt
 

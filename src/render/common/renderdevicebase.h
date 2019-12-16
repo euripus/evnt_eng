@@ -1,11 +1,13 @@
 #ifndef RENDERDEVICEBASE_H
 #define RENDERDEVICEBASE_H
 
+#include "../../log/log.h"
 #include "../utils/graphicsaccessories.h"
 #include "./interface/idevicecontext.h"
 #include "./interface/isampler.h"
 #include "devicecaps.h"
 #include "objectbase.h"
+#include <cassert>
 #include <memory>
 #include <vector>
 
@@ -31,6 +33,11 @@ protected:
     std::weak_ptr<IDeviceContext> mwp_immediate_context;
     /// Weak references to deferred contexts.
     std::vector<std::weak_ptr<IDeviceContext>> m_deferred_contexts;
+
+    /// Helper template function to facilitate device object creation
+    template<typename TObjectType, typename TObjectDescType, typename TObjectConstructor>
+    void createDeviceObject(const char * object_type_name, const TObjectDescType & desc,
+                            std::shared_ptr<TObjectType> sp_object, TObjectConstructor ConstructObject);
 
     virtual void testTextureFormat(TextureFormatInfo & tex_format) = 0;
 
@@ -66,14 +73,14 @@ public:
     }
 
     /// Implementation of IRenderDevice::CreateResourceMapping().
-    virtual void createResourceMapping(const ResourceMappingDesc & MappingDesc,
-                                       IResourceMapping **         ppMapping) override final;
+    void createResourceMapping(const ResourceMappingDesc & MappingDesc,
+                               IResourceMapping **         ppMapping) override final;
 
     /// Implementation of IRenderDevice::GetDeviceCaps().
-    virtual const DeviceCaps & getDeviceCaps() const override final { return m_device_caps; }
+    const DeviceCaps & getDeviceCaps() const override final { return m_device_caps; }
 
     /// Implementation of IRenderDevice::GetTextureFormatInfo().
-    virtual const TextureFormatInfo & getTextureFormatInfo(TEXTURE_FORMAT tex_format) override final
+    const TextureFormatInfo & getTextureFormatInfo(TEXTURE_FORMAT tex_format) override final
     {
         assert(tex_format >= TEX_FORMAT_UNKNOWN
                && tex_format < TEX_FORMAT_NUM_FORMATS);   // "Texture format out of range
@@ -108,6 +115,38 @@ public:
     std::shared_ptr<IDeviceContext> getImmediateContext() { return mwp_immediate_context.lock(); }
     std::shared_ptr<IDeviceContext> getDeferredContext(size_t ctx) { return m_deferred_contexts[ctx].lock(); }
 };
+
+/// \tparam TObjectType - type of the object being created (IBuffer, ITexture, etc.)
+/// \tparam TObjectDescType - type of the object description structure (BufferDesc, TextureDesc, etc.)
+/// \tparam TObjectConstructor - type of the function that constructs the object
+/// \param object_type_name - string name of the object type ("buffer", "texture", etc.)
+/// \param desc - object description
+/// \param sp_object - pointer to the created object will be stored
+/// \param ConstructObject - function that constructs the object
+template<typename BaseInterface>
+template<typename TObjectType, typename TObjectDescType, typename TObjectConstructor>
+void RenderDeviceBase<BaseInterface>::createDeviceObject(const char *                 object_type_name,
+                                                         const TObjectDescType &      desc,
+                                                         std::shared_ptr<TObjectType> sp_object,
+                                                         TObjectConstructor           ConstructObject)
+{
+    assert(!sp_object);   // Overwriting reference to existing object
+    sp_object.reset();
+
+    try
+    {
+        ConstructObject();
+    }
+    catch(const std::runtime_error &)
+    {
+        assert(!sp_object);   // Object was created despite error
+        if(sp_object)
+            sp_object.reset();
+
+        Log::Log(Log::error, Log::cstr_log("Failed to create %s object \"%s\"", object_type_name,
+                                           desc.name.empty() ? desc.name : ""));
+    }
+}
 }   // namespace evnt
 
 #endif   // RENDERDEVICEBASE_H
