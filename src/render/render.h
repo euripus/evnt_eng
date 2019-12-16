@@ -14,12 +14,18 @@ class Render
 public:
     Render() {}
 
+    void update(double CurrTime, double ElapsedTime);
+    void resize(int width, int height);
+    void present();
+
+    const DeviceCaps & GetDeviceCaps() const { return msp_render_device->getDeviceCaps(); }
+
 private:
-    DeviceType                                   m_device_type = DeviceType::Undefined;
-    std::shared_ptr<IRenderDevice>               m_render_device;
-    std::shared_ptr<IDeviceContext>              m_immediate_context;
+    // DeviceCaps                                   m_device_cap;
+    std::shared_ptr<IRenderDevice>               msp_render_device;
+    std::shared_ptr<IDeviceContext>              msp_immediate_context;
     std::vector<std::shared_ptr<IDeviceContext>> m_deferred_contexts;
-    std::shared_ptr<ISwapChain>                  m_swap_chain;
+    std::shared_ptr<ISwapChain>                  msp_swap_chain;
     HardwareAdapterAttribs                       m_adapter_attribs;
 };
 }   // namespace evnt
