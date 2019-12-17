@@ -6,6 +6,6 @@
 *.user
 *.user.*
 obj/
-include/GL/
+include/
 
 
