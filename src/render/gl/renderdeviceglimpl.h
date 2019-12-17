@@ -42,11 +42,13 @@ protected:
     // Must be the first member because its constructor initializes OpenGL
     GLContext m_gl_context;
 
-    std::unordered_set<std::string> m_ExtensionStrings;
-    GPUInfo                         m_GPUInfo;
+    std::unordered_set<std::string> m_extension_strings;
+    GPUInfo                         m_gpu_info;
 
     // TexRegionRender m_TexRegionRender;
-
+private:
+    bool checkExtension(const char * extension_string);
+    void flagSupportedTexFormats();
     void testTextureFormat(TEXTURE_FORMAT tex_format) override;
 };
 }   // namespace evnt

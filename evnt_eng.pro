@@ -135,6 +135,7 @@ HEADERS += \
     src/render/gl/asyncwritableresource.h \
     src/render/gl/glcontext.h \
     src/render/gl/glcontextstate.h \
+    src/render/gl/gldebug.h \
     src/render/gl/globjwrapper.h \
     src/render/gl/interface/irenderdevicegl.h \
     src/render/gl/interface/itextureviewgl.h \
