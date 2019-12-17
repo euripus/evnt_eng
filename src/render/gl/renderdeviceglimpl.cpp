@@ -2,5 +2,6 @@
 
 namespace evnt
 {
-void RenderDeviceGLImpl::testTextureFormat(TextureFormatInfo & tex_format) {}
+void RenderDeviceGLImpl::testTextureFormat(TEXTURE_FORMAT tex_format)
+{}
 }   // namespace evnt

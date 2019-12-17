@@ -14,7 +14,7 @@ namespace evnt
 class GLContextState
 {
 public:
-    GLContextState();
+    GLContextState(class RenderDeviceGLImpl * p_device_gl);
     void invalidate();
 
     void setProgram(const GLObjectWrappers::GLProgramObj & program);

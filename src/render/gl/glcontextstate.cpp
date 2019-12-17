@@ -1,6 +1,8 @@
 #include "glcontextstate.h"
 #include "../../log/log.h"
 #include "asyncwritableresource.h"
+#include "renderdeviceglimpl.h"
+#include "textureviewglimpl.h"
 #include "typeconversions.h"
 #include <cassert>
 #include <sstream>
@@ -41,7 +43,31 @@ void LogError(const char * function, const char * full_file_path, int line, cons
     Log::Log(Log::error, ss.str());
 }
 
-GLContextState::GLContextState() {}
+GLContextState::GLContextState(RenderDeviceGLImpl * p_device_gl)
+{
+    const DeviceCaps & device_caps         = p_device_gl->getDeviceCaps();
+    m_caps.m_fill_mode_selection_supported = device_caps.is_wireframe_fill_supported;
+
+    {
+        m_caps.m_max_combined_tex_units = 0;
+        glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &m_caps.m_max_combined_tex_units);
+        CHECK_GL_ERROR("Failed to get max combined tex image units count");
+        assert(m_caps.m_max_combined_tex_units > 0);
+
+        m_caps.m_max_draw_buffers = 0;
+        glGetIntegerv(GL_MAX_DRAW_BUFFERS, &m_caps.m_max_draw_buffers);
+        CHECK_GL_ERROR("Failed to get max draw buffers count");
+        assert(m_caps.m_max_draw_buffers > 0);
+    }
+
+    m_bound_textures.reserve(m_caps.m_max_combined_tex_units);
+    m_bound_samplers.reserve(32);
+    m_bound_images.reserve(32);
+
+    invalidate();
+
+    m_current_gl_context = p_device_gl->m_gl_context.GetCurrentNativeGLContext();
+}
 
 void GLContextState::invalidate()
 {
@@ -200,7 +226,22 @@ void GLContextState::bindSampler(uint32_t index, const GLObjectWrappers::GLSampl
 
 void GLContextState::bindImage(uint32_t index, class TextureViewGLImpl * tex_view, GLint mip_level,
                                GLboolean is_layered, GLint layer, GLenum access, GLenum format)
-{}
+{
+#if GL_ARB_shader_image_load_store
+    BoundImageInfo new_image_info(mip_level, is_layered, layer, access, format);
+    if(index >= m_bound_images.size())
+        m_bound_images.resize(index + 1);
+    if(!(m_bound_images[index] == new_image_info))
+    {
+        m_bound_images[index] = new_image_info;
+        GLint gl_tex_handle   = tex_view->getHandle();
+        glBindImageTexture(index, gl_tex_handle, mip_level, is_layered, layer, access, format);
+        CHECK_GL_ERROR("glBindImageTexture() failed");
+    }
+#else
+    UNEXPECTED("GL_ARB_shader_image_load_store is not supported");
+#endif
+}
 
 void GLContextState::ensureMemoryBarrier(uint32_t required_barriers, AsyncWritableResource * res)
 {

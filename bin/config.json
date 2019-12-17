@@ -40,7 +40,8 @@
             },
             "Extensions":[ 
                "GL_ARB_texture_view",
-               "GL_ARB_framebuffer_object"
+               "GL_ARB_framebuffer_object",
+			   "GL_ARB_shader_image_load_store"
             ]
          }
       }

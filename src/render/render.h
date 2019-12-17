@@ -21,7 +21,6 @@ public:
     const DeviceCaps & GetDeviceCaps() const { return msp_render_device->getDeviceCaps(); }
 
 private:
-    // DeviceCaps                                   m_device_cap;
     std::shared_ptr<IRenderDevice>               msp_render_device;
     std::shared_ptr<IDeviceContext>              msp_immediate_context;
     std::vector<std::shared_ptr<IDeviceContext>> m_deferred_contexts;

@@ -40,14 +40,14 @@ protected:
     friend class GLContextState;
 
     // Must be the first member because its constructor initializes OpenGL
-    GLContext m_GLContext;
+    GLContext m_gl_context;
 
     std::unordered_set<std::string> m_ExtensionStrings;
     GPUInfo                         m_GPUInfo;
 
     // TexRegionRender m_TexRegionRender;
 
-    void testTextureFormat(TextureFormatInfo & tex_format) override;
+    void testTextureFormat(TEXTURE_FORMAT tex_format) override;
 };
 }   // namespace evnt
 

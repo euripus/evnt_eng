@@ -39,7 +39,7 @@ protected:
     void createDeviceObject(const char * object_type_name, const TObjectDescType & desc,
                             std::shared_ptr<TObjectType> sp_object, TObjectConstructor ConstructObject);
 
-    virtual void testTextureFormat(TextureFormatInfo & tex_format) = 0;
+    virtual void testTextureFormat(TEXTURE_FORMAT tex_format) = 0;
 
 public:
     using TObjectBase = ObjectBase<BaseInterface>;
