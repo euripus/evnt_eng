@@ -65,6 +65,7 @@ SOURCES +=  \
     src/network/udpsocket.cpp \
     src/render/common/renderdevicebase.cpp \
     src/render/common/textureviewbase.cpp \
+    src/render/gl/devicecontextglimpl.cpp \
     src/render/gl/glcontext.cpp \
     src/render/gl/glcontextstate.cpp \
     src/render/gl/renderdeviceglimpl.cpp \
@@ -110,6 +111,7 @@ HEADERS += \
     src/render/common/blendstate.h \
     src/render/common/depthstencilstate.h \
     src/render/common/devicecaps.h \
+    src/render/common/devicecontextbase.h \
     src/render/common/deviceobjectbase.h \
     src/render/common/graphics_types.h \
     src/render/common/interface/ibuffer.h \
@@ -131,12 +133,15 @@ HEADERS += \
     src/render/common/objectbase.h \
     src/render/common/rasterizerstate.h \
     src/render/common/renderdevicebase.h \
+    src/render/common/texturebase.h \
     src/render/common/textureviewbase.h \
     src/render/gl/asyncwritableresource.h \
+    src/render/gl/devicecontextglimpl.h \
     src/render/gl/glcontext.h \
     src/render/gl/glcontextstate.h \
     src/render/gl/gldebug.h \
     src/render/gl/globjwrapper.h \
+    src/render/gl/interface/idevicecontextgl.h \
     src/render/gl/interface/irenderdevicegl.h \
     src/render/gl/interface/itextureviewgl.h \
     src/render/gl/renderdeviceglimpl.h \

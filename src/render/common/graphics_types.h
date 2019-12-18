@@ -1301,6 +1301,107 @@ struct TextureFormatInfo
     }
 };
 
+/// State transition barrier type
+enum STATE_TRANSITION_TYPE : uint8_t
+{
+    /// Perform state transition immediately.
+    STATE_TRANSITION_TYPE_IMMEDIATE = 0,
+
+    /// Begin split barrier. This mode only has effect in Direct3D12 backend, and corresponds to
+    /// [D3D12_RESOURCE_BARRIER_FLAG_BEGIN_ONLY](https://docs.microsoft.com/en-us/windows/desktop/api/d3d12/ne-d3d12-d3d12_resource_barrier_flags)
+    /// flag. See
+    /// https://docs.microsoft.com/en-us/windows/desktop/direct3d12/using-resource-barriers-to-synchronize-resource-states-in-direct3d-12#split-barriers.
+    /// In other backends, begin-split barriers are ignored.
+    STATE_TRANSITION_TYPE_BEGIN,
+
+    /// End split barrier. This mode only has effect in Direct3D12 backend, and corresponds to
+    /// [D3D12_RESOURCE_BARRIER_FLAG_END_ONLY](https://docs.microsoft.com/en-us/windows/desktop/api/d3d12/ne-d3d12-d3d12_resource_barrier_flags)
+    /// flag. See
+    /// https://docs.microsoft.com/en-us/windows/desktop/direct3d12/using-resource-barriers-to-synchronize-resource-states-in-direct3d-12#split-barriers.
+    /// In other backends, this mode is similar to STATE_TRANSITION_TYPE_IMMEDIATE.
+    STATE_TRANSITION_TYPE_END
+};
+
+class ITexture;
+class IBuffer;
+
+/// Resource state transition barrier description
+struct StateTransitionDesc
+{
+    static constexpr const uint32_t remaining_mip_levels   = static_cast<uint32_t>(-1);
+    static constexpr const uint32_t remaining_array_slices = static_cast<uint32_t>(-1);
+
+    /// Texture to transition.
+    /// \note Exactly one of pTexture or pBuffer must be non-null.
+    ITexture * p_texture = nullptr;
+
+    /// Buffer to transition.
+    /// \note Exactly one of pTexture or pBuffer must be non-null.
+    IBuffer * p_buffer = nullptr;
+
+    /// When transitioning a texture, first mip level of the subresource range to transition.
+    uint32_t first_mip_level = 0;
+
+    /// When transitioning a texture, number of mip levels of the subresource range to transition.
+    uint32_t mip_levels_count = remaining_mip_levels;
+
+    /// When transitioning a texture, first array slice of the subresource range to transition.
+    uint32_t first_array_slice = 0;
+
+    /// When transitioning a texture, number of array slices of the subresource range to transition.
+    uint32_t array_slice_count = remaining_array_slices;
+
+    /// Resource state before transition. If this value is RESOURCE_STATE_UNKNOWN,
+    /// internal resource state will be used, which must be defined in this case.
+    RESOURCE_STATE old_state = RESOURCE_STATE_UNKNOWN;
+
+    /// Resource state after transition.
+    RESOURCE_STATE new_state = RESOURCE_STATE_UNKNOWN;
+
+    /// State transition type, see Diligent::STATE_TRANSITION_TYPE.
+
+    /// \note When issuing UAV barrier (i.e. OldState and NewState equal RESOURCE_STATE_UNORDERED_ACCESS),
+    ///       TransitionType must be STATE_TRANSITION_TYPE_IMMEDIATE.
+    STATE_TRANSITION_TYPE transition_type = STATE_TRANSITION_TYPE_IMMEDIATE;
+
+    /// If set to true, the internal resource state will be set to NewState and the engine
+    /// will be able to take over the resource state management. In this case it is the
+    /// responsibility of the application to make sure that all subresources are indeed in
+    /// designated state.
+    /// If set to false, internal resource state will be unchanged.
+    /// \note When TransitionType is STATE_TRANSITION_TYPE_BEGIN, this member must be false.
+    bool update_resource_state = false;
+
+    StateTransitionDesc() noexcept {}
+
+    StateTransitionDesc(ITexture * _p_texture, RESOURCE_STATE _old_state, RESOURCE_STATE _new_state,
+                        uint32_t _first_mip_level = 0, uint32_t _mip_levels_count = remaining_mip_levels,
+                        uint32_t _first_array_slice = 0, uint32_t _array_slice_count = remaining_array_slices,
+                        STATE_TRANSITION_TYPE _transition_type = STATE_TRANSITION_TYPE_IMMEDIATE,
+                        bool                  _update_state    = false) noexcept :
+        p_texture(_p_texture),
+        first_mip_level(_first_mip_level),
+        mip_levels_count(_mip_levels_count),
+        first_array_slice(_first_array_slice),
+        array_slice_count(_array_slice_count),
+        old_state(_old_state),
+        new_state(_new_state),
+        transition_type(_transition_type),
+        update_resource_state(_update_state)
+    {}
+
+    StateTransitionDesc(ITexture * _p_texture, RESOURCE_STATE _old_state, RESOURCE_STATE _new_state,
+                        bool _update_state) noexcept :
+        StateTransitionDesc(_p_texture, _old_state, _new_state, 0, remaining_mip_levels, 0,
+                            remaining_array_slices, STATE_TRANSITION_TYPE_IMMEDIATE, _update_state)
+    {}
+
+    StateTransitionDesc(IBuffer * _p_buffer, RESOURCE_STATE _old_state, RESOURCE_STATE _new_state,
+                        bool _update_state) noexcept :
+        p_buffer(_p_buffer), old_state(_old_state), new_state(_new_state), update_resource_state(_update_state)
+    {}
+};
+
 }   // namespace evnt
 
 #endif   // GRAPHICS_TYPES_H
