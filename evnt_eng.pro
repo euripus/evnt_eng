@@ -64,6 +64,7 @@ SOURCES +=  \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
     src/render/common/renderdevicebase.cpp \
+    src/render/common/texturebase.cpp \
     src/render/common/textureviewbase.cpp \
     src/render/gl/devicecontextglimpl.cpp \
     src/render/gl/glcontext.cpp \
