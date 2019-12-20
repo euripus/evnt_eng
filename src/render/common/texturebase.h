@@ -37,8 +37,7 @@ public:
     /// \param desc - texture description
     /// \param is_device_internal - flag indicating if the texture is an internal device object and
     ///							   must not keep a strong reference to the device
-    TextureBase(TRenderDeviceImpl * p_device, const TextureDesc & desc, bool is_device_internal = false) :
-        TDeviceObjectBase(p_device, desc, is_device_internal)
+    TextureBase(TRenderDeviceImpl * p_device, const TextureDesc & desc) : TDeviceObjectBase(p_device, desc)
     {
         if(this->m_desc.mip_levels == 0)
         {
@@ -65,10 +64,9 @@ public:
         }
 
         uint64_t device_queues_mask = p_device->getCommandQueueMask();
-        DEV_CHECK_ERR((this->m_desc.command_queue_mask & device_queues_mask) != 0,
-                      "No bits in the command queue mask (0x", std::hex, this->m_desc.command_queue_mask,
-                      ") correspond to one of ", p_device->getCommandQueueCount(),
-                      " available device command queues");
+        assert((this->m_desc.command_queue_mask & device_queues_mask)
+               != 0);   // "No bits in the command queue mask correspond to one of available device command
+                        // queues"
         this->m_desc.command_queue_mask &= device_queues_mask;
 
         // Validate correctness of texture description
@@ -129,8 +127,8 @@ public:
 
 protected:
     /// Pure virtual function that creates texture view for the specific engine implementation.
-    virtual void createViewInternal(const struct TextureViewDesc & ViewDesc, ITextureView ** ppView,
-                                    bool bIsDefaultView) = 0;
+    virtual void createViewInternal(const struct TextureViewDesc & view_desc, ITextureView ** pp_view,
+                                    bool is_default_view) = 0;
 
     /// Default SRV addressing the entire texture
     std::unique_ptr<TTextureViewImpl> mup_default_srv;

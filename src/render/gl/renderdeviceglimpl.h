@@ -29,6 +29,9 @@ class RenderDeviceGLImpl : public RenderDeviceBase<IRenderDeviceGL>
 public:
     RenderDeviceGLImpl();
 
+    size_t   getCommandQueueCount() const { return 1; }
+    uint64_t getCommandQueueMask() const { return uint64_t{1}; }
+
 protected:
     friend class DeviceContextGLImpl;
     friend class TextureBaseGL;

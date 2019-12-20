@@ -63,13 +63,12 @@ SOURCES +=  \
     src/network/connection.cpp \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
-    src/render/common/renderdevicebase.cpp \
     src/render/common/texturebase.cpp \
-    src/render/common/textureviewbase.cpp \
     src/render/gl/devicecontextglimpl.cpp \
     src/render/gl/glcontext.cpp \
     src/render/gl/glcontextstate.cpp \
     src/render/gl/renderdeviceglimpl.cpp \
+    src/render/gl/texturebasegl.cpp \
     src/render/gl/textureviewglimpl.cpp \
     src/render/gl/typeconversions.cpp \
     src/render/render.cpp \
@@ -144,8 +143,10 @@ HEADERS += \
     src/render/gl/globjwrapper.h \
     src/render/gl/interface/idevicecontextgl.h \
     src/render/gl/interface/irenderdevicegl.h \
+    src/render/gl/interface/itexturegl.h \
     src/render/gl/interface/itextureviewgl.h \
     src/render/gl/renderdeviceglimpl.h \
+    src/render/gl/texturebasegl.h \
     src/render/gl/textureviewglimpl.h \
     src/render/gl/typeconversions.h \
     src/render/render.h \
