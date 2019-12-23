@@ -35,8 +35,6 @@ public:
 
     /// \param p_device - pointer to the device
     /// \param desc - texture description
-    /// \param is_device_internal - flag indicating if the texture is an internal device object and
-    ///							   must not keep a strong reference to the device
     TextureBase(TRenderDeviceImpl * p_device, const TextureDesc & desc) : TDeviceObjectBase(p_device, desc)
     {
         if(this->m_desc.mip_levels == 0)
