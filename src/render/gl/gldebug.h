@@ -19,6 +19,17 @@
 #define CHECK_GL_ERROR(...)
 #endif
 
+#define CHECK_GL_ERROR_AND_THROW(...)                                                        \
+    do                                                                                       \
+    {                                                                                        \
+        auto err = glGetError();                                                             \
+        if(err != GL_NO_ERROR)                                                               \
+        {                                                                                    \
+            LogError(__FUNCTION__, __FILE__, __LINE__, __VA_ARGS__, "GL Error Code: ", err); \
+            EV_EXCEPT("GL Error");                                                           \
+        }                                                                                    \
+    } while(false)
+
 namespace evnt
 {
 template<typename... ArgsType>
