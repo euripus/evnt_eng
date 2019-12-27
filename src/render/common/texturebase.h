@@ -125,8 +125,8 @@ public:
 
 protected:
     /// Pure virtual function that creates texture view for the specific engine implementation.
-    virtual void createViewInternal(const struct TextureViewDesc & view_desc, ITextureView ** pp_view,
-                                    bool is_default_view) = 0;
+    virtual void createViewInternal(const struct TextureViewDesc &  org_view_desc,
+                                    std::shared_ptr<ITextureView> & pp_view, bool is_default_view) = 0;
 
     /// Default SRV addressing the entire texture
     std::unique_ptr<TTextureViewImpl> mup_default_srv;

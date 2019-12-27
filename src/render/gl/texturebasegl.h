@@ -46,7 +46,7 @@ public:
                             const Box & dst_box, const TextureSubResData & subres_data) = 0;
 
 protected:
-    void createViewInternal(const struct TextureViewDesc & view_desc, ITextureView ** pp_view,
+    void createViewInternal(const struct TextureViewDesc & view_desc, std::shared_ptr<ITextureView> & pp_view,
                             bool is_default_view) override;
     void setDefaultGLParameters();
 

@@ -24,15 +24,14 @@ TextureBaseGL::TextureBaseGL(RenderDeviceGLImpl * p_device_gl, const TextureDesc
     }
 }
 
-void TextureBaseGL::createViewInternal(const struct TextureViewDesc & org_view_desc, ITextureView ** pp_view,
-                                       bool is_default_view)
+void TextureBaseGL::createViewInternal(const struct TextureViewDesc &  org_view_desc,
+                                       std::shared_ptr<ITextureView> & pp_view, bool is_default_view)
 {
     assert(pp_view != nullptr);   // Null pointer provided
     if(!pp_view)
         return;
-    assert(*pp_view == nullptr);   // Overwriting reference to existing object may cause memory leaks"
-
-    *pp_view = nullptr;
+    assert(pp_view);   // Overwriting reference to existing object may cause memory leaks"
+    //*pp_view = nullptr;
 
     try
     {
@@ -45,7 +44,7 @@ void TextureBaseGL::createViewInternal(const struct TextureViewDesc & org_view_d
         GLenum GLViewFormat = TexFormatToGLInternalTexFormat(ViewDesc.format, m_desc.bind_flags);
         assert(GLViewFormat != 0);   // Unsupported texture format
 
-        TextureViewGLImpl * pViewOGL = nullptr;
+        std::shared_ptr<TextureViewGLImpl> pViewOGL{nullptr};
         if(ViewDesc.view_type == TEXTURE_VIEW_SHADER_RESOURCE)
         {
             bool bIsFullTextureView =
@@ -55,12 +54,12 @@ void TextureBaseGL::createViewInternal(const struct TextureViewDesc & org_view_d
                 && ViewDesc.most_detailed_mip == 0 && ViewDesc.num_mip_levels == m_desc.mip_levels
                 && ViewDesc.first_array_slice == 0 && ViewDesc.num_array_slices == m_desc.array_size;
 
-            TextureViewGLImpl * pViewOGL = NEW_RC_OBJ(TexViewAllocator, "TextureViewGLImpl instance",
-                                                      TextureViewGLImpl, is_default_view ? this : nullptr)(
-                pDeviceGLImpl, ViewDesc, this,
-                !bIsFullTextureView,   // Create OpenGL texture view object if view
-                // does not address the whole texture
-                is_default_view);
+            pViewOGL = std::make_shared<TextureViewGLImpl>();
+            /*is_default_view ? this : nullptr)(
+            pDeviceGLImpl, ViewDesc, this,
+            !bIsFullTextureView,   // Create OpenGL texture view object if view
+            // does not address the whole texture
+            is_default_view);*/
 
             if(!bIsFullTextureView)
             {
@@ -124,8 +123,8 @@ void TextureBaseGL::createViewInternal(const struct TextureViewDesc & org_view_d
                         UNEXPECTED("Unsupported texture view type");
                 }
 
-                glTextureView(pViewOGL->GetHandle(), GLViewTarget, m_GlTexture, GLViewFormat,
-                              ViewDesc.MostDetailedMip, ViewDesc.NumMipLevels, ViewDesc.FirstArraySlice,
+                glTextureView(pViewOGL->getHandle(), GLViewTarget, m_gl_texture, GLViewFormat,
+                              ViewDesc.most_detailed_mip, ViewDesc.num_mip_levels, ViewDesc.first_array_slice,
                               NumLayers);
                 CHECK_GL_ERROR_AND_THROW("Failed to create texture view");
                 pViewOGL->setBindTarget(GLViewTarget);
@@ -169,14 +168,7 @@ void TextureBaseGL::createViewInternal(const struct TextureViewDesc & org_view_d
         }
 
         if(is_default_view)
-            *pp_view = pViewOGL;
-        else
-        {
-            if(pViewOGL)
-            {
-                pViewOGL->QueryInterface(IID_TextureView, reinterpret_cast<IObject **>(pp_view));
-            }
-        }
+            pp_view = pViewOGL;
     }
     catch(const Exception &)
     {
