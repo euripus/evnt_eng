@@ -1,5 +1,8 @@
 // https://github.com/neketka/AtomSim
 
+// https://habr.com/ru/post/210894/
+// https://www.fluentcpp.com/2018/05/22/how-to-transform-a-hierarchy-of-virtual-methods-into-a-crtp/
+
 void Render()
 {
 	// ...
