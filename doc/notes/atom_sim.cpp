@@ -5,27 +5,27 @@
 
 void Render()
 {
-	// ...
-	Pipeline        pipe;
-	ShaderConstants consts;
-	CommandBuffer   cmd;
+    // ...
+    Pipeline        pipe;
+    ShaderConstants consts;
+    CommandBuffer   cmd;
 
-	pipe.SetPipelineData{...}
-	consts.SetConstans{...}
+    pipe.SetPipelineData{...}
+    consts.SetConstans{...}
 
-	cmd.ClearAllBuffers();
-	cmd.MemoryBarrier();
+    cmd.ClearAllBuffers();
+    cmd.MemoryBarrier();
 
-	cmd.PipeBind(pipe)
-	cmd.ConstsBind(consts)
-	cmd.DrawCommand()
+    cmd.PipeBind(pipe)
+    cmd.ConstsBind(consts)
+    cmd.DrawCommand()
 
-	cmd.ExecuteCommands();
+    cmd.ExecuteCommands();
 }
 
 ShaderConstants
 {
-	std::vector<std::pair<int, std::pair<Texture, Sampler>>> m_uniformT;
+    std::vector<std::pair<int, std::pair<Texture, Sampler>>> m_uniformT;
     std::vector<std::pair<int, Image>>                       m_uniformI;
     std::vector<std::pair<int, int>>                         m_uniform1i;
     std::vector<std::pair<int, float>>                       m_uniform1f;
@@ -40,60 +40,60 @@ Pipeline
 {
     Shader                 shader;
     VertexStage            
-	{
-		VertexArray vertexArray;
-		bool FrontFaceCulling;
-		bool BackFaceCulling;
-		bool DepthClamping;
-	}
+    {
+        VertexArray vertexArray;
+        bool FrontFaceCulling;
+        bool BackFaceCulling;
+        bool DepthClamping;
+    }
     TessellationStage
-	{
-		int PatchSize;
-	}
+    {
+        int PatchSize;
+    }
     TransformFeedbackStage
-	{
-		std::vector<std::pair<int, TBuffer>> BufferBindings;
-	}
+    {
+        std::vector<std::pair<int, TBuffer>> BufferBindings;
+    }
     FragmentStage
-	{
-		Framebuffer      framebuffer;
-		std::vector<int> DrawTargets;
+    {
+        Framebuffer      framebuffer;
+        std::vector<int> DrawTargets;
 
-		IQuad2D Viewport;
-		IQuad2D ScissorRegion;
-		bool    ScissorTest;
-		bool    RasterizerDiscard;
-		bool    DepthTest;
-		bool    StencilTest;
+        IQuad2D Viewport;
+        IQuad2D ScissorRegion;
+        bool    ScissorTest;
+        bool    RasterizerDiscard;
+        bool    DepthTest;
+        bool    StencilTest;
 
-		bool                   DepthMask = true;
-		GLuint                 FrontStencilMask;
-		GLuint                 BackStencilMask;
-		std::vector<ColorMask> ColorMasks;
+        bool                   DepthMask = true;
+        GLuint                 FrontStencilMask;
+        GLuint                 BackStencilMask;
+        std::vector<ColorMask> ColorMasks;
 
-		ComparisonFunc FrontStencilFunc;
-		ComparisonFunc BackStencilFunc;
-		GLint          StencilCompareReference;
-		GLuint         StencilCompareMask;
+        ComparisonFunc FrontStencilFunc;
+        ComparisonFunc BackStencilFunc;
+        GLint          StencilCompareReference;
+        GLuint         StencilCompareMask;
 
-		StencilOperation FrontStencilFail;
-		StencilOperation FrontDepthFail;
-		StencilOperation FrontDepthPass;
+        StencilOperation FrontStencilFail;
+        StencilOperation FrontDepthFail;
+        StencilOperation FrontDepthPass;
 
-		StencilOperation BackStencilFail;
-		StencilOperation BackDepthFail;
-		StencilOperation BackDepthPass;
+        StencilOperation BackStencilFail;
+        StencilOperation BackDepthFail;
+        StencilOperation BackDepthPass;
 
-		bool                        Blending;
-		std::vector<BufferBlending> BufferBlends;
-	}
+        bool                        Blending;
+        std::vector<BufferBlending> BufferBlends;
+    }
 }
 
 CommandBuffer
 {
-	enum class MemoryBarrierType;
-	
-	std::vector<std::function<void()>> m_commands;
+    enum class MemoryBarrierType;
+    
+    std::vector<std::function<void()>> m_commands;
 
     std::vector<ShaderConstants>  m_constants;
     std::vector<ShaderDescriptor> m_descriptors;
@@ -110,7 +110,7 @@ void Initialize()
 
 GenerateRenderBuffers()
 {
-	sphereVertices = Buffer<Vertex>(..., BufferOptions(false, false, false, false, false, false));
+    sphereVertices = Buffer<Vertex>(..., BufferOptions(false, false, false, false, false, false));
 
     std::vector<BufferStructure> bufStruct = {
         BufferStructure({Attribute(0, 0, 3, 12, true), Attribute(1, 12, 3, 12, true)}),
@@ -124,5 +124,5 @@ GenerateRenderBuffers()
 
 GenerateShaders()
 {
-	renderingShader        = Shader(renderShader, {});
+    renderingShader        = Shader(renderShader, {});
 }
