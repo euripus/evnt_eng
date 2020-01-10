@@ -5,8 +5,8 @@ Core
     EventMgr
     FileSystem
     App
-        ResourceMgr
-            Resource
+        AssetManager
+            IAsset
         GameObjMgr
             GameObj
             Component
@@ -19,11 +19,10 @@ Core
                 ParticleSystem
                 PhysicsRigidBody
                 Transform
-        World
-            SceneGraph <pf.>
-                Node                      // scene_graph component
-                RenderQueue
-            vec<PObjPtr> objects
+		Scene
+			EntityManager
+			ComponentManager
+			SystemManager
         NetworkMgr
             Client
             Server
@@ -38,7 +37,6 @@ Core
             FrameGraphCommands
             Render
                 DeviceContext
-                Pipeline
                 CommandBuffer
                 Pipeline
                     Shader
