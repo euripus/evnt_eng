@@ -10,6 +10,15 @@ Core
         GameObjMgr
             GameObj
             Component
+                DirectionalLight
+				SpotLight
+                SpotLight
+                Camera
+                CameraUIRender
+                MeshRender
+                ParticleSystem
+                PhysicsRigidBody
+                Transform
         World
             SceneGraph <pf.>
                 Node                      // scene_graph component
@@ -21,31 +30,36 @@ Core
                 Physics
                 AI
         LocaleMgr
-		ActionList
+        ActionList
         MainWindow
             LoacalAPP<pf. pl.>            // interface for demo apps
             Input<static_pf. pl.>
-            Render<pf. pl.>
-                RenderCtxt<static_pf. pl.>
-                RenderState
-                FrameGraph
-                FrameGraphCommands
-                Material
-                    Effects
-                        GlobalEffect      // render commands extension
-                                          // eff->Draw(RendererPtr, Frustum)
-                        LocalEffect       // eff->Draw(RenderPtr, ObjPtr)
-                    Texture
+            FrameGraph
+            FrameGraphCommands
+            Render
+                DeviceContext
+                Pipeline
+                CommandBuffer
+                Pipeline
                     Shader
-                        Pass
-                RenderTarget
+                    VertexStage
+                        VertexArray
+                        RasterizerStateDesc{FrontFaceCulling, DepthClamping}
+                    TessellationStage
+                        PatchSize
+                    TransformFeedbackStage
+                    FragmentStage
+                        Viewport
+                        ScissorRegion
+                        ColorMasks
+                        DepthStencilStateDesc
+                        BlendStateDesc
+                ShaderConstants
                     Texture
-                Light
-                VBO
-                Queries
-                GUI
-                    Console
-                    Font
+                    Sampler
+            GUI
+                Console
+                Font
             RenderQue
             ActionQue
             Camera
