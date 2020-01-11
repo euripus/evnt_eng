@@ -30,7 +30,6 @@ Core
         LocaleMgr
         ActionList
         MainWindow
-            LoacalAPP<pf. pl.>            // interface for demo apps
             Input<static_pf. pl.>
             FrameGraph
                 FrameGraphCommands
