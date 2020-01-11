@@ -7,11 +7,10 @@ Core
     App
         AssetManager
             IAsset
-        GameObjMgr
-            GameObj
+        EntityMgr
+            Entity
             Component
                 DirectionalLight
-				SpotLight
                 SpotLight
                 Camera
                 CameraUIRender
@@ -19,10 +18,10 @@ Core
                 ParticleSystem
                 PhysicsRigidBody
                 Transform
-		Scene
-			EntityManager
-			ComponentManager
-			SystemManager
+        Scene
+            EntityManager
+            ComponentManager
+            SystemManager
         NetworkMgr
             Client
             Server
@@ -34,7 +33,7 @@ Core
             LoacalAPP<pf. pl.>            // interface for demo apps
             Input<static_pf. pl.>
             FrameGraph
-            FrameGraphCommands
+                FrameGraphCommands
             Render
                 DeviceContext
                 CommandBuffer
@@ -55,7 +54,8 @@ Core
                 ShaderConstants
                     Texture
                     Sampler
-            GUI
+                SwapChain
+            UI
                 Console
                 Font
             RenderQue
@@ -66,9 +66,7 @@ Core
                 Culler
         SoundMgr
         VariableMgr
-
-pf. - polimorfic
-pl. - platform dependent
+        AppState
 
 Components:
     -geometry
