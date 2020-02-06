@@ -6,7 +6,7 @@
 if has("gui_running")
     " colorscheme desert
     set guioptions-=T
-	set guifont=Ubuntu\ Mono\ 11
+    set guifont=JetBrains\ Mono\ 10
  else
     colorscheme darkblue
 endif
