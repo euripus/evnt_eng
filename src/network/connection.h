@@ -1,7 +1,7 @@
 #ifndef NETWORKMANAGER_H
 #define NETWORKMANAGER_H
 
-#include "../core/memory_stream.h"
+#include "../fs/memory_stream.h"
 #include "udpsocket.h"
 #include <list>
 #include <queue>

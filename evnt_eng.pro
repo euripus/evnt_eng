@@ -50,11 +50,13 @@ SOURCES +=  \
     src/core/core.cpp \
     src/core/exception.cpp \
     src/core/gameobject.cpp \
-    src/core/memory_stream.cpp \
     src/core/object.cpp \
     src/core/objectmanager.cpp \
+    src/fs/assetmanager.cpp \
     src/fs/file.cpp \
     src/fs/file_system.cpp \
+    src/fs/memory_stream.cpp \
+    src/fs/memoryassetstream.cpp \
     src/input/input.cpp \
     src/input/inputglfw.cpp \
     src/input/keybinding.cpp \
@@ -90,14 +92,16 @@ HEADERS += \
     src/core/event.h \
     src/core/exception.h \
     src/core/gameobject.h \
-    src/core/memory_stream.h \
     src/core/module.h \
     src/core/object.h \
     src/core/objectmanager.h \
     src/core/objhandle.h \
     src/core/threadpool.h \
+    src/fs/assetmanager.h \
     src/fs/file.h \
     src/fs/file_system.h \
+    src/fs/memory_stream.h \
+    src/fs/memoryassetstream.h \
     src/fs/zip.h \
     src/input/devices.h \
     src/input/input.h \

@@ -2,7 +2,7 @@
 #define OBJECT_H
 
 #include "classids.h"
-#include "memory_stream.h"
+#include "../fs/memory_stream.h"
 
 #include <functional>
 #include <map>

@@ -68,9 +68,6 @@ public:
     /// (flipped by every call to ISwapChain::Present()). For Direct3D11
     /// backend it always returns the same pointer. For OpenGL/GLES backends
     /// the method returns null.
-    ///
-    /// The method does *NOT* call AddRef() on the returned interface,
-    /// so Release() must not be called.
     virtual ITextureView * getCurrentBackBufferRTV() = 0;
     /// Returns depth-stencil view of the depth buffer
     /// The method does *NOT* call AddRef() on the returned interface,
