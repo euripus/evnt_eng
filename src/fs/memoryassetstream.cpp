@@ -19,12 +19,12 @@ void MemoryAssetStream::writeStreamBytes(char * buffer, uint32_t length)
     if(m_mem.size() - m_position - 1 < length)
         m_mem.reserve(m_mem.size() + length - m_position - 1);
 
-    memcpy(m_mem.data(), buffer, glm::min<int>(length, m_mem.size() - m_position - 1));
+    memcpy(m_mem.data(), buffer, glm::min<size_t>(length, m_mem.size() - m_position - 1));
 }
 
 void MemoryAssetStream::readStreamBytes(char * buffer, uint32_t length)
 {
-    memcpy(buffer, m_mem.data(), glm::min<int>(length, m_mem.size() - m_position - 1));
+    memcpy(buffer, m_mem.data(), glm::min<size_t>(length, m_mem.size() - m_position - 1));
 }
 
 bool MemoryAssetStream::canRead()
