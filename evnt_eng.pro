@@ -102,6 +102,7 @@ HEADERS += \
     src/fs/file_system.h \
     src/fs/memory_stream.h \
     src/fs/memoryassetstream.h \
+    src/fs/nullstreamsource.h \
     src/fs/zip.h \
     src/input/devices.h \
     src/input/input.h \

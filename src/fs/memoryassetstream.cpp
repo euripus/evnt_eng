@@ -1,8 +1,12 @@
 #include "memoryassetstream.h"
 #include <cassert>
+#include <chrono>
 #include <glm/glm.hpp>
 
-MemoryAssetStream::MemoryAssetStream(std::vector<char> & memory) : m_mem(memory) {}
+MemoryAssetStream::MemoryAssetStream(std::vector<char> & memory, std::time_t timestamp) : m_mem(memory)
+{
+    m_last_write_time = timestamp;
+}
 
 void MemoryAssetStream::openStreamRead() {}
 
@@ -20,6 +24,7 @@ void MemoryAssetStream::writeStreamBytes(char * buffer, uint32_t length)
         m_mem.reserve(m_mem.size() + length - m_position - 1);
 
     memcpy(m_mem.data(), buffer, glm::min<size_t>(length, m_mem.size() - m_position - 1));
+    m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
 void MemoryAssetStream::readStreamBytes(char * buffer, uint32_t length)
@@ -44,12 +49,12 @@ void MemoryAssetStream::seekStream(uint32_t position)
     m_position = position;
 }
 
-int MemoryAssetStream::getStreamPosition()
+int32_t MemoryAssetStream::getStreamPosition()
 {
     return m_position;
 }
 
-int MemoryAssetStream::getStreamLength()
+int32_t MemoryAssetStream::getStreamLength()
 {
     return m_mem.size();
 }
