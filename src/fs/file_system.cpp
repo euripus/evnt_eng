@@ -648,7 +648,7 @@ FileSystem::FilePtr FileSystem::loadRegularFile(const file_data & f) const
 
     std::time_t time = fs::last_write_time(m_data_dir + '/' + f.fname);
 
-    return std::make_unique<BufferedFile>(f.fname, time, file_size, std::move(data));
+    return std::make_unique<InFile>(f.fname, time, file_size, std::move(data));
 }
 
 // http://blog2k.ru/archives/3392
@@ -717,6 +717,6 @@ FileSystem::FilePtr FileSystem::loadZipFile(const file_data & zf) const
     std::time_t t        = std::mktime(&timeinfo);
     size_t      unc_size = zf.zip_data.compressed ? lfh.uncompressedSize : lfh.compressedSize;
 
-    return std::make_unique<BufferedFile>(zf.fname, t, unc_size, std::move(data));
+    return std::make_unique<InFile>(zf.fname, t, unc_size, std::move(data));
 }
 }   // namespace evnt

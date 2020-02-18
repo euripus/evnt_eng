@@ -217,7 +217,7 @@ FileSystem::MemoryFilePtr WriteTGA(std::string fname, const ImageData & id)
     std::memset(&tga, 0, sizeof(tga));
     uint32_t bytes_per_pixel = (id.type == ImageData::PixelType::pt_rgb ? 3 : 4);
 
-    auto file = std::make_unique<MemoryFile>(std::move(fname));
+    auto file = std::make_unique<OutFile>(std::move(fname));
 
     tga.datatypecode = 2;
     tga.width        = id.width;

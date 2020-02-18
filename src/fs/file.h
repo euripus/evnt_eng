@@ -1,10 +1,8 @@
 #ifndef FILE_H
 #define FILE_H
 
+#include "memory_stream.h"
 #include <ctime>
-#include <memory>
-#include <string>
-#include <vector>
 
 namespace evnt
 {
@@ -20,47 +18,47 @@ public:
 
 protected:
     std::time_t m_last_write_time = 0;
+    std::string m_name;
 };
 
-class MemoryFile : public IFile
+class OutFile : public IFile
 {
 public:
-    MemoryFile();   // file for writing with random name
-    MemoryFile(std::string name);
-    MemoryFile(std::string name, const char * data, size_t length);
-    ~MemoryFile() override = default;
+    OutFile();   // file for writing with random name
+    OutFile(std::string name);
+    OutFile(std::string name, const char * data, size_t length);
+    ~OutFile() override = default;
 
-    const int8_t * getData() const override { return m_data.data(); }
-    size_t         getFileSize() const override { return m_data.size(); }
+    const int8_t * getData() const override { return m_data.getBufferPtr(); }
+    size_t         getFileSize() const override { return m_data.getLength(); }
     std::string    getName() const override { return m_name; }
 
-    void write(const char * buffer, size_t len);
+    void                 write(const char * buffer, size_t len);
+    OutputMemoryStream & getStream() { return m_data; }
 
 private:
-    std::string         m_name;
-    std::vector<int8_t> m_data;
+    OutputMemoryStream m_data;
 };
 
-class BufferedFile : public IFile
+class InFile : public IFile
 {
 public:
-    BufferedFile(std::string name, std::time_t timestamp, size_t f_size, std::unique_ptr<int8_t[]> data) :
-        m_file_size(f_size)
+    InFile(std::string name, std::time_t timestamp, size_t f_size, std::unique_ptr<int8_t[]> data) :
+        m_data(std::move(data), f_size)
     {
         std::swap(m_name, name);
         m_last_write_time = timestamp;
-        std::swap(mup_data, data);
     }
-    ~BufferedFile() override = default;
+    ~InFile() override = default;
 
-    const int8_t * getData() const override { return mup_data.get(); }
-    size_t         getFileSize() const override { return m_file_size; }
+    const int8_t * getData() const override { return m_data.getPtr(); }
+    size_t         getFileSize() const override { return m_data.getCapacity(); }
     std::string    getName() const override { return m_name; }
 
+    InputMemoryStream & getStream() { return m_data; }
+
 private:
-    std::string               m_name;
-    size_t                    m_file_size = 0;
-    std::unique_ptr<int8_t[]> mup_data;
+    InputMemoryStream m_data;
 };
 }   // namespace evnt
 #endif   // FILE_H

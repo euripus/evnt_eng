@@ -13,9 +13,7 @@ class FileSystem
 {
 public:
     using FilePtr       = std::unique_ptr<IFile>;
-    using MemoryFilePtr = std::unique_ptr<MemoryFile>;
-
-    using AssetStreamPtr = std::unique_ptr<IAssetStreamIO>;
+    // using MemoryFilePtr = std::unique_ptr<OutFile>;
 
     FileSystem(std::string root_dir);
     virtual ~FileSystem() = default;
@@ -23,7 +21,6 @@ public:
     bool    isExist(const std::string & fname) const;
     FilePtr getFile(const std::string & fname) const;   // ex. file name: "fonts/times.ttf"
     size_t  getNumFiles() const { return m_files.size(); }
-    //AssetStreamPtr getAsset(const std::string & fname) const;
 
     bool writeFile(const std::string & path, FilePtr file);   // Memory file
     bool createZIP(std::vector<FilePtr> filelist,

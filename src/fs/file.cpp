@@ -11,33 +11,31 @@
 
 namespace evnt
 {
-MemoryFile::MemoryFile()
+OutFile::OutFile()
 {
-    m_name           = FileSystem::GetTempFileName();
+    m_name            = FileSystem::GetTempFileName();
     m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
-MemoryFile::MemoryFile(std::string name)
-{
-    std::swap(m_name, name);
-    m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-}
-
-MemoryFile::MemoryFile(std::string name, const char * data, size_t length)
+OutFile::OutFile(std::string name)
 {
     std::swap(m_name, name);
-    m_data.reserve(length);
-    std::copy(data, data + length, std::back_inserter(m_data));
     m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
-void MemoryFile::write(const char * buffer, size_t len)
+OutFile::OutFile(std::string name, const char * data, size_t length)
+{
+    std::swap(m_name, name);
+    m_data.write(reinterpret_cast<const int8_t *>(data), length);
+    m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+}
+
+void OutFile::write(const char * buffer, size_t len)
 {
     assert(buffer != nullptr);
     assert(len > 0);
 
-    m_data.reserve(m_data.size() + len);
-    std::copy(buffer, buffer + len, std::back_inserter(m_data));
+    m_data.write(reinterpret_cast<const int8_t *>(buffer), len);
     m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 }   // namespace evnt
