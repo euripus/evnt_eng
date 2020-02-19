@@ -23,11 +23,9 @@ OutFile::OutFile(std::string name)
     m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
-OutFile::OutFile(std::string name, const char * data, size_t length)
+OutFile::OutFile(std::string name, const char * data, size_t length) : OutFile(name)
 {
-    std::swap(m_name, name);
     m_data.write(reinterpret_cast<const int8_t *>(data), length);
-    m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
 void OutFile::write(const char * buffer, size_t len)

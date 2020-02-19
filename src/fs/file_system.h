@@ -12,8 +12,7 @@ namespace evnt
 class FileSystem
 {
 public:
-    using FilePtr       = std::unique_ptr<IFile>;
-    // using MemoryFilePtr = std::unique_ptr<OutFile>;
+    using FilePtr       = std::unique_ptr<BaseFile>;
 
     FileSystem(std::string root_dir);
     virtual ~FileSystem() = default;
