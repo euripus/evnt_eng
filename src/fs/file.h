@@ -15,7 +15,7 @@ public:
     virtual const int8_t * getData() const     = 0;
     virtual size_t         getFileSize() const = 0;
 
-    std::time_t timeStamp() { return m_last_write_time; }
+    std::time_t timeStamp() const { return m_last_write_time; }
     std::string getName() const { return m_name; }
 
 protected:
@@ -23,12 +23,15 @@ protected:
     std::string m_name;
 };
 
+class InFile;
+
 class OutFile : public BaseFile
 {
 public:
     OutFile();   // file for writing with random name
     OutFile(std::string name);
     OutFile(std::string name, const char * data, size_t length);
+    OutFile(const InFile & infile);
     ~OutFile() override = default;
 
     const int8_t * getData() const override { return m_data.getBufferPtr(); }
@@ -49,6 +52,15 @@ public:
     {
         std::swap(m_name, name);
         m_last_write_time = timestamp;
+    }
+    InFile(const OutFile & outfile)
+    {
+        m_name            = outfile.getName();
+        m_last_write_time = outfile.timeStamp();
+
+        std::unique_ptr<int8_t[]> new_buf = std::make_unique<int8_t[]>(outfile.getFileSize());
+        std::memcpy(new_buf.get(), outfile.getData(), outfile.getFileSize());
+        m_data = InputMemoryStream(std::move(new_buf), outfile.getFileSize());
     }
     ~InFile() override = default;
 

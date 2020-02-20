@@ -2,7 +2,6 @@
 #include "../core/core.h"
 #include <cstring>
 
-
 namespace evnt
 {
 MouseCursor::MouseCursor()

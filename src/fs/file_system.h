@@ -12,19 +12,17 @@ namespace evnt
 class FileSystem
 {
 public:
-    using FilePtr       = std::unique_ptr<BaseFile>;
-
     FileSystem(std::string root_dir);
     virtual ~FileSystem() = default;
 
-    bool    isExist(const std::string & fname) const;
-    FilePtr getFile(const std::string & fname) const;   // ex. file name: "fonts/times.ttf"
-    size_t  getNumFiles() const { return m_files.size(); }
+    bool   isExist(const std::string & fname) const;
+    InFile getFile(const std::string & fname) const;   // ex. file name: "fonts/times.ttf"
+    size_t getNumFiles() const { return m_files.size(); }
 
-    bool writeFile(const std::string & path, FilePtr file);   // Memory file
-    bool createZIP(std::vector<FilePtr> filelist,
-                   const std::string &  zipname);   // all zip files saves in root directory
-    bool addFileToZIP(FilePtr file, const std::string & zipname);
+    bool writeFile(const std::string & path, BaseFile const * file);   // Memory file
+    bool createZIP(std::vector<BaseFile const *> filelist,
+                   const std::string &           zipname);   // all zip files saves in root directory
+    bool addFileToZIP(BaseFile const * file, const std::string & zipname);
 
     static std::string GetTempDir();
     static std::string GetCurrentDir();
@@ -47,9 +45,9 @@ private:
         std::string fname;
     };
 
-    void    addZippedDir(const std::string & fname);
-    FilePtr loadRegularFile(const file_data & f) const;
-    FilePtr loadZipFile(const file_data & zf) const;
+    void   addZippedDir(const std::string & fname);
+    InFile loadRegularFile(const file_data & f) const;
+    InFile loadZipFile(const file_data & zf) const;
 
     std::list<file_data> m_files;
     std::string          m_data_dir;

@@ -28,6 +28,10 @@ OutFile::OutFile(std::string name, const char * data, size_t length) : OutFile(n
     m_data.write(reinterpret_cast<const int8_t *>(data), length);
 }
 
+OutFile::OutFile(const InFile & infile) :
+    OutFile{infile.getName(), reinterpret_cast<const char *>(infile.getData()), infile.getFileSize()}
+{}
+
 void OutFile::write(const char * buffer, size_t len)
 {
     assert(buffer != nullptr);

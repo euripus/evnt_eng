@@ -206,7 +206,7 @@ bool FileSystem::isExist(const std::string & fname) const
     return false;
 }
 
-FileSystem::FilePtr FileSystem::getFile(const std::string & fname) const
+InFile FileSystem::getFile(const std::string & fname) const
 {
     assert(!fname.empty());
 
@@ -239,7 +239,7 @@ FileSystem::FilePtr FileSystem::getFile(const std::string & fname) const
     }
 }
 
-bool FileSystem::writeFile(const std::string & path, FilePtr file)
+bool FileSystem::writeFile(const std::string & path, BaseFile const * file)
 {
     std::string filename = file->getName();
 
@@ -278,7 +278,7 @@ void GetDosTime(std::time_t rawtime, uint16_t & time, uint16_t & date)
 }
 
 // http://blog2k.ru/archives/3397
-bool FileSystem::createZIP(std::vector<FilePtr> filelist, const std::string & zipname)
+bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::string & zipname)
 {
     // http://stackoverflow.com/questions/922360/why-cant-i-make-a-vector-of-references
     assert(!filelist.empty());
@@ -309,11 +309,10 @@ bool FileSystem::createZIP(std::vector<FilePtr> filelist, const std::string & zi
 
     for(size_t i = 0; i < filelist.size(); i++)
     {
-        std::string       fname = filelist[i].get()->getName();
+        std::string       fname = filelist[i]->getName();
         std::vector<char> buf;
-        buf.resize(filelist[i].get()->getFileSize());
-        buf.assign(filelist[i].get()->getData(),
-                   filelist[i].get()->getData() + filelist[i].get()->getFileSize());
+        buf.resize(filelist[i]->getFileSize());
+        buf.assign(filelist[i]->getData(), filelist[i]->getData() + filelist[i]->getFileSize());
 
         LocalFileHeader lfh{};
         memset(&lfh, 0, sizeof(lfh));
@@ -393,7 +392,7 @@ bool FileSystem::createZIP(std::vector<FilePtr> filelist, const std::string & zi
 
     for(unsigned int i = 0; i < filelist.size(); ++i)
     {
-        const std::string &        filename = filelist[i].get()->getName();
+        const std::string &        filename = filelist[i]->getName();
         const FileInfo &           fileInfo = fileInfoList[i];
         CentralDirectoryFileHeader cdfh{};
         memset(&cdfh, 0, sizeof(cdfh));
@@ -438,7 +437,7 @@ bool FileSystem::createZIP(std::vector<FilePtr> filelist, const std::string & zi
     return true;
 }
 
-bool FileSystem::addFileToZIP(FilePtr file, const std::string & zipname)
+bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname)
 {
     assert(!zipname.empty());
 
@@ -618,7 +617,7 @@ bool FileSystem::addFileToZIP(FilePtr file, const std::string & zipname)
     return true;
 }
 
-FileSystem::FilePtr FileSystem::loadRegularFile(const file_data & f) const
+InFile FileSystem::loadRegularFile(const file_data & f) const
 {
     std::ifstream ifs(m_data_dir + '/' + f.fname, std::ios::binary);
     if(!ifs.is_open())
@@ -629,14 +628,14 @@ FileSystem::FilePtr FileSystem::loadRegularFile(const file_data & f) const
     }
 
     ifs.seekg(0, std::ios_base::end);
-    auto file_size = ifs.tellg();
+    size_t file_size = ifs.tellg();
     ifs.seekg(0, std::ios_base::beg);
 
-    auto data = std::make_unique<int8_t[]>(static_cast<size_t>(file_size));
+    auto data = std::make_unique<int8_t[]>(file_size);
 
     ifs.read(reinterpret_cast<char *>(const_cast<int8_t *>(data.get())), file_size);
 
-    auto success = !ifs.fail() && file_size == ifs.gcount();
+    bool success = !ifs.fail() && file_size == static_cast<size_t>(ifs.gcount());
     if(!success)
     {
         Log::Log(Log::error,
@@ -648,11 +647,11 @@ FileSystem::FilePtr FileSystem::loadRegularFile(const file_data & f) const
 
     std::time_t time = fs::last_write_time(m_data_dir + '/' + f.fname);
 
-    return std::make_unique<InFile>(f.fname, time, file_size, std::move(data));
+    return InFile{f.fname, time, file_size, std::move(data)};
 }
 
 // http://blog2k.ru/archives/3392
-FileSystem::FilePtr FileSystem::loadZipFile(const file_data & zf) const
+InFile FileSystem::loadZipFile(const file_data & zf) const
 {
     std::unique_ptr<int8_t[]> data;
 
@@ -717,6 +716,6 @@ FileSystem::FilePtr FileSystem::loadZipFile(const file_data & zf) const
     std::time_t t        = std::mktime(&timeinfo);
     size_t      unc_size = zf.zip_data.compressed ? lfh.uncompressedSize : lfh.compressedSize;
 
-    return std::make_unique<InFile>(zf.fname, t, unc_size, std::move(data));
+    return InFile{zf.fname, t, unc_size, std::move(data)};
 }
 }   // namespace evnt

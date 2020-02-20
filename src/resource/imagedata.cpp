@@ -59,7 +59,7 @@ namespace evnt
 //==============================================================================
 //         Read BMP section
 //==============================================================================
-bool ReadBMP(FileSystem::FilePtr file, ImageData & id)
+bool ReadBMP(BaseFile const * file, ImageData & id)
 {
     bool     res         = false;
     bool     compressed  = false;
@@ -211,13 +211,13 @@ bool ReadBMP(FileSystem::FilePtr file, ImageData & id)
 //==============================================================================
 //         TGA section
 //==============================================================================
-FileSystem::MemoryFilePtr WriteTGA(std::string fname, const ImageData & id)
+OutFile WriteTGA(std::string fname, const ImageData & id)
 {
     TGAHEADER tga;
     std::memset(&tga, 0, sizeof(tga));
     uint32_t bytes_per_pixel = (id.type == ImageData::PixelType::pt_rgb ? 3 : 4);
 
-    auto file = std::make_unique<OutFile>(std::move(fname));
+    OutFile file(std::move(fname));
 
     tga.datatypecode = 2;
     tga.width        = id.width;
@@ -228,7 +228,7 @@ FileSystem::MemoryFilePtr WriteTGA(std::string fname, const ImageData & id)
     else
         tga.imagedescriptor = 0x18;
 
-    file->write(reinterpret_cast<char *>(&tga), sizeof(tga));
+    file.write(reinterpret_cast<char *>(&tga), sizeof(tga));
 
     uint8_t * data_ptr = id.data.get();
     uint8_t   red, green, blue, alpha;
@@ -240,11 +240,11 @@ FileSystem::MemoryFilePtr WriteTGA(std::string fname, const ImageData & id)
         if(bytes_per_pixel == 4)
             alpha = data_ptr[i + 3];
 
-        file->write(reinterpret_cast<char *>(&blue), 1);
-        file->write(reinterpret_cast<char *>(&green), 1);
-        file->write(reinterpret_cast<char *>(&red), 1);
+        file.write(reinterpret_cast<char *>(&blue), 1);
+        file.write(reinterpret_cast<char *>(&green), 1);
+        file.write(reinterpret_cast<char *>(&red), 1);
         if(id.type == ImageData::PixelType::pt_rgba)
-            file->write(reinterpret_cast<char *>(&alpha), 1);
+            file.write(reinterpret_cast<char *>(&alpha), 1);
     }
 
     return file;
@@ -253,7 +253,7 @@ FileSystem::MemoryFilePtr WriteTGA(std::string fname, const ImageData & id)
 bool ReadUncompressedTGA(ImageData & id, char * data);
 bool ReadCompressedTGA(ImageData & id, char * data);
 
-bool ReadTGA(FileSystem::FilePtr file, ImageData & id)
+bool ReadTGA(BaseFile const * file, ImageData & id)
 {
     uint32_t file_length = 0;
 
