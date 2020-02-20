@@ -56,10 +56,10 @@ public:
     void write(const int8_t * inData, size_t inByteCount);
 
     template<typename T>
-    void write(T inData)
+    void write(T & inData)
     {
-        static_assert(std::is_arithmetic_v<T> || std::is_enum_v<T>,
-                      "Generic Write only supports primitive data types");
+        // https://stackoverflow.com/questions/48225673/why-is-stdis-pod-deprecated-in-c20
+        static_assert(std::is_standard_layout_v<T>, "Generic Write only supports primitive data types");
 
         write(reinterpret_cast<const int8_t *>(&inData), sizeof(inData));
     }
@@ -136,8 +136,7 @@ public:
     template<typename T>
     void read(T & outData) const
     {
-        static_assert(std::is_arithmetic_v<T> || std::is_enum_v<T>,
-                      "Generic Read only supports primitive data types");
+        static_assert(std::is_standard_layout_v<T>, "Generic Read only supports primitive data types");
         read(reinterpret_cast<void *>(&outData), sizeof(outData));
     }
 

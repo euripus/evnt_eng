@@ -228,7 +228,7 @@ OutFile WriteTGA(std::string fname, const ImageData & id)
     else
         tga.imagedescriptor = 0x18;
 
-    file.write(reinterpret_cast<char *>(&tga), sizeof(tga));
+    file.getStream().write(tga);
 
     uint8_t * data_ptr = id.data.get();
     uint8_t   red, green, blue, alpha;

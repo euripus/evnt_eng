@@ -1,7 +1,7 @@
 #ifndef MOUSECURSOR_H
 #define MOUSECURSOR_H
 
-#include "../resource/imagedata.h"
+#include "../assets/imagedata.h"
 #include <string>
 
 namespace evnt

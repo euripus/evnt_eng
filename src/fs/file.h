@@ -37,7 +37,7 @@ public:
     const int8_t * getData() const override { return m_data.getBufferPtr(); }
     size_t         getFileSize() const override { return m_data.getLength(); }
 
-    void                 write(const char * buffer, size_t len);
+    void                 write(const char * buffer, size_t len);   // change write time of file
     OutputMemoryStream & getStream() { return m_data; }
 
 private:
