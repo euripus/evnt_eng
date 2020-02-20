@@ -45,6 +45,8 @@ SOURCES +=  \
     src/app/glfwwindow.cpp \
     src/app/mousecursor.cpp \
     src/app/window.cpp \
+    src/assets/assetmanager.cpp \
+    src/assets/imagedata.cpp \
     src/core/cmpmsgs.cpp \
     src/core/component.cpp \
     src/core/core.cpp \
@@ -52,11 +54,9 @@ SOURCES +=  \
     src/core/gameobject.cpp \
     src/core/object.cpp \
     src/core/objectmanager.cpp \
-    src/fs/assetmanager.cpp \
     src/fs/file.cpp \
     src/fs/file_system.cpp \
     src/fs/memory_stream.cpp \
-    src/fs/memoryassetstream.cpp \
     src/input/input.cpp \
     src/input/inputglfw.cpp \
     src/input/keybinding.cpp \
@@ -75,8 +75,7 @@ SOURCES +=  \
     src/render/gl/typeconversions.cpp \
     src/render/render.cpp \
     src/render/utils/colorconversion.cpp \
-    src/render/utils/graphicsaccessories.cpp \
-    src/resource/imagedata.cpp
+    src/render/utils/graphicsaccessories.cpp 
 
 HEADERS += \
     src/app/app.h \
@@ -85,6 +84,8 @@ HEADERS += \
     src/app/glfwwindow.h \
     src/app/mousecursor.h \
     src/app/window.h \
+    src/assets/assetmanager.h \
+    src/assets/imagedata.h \
     src/core/classids.h \
     src/core/cmpmsgs.h \
     src/core/component.h \
@@ -97,12 +98,9 @@ HEADERS += \
     src/core/objectmanager.h \
     src/core/objhandle.h \
     src/core/threadpool.h \
-    src/fs/assetmanager.h \
     src/fs/file.h \
     src/fs/file_system.h \
     src/fs/memory_stream.h \
-    src/fs/memoryassetstream.h \
-    src/fs/nullstreamsource.h \
     src/fs/zip.h \
     src/input/devices.h \
     src/input/input.h \
@@ -156,5 +154,4 @@ HEADERS += \
     src/render/gl/typeconversions.h \
     src/render/render.h \
     src/render/utils/colorconversion.h \
-    src/render/utils/graphicsaccessories.h \
-    src/resource/imagedata.h
+    src/render/utils/graphicsaccessories.h 

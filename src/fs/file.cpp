@@ -1,13 +1,8 @@
 #include "file.h"
 #include "../log/log.h"
 #include "file_system.h"
-#include <cassert>
 #include <chrono>
-#include <cstring>
-#include <fstream>
-#include <zlib.h>
 
-//#include "zip.h"
 
 namespace evnt
 {

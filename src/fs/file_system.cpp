@@ -3,10 +3,7 @@
 #include "../log/log.h"
 #include <algorithm>
 #include <boost/filesystem.hpp>
-#include <cassert>
 #include <chrono>
-#include <cstdio>
-#include <cstring>
 //#include <experimental/filesystem>
 #include <fstream>
 #include <zlib.h>

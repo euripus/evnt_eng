@@ -5,7 +5,6 @@
 #include "file.h"
 #include <functional>
 #include <list>
-#include <vector>
 
 namespace evnt
 {
