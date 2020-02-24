@@ -8,7 +8,7 @@
 
 namespace evnt
 {
-struct DeviceContextGLImplTraits
+/*struct DeviceContextGLImplTraits
 {
     using BufferType        = BufferGLImpl;
     using TextureType       = TextureBaseGL;
@@ -118,6 +118,6 @@ public:
 
 protected:
     GLContextState m_context_state;
-};
+};*/
 }   // namespace evnt
 #endif   // DEVICECONTEXTGLIMPL_H

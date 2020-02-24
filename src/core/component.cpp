@@ -65,11 +65,13 @@ void Component::write(OutputMemoryStream & inMemoryStream, const ObjectManager &
 
     if(mp_owner == nullptr)
     {
-        inMemoryStream.write(0);
+        int32_t zero{0};
+        inMemoryStream.write(zero);
     }
     else
     {
-        inMemoryStream.write(1);
+        int32_t one{1};
+        inMemoryStream.write(one);
         inMemoryStream.write(mp_owner->getInstanceId());
     }
 }

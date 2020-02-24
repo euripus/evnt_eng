@@ -37,7 +37,6 @@ public:
     void              setNextState(AppState::StateID next_state);
     AppState::StateID getStateID(std::string const & state_name);   // if not found return 0
 
-    // ?????
     Window &        getMainWindow() { return *mup_main_window; }
     ObjectManager & getObjectManager() { return m_obj_mgr; }
     const Command & getAppCommandLineParam() const { return m_command_line; }

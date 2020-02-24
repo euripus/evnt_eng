@@ -62,6 +62,7 @@ public:
     virtual bool init() { return true; }
     virtual void terminate() {}
     virtual void update() {}
+    virtual void present(uint32_t sync_interval = 1) {} //swap chain
 
     virtual void         fullscreen(bool is_fullscreen) = 0;
     virtual DisplayModes getDisplayModes() const        = 0;

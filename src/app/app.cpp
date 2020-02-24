@@ -47,7 +47,7 @@ void App::update()
         doStateTransition();
     }
 
-    m_states[m_cur_state]->update();
+    m_states[m_cur_state]->update();  // scene update
 }
 
 void App::terminate()

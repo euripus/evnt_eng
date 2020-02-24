@@ -1,6 +1,6 @@
 #include "gameobject.h"
-#include "objectmanager.h"
 #include "exception.h"
+#include "objectmanager.h"
 
 #include <any>
 #include <iostream>
@@ -39,7 +39,7 @@ void GameObject::sendMessage(ClassIDType sender, CmpMsgsTable::msg_id messageIde
 {
     assert(messageIdentifier != CmpMsgsTable::mUndefined);
 
-    for(auto & [key, cmp]: m_components)
+    for(auto & [key, cmp] : m_components)
     {
         auto cid = static_cast<ClassIDType>(key);
         if(s_msg_handlers.hasMessageCallback(messageIdentifier, cid) && cid != sender)
@@ -66,7 +66,7 @@ void GameObject::dump(int indentLevel) const
     else
     {
         std::cout << std::endl;
-        for(auto & [key, cmp]: m_components)
+        for(auto & [key, cmp] : m_components)
         {
             auto c_ptr = cmp->getPtr();
             std::cout << std::string(4 * (indentLevel + 2), ' ') << "[type: ";
@@ -86,11 +86,15 @@ void GameObject::write(OutputMemoryStream & inMemoryStream, const ObjectManager 
     inMemoryStream.write(getInstanceId());
 
     if(m_components.empty())
-        inMemoryStream.write(0);
+    {
+        uint32_t zero{0};
+        inMemoryStream.write(zero);
+    }
     else
     {
-        inMemoryStream.write<uint32_t>(m_components.size());
-        for(auto & [key, cmp]: m_components)
+        uint32_t size = m_components.size();
+        inMemoryStream.write(size);
+        for(auto & [key, cmp] : m_components)
         {
             auto c_ptr = cmp->getPtr();
             inMemoryStream.write(key);
@@ -122,7 +126,7 @@ void GameObject::read(const InputMemoryStream & inMemoryStream, ObjectManager & 
 
             auto temp_handle        = std::make_shared<ObjHandle>(nullptr);
             temp_handle->m_link_key = cmp_inst;
-            m_components[key]        = temp_handle;
+            m_components[key]       = temp_handle;
 
             --size;
         }
@@ -134,7 +138,7 @@ void GameObject::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> &
     if(m_components.empty())
         return;
 
-    for(auto & [key, cmp]: m_components)
+    for(auto & [key, cmp] : m_components)
     {
         uint32_t c_inst = cmp->m_link_key;
 

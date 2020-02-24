@@ -79,7 +79,8 @@ void Core::enterMainLoop()
             lag -= MS_PER_UPDATE;
         }
 
-        getApp().draw();   // render
+        getApp().draw();                      // render
+        getApp().getMainWindow().present();   // swap buffer
 
         current = GetMilisecFromStart();
         elapsed = current - previous;   // elapsed after update & render
