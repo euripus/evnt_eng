@@ -135,7 +135,7 @@ public:
 
     GLenum operator[](TEXTURE_FORMAT tex_format) const
     {
-        assert(tex_format < std::size(m_fmt_to_glfmt_map));
+        assert(static_cast<size_t>(tex_format) < std::size(m_fmt_to_glfmt_map));
         return m_fmt_to_glfmt_map[tex_format];
     }
 
