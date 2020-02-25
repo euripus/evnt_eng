@@ -20,6 +20,7 @@ public:
     bool init() override;
     void terminate() override;
     void update() override;
+    void present(uint32_t sync_interval = 1) override;
 
     void         fullscreen(bool is_fullscreen) override;
     DisplayModes getDisplayModes() const override;

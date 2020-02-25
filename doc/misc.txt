@@ -74,3 +74,13 @@ obj->AddComponent( NetworkMgr.Create());
 //============
 auto render_que = cam.GetRenderQue(SceneMgr.Root());
 cam.FrameGraph().Render(render_que);
+
+//============
+// Main loop
+app.process_input()
+app.update()
+    win.update()
+        glfwPollEvent()
+    app_state.update()
+app.draw()
+app.swap()

@@ -19,6 +19,7 @@ Core
                 PhysicsRigidBody
                 Transform
         Scene
+            SceneManager   // diffirent scene graphs for different app states
             EntityManager
             ComponentManager
             SystemManager

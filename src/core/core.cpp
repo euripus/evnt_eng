@@ -79,11 +79,12 @@ void Core::enterMainLoop()
             lag -= MS_PER_UPDATE;
         }
 
-        getApp().draw();                      // render
-        getApp().getMainWindow().present();   // swap buffer
+        getApp().draw();   // render
+        getApp().swap();   // swap buffer
 
         current = GetMilisecFromStart();
         elapsed = current - previous;   // elapsed after update & render
+
         if(elapsed < MS_PER_UPDATE)
             std::this_thread::sleep_for(std::chrono::milliseconds(MS_PER_UPDATE - elapsed));
     }

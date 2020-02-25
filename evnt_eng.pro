@@ -65,17 +65,8 @@ SOURCES +=  \
     src/network/connection.cpp \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
-    src/render/common/texturebase.cpp \
-    src/render/gl/devicecontextglimpl.cpp \
-    src/render/gl/glcontext.cpp \
-    src/render/gl/glcontextstate.cpp \
-    src/render/gl/renderdeviceglimpl.cpp \
-    src/render/gl/texturebasegl.cpp \
-    src/render/gl/textureviewglimpl.cpp \
-    src/render/gl/typeconversions.cpp \
-    src/render/render.cpp \
-    src/render/utils/colorconversion.cpp \
-    src/render/utils/graphicsaccessories.cpp 
+    src/render/render.cpp  \
+    src/render/vertexarray.cpp
 
 HEADERS += \
     src/app/app.h \
@@ -111,47 +102,6 @@ HEADERS += \
     src/network/connection.h \
     src/network/socketaddress.h \
     src/network/udpsocket.h \
-    src/render/common/blendstate.h \
-    src/render/common/depthstencilstate.h \
-    src/render/common/devicecaps.h \
-    src/render/common/devicecontextbase.h \
-    src/render/common/deviceobjectbase.h \
-    src/render/common/graphics_types.h \
-    src/render/common/interface/ibuffer.h \
-    src/render/common/interface/ibufferview.h \
-    src/render/common/interface/idevicecontext.h \
-    src/render/common/interface/ideviceobject.h \
-    src/render/common/interface/ifence.h \
-    src/render/common/interface/inputlayout.h \
-    src/render/common/interface/ipipelinestate.h \
-    src/render/common/interface/irenderdevice.h \
-    src/render/common/interface/iresourcemapping.h \
-    src/render/common/interface/isampler.h \
-    src/render/common/interface/ishader.h \
-    src/render/common/interface/ishaderresourcebinding.h \
-    src/render/common/interface/ishaderresourcevariable.h \
-    src/render/common/interface/iswapchain.h \
-    src/render/common/interface/itexture.h \
-    src/render/common/interface/itextureview.h \
-    src/render/common/objectbase.h \
-    src/render/common/rasterizerstate.h \
-    src/render/common/renderdevicebase.h \
-    src/render/common/texturebase.h \
-    src/render/common/textureviewbase.h \
-    src/render/gl/asyncwritableresource.h \
-    src/render/gl/devicecontextglimpl.h \
-    src/render/gl/glcontext.h \
-    src/render/gl/glcontextstate.h \
-    src/render/gl/gldebug.h \
-    src/render/gl/globjwrapper.h \
-    src/render/gl/interface/idevicecontextgl.h \
-    src/render/gl/interface/irenderdevicegl.h \
-    src/render/gl/interface/itexturegl.h \
-    src/render/gl/interface/itextureviewgl.h \
-    src/render/gl/renderdeviceglimpl.h \
-    src/render/gl/texturebasegl.h \
-    src/render/gl/textureviewglimpl.h \
-    src/render/gl/typeconversions.h \
-    src/render/render.h \
-    src/render/utils/colorconversion.h \
-    src/render/utils/graphicsaccessories.h 
+    src/render/graphics_types.h \
+    src/render/render.h  \
+    src/render/vertexarray.h

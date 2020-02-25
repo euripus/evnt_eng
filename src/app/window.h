@@ -16,7 +16,7 @@ struct DisplayMode
 
     DisplayMode() {}
     DisplayMode(const DisplayMode & o) : resolution(o.resolution) {}
-    /* implicit */ DisplayMode(glm::ivec2 res) : resolution(res) {}
+    DisplayMode(glm::ivec2 res) : resolution(res) {}
 
     bool operator<(const DisplayMode & other) const;
     bool operator==(const DisplayMode & other) const { return resolution == other.resolution; }
@@ -62,7 +62,7 @@ public:
     virtual bool init() { return true; }
     virtual void terminate() {}
     virtual void update() {}
-    virtual void present(uint32_t sync_interval = 1) {} //swap chain
+    virtual void present(uint32_t sync_interval = 1) {}   // swap chain
 
     virtual void         fullscreen(bool is_fullscreen) = 0;
     virtual DisplayModes getDisplayModes() const        = 0;

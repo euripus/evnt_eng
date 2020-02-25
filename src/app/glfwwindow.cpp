@@ -110,6 +110,11 @@ void GLFWWindow::update()
     glfwPollEvents();
 }
 
+void GLFWWindow::present(uint32_t sync_interval)
+{
+    glfwSwapBuffers(mp_glfw_window);
+}
+
 void GLFWWindow::fullscreen(bool is_fullscreen)
 {
     if(m_full_screen == is_fullscreen)
