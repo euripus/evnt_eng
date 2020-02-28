@@ -12,7 +12,7 @@ namespace evnt
 /// [D3D11_STENCIL_OP][]/[D3D12_STENCIL_OP][] enumeration.
 /// It is used by evnt::StencilOpDesc structure to describe the stencil fail, depth fail
 /// and stencil pass operations
-enum STENCIL_OP : int8_t
+enum StencilOperation : int8_t
 {
     /// Undefined operation.
     STENCIL_OP_UNDEFINED = 0,
@@ -57,7 +57,7 @@ enum STENCIL_OP : int8_t
 /// [D3D11_BLEND_OP][] and [D3D12_BLEND_OP][] enums. It is used by RenderTargetBlendDesc structure to define
 /// RGB and Alpha blending operations [D3D11_BLEND_OP on MSDN][D3D11_BLEND_OP], [D3D12_BLEND_OP on
 /// MSDN][D3D12_BLEND_OP], [glBlendEquationSeparate on OpenGL.org][glBlendEquationSeparate]
-enum BLEND_OPERATION : int8_t
+enum BlendOperation : int8_t
 {
     /// Undefined blend operation
     BLEND_OPERATION_UNDEFINED = 0,
@@ -92,7 +92,7 @@ enum BLEND_OPERATION : int8_t
 /// channels.
 /// [D3D11_BLEND on MSDN][D3D11_BLEND], [D3D12_BLEND on MSDN][D3D12_BLEND],
 /// [glBlendFuncSeparate on OpenGL.org][glBlendFuncSeparate]
-enum BLEND_FACTOR : int8_t
+enum BlendFactor : int8_t
 {
     /// Undefined blend factor
     BLEND_FACTOR_UNDEFINED = 0,
@@ -163,26 +163,116 @@ enum BLEND_FACTOR : int8_t
     BLEND_FACTOR_NUM_FACTORS
 };
 
-struct ColorMask
+/// Texture address mode
+/// [D3D11_TEXTURE_ADDRESS_MODE]:
+/// https://msdn.microsoft.com/en-us/library/windows/desktop/ff476256(v=vs.85).aspx
+/// [D3D12_TEXTURE_ADDRESS_MODE]:
+/// https://msdn.microsoft.com/en-us/library/windows/desktop/dn770441(v=vs.85).aspx Defines a technique for
+/// resolving texture coordinates that are outside of the boundaries of a texture. The enumeration generally
+/// mirrors [D3D11_TEXTURE_ADDRESS_MODE][]/[D3D12_TEXTURE_ADDRESS_MODE][] enumeration. It is used by
+/// SamplerDesc structure to define the address mode for U,V and W texture coordinates.
+enum WrapMode : uint8_t
 {
-    uint32_t buffer;
-    bool     red;
-    bool     green;
-    bool     blue;
-    bool     alpha;
+    /// Unknown mode
+    TEXTURE_ADDRESS_UNKNOWN = 0,
+    /// Tile the texture at every integer junction.
+    /// Direct3D Counterpart: D3D11_TEXTURE_ADDRESS_WRAP/D3D12_TEXTURE_ADDRESS_MODE_WRAP.
+    /// OpenGL counterpart: GL_REPEAT
+    TEXTURE_ADDRESS_WRAP = 1,
+    /// Flip the texture at every integer junction.
+    /// Direct3D Counterpart: D3D11_TEXTURE_ADDRESS_MIRROR/D3D12_TEXTURE_ADDRESS_MODE_MIRROR.
+    /// OpenGL counterpart: GL_MIRRORED_REPEAT
+    TEXTURE_ADDRESS_MIRROR = 2,
+    /// Texture coordinates outside the range [0.0, 1.0] are set to the
+    /// texture color at 0.0 or 1.0, respectively.
+    /// Direct3D Counterpart: D3D11_TEXTURE_ADDRESS_CLAMP/D3D12_TEXTURE_ADDRESS_MODE_CLAMP.
+    /// OpenGL counterpart: GL_CLAMP_TO_EDGE
+    TEXTURE_ADDRESS_CLAMP = 3,
+    /// Texture coordinates outside the range [0.0, 1.0] are set to the border color specified
+    /// specified in SamplerDesc structure.
+    /// Direct3D Counterpart: D3D11_TEXTURE_ADDRESS_BORDER/D3D12_TEXTURE_ADDRESS_MODE_BORDER.
+    /// OpenGL counterpart: GL_CLAMP_TO_BORDER
+    TEXTURE_ADDRESS_BORDER = 4,
+    /// Similar to TEXTURE_ADDRESS_MIRROR and TEXTURE_ADDRESS_CLAMP. Takes the absolute
+    /// value of the texture coordinate (thus, mirroring around 0), and then clamps to
+    /// the maximum value.
+    /// Direct3D Counterpart: D3D11_TEXTURE_ADDRESS_MIRROR_ONCE/D3D12_TEXTURE_ADDRESS_MODE_MIRROR_ONCE.
+    /// OpenGL counterpart: GL_MIRROR_CLAMP_TO_EDGE ote GL_MIRROR_CLAMP_TO_EDGE is only available in
+    /// OpenGL4.4+, and is not available until at least OpenGLES3.1
+    TEXTURE_ADDRESS_MIRROR_ONCE = 5,
+    /// Helper value that stores the total number of texture address modes in the enumeration
+    TEXTURE_ADDRESS_NUM_MODES
 };
 
-struct BufferBlending
+enum class TextureChannel : uint8_t
 {
-    uint32_t buffer;
+    S = 0,
+    T,
+    R
+};
 
-    BLEND_FACTOR source_color;
-    BLEND_FACTOR destination_color;
-    BLEND_FACTOR source_alpha;
-    BLEND_FACTOR destination_alpha;
+enum class MinificationFilter : uint8_t
+{
+    Nearest = 0,
+    Linear,
+    NearestMipmapNearest,
+    LinearMipmapNearest,
+    NearestMipmapLinear,
+    LinearMipmapLinear
+};
 
-    BLEND_OPERATION color_equation;
-    BLEND_OPERATION alpha_equation;
+enum class MagnificationFilter : uint8_t
+{
+    Nearest = 0,
+    Linear
+};
+
+/// Comparison function
+/// [D3D11_COMPARISON_FUNC]: https://msdn.microsoft.com/en-us/library/windows/desktop/ff476101(v=vs.85).aspx
+/// [D3D12_COMPARISON_FUNC]: https://msdn.microsoft.com/en-us/library/windows/desktop/dn770349(v=vs.85).aspx
+/// This enumeartion defines a comparison function. It generally mirrors
+/// [D3D11_COMPARISON_FUNC]/[D3D12_COMPARISON_FUNC] enum and is used by
+/// - SamplerDesc to define a comparison function if one of the comparison mode filters is used
+/// - StencilOpDesc to define a stencil function
+/// - DepthStencilStateDesc to define a depth function
+enum ComparisonFunc : uint8_t
+{
+    /// Unknown comparison function
+    COMPARISON_FUNC_UNKNOWN = 0,
+    /// Comparison never passes.
+    /// Direct3D counterpart: D3D11_COMPARISON_NEVER/D3D12_COMPARISON_FUNC_NEVER.
+    /// OpenGL counterpart: GL_NEVER.
+    COMPARISON_FUNC_NEVER,
+    /// Comparison passes if the source data is less than the destination data.
+    /// Direct3D counterpart: D3D11_COMPARISON_LESS/D3D12_COMPARISON_FUNC_LESS.
+    /// OpenGL counterpart: GL_LESS.
+    COMPARISON_FUNC_LESS,
+    /// Comparison passes if the source data is equal to the destination data.
+    /// Direct3D counterpart: D3D11_COMPARISON_EQUAL/D3D12_COMPARISON_FUNC_EQUAL.
+    /// OpenGL counterpart: GL_EQUAL.
+    COMPARISON_FUNC_EQUAL,
+    /// Comparison passes if the source data is less than or equal to the destination data.
+    /// Direct3D counterpart: D3D11_COMPARISON_LESS_EQUAL/D3D12_COMPARISON_FUNC_LESS_EQUAL.
+    /// OpenGL counterpart: GL_LEQUAL.
+    COMPARISON_FUNC_LESS_EQUAL,
+    /// Comparison passes if the source data is greater than the destination data.
+    /// Direct3D counterpart: 3D11_COMPARISON_GREATER/D3D12_COMPARISON_FUNC_GREATER.
+    /// OpenGL counterpart: GL_GREATER.
+    COMPARISON_FUNC_GREATER,
+    /// Comparison passes if the source data is not equal to the destination data.
+    /// Direct3D counterpart: D3D11_COMPARISON_NOT_EQUAL/D3D12_COMPARISON_FUNC_NOT_EQUAL.
+    /// OpenGL counterpart: GL_NOTEQUAL.
+    COMPARISON_FUNC_NOT_EQUAL,
+    /// Comparison passes if the source data is greater than or equal to the destination data.
+    /// Direct3D counterpart: D3D11_COMPARISON_GREATER_EQUAL/D3D12_COMPARISON_FUNC_GREATER_EQUAL.
+    /// OpenGL counterpart: GL_GEQUAL.
+    COMPARISON_FUNC_GREATER_EQUAL,
+    /// Comparison always passes.
+    /// Direct3D counterpart: D3D11_COMPARISON_ALWAYS/D3D12_COMPARISON_FUNC_ALWAYS.
+    /// OpenGL counterpart: GL_ALWAYS.
+    COMPARISON_FUNC_ALWAYS,
+    /// Helper value that stores the total number of comparison functions in the enumeration
+    COMPARISON_FUNC_NUM_FUNCTIONS
 };
 }   // namespace evnt
 

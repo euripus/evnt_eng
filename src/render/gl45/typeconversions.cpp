@@ -1,0 +1,258 @@
+#include "typeconversions.h"
+#include "../../log/debug_messages.h"
+#include <cassert>
+
+namespace evnt
+{
+GLenum GetEnum(BufferOptions opt)
+{
+    GLenum qualifiers = GL_NONE;
+
+    if(opt.map_read)
+        qualifiers |= GL_MAP_READ_BIT;
+    if(opt.map_write)
+        qualifiers |= GL_MAP_WRITE_BIT;
+    if(opt.map_persistent)
+        qualifiers |= GL_MAP_PERSISTENT_BIT;
+    if(opt.map_coherent)
+        qualifiers |= GL_MAP_COHERENT_BIT;
+    if(opt.dynamic_storage)
+        qualifiers |= GL_DYNAMIC_STORAGE_BIT;
+    if(opt.client_storage)
+        qualifiers |= GL_CLIENT_STORAGE_BIT;
+
+    return qualifiers;
+}
+
+GLenum GetEnum(MappingOptions opt)
+{
+    GLenum qualifiers = GL_NONE;
+
+    if(opt.map_read)
+        qualifiers |= GL_MAP_READ_BIT;
+    if(opt.map_write)
+        qualifiers |= GL_MAP_WRITE_BIT;
+    if(opt.map_persistent)
+        qualifiers |= GL_MAP_PERSISTENT_BIT;
+    if(opt.map_coherent)
+        qualifiers |= GL_MAP_COHERENT_BIT;
+    if(opt.flush_explicit)
+        qualifiers |= GL_MAP_FLUSH_EXPLICIT_BIT;
+    if(opt.invalidate_range)
+        qualifiers |= GL_MAP_INVALIDATE_RANGE_BIT;
+    if(opt.invalidate_buffer)
+        qualifiers |= GL_MAP_INVALIDATE_BUFFER_BIT;
+    if(opt.unsynchronized)
+        qualifiers |= GL_MAP_UNSYNCHRONIZED_BIT;
+
+    return qualifiers;
+}
+
+GLenum StencilOpToGlStencilOp(StencilOperation stencil_op)
+{
+    static bool   is_init                           = false;
+    static GLenum glstencil_ops[STENCIL_OP_NUM_OPS] = {};
+    if(!is_init)
+    {
+        glstencil_ops[STENCIL_OP_KEEP]      = GL_KEEP;
+        glstencil_ops[STENCIL_OP_ZERO]      = GL_ZERO;
+        glstencil_ops[STENCIL_OP_REPLACE]   = GL_REPLACE;
+        glstencil_ops[STENCIL_OP_INCR_SAT]  = GL_INCR;
+        glstencil_ops[STENCIL_OP_DECR_SAT]  = GL_DECR;
+        glstencil_ops[STENCIL_OP_INVERT]    = GL_INVERT;
+        glstencil_ops[STENCIL_OP_INCR_WRAP] = GL_INCR_WRAP;
+        glstencil_ops[STENCIL_OP_DECR_WRAP] = GL_DECR_WRAP;
+        is_init                             = true;
+    }
+
+    if(stencil_op > STENCIL_OP_UNDEFINED && stencil_op < STENCIL_OP_NUM_OPS)
+    {
+        auto glstencil_op = glstencil_ops[stencil_op];
+        assert(glstencil_op != 0
+               || (glstencil_op == 0 && stencil_op == STENCIL_OP_ZERO));   // Unexpected stencil op
+        return glstencil_op;
+    }
+    else
+    {
+        UNEXPECTED("Stencil operation (", stencil_op, ") is out of allowed range [1, ",
+                   STENCIL_OP_NUM_OPS - 1, "]");
+        return 0;
+    }
+}
+
+GLenum BlendFactorToGLBlend(BlendFactor bf)
+{
+    static bool   is_init                           = false;
+    static GLenum glblend[BLEND_FACTOR_NUM_FACTORS] = {};
+    if(!is_init)
+    {
+        glblend[BLEND_FACTOR_ZERO]             = GL_ZERO;
+        glblend[BLEND_FACTOR_ONE]              = GL_ONE;
+        glblend[BLEND_FACTOR_SRC_COLOR]        = GL_SRC_COLOR;
+        glblend[BLEND_FACTOR_INV_SRC_COLOR]    = GL_ONE_MINUS_SRC_COLOR;
+        glblend[BLEND_FACTOR_SRC_ALPHA]        = GL_SRC_ALPHA;
+        glblend[BLEND_FACTOR_INV_SRC_ALPHA]    = GL_ONE_MINUS_SRC_ALPHA;
+        glblend[BLEND_FACTOR_DEST_ALPHA]       = GL_DST_ALPHA;
+        glblend[BLEND_FACTOR_INV_DEST_ALPHA]   = GL_ONE_MINUS_DST_ALPHA;
+        glblend[BLEND_FACTOR_DEST_COLOR]       = GL_DST_COLOR;
+        glblend[BLEND_FACTOR_INV_DEST_COLOR]   = GL_ONE_MINUS_DST_COLOR;
+        glblend[BLEND_FACTOR_SRC_ALPHA_SAT]    = GL_SRC_ALPHA_SATURATE;
+        glblend[BLEND_FACTOR_BLEND_FACTOR]     = GL_CONSTANT_COLOR;
+        glblend[BLEND_FACTOR_INV_BLEND_FACTOR] = GL_ONE_MINUS_CONSTANT_COLOR;
+        glblend[BLEND_FACTOR_SRC1_COLOR]       = GL_SRC1_COLOR;
+        glblend[BLEND_FACTOR_INV_SRC1_COLOR]   = GL_ONE_MINUS_SRC1_COLOR;
+        glblend[BLEND_FACTOR_SRC1_ALPHA]       = GL_SRC1_ALPHA;
+        glblend[BLEND_FACTOR_INV_SRC1_ALPHA]   = GL_ONE_MINUS_SRC1_ALPHA;
+
+        is_init = true;
+    }
+    if(bf > BLEND_FACTOR_UNDEFINED && bf < BLEND_FACTOR_NUM_FACTORS)
+    {
+        auto glbf = glblend[bf];
+        assert(glbf != 0 || (glbf == 0 && bf == BLEND_FACTOR_ZERO));   // Incorrect blend factor
+        return glbf;
+    }
+    else
+    {
+        UNEXPECTED("Incorrect blend factor (", bf, ")");
+        return 0;
+    }
+}
+
+GLenum BlendOperationToGLBlendOp(BlendOperation blend_op)
+{
+    static bool   is_init                                    = false;
+    static GLenum glblend_op[BLEND_OPERATION_NUM_OPERATIONS] = {};
+    if(!is_init)
+    {
+        glblend_op[BLEND_OPERATION_ADD]          = GL_FUNC_ADD;
+        glblend_op[BLEND_OPERATION_SUBTRACT]     = GL_FUNC_SUBTRACT;
+        glblend_op[BLEND_OPERATION_REV_SUBTRACT] = GL_FUNC_REVERSE_SUBTRACT;
+        glblend_op[BLEND_OPERATION_MIN]          = GL_MIN;
+        glblend_op[BLEND_OPERATION_MAX]          = GL_MAX;
+
+        is_init = true;
+    }
+
+    if(blend_op > BLEND_OPERATION_UNDEFINED && blend_op < BLEND_OPERATION_NUM_OPERATIONS)
+    {
+        auto glbop = glblend_op[blend_op];
+        assert(glbop != 0);   // Incorrect blend operation
+        return glbop;
+    }
+    else
+    {
+        UNEXPECTED("Incorrect blend operation (", blend_op, ")");
+        return 0;
+    }
+}
+
+GLenum CompareFuncToGLCompareFunc(ComparisonFunc func)
+{
+    switch(func)
+    {
+        case COMPARISON_FUNC_UNKNOWN:
+            UNEXPECTED("Comparison function is not specified");
+            return GL_ALWAYS;
+        case COMPARISON_FUNC_NEVER:
+            return GL_NEVER;
+        case COMPARISON_FUNC_LESS:
+            return GL_LESS;
+        case COMPARISON_FUNC_EQUAL:
+            return GL_EQUAL;
+        case COMPARISON_FUNC_LESS_EQUAL:
+            return GL_LEQUAL;
+        case COMPARISON_FUNC_GREATER:
+            return GL_GREATER;
+        case COMPARISON_FUNC_NOT_EQUAL:
+            return GL_NOTEQUAL;
+        case COMPARISON_FUNC_GREATER_EQUAL:
+            return GL_GEQUAL;
+        case COMPARISON_FUNC_ALWAYS:
+            return GL_ALWAYS;
+        default:
+            UNEXPECTED("Unknown comparison func");
+            return GL_ALWAYS;
+    }
+}
+
+GLenum WrapModeToGLWrapMode(WrapMode mode)
+{
+    switch(mode)
+    {
+        case TEXTURE_ADDRESS_UNKNOWN:
+            UNEXPECTED("Texture address mode is not specified");
+            return GL_CLAMP_TO_EDGE;
+        case TEXTURE_ADDRESS_WRAP:
+            return GL_REPEAT;
+        case TEXTURE_ADDRESS_MIRROR:
+            return GL_MIRRORED_REPEAT;
+        case TEXTURE_ADDRESS_CLAMP:
+            return GL_CLAMP_TO_EDGE;
+        case TEXTURE_ADDRESS_BORDER:
+            return GL_CLAMP_TO_BORDER;
+        case TEXTURE_ADDRESS_MIRROR_ONCE:
+            return GL_MIRROR_CLAMP_TO_EDGE;   // only available with OpenGL 4.4
+            // This mode seems to be different from D3D11_TEXTURE_ADDRESS_MIRROR_ONCE
+            // The texture coord is clamped to the [-1, 1] range, but mirrors the
+            // negative direction with the positive. Basically, it acts as
+            // GL_CLAMP_TO_EDGE except that it takes the absolute value of the texture
+            // coordinates before clamping.
+        default:
+            UNEXPECTED("Unknown texture address mode");
+            return GL_CLAMP_TO_EDGE;
+    }
+}
+
+GLenum MinFilterToGLMinFilter(MinificationFilter fl)
+{
+    switch(fl)
+    {
+        case MinificationFilter::Nearest:
+            return GL_NEAREST;
+        case MinificationFilter::Linear:
+            return GL_LINEAR;
+        case MinificationFilter::NearestMipmapNearest:
+            return GL_NEAREST_MIPMAP_NEAREST;
+        case MinificationFilter::LinearMipmapNearest:
+            return GL_LINEAR_MIPMAP_NEAREST;
+        case MinificationFilter::NearestMipmapLinear:
+            return GL_NEAREST_MIPMAP_LINEAR;
+        case MinificationFilter::LinearMipmapLinear:
+            return GL_LINEAR_MIPMAP_LINEAR;
+        default:
+            UNEXPECTED("Unknown MinificationFilter mode");
+            return GL_NEAREST;
+    }
+}
+
+GLenum MagFilterToGLMagFilter(MagnificationFilter fl)
+{
+    switch(fl)
+    {
+        case MagnificationFilter::Nearest:
+            return GL_NEAREST;
+        case MagnificationFilter::Linear:
+            return GL_LINEAR;
+        default:
+            UNEXPECTED("Unknown MagnificationFilter mode");
+            return GL_NEAREST;
+    }
+}
+
+GLenum TexChannelToGLTexChannel(TextureChannel tex_chan)
+{
+    switch(tex_chan)
+    {
+        case TextureChannel::S:
+            return GL_TEXTURE_WRAP_S;
+        case TextureChannel::T:
+            return GL_TEXTURE_WRAP_T;
+        case TextureChannel::R:
+            return GL_TEXTURE_WRAP_R;
+        default:
+            UNEXPECTED("Unknown TextureChannel mode");
+            return GL_TEXTURE_WRAP_S;
+    }
+}
+}   // namespace evnt

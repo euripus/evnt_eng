@@ -1,7 +1,7 @@
 #ifndef VERTEXARRAY_H
 #define VERTEXARRAY_H
 
-#include <stdint.h>
+#include "buffer.h"
 #include <vector>
 
 namespace evnt
@@ -30,38 +30,44 @@ public:
 class BufferStructure
 {
 public:
-    BufferStructure(std::vector<Attribute> attributes) : m_attributes(attributes)
+    BufferStructure(std::vector<Attribute> attributes) : m_attributes(std::move(attributes))
     {
         m_total_size = 0;
         for(Attribute att : attributes)
             m_total_size += att.size;
     }
 
-    std::vector<Attribute> GetAttributes() { return m_attributes; }
-    int32_t                GetTotalSize() { return m_total_size; }
+    std::vector<Attribute> getAttributes() { return m_attributes; }
+    int32_t                getTotalSize() { return m_total_size; }
 
 private:
     std::vector<Attribute> m_attributes;
     int32_t                m_total_size;
 };
 
-class VertexArray
+class IVertexArray
 {
 public:
-    VertexArray() {}
-    VertexArray(std::vector<BufferStructure> structures);
-    void         SetIndexBuffer(Buffer<int> buffer);
-    uint32_t     GetID() { return m_id; }
-    virtual void Destroy();
-    void         SetBuffer(int structure, TBuffer buffer, int offset = 0);
-    void         SetAttributeEnabled(int index, bool enabled);
-    void         SetStructureEnabled(int structure, bool enabled);
+    IVertexArray() {}
+    IVertexArray(std::vector<BufferStructure> structures) : IVertexArray()
+    {
+        std::swap(m_structures, structures);
+    }
+    virtual ~IVertexArray() {}
 
-private:
+    uint32_t getID() { return m_id; }
+
+    virtual void setIndexBuffer(Buffer<int32_t> buffer)                             = 0;
+    virtual void destroy()                                                          = 0;
+    virtual void setBuffer(int32_t structure, IBuffer * buffer, int32_t offset = 0) = 0;
+    virtual void setAttributeEnabled(int32_t index, bool enabled)                   = 0;
+    virtual void setStructureEnabled(int32_t structure, bool enabled)               = 0;
+
+protected:
     std::vector<BufferStructure> m_structures;
-    int                          m_length   = 0;
-    bool                         m_hasIndex = false;
-    uint32_t                     m_id       = 0;
+    int32_t                      m_length    = 0;
+    bool                         m_has_index = false;
+    uint32_t                     m_id        = 0;
 };
 }   // namespace evnt
 
