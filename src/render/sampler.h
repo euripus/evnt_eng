@@ -25,17 +25,17 @@ public:
     ISampler()          = default;
     virtual ~ISampler() = default;
 
-    WrapMode getWrapMode(TextureChannel channel)
+    WrapMode getWrapMode(TextureChannel channel) const
     {
         return channel == TextureChannel::S ? m_s_wrap : channel == TextureChannel::T ? m_t_wrap : m_r_wrap;
     }
 
-    MinificationFilter  getMinificationFilter() { return m_min_filter; }
-    MagnificationFilter getMagnificationFilter() { return m_mag_filter; }
-    bool                getCompareMode() { return m_depth_compare; }
-    ComparisonFunc      getComparisonFunc() { return m_compare_func; }
-    bool                getAnisotropicFiltering() { return m_anisotropic_filtering; }
-    glm::vec4           getBorderColor() { return m_border_color; }
+    MinificationFilter  getMinificationFilter() const { return m_min_filter; }
+    MagnificationFilter getMagnificationFilter() const { return m_mag_filter; }
+    bool                getCompareMode() const { return m_depth_compare; }
+    ComparisonFunc      getComparisonFunc() const { return m_compare_func; }
+    bool                getAnisotropicFiltering() const { return m_anisotropic_filtering; }
+    glm::vec4           getBorderColor() const { return m_border_color; }
 
     virtual void    destroy()                                          = 0;
     virtual int32_t bindToTextureUnit()                                = 0;
@@ -47,7 +47,7 @@ public:
     virtual void    setAnisotropicFiltering(bool enabled)              = 0;
     virtual void    setBorderColor(glm::vec4 color)                    = 0;
 
-    inline uint32_t getID() { return m_id; }
+    inline uint32_t getID() const { return m_id; }
 
 protected:
     WrapMode m_s_wrap;

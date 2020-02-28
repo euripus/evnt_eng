@@ -65,16 +65,15 @@ SOURCES +=  \
     src/network/connection.cpp \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
-    src/render/buffer.cpp \
     src/render/gl45/glbuffer.cpp \
     src/render/gl45/glsampler.cpp \
+    src/render/gl45/gltexture.cpp \
     src/render/gl45/glvertexarray.cpp \
     src/render/gl45/typeconversions.cpp \
     src/render/pipeline.cpp \
-    src/render/quad2d.cpp \
     src/render/render.cpp  \
     src/render/sampler.cpp \
-    src/render/vertexarray.cpp
+    src/render/texture.cpp
 
 HEADERS += \
     src/app/app.h \
@@ -111,8 +110,10 @@ HEADERS += \
     src/network/socketaddress.h \
     src/network/udpsocket.h \
     src/render/buffer.h \
+    src/render/framebuffer.h \
     src/render/gl45/glbuffer.h \
     src/render/gl45/glsampler.h \
+    src/render/gl45/gltexture.h \
     src/render/gl45/glvertexarray.h \
     src/render/gl45/typeconversions.h \
     src/render/graphics_types.h \
@@ -120,4 +121,5 @@ HEADERS += \
     src/render/quad2d.h \
     src/render/render.h  \
     src/render/sampler.h \
+    src/render/texture.h \
     src/render/vertexarray.h

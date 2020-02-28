@@ -22,6 +22,12 @@ GLenum WrapModeToGLWrapMode(WrapMode mode);
 GLenum MinFilterToGLMinFilter(MinificationFilter fl);
 GLenum MagFilterToGLMagFilter(MagnificationFilter fl);
 GLenum TexChannelToGLTexChannel(TextureChannel tex_chan);
+
+// texture
+GLenum  TextureInternalFormatToGLTextureInternalFormat(TextureInternalFormat fmt);
+GLenum  TexturePixelFormatToGLTexturePixelFormat(TexturePixelFormat fmt);
+GLenum  TextureDataTypeToGLTextureDataType(TextureDataType dtype);
+int32_t GetByteDepth(TexturePixelFormat format, TextureDataType type);
 }   // namespace evnt
 
 #endif   // TYPECONVERSIONS_H

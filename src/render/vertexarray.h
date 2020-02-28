@@ -37,8 +37,8 @@ public:
             m_total_size += att.size;
     }
 
-    std::vector<Attribute> getAttributes() { return m_attributes; }
-    int32_t                getTotalSize() { return m_total_size; }
+    std::vector<Attribute> getAttributes() const { return m_attributes; }
+    int32_t                getTotalSize() const { return m_total_size; }
 
 private:
     std::vector<Attribute> m_attributes;
@@ -55,7 +55,7 @@ public:
     }
     virtual ~IVertexArray() {}
 
-    uint32_t getID() { return m_id; }
+    uint32_t getID() const { return m_id; }
 
     virtual void setIndexBuffer(Buffer<int32_t> buffer)                             = 0;
     virtual void destroy()                                                          = 0;

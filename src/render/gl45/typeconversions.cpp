@@ -255,4 +255,155 @@ GLenum TexChannelToGLTexChannel(TextureChannel tex_chan)
             return GL_TEXTURE_WRAP_S;
     }
 }
+
+GLenum TextureInternalFormatToGLTextureInternalFormat(TextureInternalFormat fmt)
+{
+    switch(fmt)
+    {
+        case TextureInternalFormat::Depth16I:
+            return GL_DEPTH_COMPONENT16;
+        case TextureInternalFormat::Depth24I:
+            return GL_DEPTH_COMPONENT24;
+        case TextureInternalFormat::Depth32I:
+            return GL_DEPTH_COMPONENT32;
+        case TextureInternalFormat::Depth32F:
+            return GL_DEPTH_COMPONENT32F;
+        case TextureInternalFormat::Depth24IStencil8UI:
+            return GL_DEPTH24_STENCIL8;
+        case TextureInternalFormat::Depth32FStencil8UI:
+            return GL_DEPTH32F_STENCIL8;
+        case TextureInternalFormat::Stencil8UI:
+            return GL_STENCIL_INDEX8;
+        case TextureInternalFormat::R8:
+            return GL_R8;
+        case TextureInternalFormat::RG8:
+            return GL_RG8;
+        case TextureInternalFormat::RGB8:
+            return GL_RGB8;
+        case TextureInternalFormat::RGBA8:
+            return GL_RGBA8;
+        case TextureInternalFormat::R8I:
+            return GL_R8I;
+        case TextureInternalFormat::RG8I:
+            return GL_RG8I;
+        case TextureInternalFormat::RGB8I:
+            return GL_RGB8I;
+        case TextureInternalFormat::RGBA8I:
+            return GL_RGBA8I;
+        case TextureInternalFormat::R16I:
+            return GL_R16I;
+        case TextureInternalFormat::RG16I:
+            return GL_RG16I;
+        case TextureInternalFormat::RGB16I:
+            return GL_RGB16I;
+        case TextureInternalFormat::RGBA16I:
+            return GL_RGBA16I;
+        case TextureInternalFormat::R16F:
+            return GL_R16F;
+        case TextureInternalFormat::RG16F:
+            return GL_RG16F;
+        case TextureInternalFormat::RGB16F:
+            return GL_RGB16F;
+        case TextureInternalFormat::RGBA16F:
+            return GL_RGBA16F;
+        case TextureInternalFormat::R32F:
+            return GL_R32F;
+        case TextureInternalFormat::RG32F:
+            return GL_RG32F;
+        case TextureInternalFormat::RGB32F:
+            return GL_RGB32F;
+        case TextureInternalFormat::RGBA32F:
+            return GL_RGBA32F;
+        default:
+            UNEXPECTED("Unknown TextureInternalFormat mode");
+            return GL_NEAREST;
+    }
+}
+
+GLenum TexturePixelFormatToGLTexturePixelFormat(TexturePixelFormat fmt)
+{
+    switch(fmt)
+    {
+        case TexturePixelFormat::R:
+            return GL_RED;
+        case TexturePixelFormat::RG:
+            return GL_RG;
+        case TexturePixelFormat::RGB:
+            return GL_RGB;
+        case TexturePixelFormat::BGR:
+            return GL_BGR;
+        case TexturePixelFormat::RGBA:
+            return GL_RGBA;
+        case TexturePixelFormat::BGRA:
+            return GL_BGRA;
+        case TexturePixelFormat::Depth:
+            return GL_DEPTH_COMPONENT;
+        case TexturePixelFormat::Stencil:
+            return GL_STENCIL_INDEX;
+        default:
+            UNEXPECTED("Unknown TexturePixelFormat mode");
+            return GL_NEAREST;
+    }
+}
+
+GLenum TextureDataTypeToGLTextureDataType(TextureDataType dtype)
+{
+    switch(dtype)
+    {
+        case TextureDataType::UnsignedByte:
+            return GL_UNSIGNED_BYTE;
+        case TextureDataType::UnsignedInt:
+            return GL_UNSIGNED_INT;
+        case TextureDataType::Int:
+            return GL_INT;
+        case TextureDataType::Float:
+            return GL_FLOAT;
+        default:
+            UNEXPECTED("Unknown TextureDataType mode");
+            return GL_NEAREST;
+    }
+}
+
+int32_t GetByteDepth(TexturePixelFormat format, TextureDataType type)
+{
+    int base = 1;
+    switch(type)
+    {
+        case TextureDataType::UnsignedByte:
+            base *= 1;
+            break;
+        case TextureDataType::UnsignedInt:
+            base *= 4;
+            break;
+        case TextureDataType::Int:
+            base *= 4;
+            break;
+        case TextureDataType::Float:
+            base *= 4;
+            break;
+    }
+
+    switch(format)
+    {
+        case TexturePixelFormat::R:
+            base *= 1;
+            break;
+        case TexturePixelFormat::RG:
+            base *= 2;
+            break;
+        case TexturePixelFormat::RGB:
+        case TexturePixelFormat::BGR:
+            base *= 3;
+            break;
+        case TexturePixelFormat::RGBA:
+        case TexturePixelFormat::BGRA:
+            base *= 4;
+            break;
+        case TexturePixelFormat::Depth:
+        case TexturePixelFormat::Stencil:
+            UNEXPECTED("Unknown TexturePixelFormat byte depth for Depth OR Stencil");
+            break;
+    }
+    return base;
+}
 }   // namespace evnt

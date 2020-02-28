@@ -274,6 +274,67 @@ enum ComparisonFunc : uint8_t
     /// Helper value that stores the total number of comparison functions in the enumeration
     COMPARISON_FUNC_NUM_FUNCTIONS
 };
+
+enum class TextureInternalFormat
+{
+    Depth16I,
+    Depth24I,
+    Depth32I,
+    Depth32F,
+    Depth24IStencil8UI,
+    Depth32FStencil8UI,
+    Stencil8UI,
+    R8,
+    RG8,
+    RGB8,
+    RGBA8,
+    R8I,
+    RG8I,
+    RGB8I,
+    RGBA8I,
+    R16I,
+    RG16I,
+    RGB16I,
+    RGBA16I,
+    R16F,
+    RG16F,
+    RGB16F,
+    RGBA16F,
+    R32F,
+    RG32F,
+    RGB32F,
+    RGBA32F
+};
+
+enum class TexturePixelFormat
+{
+    R,
+    RG,
+    RGB,
+    BGR,
+    RGBA,
+    BGRA,
+    Depth,
+    Stencil
+};
+
+enum class CubemapSide
+{
+    PositiveX,
+    NegativeX,
+    PositiveY,
+    NegativeY,
+    PositiveZ,
+    NegativeZ
+};
+
+enum class TextureDataType
+{
+    UnsignedByte,
+    UnsignedInt,
+    Int,
+    Float
+};
 }   // namespace evnt
 
 #endif   // GRAPHICS_TYPES_H

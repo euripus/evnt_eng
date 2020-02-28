@@ -59,9 +59,9 @@ public:
     // IBuffer(void * data, int32_t tsize, int32_t length, BufferOptions options);
     virtual ~IBuffer() {}
 
-    uint32_t getID() { return m_id; }
-    int32_t  getSize() { return m_length; }
-    int32_t  getTSize() { return m_tsize; }
+    uint32_t getID() const { return m_id; }
+    int32_t  getSize() const { return m_length; }
+    int32_t  getTSize() const { return m_tsize; }
 
     void * getMappedPointer() { return m_mapping_ptr; }
     bool   operator==(const IBuffer & other) const { return m_id == other.m_id; }
@@ -89,7 +89,7 @@ class Buffer
 public:
     Buffer(IBuffer * buffer_interface) { mp_bsinf = buffer_interface; }
 
-    uint32_t getID() { return mp_bsinf->getID(); }
+    uint32_t getID() const { return mp_bsinf->getID(); }
 
     void copyData(std::vector<T> & data, int32_t offset)
     {
