@@ -66,6 +66,7 @@ SOURCES +=  \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
     src/render/gl45/glbuffer.cpp \
+    src/render/gl45/glframebuffer.cpp \
     src/render/gl45/glsampler.cpp \
     src/render/gl45/gltexture.cpp \
     src/render/gl45/glvertexarray.cpp \
@@ -112,6 +113,7 @@ HEADERS += \
     src/render/buffer.h \
     src/render/framebuffer.h \
     src/render/gl45/glbuffer.h \
+    src/render/gl45/glframebuffer.h \
     src/render/gl45/glsampler.h \
     src/render/gl45/gltexture.h \
     src/render/gl45/glvertexarray.h \
