@@ -6,7 +6,7 @@
 
 namespace evnt
 {
-class GLFramebuffer : public Framebuffer
+class GLFramebuffer : public IFramebuffer
 {
 public:
     GLFramebuffer() = default;
@@ -20,7 +20,7 @@ public:
     void clearDepth(float value) override;
     void destroy() override;
 
-    static std::unique_ptr<Framebuffer> GetDefault() { return std::make_unique<GLFramebuffer>(); }
+    static std::unique_ptr<IFramebuffer> GetDefault() { return std::make_unique<GLFramebuffer>(); }
 };
 }   // namespace evnt
 #endif   // GLFRAMEBUFFER_H

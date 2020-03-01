@@ -5,11 +5,11 @@
 
 namespace evnt
 {
-class Framebuffer
+class IFramebuffer
 {
 public:
-    Framebuffer()          = default;
-    virtual ~Framebuffer() = default;
+    IFramebuffer()          = default;
+    virtual ~IFramebuffer() = default;
 
     virtual void clearColor(int32_t drawBuffer, glm::vec4 color) = 0;
     virtual void clearDepth(float value)                         = 0;
@@ -18,7 +18,7 @@ public:
     uint32_t getID() const { return m_id; }
 
     template<typename Derived>
-    static std::unique_ptr<Framebuffer> GetDefault()
+    static std::unique_ptr<IFramebuffer> GetDefault()
     {
         return Derived::GetDefault();
     }

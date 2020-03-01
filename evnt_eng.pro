@@ -68,6 +68,7 @@ SOURCES +=  \
     src/render/gl45/glbuffer.cpp \
     src/render/gl45/glframebuffer.cpp \
     src/render/gl45/glsampler.cpp \
+    src/render/gl45/glshader.cpp \
     src/render/gl45/gltexture.cpp \
     src/render/gl45/glvertexarray.cpp \
     src/render/gl45/typeconversions.cpp \
@@ -115,6 +116,7 @@ HEADERS += \
     src/render/gl45/glbuffer.h \
     src/render/gl45/glframebuffer.h \
     src/render/gl45/glsampler.h \
+    src/render/gl45/glshader.h \
     src/render/gl45/gltexture.h \
     src/render/gl45/glvertexarray.h \
     src/render/gl45/typeconversions.h \
@@ -123,5 +125,6 @@ HEADERS += \
     src/render/quad2d.h \
     src/render/render.h  \
     src/render/sampler.h \
+    src/render/shader.h \
     src/render/texture.h \
     src/render/vertexarray.h
