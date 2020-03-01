@@ -60,7 +60,7 @@ int main(int argc, char * argv[])
     {
         delete[] win_argv[i];
     }
-    delete win_argv;
+    delete[] win_argv;
 
     return ret;
 #else
