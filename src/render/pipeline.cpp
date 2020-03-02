@@ -2,7 +2,7 @@
 
 namespace evnt
 {
-void Pipeline::Optimize(const Pipeline & previous)
+void Pipeline::optimize(const Pipeline & previous)
 {
     // Minimize state changes
     if(shader->getID() == previous.shader->getID())

@@ -128,9 +128,9 @@ public:
     TransformFeedbackStage transform_feedback_stage;
     FragmentStage          fragment_stage;
 
-    void Optimize(const Pipeline & previous);
+    void optimize(const Pipeline & previous);
 
-    virtual void BindPipeline() = 0;
+    virtual void bindPipeline() = 0;
 
 protected:
     bool m_keep_shader;

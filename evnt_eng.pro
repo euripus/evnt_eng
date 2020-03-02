@@ -67,12 +67,14 @@ SOURCES +=  \
     src/network/udpsocket.cpp \
     src/render/gl45/glbuffer.cpp \
     src/render/gl45/glframebuffer.cpp \
+    src/render/gl45/glpipeline.cpp \
     src/render/gl45/glsampler.cpp \
     src/render/gl45/glshader.cpp \
     src/render/gl45/gltexture.cpp \
     src/render/gl45/glvertexarray.cpp \
     src/render/gl45/typeconversions.cpp \
     src/render/pipeline.cpp \
+    src/render/quad2d.cpp \
     src/render/render.cpp  \
     src/render/sampler.cpp \
     src/render/texture.cpp
@@ -115,6 +117,7 @@ HEADERS += \
     src/render/framebuffer.h \
     src/render/gl45/glbuffer.h \
     src/render/gl45/glframebuffer.h \
+    src/render/gl45/glpipeline.h \
     src/render/gl45/glsampler.h \
     src/render/gl45/glshader.h \
     src/render/gl45/gltexture.h \

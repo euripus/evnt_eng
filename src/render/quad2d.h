@@ -85,8 +85,6 @@ public:
     glm::ivec2 m_position;
     glm::ivec2 m_size;
 };
-
-Quad2D::Quad2D(IQuad2D & quad) : m_position(quad.m_position), m_size(quad.m_size) {}
 }   // namespace evnt
 
 #endif   // QUAD2D_H
