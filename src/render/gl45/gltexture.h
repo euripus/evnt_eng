@@ -15,7 +15,7 @@ public:
     {}
     ~GLImage() override = default;
 
-    int32_t BindToUnit() override
+    int32_t bindToUnit() override
     {
         auto unit = ImageUnitManager::RefreshUnit(m_icreated);
         glBindImageTexture(unit, m_tex, m_level, m_layered, m_layer, m_access,

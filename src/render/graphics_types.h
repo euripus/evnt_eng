@@ -335,6 +335,31 @@ enum class TextureDataType
     Int,
     Float
 };
+
+enum class PrimitiveType
+{
+    Triangles
+};
+
+enum class MemoryBarrierType : uint8_t
+{
+    VertexAttribArray,
+    IndexBuffer,
+    Uniform,
+    TextureFetch,
+    ShaderImageAccess,
+    CommandBarrier,
+    PixelBuffer,
+    TextureUpdate,
+    BufferUpdate,
+    QueryBuffer,
+    ClientMappedBuffer,
+    Framebuffer,
+    TransformFeedback,
+    AtomicCounter,
+    ShaderStorageBuffer,
+    All
+};
 }   // namespace evnt
 
 #endif   // GRAPHICS_TYPES_H

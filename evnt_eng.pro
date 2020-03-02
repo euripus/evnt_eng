@@ -70,6 +70,8 @@ SOURCES +=  \
     src/render/gl45/glpipeline.cpp \
     src/render/gl45/glsampler.cpp \
     src/render/gl45/glshader.cpp \
+    src/render/gl45/glshaderconstants.cpp \
+    src/render/gl45/glshaderdescriptor.cpp \
     src/render/gl45/gltexture.cpp \
     src/render/gl45/glvertexarray.cpp \
     src/render/gl45/typeconversions.cpp \
@@ -77,6 +79,8 @@ SOURCES +=  \
     src/render/quad2d.cpp \
     src/render/render.cpp  \
     src/render/sampler.cpp \
+    src/render/shaderconstants.cpp \
+    src/render/shaderdescriptor.cpp \
     src/render/texture.cpp
 
 HEADERS += \
@@ -120,6 +124,8 @@ HEADERS += \
     src/render/gl45/glpipeline.h \
     src/render/gl45/glsampler.h \
     src/render/gl45/glshader.h \
+    src/render/gl45/glshaderconstants.h \
+    src/render/gl45/glshaderdescriptor.h \
     src/render/gl45/gltexture.h \
     src/render/gl45/glvertexarray.h \
     src/render/gl45/typeconversions.h \
@@ -129,5 +135,7 @@ HEADERS += \
     src/render/render.h  \
     src/render/sampler.h \
     src/render/shader.h \
+    src/render/shaderconstants.h \
+    src/render/shaderdescriptor.h \
     src/render/texture.h \
     src/render/vertexarray.h

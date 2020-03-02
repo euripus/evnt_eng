@@ -32,7 +32,7 @@ public:
     {}
     virtual ~Image() = default;
 
-    virtual int32_t BindToUnit() = 0;
+    virtual int32_t bindToUnit() = 0;
 
 protected:
     uint32_t              m_tex;
