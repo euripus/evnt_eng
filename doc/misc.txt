@@ -4,40 +4,8 @@ static polymorphism: https://www.reddit.com/r/cpp/comments/8po138/question_about
 boost::property_tree: https://gist.github.com/mloskot/1509935
                       https://stackoverflow.com/questions/17124652/how-can-i-parse-json-arrays-with-c-boost
 
-GameObj
-    GetComponent<TypeID>()
-    AddComponent<TypeID>(component_ptr)
-    SendMsg()
-    
-Component
-    GetGameObjPtr()
-    SendMsg()
-    
-SceneNode
-    parsingFunc
-    factoryFunc
-    renderFunc
-    
-Resource
-    get_type()
-    add_ref()
-    sub_ref()
-    
-Network
-
-IObject
-    IDeviceObject
-        ITextureView
-            ITextureViewGL            
-template<typename Base>
-class RefCountedObject : public Base
-    class ObjectBase : public RefCountedObject<BaseInterface>
-        class DeviceObjectBase : public ObjectBase<BaseInterface>
-            class TextureViewBase : public DeviceObjectBase<BaseInterface, RenderDeviceImplType, TextureViewDesc>
-                class TextureViewGLImpl final : public TextureViewBase<ITextureViewGL, RenderDeviceGLImpl>
-                
-                
-Mapping types
+//============
+Serialization types
     Direct Mapping
         IObject
             read(stream s)=0;
@@ -45,6 +13,7 @@ Mapping types
         ConcrObject : public IObject
             read(stream s)
             write(stream s)
+
     Indirect Mapping
         IObject
         ConcrObject : public IObject
@@ -56,7 +25,64 @@ Mapping types
             read(stream s)
             write(stream s)
 
+//============
+roles:
+    owner   - malloc, initialize, hold and free memory
+    handler - unique key for save search and get 
+              abstract object data from owner.
+              Guarantee uniques of holden id.
+    usage   - system for update and using data in
+              particular way for even not exist pure 
+              abstract object.
 
+Entity ID(unique identifier) - str or int
+Entity(id & owner ref) - handler
+Entity Manager(objects owner) - owner
+Entity System(object derived algorithms storage) - object user
+
+globals:
+    SystemMgr(systems owner) - singleton to systems owner
+
+outlines:
+    Entity ID - base type saving a unique value
+
+    Entity - object abstraction
+        entity_id
+        entity_owner
+        
+        getID()
+        getOwner()
+
+    EntityMgr
+        map[id : data]
+        
+        createEntity(...) -> entity
+        getEntity(entity_id)
+        removeEntity(entity_id)
+
+    EntitySys
+        udate()
+        // spec method
+
+usage:
+    entity = entity_mgr.gatEntity(entity_id)
+    entity_sys = system_mgr::instance().getEntitySys(entity_type)
+    entity_sys.update(entity, data)
+
+discussion while projecting:
+    creation mode
+    ownership mode
+    thread-safe mode
+    dinamic mode(once init vs mutability)
+
+--//--
+Ex
+    TextureID       id          tex_id
+    Texture         handler     tex
+    TextureMgr      owner       tex = tex_mgr.getTex(tex_id) OR tex_mgr.create()
+    TextureSystem   user        tex_sys.upload(tex, data_ptr, data_type)
+
+//============
 auto obj = GameObjMgr::Create(   );
 
 auto pos = SceneMgr.CreatePosition(   );
@@ -72,8 +98,36 @@ obj->AddComponent(std::move(msh));
 obj->AddComponent( NetworkMgr.Create());
 
 //============
-auto render_que = cam.GetRenderQue(SceneMgr.Root());
-cam.FrameGraph().Render(render_que);
+Camera
+    FrameGraph
+        Stage 1:
+            ShadowMaps
+                LightList.Draw()
+            ObjectList.Draw()
+                CommandBuffer   cmd;
+                MirrorMaterial{global effect}
+                    ...
+                MultiPassMaterial
+                    SingleMaterialPass
+                    SingleMaterialPass
+                    SingleMaterialPass
+                SingleMaterial
+                    Pipeline        pipe;
+                    ShaderConstants consts;
+                    
+                    pipe.SetPipelineData{...}
+                    consts.SetConstans{...}
+                    cmd.ClearAllBuffers();
+                    cmd.MemoryBarrier();
+                    cmd.PipeBind(pipe)
+                    cmd.ConstsBind(consts)
+                    cmd.Draw()
+                
+            cmd.sort();     // parallelization
+            cmd.execute();
+        Stage 2:
+            //Post effect
+        // ...
 
 //============
 // Main loop
