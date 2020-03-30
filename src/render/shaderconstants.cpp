@@ -2,7 +2,7 @@
 
 namespace evnt
 {
-template<class T>
+template<typename T>
 static void FindDuplicateAndReplace(std::vector<std::pair<int32_t, T>> & vec, int32_t location, T data)
 {
     size_t index = 0;
@@ -12,6 +12,7 @@ static void FindDuplicateAndReplace(std::vector<std::pair<int32_t, T>> & vec, in
             break;
         ++index;
     }
+
     if(index == vec.size())
         vec.push_back(std::make_pair(location, data));
     else

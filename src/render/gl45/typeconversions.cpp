@@ -1,4 +1,5 @@
 #include "typeconversions.h"
+#include "../../core/exception.h"
 #include "../../log/debug_messages.h"
 #include <cassert>
 
@@ -405,5 +406,58 @@ int32_t GetByteDepth(TexturePixelFormat format, TextureDataType type)
             break;
     }
     return base;
+}
+
+GLenum PrimitiveTypeToGLPrimitiveType(PrimitiveType pt)
+{
+    switch(pt)
+    {
+        case PrimitiveType::Triangles:
+            return GL_TRIANGLES;
+
+        default:
+            EV_EXCEPT("Unknown primitive type");
+    }
+}
+
+GLbitfield MemoryBarrierTypeToGLMemoryBarrierType(MemoryBarrierType mb)
+{
+    switch(mb)
+    {
+        case MemoryBarrierType::VertexAttribArray:
+            return GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT;
+        case MemoryBarrierType::IndexBuffer:
+            return GL_ELEMENT_ARRAY_BARRIER_BIT;
+        case MemoryBarrierType::Uniform:
+            return GL_UNIFORM_BARRIER_BIT;
+        case MemoryBarrierType::TextureFetch:
+            return GL_TEXTURE_FETCH_BARRIER_BIT;
+        case MemoryBarrierType::ShaderImageAccess:
+            return GL_SHADER_IMAGE_ACCESS_BARRIER_BIT;
+        case MemoryBarrierType::CommandBarrier:
+            return GL_COMMAND_BARRIER_BIT;
+        case MemoryBarrierType::PixelBuffer:
+            return GL_PIXEL_BUFFER_BARRIER_BIT;
+        case MemoryBarrierType::TextureUpdate:
+            return GL_TEXTURE_UPDATE_BARRIER_BIT;
+        case MemoryBarrierType::BufferUpdate:
+            return GL_BUFFER_UPDATE_BARRIER_BIT;
+        case MemoryBarrierType::QueryBuffer:
+            return GL_QUERY_BUFFER_BARRIER_BIT;
+        case MemoryBarrierType::ClientMappedBuffer:
+            return GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT;
+        case MemoryBarrierType::Framebuffer:
+            return GL_FRAMEBUFFER_BARRIER_BIT;
+        case MemoryBarrierType::TransformFeedback:
+            return GL_TRANSFORM_FEEDBACK_BARRIER_BIT;
+        case MemoryBarrierType::AtomicCounter:
+            return GL_ATOMIC_COUNTER_BARRIER_BIT;
+        case MemoryBarrierType::ShaderStorageBuffer:
+            return GL_SHADER_STORAGE_BARRIER_BIT;
+        case MemoryBarrierType::All:
+            return GL_ALL_BARRIER_BITS;
+        default:
+            EV_EXCEPT("Unknown MemoryBarrier type");
+    }
 }
 }   // namespace evnt

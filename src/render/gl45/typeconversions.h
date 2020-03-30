@@ -28,6 +28,12 @@ GLenum  TextureInternalFormatToGLTextureInternalFormat(TextureInternalFormat fmt
 GLenum  TexturePixelFormatToGLTexturePixelFormat(TexturePixelFormat fmt);
 GLenum  TextureDataTypeToGLTextureDataType(TextureDataType dtype);
 int32_t GetByteDepth(TexturePixelFormat format, TextureDataType type);
+
+// primitives
+GLenum PrimitiveTypeToGLPrimitiveType(PrimitiveType pt);
+
+// barriers
+GLbitfield MemoryBarrierTypeToGLMemoryBarrierType(MemoryBarrierType mb);
 }   // namespace evnt
 
 #endif   // TYPECONVERSIONS_H

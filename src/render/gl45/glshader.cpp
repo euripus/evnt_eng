@@ -15,9 +15,9 @@ GLShader::GLShader(std::string src, std::set<std::string> defines)
                                                      {GL_TESS_CONTROL_SHADER, "TESSCONTROL"},
                                                      {GL_TESS_EVALUATION_SHADER, "TESSEVAL"}};
 
-    std::string defineString;
+    std::string define_string;
     for(std::string define : defines)
-        defineString += "\n#define " + define;
+        define_string += "\n#define " + define;
 
     std::vector<GLuint> shaders;
     m_compile_success = true;
@@ -29,7 +29,7 @@ GLShader::GLShader(std::string src, std::set<std::string> defines)
             shaders.push_back(shader);
 
             std::string               define = "#version 460\n#define " + stages[i].second;
-            std::vector<const char *> lines  = {define.data(), defineString.c_str(), "\n#line 0\n",
+            std::vector<const char *> lines  = {define.data(), define_string.c_str(), "\n#line 0\n",
                                                src.data()};
 
             glShaderSource(shader, 4, lines.data(), nullptr);

@@ -2,6 +2,7 @@
 #define RENDER_H
 
 #include "../app/window.h"
+#include "renderdevice.h"
 #include <memory>
 #include <vector>
 
@@ -17,7 +18,8 @@ public:
     void present();
 
 private:
-    Window & m_owner;
+    Window &                      m_owner;
+    std::unique_ptr<RenderDevice> mp_device;
 };
 }   // namespace evnt
 #endif   // RENDER_H

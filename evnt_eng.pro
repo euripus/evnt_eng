@@ -68,6 +68,7 @@ SOURCES +=  \
     src/render/gl45/glbuffer.cpp \
     src/render/gl45/glframebuffer.cpp \
     src/render/gl45/glpipeline.cpp \
+    src/render/gl45/glrenderdevice.cpp \
     src/render/gl45/glsampler.cpp \
     src/render/gl45/glshader.cpp \
     src/render/gl45/glshaderconstants.cpp \
@@ -78,6 +79,7 @@ SOURCES +=  \
     src/render/pipeline.cpp \
     src/render/quad2d.cpp \
     src/render/render.cpp  \
+    src/render/renderdevice.cpp \
     src/render/sampler.cpp \
     src/render/shaderconstants.cpp \
     src/render/shaderdescriptor.cpp \
@@ -122,6 +124,7 @@ HEADERS += \
     src/render/gl45/glbuffer.h \
     src/render/gl45/glframebuffer.h \
     src/render/gl45/glpipeline.h \
+    src/render/gl45/glrenderdevice.h \
     src/render/gl45/glsampler.h \
     src/render/gl45/glshader.h \
     src/render/gl45/glshaderconstants.h \
@@ -133,6 +136,7 @@ HEADERS += \
     src/render/pipeline.h \
     src/render/quad2d.h \
     src/render/render.h  \
+    src/render/renderdevice.h \
     src/render/sampler.h \
     src/render/shader.h \
     src/render/shaderconstants.h \
