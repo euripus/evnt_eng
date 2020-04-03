@@ -20,6 +20,7 @@ public:
 private:
     Window &                      m_owner;
     std::unique_ptr<RenderDevice> mp_device;
+    // swap chain
 };
 }   // namespace evnt
 #endif   // RENDER_H
