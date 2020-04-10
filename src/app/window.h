@@ -3,6 +3,7 @@
 
 #include "../core/event.h"
 #include "../input/input.h"
+#include "../render/render.h"
 #include "mousecursor.h"
 #include <glm/glm.hpp>
 #include <memory>
@@ -47,7 +48,7 @@ public:
 
     void setWindowTitle(std::string const & title) { m_title = title; }
 
-    Input & getInput() { return *mup_input_backend; }
+    Input & getInput() { return *mp_input_backend; }
 
     glm::ivec2        getWindowSize() const { return m_win_size; }
     const DisplayMode getDisplayMode() const { return DisplayMode(m_win_size); }
@@ -95,7 +96,8 @@ protected:
     bool        m_cursor_visibility;
     MouseCursor m_cur_mouse_cursor;
 
-    std::unique_ptr<Input> mup_input_backend;
+    std::unique_ptr<Input>  mp_input_backend;
+    std::unique_ptr<Render> mp_renderer;
 };
 }   // namespace evnt
 

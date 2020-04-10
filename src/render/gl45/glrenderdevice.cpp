@@ -52,7 +52,7 @@ void GLRenderDevice::bindComputeShaderCommand(IShader * shader)
 void GLRenderDevice::bindPipelineCommand(Pipeline * pipeline)
 {
     m_pipelines.push_back(pipeline);
-    int                       index     = m_pipelines.size() - 1;
+    size_t                    index     = m_pipelines.size() - 1;
     std::vector<Pipeline *> * pipelines = &m_pipelines;
 
     m_commands.push_back([index, pipelines]() { (*pipelines)[index]->bindPipeline(); });
@@ -61,7 +61,7 @@ void GLRenderDevice::bindPipelineCommand(Pipeline * pipeline)
 void GLRenderDevice::bindConstantsCommand(ShaderConstants * constants)
 {
     m_constants.push_back(constants);
-    int                              index        = m_constants.size() - 1;
+    size_t                           index        = m_constants.size() - 1;
     std::vector<ShaderConstants *> * constantsVec = &m_constants;
 
     m_commands.push_back([index, constantsVec]() { (*constantsVec)[index]->bindConstants(); });
@@ -70,7 +70,7 @@ void GLRenderDevice::bindConstantsCommand(ShaderConstants * constants)
 void GLRenderDevice::bindDescriptorCommand(ShaderDescriptor * descriptor)
 {
     m_descriptors.push_back(descriptor);
-    int                               index       = m_descriptors.size() - 1;
+    size_t                            index       = m_descriptors.size() - 1;
     std::vector<ShaderDescriptor *> * descriptors = &m_descriptors;
 
     m_commands.push_back([index, descriptors]() { (*descriptors)[index]->bindDescriptor(); });

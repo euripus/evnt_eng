@@ -61,10 +61,10 @@ namespace evnt
 //==============================================================================
 bool ReadBMP(BaseFile const * file, ImageData & id)
 {
-    bool     res         = false;
-    bool     compressed  = false;
-    bool     flip        = false;
-    uint32_t file_length = 0;
+    bool   res         = false;
+    bool   compressed  = false;
+    bool   flip        = false;
+    size_t file_length = 0;
 
     id.width  = 0;
     id.height = 0;
@@ -215,7 +215,7 @@ OutFile WriteTGA(std::string fname, const ImageData & id)
 {
     TGAHEADER tga;
     std::memset(&tga, 0, sizeof(tga));
-    uint32_t bytes_per_pixel = (id.type == ImageData::PixelType::pt_rgb ? 3 : 4);
+    uint8_t bytes_per_pixel = (id.type == ImageData::PixelType::pt_rgb ? 3 : 4);
 
     OutFile file(std::move(fname));
 
@@ -255,7 +255,7 @@ bool ReadCompressedTGA(ImageData & id, char * data);
 
 bool ReadTGA(BaseFile const * file, ImageData & id)
 {
-    uint32_t file_length = 0;
+    size_t file_length = 0;
 
     file_length = file->getFileSize();
     if(file_length == 0)

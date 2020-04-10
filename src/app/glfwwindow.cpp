@@ -54,7 +54,7 @@ bool GLFWWindow::create(int width, int height)
     glfwSetWindowTitle(mp_glfw_window, m_title.c_str());
     setMouseCursor(getMouseCursor());
 
-    mup_input_backend = std::make_unique<InputGLFW>(mp_glfw_window);
+    mp_input_backend = std::make_unique<InputGLFW>(mp_glfw_window);
 
     return true;
 }

@@ -51,7 +51,7 @@ public:
     }
 
     const int8_t * getBufferPtr() const { return m_buffer.data(); }
-    uint32_t       getLength() const { return m_buffer.size(); }
+    size_t         getLength() const { return m_buffer.size(); }
 
     void write(const int8_t * inData, size_t inByteCount);
 
@@ -66,7 +66,7 @@ public:
 
     void write(const std::string & inString)
     {
-        uint32_t elementCount = inString.size();
+        size_t elementCount = inString.size();
         write(elementCount);
         write(reinterpret_cast<const int8_t *>(inString.data()), elementCount * sizeof(char));
     }
@@ -149,8 +149,8 @@ public:
         read(inString.data(), elementCount * sizeof(char));
     }
 
-    uint32_t       getRemainingDataSize() const { return m_capacity - m_head; }
-    uint32_t       getCapacity() const { return m_capacity; }
+    size_t         getRemainingDataSize() const { return m_capacity - m_head; }
+    size_t         getCapacity() const { return m_capacity; }
     const int8_t * getCurPosPtr() const { return mup_data.get() + m_head; }
     const int8_t * getPtr() const { return mup_data.get(); }
 
