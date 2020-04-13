@@ -220,9 +220,9 @@ OutFile WriteTGA(std::string fname, const ImageData & id)
     OutFile file(std::move(fname));
 
     tga.datatypecode = 2;
-    tga.width        = id.width;
-    tga.height       = id.height;
-    tga.bitsperpixel = bytes_per_pixel * 8;
+    tga.width        = static_cast<uint16_t>(id.width);
+    tga.height       = static_cast<uint16_t>(id.height);
+    tga.bitsperpixel = static_cast<uint8_t>(bytes_per_pixel * 8);
     if(id.type == ImageData::PixelType::pt_rgb)
         tga.imagedescriptor = 0x10;
     else

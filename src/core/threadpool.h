@@ -47,7 +47,8 @@ public:
 
     std::size_t getNumTasks() const { return m_num_tasks; }
 
-    template<typename FunctionType>
+    template<typename FunctionType,
+             typename = std::enable_if_t<std::is_void_v<!std::result_of<FunctionType()>::type>>>
     auto submit(FunctionType && f)
     {
         using result_type = typename std::result_of<FunctionType()>::type;
@@ -66,9 +67,18 @@ public:
         return res;
     }
 
+    void submit(std::function<void()> f)
+    {
+        auto ff = [this, f = std::move(f)]() { wrap_task(std::move(f)); };
+
+        ++m_num_tasks;
+        m_io_serv.post(ff);
+    }
+
 private:
     /// Wrap a task so that the available count can be decreased
-    template<typename FunctionType>
+    template<typename FunctionType,
+             typename = std::enable_if_t<std::is_void_v<!std::result_of<FunctionType()>::type>>>
     auto wrap_task(FunctionType f)
     {
         using result_type = typename std::result_of<FunctionType()>::type;
@@ -76,6 +86,20 @@ private:
         result_type res = f();
         --m_num_tasks;
         return res;
+    }
+
+    void wrap_task(std::function<void()> f)
+    {
+        // Run the user supplied task.
+        try
+        {
+            f();
+        }
+        // Suppress all exceptions.
+        catch(...)
+        {}
+
+        --m_num_tasks;
     }
 
     void create_pool_threads(std::size_t pool_size)

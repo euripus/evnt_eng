@@ -270,8 +270,10 @@ void GetDosTime(std::time_t rawtime, uint16_t & time, uint16_t & date)
     struct tm * timeinfo;
     timeinfo = localtime(&rawtime);
 
-    time = ((timeinfo->tm_hour << 11) | (timeinfo->tm_min << 5) | (timeinfo->tm_sec >> 1));
-    date = (((timeinfo->tm_year - 80) << 9) | ((timeinfo->tm_mon + 1) << 5) | (timeinfo->tm_mday));
+    time =
+        static_cast<uint16_t>((timeinfo->tm_hour << 11) | (timeinfo->tm_min << 5) | (timeinfo->tm_sec >> 1));
+    date = static_cast<uint16_t>(((timeinfo->tm_year - 80) << 9) | ((timeinfo->tm_mon + 1) << 5)
+                                 | (timeinfo->tm_mday));
 }
 
 // http://blog2k.ru/archives/3397
@@ -314,9 +316,10 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
         LocalFileHeader lfh{};
         memset(&lfh, 0, sizeof(lfh));
 
-        lfh.uncompressedSize = buf.size();
+        lfh.uncompressedSize = static_cast<uint32_t>(buf.size());
 
-        lfh.crc32 = crc32(0, reinterpret_cast<const unsigned char *>(buf.data()), lfh.uncompressedSize);
+        lfh.crc32 = static_cast<uint32_t>(
+            crc32(0, reinterpret_cast<const unsigned char *>(buf.data()), lfh.uncompressedSize));
 
         // Выделим память для сжатых данных
         dataBuffer.resize(lfh.uncompressedSize);
@@ -346,7 +349,7 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
         }
         else
         {
-            lfh.compressedSize    = zStream.total_out;
+            lfh.compressedSize    = static_cast<uint32_t>(zStream.total_out);
             lfh.compressionMethod = Z_DEFLATED;
 
             data_ptr = reinterpret_cast<char *>(dataBuffer.data());
@@ -356,10 +359,10 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
         // Очистка
         deflateEnd(&zStream);
 
-        lfh.filenameLength = fname.size();
+        lfh.filenameLength = static_cast<uint16_t>(fname.size());
 
         // Сохраним смещение к записи Local File Header внутри архива
-        const uint32_t lfhOffset = ofs.tellp();
+        const uint32_t lfhOffset = static_cast<uint32_t>(ofs.tellp());
 
         GetDosTime(filelist[i]->timeStamp(), time, date);
 
@@ -385,7 +388,7 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
     }
 
     // Смещение первой записи для EOCD
-    const uint32_t firstOffsetCDFH = ofs.tellp();
+    const uint32_t firstOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
     for(unsigned int i = 0; i < filelist.size(); ++i)
     {
@@ -401,7 +404,7 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
         cdfh.compressionMethod     = fileInfo.compressionMethod;
         cdfh.crc32                 = fileInfo.crc32;
         cdfh.localFileHeaderOffset = fileInfo.offset;
-        cdfh.filenameLength        = filename.size();
+        cdfh.filenameLength        = static_cast<uint16_t>(filename.size());
         cdfh.signature             = 0x02014b50;
         cdfh.modificationDate      = date;
         cdfh.modificationTime      = time;
@@ -414,13 +417,13 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
     }
 
     // Посчитаем размер данных для следующего шага
-    const uint32_t lastOffsetCDFH = ofs.tellp();
+    const uint32_t lastOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
     EOCD eocd{};
     memset(&eocd, 0, sizeof(eocd));
     eocd.centralDirectoryOffset       = firstOffsetCDFH;
-    eocd.numberCentralDirectoryRecord = filelist.size();
-    eocd.totalCentralDirectoryRecord  = filelist.size();
+    eocd.numberCentralDirectoryRecord = static_cast<uint16_t>(filelist.size());
+    eocd.totalCentralDirectoryRecord  = static_cast<uint16_t>(filelist.size());
     eocd.sizeOfCentralDirectory       = lastOffsetCDFH - firstOffsetCDFH;
 
     // Пишем сигнатуру
@@ -515,9 +518,10 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     // Буфер для сжатых данных
     std::vector<uint8_t> dataBuffer;
 
-    lfh.uncompressedSize = file->getFileSize();
+    lfh.uncompressedSize = static_cast<uint32_t>(file->getFileSize());
 
-    lfh.crc32 = crc32(0, reinterpret_cast<const unsigned char *>(file->getData()), lfh.uncompressedSize);
+    lfh.crc32 = static_cast<uint32_t>(
+        crc32(0, reinterpret_cast<const unsigned char *>(file->getData()), lfh.uncompressedSize));
 
     // Выделим память для сжатых данных
     dataBuffer.resize(lfh.uncompressedSize);
@@ -547,7 +551,7 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     }
     else
     {
-        lfh.compressedSize    = zStream.total_out;
+        lfh.compressedSize    = static_cast<uint32_t>(zStream.total_out);
         lfh.compressionMethod = Z_DEFLATED;
 
         data_ptr = reinterpret_cast<char *>(dataBuffer.data());
@@ -557,10 +561,10 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     // Очистка
     deflateEnd(&zStream);
 
-    lfh.filenameLength = file->getName().size();
+    lfh.filenameLength = static_cast<uint16_t>(file->getName().size());
 
     // Сохраним смещение к записи Local File Header внутри архива
-    const uint32_t lfhOffset = ofs.tellp();
+    const uint32_t lfhOffset = static_cast<uint32_t>(ofs.tellp());
 
     // Запишем сигнатуру Local File Header
     lfh.signature        = 0x04034b50;
@@ -573,7 +577,7 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     // Запишем данные
     ofs.write(data_ptr, size);
 
-    const uint32_t firstOffsetCDFH = ofs.tellp();
+    const uint32_t firstOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
     ofs.write(centralDirectoryData.get(), eocd.sizeOfCentralDirectory);
 
@@ -596,11 +600,11 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     // Имя файла
     ofs.write(file->getName().c_str(), cdfh.filenameLength);
 
-    const uint32_t lastOffsetCDFH = ofs.tellp();
+    const uint32_t lastOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
     eocd.centralDirectoryOffset       = firstOffsetCDFH;
-    eocd.numberCentralDirectoryRecord = eocd.numberCentralDirectoryRecord + 1;
-    eocd.totalCentralDirectoryRecord  = eocd.totalCentralDirectoryRecord + 1;
+    eocd.numberCentralDirectoryRecord = static_cast<uint16_t>(eocd.numberCentralDirectoryRecord + 1);
+    eocd.totalCentralDirectoryRecord  = static_cast<uint16_t>(eocd.totalCentralDirectoryRecord + 1);
     eocd.sizeOfCentralDirectory       = lastOffsetCDFH - firstOffsetCDFH;
 
     // Пишем сигнатуру

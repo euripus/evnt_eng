@@ -15,7 +15,7 @@ CONFIG(release, debug|release) {
 
 DESTDIR = $$PWD/bin
 
-QMAKE_CXXFLAGS += -std=c++17 -Wno-unused-parameter -Wconversion
+QMAKE_CXXFLAGS += -std=c++17 -Wno-unused-parameter -Wconversion -Wold-style-cast
 
 INCLUDEPATH += $$PWD/include
 
@@ -83,7 +83,8 @@ SOURCES +=  \
     src/render/sampler.cpp \
     src/render/shaderconstants.cpp \
     src/render/shaderdescriptor.cpp \
-    src/render/texture.cpp
+    src/render/texture.cpp \
+    src/utils/timer.cpp
 
 HEADERS += \
     src/app/app.h \
@@ -143,4 +144,5 @@ HEADERS += \
     src/render/shaderdescriptor.h \
     src/render/swapchain.h \
     src/render/texture.h \
-    src/render/vertexarray.h
+    src/render/vertexarray.h \
+    src/utils/timer.h

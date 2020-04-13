@@ -30,16 +30,16 @@ void Connection::readIncomingPacketsIntoQueue()
     {
         try
         {
-            size_t readByteCount =
+            uint32_t readByteCount = static_cast<uint32_t>(
                 msp_socket->receiveFrom(static_cast<void *>(const_cast<int8_t *>(inputStream.getCurPosPtr())),
-                                      packetSize, fromAddress);
+                                        packetSize, fromAddress));
             if(readByteCount > 0)
             {
                 inputStream.setCapacity(readByteCount);
                 ++receivedPackedCount;
                 totalReadByteCount += readByteCount;
 
-                uint32_t simulatedReceivedTime = GetMilisecFromStart();
+                uint32_t simulatedReceivedTime = static_cast<uint32_t>(GetMilisecFromStart());
                 m_packet_queue.emplace(simulatedReceivedTime, inputStream, fromAddress);
                 inputStream.resetHead();
             }
@@ -81,8 +81,8 @@ void Connection::processQueuedPackets()
 
 void Connection::sendPacket(const OutputMemoryStream & inOutputStream, const SocketAddress & inToAddress)
 {
-    int sentByteCount =
-        msp_socket->sendTo(inOutputStream.getBufferPtr(), inOutputStream.getLength(), inToAddress);
+    uint32_t sentByteCount = static_cast<uint32_t>(
+        msp_socket->sendTo(inOutputStream.getBufferPtr(), inOutputStream.getLength(), inToAddress));
     if(sentByteCount > 0)
     {
         // mBytesSentThisFrame += sentByteCount;

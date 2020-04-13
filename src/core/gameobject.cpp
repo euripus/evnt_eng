@@ -92,7 +92,7 @@ void GameObject::write(OutputMemoryStream & inMemoryStream, const ObjectManager 
     }
     else
     {
-        uint32_t size = m_components.size();
+        uint32_t size = static_cast<uint32_t>(m_components.size());
         inMemoryStream.write(size);
         for(auto & [key, cmp] : m_components)
         {
