@@ -17,9 +17,9 @@ void OutputMemoryStream::write(const InputMemoryStream & inStream)
     m_buffer.insert(std::end(m_buffer), inStream.getPtr(), inStream.getPtr() + inStream.getCapacity());
 }
 
-void InputMemoryStream::read(void * outData, uint32_t inByteCount) const
+void InputMemoryStream::read(void * outData, size_t inByteCount) const
 {
-    uint32_t resultHead = m_head + inByteCount;
+    size_t resultHead = m_head + inByteCount;
     if(resultHead > m_capacity)
     {
         throw std::range_error("InputMemoryStream::Read - no data to read!");

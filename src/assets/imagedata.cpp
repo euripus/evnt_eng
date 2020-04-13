@@ -389,13 +389,13 @@ bool ReadCompressedTGA(ImageData & id, char * data)
 
     do
     {
-        uint8_t chunk = pPtr[0];
+        int32_t chunk = static_cast<int32_t>(pPtr[0]);
         pPtr++;
 
         if(chunk & 128)
         {
             chunk -= 127;
-            for(short counter = 0; counter < chunk; counter++)
+            for(int32_t counter = 0; counter < chunk; counter++)
             {
                 img[currentbyte + 0] = pPtr[2];
                 img[currentbyte + 1] = pPtr[1];

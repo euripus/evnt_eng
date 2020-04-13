@@ -51,7 +51,7 @@ void Core::enterMainLoop()
         m_running = true;
 
     // http://www.opengl-tutorial.org/miscellaneous/an-fps-counter/
-    uint32_t previous = GetMilisecFromStart();
+    uint32_t previous = static_cast<uint32_t>(GetMilisecFromStart());
     uint32_t lag      = 0;
     uint32_t nbFrames = 0;
     uint32_t lastTime = previous;
@@ -59,7 +59,7 @@ void Core::enterMainLoop()
     // https://gameprogrammingpatterns.com/game-loop.html
     while(m_running && getApp().running())
     {
-        uint32_t current = GetMilisecFromStart();
+        uint32_t current = static_cast<uint32_t>(GetMilisecFromStart());
         uint32_t elapsed = current - previous;
         previous         = current;
         lag += elapsed;
@@ -82,7 +82,7 @@ void Core::enterMainLoop()
         getApp().draw();   // render
         getApp().swap();   // swap buffer
 
-        current = GetMilisecFromStart();
+        current = static_cast<uint32_t>(GetMilisecFromStart());
         elapsed = current - previous;   // elapsed after update & render
 
         if(elapsed < MS_PER_UPDATE)

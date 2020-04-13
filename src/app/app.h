@@ -32,7 +32,7 @@ public:
     {
         std::lock_guard lk(m_state_mutex);
         m_states.push_back(std::move(std::make_unique<T>(std::forward<Args>(args)...)));
-        return m_states.size() - 1;
+        return static_cast<AppState::StateID>(m_states.size() - 1);
     }
 
     AppState::StateID getEndStateID() const { return m_end_state; }

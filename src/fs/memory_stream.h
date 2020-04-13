@@ -131,7 +131,7 @@ public:
         swap(left.m_capacity, right.m_capacity);
     }
 
-    void read(void * outData, uint32_t inByteCount) const;
+    void read(void * outData, size_t inByteCount) const;
 
     template<typename T>
     void read(T & outData) const
