@@ -48,10 +48,10 @@ public:
     std::size_t getNumTasks() const { return m_num_tasks; }
 
     template<typename FunctionType,
-             typename = std::enable_if_t<std::is_void_v<!std::result_of<FunctionType()>::type>>>
+             typename = std::enable_if_t<!std::is_void_v<std::result_of_t<FunctionType()>>>>
     auto submit(FunctionType && f)
     {
-        using result_type = typename std::result_of<FunctionType()>::type;
+        using result_type = typename std::result_of_t<FunctionType()>;
         using task_type   = typename std::packaged_task<result_type()>;
 
         // https://stackoverflow.com/questions/13157502/how-do-you-post-a-boost-packaged-task-to-an-io-service-in-c03
@@ -78,10 +78,10 @@ public:
 private:
     /// Wrap a task so that the available count can be decreased
     template<typename FunctionType,
-             typename = std::enable_if_t<std::is_void_v<!std::result_of<FunctionType()>::type>>>
+             typename = std::enable_if_t<!std::is_void_v<std::result_of_t<FunctionType()>>>>
     auto wrap_task(FunctionType f)
     {
-        using result_type = typename std::result_of<FunctionType()>::type;
+        using result_type = typename std::result_of_t<FunctionType()>;
 
         result_type res = f();
         --m_num_tasks;

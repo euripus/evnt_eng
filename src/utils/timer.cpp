@@ -15,6 +15,8 @@ uint32_t Timer::elapsedMilliseconds() const
     return res;
 }
 
+template<typename T>
+struct TD;
 void Timer::onceCall(uint32_t milliseconds_delay, std::function<void()> callback)
 {
     if(m_is_running)
@@ -27,12 +29,13 @@ void Timer::onceCall(uint32_t milliseconds_delay, std::function<void()> callback
         f();
         m_is_running = false;
     };
+    // TD<decltype(timer_call)> td;
 
     m_delay      = std::chrono::milliseconds(milliseconds_delay);
     m_is_running = true;
     m_start      = std::chrono::high_resolution_clock::now();
 
-    return Core::instance().getThreadPool().submit(timer_call);
+    Core::instance().getThreadPool().submit(std::move(timer_call));
 }
 
 void Timer::loopCall(uint32_t milliseconds_delay, std::function<void()> callback)
@@ -57,7 +60,7 @@ void Timer::loopCall(uint32_t milliseconds_delay, std::function<void()> callback
     m_loop_running = true;
     m_start        = std::chrono::high_resolution_clock::now();
 
-    submit(timer_call);
+    submit(std::move(timer_call));
 }
 
 void Timer::submit(std::function<void()> func)

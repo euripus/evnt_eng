@@ -31,11 +31,11 @@ public:
 
     // callback called asynchronously in threadpool
     template<typename FunctionType,
-             typename = std::enable_if_t<std::is_void_v<!std::result_of<FunctionType()>::type>>>
-    std::future<typename std::result_of<FunctionType()>::type> onceCall(uint32_t        milliseconds_delay,
-                                                                        FunctionType && callback)
+             typename = std::enable_if_t<!std::is_void_v<std::result_of_t<FunctionType()>>>>
+    std::future<typename std::result_of_t<FunctionType()>> onceCall(uint32_t        milliseconds_delay,
+                                                                    FunctionType && callback)
     {
-        using result_type = typename std::result_of<FunctionType()>::type;
+        using result_type = typename std::result_of_t<FunctionType()>;
 
         if(m_is_running)
         {
@@ -55,7 +55,7 @@ public:
         m_is_running = true;
         m_start      = std::chrono::high_resolution_clock::now();
 
-        return Core::instance().getThreadPool().submit(timer_call);
+        return Core::instance().getThreadPool().submit(std::move(timer_call));
     }
 
     void onceCall(uint32_t milliseconds_delay, std::function<void()> callback);
