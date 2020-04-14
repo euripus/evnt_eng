@@ -1,9 +1,9 @@
+#include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-#include <boost/property_tree/json_parser.hpp>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
 namespace pt = boost::property_tree;
 
@@ -33,7 +33,7 @@ int main(int argc, char ** argv)
         files.push_back(argv[i]);
     }
 
-    for(const auto & file: files)
+    for(const auto & file : files)
     {
         try
         {
@@ -41,8 +41,7 @@ int main(int argc, char ** argv)
         }
         catch(std::exception & e)
         {
-            std::cout << "Error while parsing file: " << file
-                      << ". Msg: " << e.what() << "\n";
+            std::cout << "Error while parsing file: " << file << ". Msg: " << e.what() << "\n";
         }
     }
 

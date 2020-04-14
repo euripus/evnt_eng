@@ -1,9 +1,9 @@
 // Combining C++17 features
 // https://www.youtube.com/watch?v=6HoxXeEBtW0
 
+#include <iostream>
 #include <variant>
 #include <vector>
-#include <iostream>
 
 class Circle
 {
@@ -24,7 +24,7 @@ private:
 public:
     Line(int f, int t) : from{f}, to{t} {};
     void draw() const { std::cout << "Line draw" << std::endl; }
-    int getDistance() const { return to - from; }
+    int  getDistance() const { return to - from; }
 };
 
 using GeoObjVar = std::variant<Circle, Line>;
@@ -42,16 +42,16 @@ void DrawElem(const std::vector<GeoObjVar> & v)
 {
     for(auto const & geo : v)
     {
-        std::visit([](const auto & obj)
-                   {
-                        obj.draw();
+        std::visit(
+            [](const auto & obj) {
+                obj.draw();
 
-                        if constexpr(std::is_same_v<decltype(obj), const Line &>)
-                        {
-                            std::cout << "Line distance: " << obj.getDistance() << std::endl;
-                        }
-                   },
-                   geo);
+                if constexpr(std::is_same_v<decltype(obj), const Line &>)
+                {
+                    std::cout << "Line distance: " << obj.getDistance() << std::endl;
+                }
+            },
+            geo);
     }
 }
 
@@ -62,4 +62,3 @@ int main()
 
     return 0;
 }
-

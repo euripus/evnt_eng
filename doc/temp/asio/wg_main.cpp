@@ -31,8 +31,7 @@ public:
     using Stream = ssl::stream<boost::asio::ip::tcp::socket>;
 
 public:
-    HTTPSClient(std::string const & cert) :
-        m_Resolver {m_IOService}, m_SSLContext {ssl::context::tlsv12_client}
+    HTTPSClient(std::string const & cert) : m_Resolver{m_IOService}, m_SSLContext{ssl::context::tlsv12_client}
     {
         m_SSLContext.load_verify_file(cert);
     }
@@ -65,7 +64,7 @@ public:
     using JSON        = boost::property_tree::ptree;
 
 public:
-    Command(CommandName const & cmdName) : m_Command {cmdName} {}
+    Command(CommandName const & cmdName) : m_Command{cmdName} {}
     auto AppendParam(std::string const & key, std::string const & value) -> Command &;
     auto Execute(Context & cmdContext) -> JSON;
 
@@ -82,7 +81,7 @@ public:
     using JSON  = boost::property_tree::ptree;
 
 public:
-    Context(Token const & id, HTTPSClient::Stream & stream) : m_ID {id}, m_Stream {stream} {}
+    Context(Token const & id, HTTPSClient::Stream & stream) : m_ID{id}, m_Stream{stream} {}
     auto ExecuteCommand(Command & cmd) -> JSON;
 
 private:
@@ -105,7 +104,7 @@ auto Command::Execute(Context & cmdContext) -> JSON
     for(auto const & [key, value] : m_Params)
         ostreamRequest << key << "=" << value << "&";
 
-    http::request<http::string_body> request {http::verb::get, ostreamRequest.str(), 11};
+    http::request<http::string_body> request{http::verb::get, ostreamRequest.str(), 11};
     request.set(http::field::host, HOST);
     request.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
     http::write(cmdContext.m_Stream, request);
@@ -140,13 +139,13 @@ int main(int argc, char * argv[])
 {
     try
     {
-        HTTPSClient client {"client.pem"};
+        HTTPSClient client{"client.pem"};
         auto        socket     = client.Connect(HOST, PORT);
-        auto        cmdContext = Wargaming::Context {APPLICATION_ID, *socket};
+        auto        cmdContext = Wargaming::Context{APPLICATION_ID, *socket};
 
-        auto cmdList  = Wargaming::Command {"/wot/account/list"};
-        auto cmdInfo  = Wargaming::Command {"/wot/account/info"};
-        auto cmdTanks = Wargaming::Command {"/wot/account/tanks"};
+        auto cmdList  = Wargaming::Command{"/wot/account/list"};
+        auto cmdInfo  = Wargaming::Command{"/wot/account/info"};
+        auto cmdTanks = Wargaming::Command{"/wot/account/tanks"};
 
         auto const accountID = cmdContext.ExecuteCommand(cmdList.AppendParam("search", "Straik"))
                                    .get_child("data")

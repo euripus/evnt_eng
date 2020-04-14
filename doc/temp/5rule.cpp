@@ -34,12 +34,12 @@ public:
 };
 
 //=======================================================//
-// Copy and Swap Idiom rule of Four and ½ 
+// Copy and Swap Idiom rule of Four and ½
 //      1.Destructor
 //      2.Copy Constructor
 //      3.Move Constructor
 //      4.Move/Copy Operator
-//      5.Friend Swap Function (helper) 
+//      5.Friend Swap Function (helper)
 class A
 {
     int * data;

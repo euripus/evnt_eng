@@ -1,6 +1,6 @@
+#include <iostream>
 #include <memory>
 #include <vector>
-#include <iostream>
 
 struct Base
 {
@@ -43,7 +43,7 @@ int main()
         base_ptr->get();
         vec_ptrs[3]->get();
     }
-    
+
     std::cout << "vec_ptrs destroyed" << std::endl;
     return 0;
 }
