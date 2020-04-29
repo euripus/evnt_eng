@@ -19,7 +19,6 @@ public:
 
     bool init() override;
     void terminate() override;
-    void update() override;
     void present(uint32_t sync_interval = 1) override;
 
     void         fullscreen(bool is_fullscreen) override;
@@ -32,6 +31,7 @@ public:
 
 private:
     bool create(int width, int height);
+    void platformUpdate() override;
 
     GLFWvidmode const * mp_base_video_mode{nullptr};
     GLFWwindow *        mp_glfw_window{nullptr};

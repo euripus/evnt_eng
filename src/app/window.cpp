@@ -27,6 +27,15 @@ Window::Window(App & app) :
     Core::instance().addFunctor<evFullscreen>(std::bind(&Window::winFullscreen, this, std::placeholders::_1));
 }
 
+void Window::update()
+{
+    platformUpdate();
+
+    // subsystems update
+    mp_input_backend->update();
+    mp_renderer->update();
+}
+
 void Window::winResize(glm::ivec2 sz) {}
 
 void Window::winFullscreen(bool is_fullscreen)

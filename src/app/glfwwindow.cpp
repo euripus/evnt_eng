@@ -54,7 +54,16 @@ bool GLFWWindow::create(int width, int height)
     glfwSetWindowTitle(mp_glfw_window, m_title.c_str());
     setMouseCursor(getMouseCursor());
 
+    // subsystem init
     mp_input_backend = std::make_unique<InputGLFW>(mp_glfw_window);
+    if(!mp_input_backend->init())
+    {
+        UNEXPECTED("Input backend init error!");
+        return false;
+    }
+
+    auto render_type = Core::instance().getRootConfig().get<std::string>("App.Render.RenderType.Type");
+    mp_renderer      = Render::CreateRender(render_type, *this);
 
     return true;
 }
@@ -101,7 +110,7 @@ void GLFWWindow::terminate()
     glfwTerminate();
 }
 
-void GLFWWindow::update()
+void GLFWWindow::platformUpdate()
 {
     m_running = !glfwWindowShouldClose(mp_glfw_window);
     if(!m_running)

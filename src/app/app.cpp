@@ -22,8 +22,8 @@ bool App::init(int argc, char * argv[])
     // window create
     auto        config   = Core::instance().getRootConfig();
     std::string platform = config.get<std::string>("App.Window.Platform.Type");
-    mup_main_window        = Window::CreateMainWindow(platform, *this);
-    init_result          = init_result && mup_main_window->init();
+    mp_main_window       = Window::CreateMainWindow(platform, *this);
+    init_result          = init_result && mp_main_window->init();
 
     // AppStates init
     {
@@ -39,7 +39,7 @@ bool App::init(int argc, char * argv[])
 
 void App::update()
 {
-    mup_main_window->update();
+    mp_main_window->update();
 
     // perform state transition
     if((m_next_state != -1 && (m_next_state != m_cur_state)))
@@ -47,7 +47,7 @@ void App::update()
         doStateTransition();
     }
 
-    m_states[m_cur_state]->update();  // scene update
+    m_states[m_cur_state]->update();   // scene update
 }
 
 void App::terminate()
@@ -62,7 +62,7 @@ void App::terminate()
     }
 
     // window terminate
-    mup_main_window->terminate();
+    mp_main_window->terminate();
 }
 
 AppState::StateID App::getStateID(std::string const & state_name)

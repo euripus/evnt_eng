@@ -19,8 +19,8 @@ public:
     bool init(int argc, char * argv[]);
     void processInput() {}
     void update();
-    void draw() {}                                // call render() for  main window
-    void swap() { mup_main_window->present(); }   // swap back buffer
+    void draw() {}                               // call render() for  main window
+    void swap() { mp_main_window->present(); }   // swap back buffer
     void terminate();
 
     bool running() const { return m_is_running; }
@@ -40,7 +40,7 @@ public:
     void              setNextState(AppState::StateID next_state);
     AppState::StateID getStateID(std::string const & state_name);   // if not found return 0
 
-    Window &        getMainWindow() { return *mup_main_window; }
+    Window &        getMainWindow() { return *mp_main_window; }
     ObjectManager & getObjectManager() { return m_obj_mgr; }
     const Command & getAppCommandLineParam() const { return m_command_line; }
 
@@ -49,7 +49,7 @@ public:
 private:
     void doStateTransition();
 
-    std::unique_ptr<Window> mup_main_window;
+    std::unique_ptr<Window> mp_main_window;
     bool                    m_is_running{true};
 
     mutable std::mutex       m_state_mutex;

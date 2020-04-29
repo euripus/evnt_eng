@@ -59,10 +59,12 @@ public:
     float             getGamma() const { return m_gamma; }
     void              setGamma(float g) { m_gamma = g; }
 
+    // template method
+    void update();
+
     // virtual's
     virtual bool init() { return true; }
     virtual void terminate() {}
-    virtual void update() {}
     virtual void present(uint32_t sync_interval = 1) {}   // swap chain
 
     virtual void         fullscreen(bool is_fullscreen) = 0;
@@ -82,6 +84,10 @@ public:
     void winResize(glm::ivec2 sz);
     void winFullscreen(bool is_fullscreen);
 
+private:
+    //
+    virtual void platformUpdate() {}
+
 protected:
     App & m_owner;
 
@@ -96,6 +102,7 @@ protected:
     bool        m_cursor_visibility;
     MouseCursor m_cur_mouse_cursor;
 
+    // subsystems
     std::unique_ptr<Input>  mp_input_backend;
     std::unique_ptr<Render> mp_renderer;
 };
