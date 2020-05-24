@@ -39,6 +39,7 @@ public:
     void              setStartState(AppState::StateID start);
     void              setNextState(AppState::StateID next_state);
     AppState::StateID getStateID(std::string const & state_name);   // if not found return 0
+    std::string       getStateName(AppState::StateID id) const;
 
     Window &        getMainWindow() { return *mp_main_window; }
     ObjectManager & getObjectManager() { return m_obj_mgr; }
@@ -54,7 +55,7 @@ private:
 
     mutable std::mutex       m_state_mutex;
     std::vector<AppStatePtr> m_states;
-    AppState::StateID        m_cur_state{-1};
+    AppState::StateID        m_cur_state;
     AppState::StateID        m_next_state{-1};
     const AppState::StateID  m_end_state;
 

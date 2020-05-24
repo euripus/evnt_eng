@@ -59,7 +59,7 @@ public:
     float             getGamma() const { return m_gamma; }
     void              setGamma(float g) { m_gamma = g; }
 
-    // template method
+    // NVI idiom
     void update();
 
     // virtual's
@@ -77,15 +77,15 @@ public:
     virtual void                setCursorVisibility(bool type) = 0;
     virtual bool                isCursorVisible() const { return m_cursor_visibility; }
 
-    // factory
-    static std::unique_ptr<Window> CreateMainWindow(std::string const & platform_type, App & owner);
-
-    // Events
+    // events
     void winResize(glm::ivec2 sz);
     void winFullscreen(bool is_fullscreen);
 
+    // factory
+    static std::unique_ptr<Window> CreateMainWindow(std::string const & platform_type, App & owner);
+
 private:
-    //
+    // NVI for update()
     virtual void platformUpdate() {}
 
 protected:

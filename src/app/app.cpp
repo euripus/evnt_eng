@@ -1,17 +1,20 @@
 #include "app.h"
 #include "../core/core.h"
+#include "../core/exception.h"
 #include "../log/log.h"
 
 namespace evnt
 {
-App::App() : m_end_state{addAppState<end_state>(*this)} {}
+App::App() : m_end_state{addAppState<end_state>(*this)}
+{
+    m_cur_state = m_end_state;
+}
 
 bool App::init(int argc, char * argv[])
 {
-    if(m_cur_state == -1)
+    if(m_cur_state == m_end_state)
     {
-        Log::Log(Log::error, Log::cstr_log("Not set initial state"));
-        return false;
+        //Log::Log(Log::warning, Log::cstr_log("Initial state not set!"));
     }
 
     bool init_result{true};
@@ -67,7 +70,7 @@ void App::terminate()
 
 AppState::StateID App::getStateID(std::string const & state_name)
 {
-    AppState::StateID found_id{0};
+    AppState::StateID found_id{0};   // exit_state by default
     {
         std::lock_guard lk(m_state_mutex);
         for(uint32_t i = 0; i < m_states.size(); ++i)
@@ -84,10 +87,17 @@ AppState::StateID App::getStateID(std::string const & state_name)
     return found_id;
 }
 
+std::string App::getStateName(AppState::StateID id) const
+{
+    assert(id < static_cast<AppState::StateID>(m_states.size()));
+
+    std::lock_guard lk(m_state_mutex);
+    return m_states[id]->getStateName();
+}
+
 void App::setStartState(AppState::StateID start)
 {
-    if(start > static_cast<AppState::StateID>(m_states.size() - 1))
-        return;
+    assert(start < static_cast<AppState::StateID>(m_states.size()));
 
     std::lock_guard lk(m_state_mutex);
     m_cur_state = start;
@@ -95,37 +105,19 @@ void App::setStartState(AppState::StateID start)
 
 void App::setNextState(AppState::StateID next_state)
 {
-    assert(next_state > 0 && next_state < static_cast<AppState::StateID>(m_states.size() - 1));
+    assert(next_state >= 0 && next_state < static_cast<AppState::StateID>(m_states.size()));
 
     std::lock_guard lk(m_state_mutex);
-    if(m_cur_state != -1)
-    {
-        if(m_cur_state != m_next_state)
-        {
-            m_next_state = next_state;
-        }
-    }
-    else
-    {
-        m_next_state = next_state;
-    }
+    m_next_state = next_state;
 }
 
 void App::doStateTransition()
 {
     assert(m_next_state != -1);
+    assert(m_cur_state != m_next_state);
 
-    if(m_cur_state != -1)
-    {
-        assert(m_cur_state != m_next_state);
-
-        m_states[m_cur_state]->onStateLeave(m_next_state);
-        m_states[m_next_state]->onStateEnter(m_cur_state);
-    }
-    else
-    {
-        m_states[m_next_state]->onStateEnter(-1);
-    }
+    m_states[m_cur_state]->onStateLeave(m_next_state);
+    m_states[m_next_state]->onStateEnter(m_cur_state);
 
     std::lock_guard lk(m_state_mutex);
     m_cur_state = m_next_state;

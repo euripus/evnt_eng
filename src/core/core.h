@@ -24,10 +24,10 @@ class Core : public Module<Core>
     uint32_t                     m_fps{0};
 
     pt::ptree                    m_root_config;
-    std::unique_ptr<ThreadPool>  mup_thread_pool;
-    std::unique_ptr<EventSystem> mup_event_system;
-    std::unique_ptr<FileSystem>  mup_file_system;
-    std::unique_ptr<App>         mup_app;
+    std::unique_ptr<ThreadPool>  mp_thread_pool;
+    std::unique_ptr<EventSystem> mp_event_system;
+    std::unique_ptr<FileSystem>  mp_file_system;
+    std::unique_ptr<App>         mp_app;
 
     bool m_running{false};
 
@@ -40,19 +40,19 @@ public:
     template<typename EventTrait>
     void registerEvent()
     {
-        mup_event_system->registerEvent<EventTrait>();
+        mp_event_system->registerEvent<EventTrait>();
     }
 
     template<typename EventTrait>
     EvntHandle addFunctor(typename EventTrait::DelegateType fn)
     {
-        return mup_event_system->subscribeToEvent<EventTrait>(std::move(fn));
+        return mp_event_system->subscribeToEvent<EventTrait>(std::move(fn));
     }
 
     template<typename EventTrait>
     void removeFunctor(EvntHandle evh)
     {
-        mup_event_system->unSubscribeFromEvent<EventTrait>(evh);
+        mp_event_system->unSubscribeFromEvent<EventTrait>(evh);
     }
 
     template<typename EventTrait, typename... Args>
@@ -60,7 +60,16 @@ public:
     {
         static_assert(EventTrait::numArgs == sizeof...(Args), "Incorrect arguments number!");
 
-        return mup_event_system->raiseEvent<EventTrait>(std::forward<Args>(args)...);
+        return mp_event_system->raiseEvent<EventTrait>(std::forward<Args>(args)...);
+    }
+
+    // Note: suppress all exceptions.
+    template<typename EventTrait, typename... Args>
+    auto submitEvent(Args &&... args)
+    {
+        static_assert(EventTrait::numArgs == sizeof...(Args), "Incorrect arguments number!");
+
+        return mp_event_system->submitEvent<EventTrait>(std::forward<Args>(args)...);
     }
 
     bool appInit(int argc, char * argv[]);   // call after all AppState instances added and start state set
@@ -69,10 +78,10 @@ public:
     void exit() { m_running = false; }
 
     // getters
-    ThreadPool &      getThreadPool() { return *mup_thread_pool; }
-    FileSystem &      getFileSystem() { return *mup_file_system; }
+    ThreadPool &      getThreadPool() { return *mp_thread_pool; }
+    FileSystem &      getFileSystem() { return *mp_file_system; }
     const pt::ptree & getRootConfig() const { return m_root_config; }
-    App &             getApp() { return *mup_app; }
+    App &             getApp() { return *mp_app; }
     uint32_t          getFPS() const { return m_fps; }
 };
 }   // namespace evnt

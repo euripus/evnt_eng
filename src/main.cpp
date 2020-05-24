@@ -15,7 +15,7 @@ int utf8_main(int argc, char * argv[])
 
         // add AppStates
         // and set  start state
-        evnt::Core::instance().getApp().setStartState(evnt::Core::instance().getApp().getEndStateID());
+        // evnt::Core::instance().getApp().setStartState(evnt::Core::instance().getApp().getEndStateID());
 
         if(!evnt::Core::instance().appInit(argc, argv))
         {

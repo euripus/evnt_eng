@@ -6,6 +6,13 @@
 
 namespace evnt
 {
+// GLFW CallBack
+void WindowSizeCallback(GLFWwindow * win, int width, int height)
+{
+    glm::ivec2 sz(width, height);
+    Core::instance().submitEvent<evResize>(sz);
+}
+
 void GLFWWindow::alert(std::string const & title, std::string const & message, AlertType type)
 {
     Log::SeverityLevel sl = Log::notification;
@@ -39,18 +46,22 @@ bool GLFWWindow::create(int width, int height)
     glfwWindowHint(GLFW_CONTEXT_RELEASE_BEHAVIOR, GLFW_ANY_RELEASE_BEHAVIOR);
     glfwWindowHint(GLFW_SAMPLES, m_MSAA_level);
 
+    GLFWwindow * new_window{nullptr};
     if(mp_glfw_window != nullptr)
-        glfwDestroyWindow(mp_glfw_window);
-    mp_glfw_window = glfwCreateWindow(width, height, "", mon, nullptr);
-
-    if(mp_glfw_window == nullptr)
     {
-        UNEXPECTED("Creating window error!");
-        return false;
+        new_window = glfwCreateWindow(width, height, "", mon, mp_glfw_window);
+        glfwDestroyWindow(mp_glfw_window);
+    }
+    else
+    {
+        new_window = glfwCreateWindow(width, height, "", mon, nullptr);
     }
 
-    glm::ivec2 sz(width, height);
-    winResize(sz);
+    mp_glfw_window = new_window;
+
+    if(mp_glfw_window == nullptr)
+        EV_EXCEPT("Creating window error!");
+
     glfwSetWindowTitle(mp_glfw_window, m_title.c_str());
     setMouseCursor(getMouseCursor());
 
@@ -64,6 +75,9 @@ bool GLFWWindow::create(int width, int height)
 
     auto render_type = Core::instance().getRootConfig().get<std::string>("App.Render.RenderType.Type");
     mp_renderer      = Render::CreateRender(render_type, *this);
+
+    glm::ivec2 sz(width, height);
+    winResize(sz);
 
     return true;
 }

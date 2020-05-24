@@ -8,13 +8,16 @@ namespace evnt
 void Render::update()
 {
     // execute commands queue in main thread
-    if(!m_update_queue.empty())
     {
-        for(size_t i = 0; i < m_update_queue.size(); ++i)
+        std::lock_guard lk(m_update_queue_mutex);
+        if(!m_update_queue.empty())
         {
-            m_update_queue[i]();
+            for(size_t i = 0; i < m_update_queue.size(); ++i)
+            {
+                m_update_queue[i]();
+            }
+            m_update_queue.clear();
         }
-        m_update_queue.clear();
     }
 }
 

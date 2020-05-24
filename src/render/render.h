@@ -5,6 +5,7 @@
 #include "swapchain.h"
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <vector>
 
 namespace evnt
@@ -17,13 +18,17 @@ public:
     Render(Window & owner) : m_owner(owner) {}
 
     void update();
-    void resize(int width, int height);
+    void resize(int width, int height) {}
     void present();
 
     bool isExtensionsSupported();
 
     // GPU Data Transfer Interface
-    void addUpdateCommand(std::function<void()> f) { m_update_queue.push_back(std::move(f)); }
+    void addUpdateCommand(std::function<void()> f)
+    {
+        std::lock_guard lk(m_update_queue_mutex);
+        m_update_queue.push_back(std::move(f));
+    }
 
     // Fabric method
     static std::unique_ptr<Render> CreateRender(std::string const & render_type, Window & owner_window);
@@ -34,6 +39,7 @@ private:
     Window &                           m_owner;
     std::unique_ptr<RenderDevice>      mp_device;
     std::vector<SwapChainPtr>          m_swap_chains;
+    mutable std::mutex                 m_update_queue_mutex;
     std::vector<std::function<void()>> m_update_queue;
 };
 }   // namespace evnt

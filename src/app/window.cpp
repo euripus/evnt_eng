@@ -18,7 +18,8 @@ Window::Window(App & app) :
     m_running{false},
     m_MSAA_level{0},
     m_gamma{0.0f},
-    m_cursor_visibility{false}
+    m_cursor_visibility{false},
+    m_cur_mouse_cursor{}
 {
     Core::instance().registerEvent<evResize>();
     Core::instance().registerEvent<evFullscreen>();
@@ -36,7 +37,15 @@ void Window::update()
     mp_renderer->update();
 }
 
-void Window::winResize(glm::ivec2 sz) {}
+void Window::winResize(glm::ivec2 sz)
+{
+    int height   = sz.y > 0 ? sz.y : 1;
+    m_win_size.x = sz.x;
+    m_win_size.y = height;
+
+    std::function<void()> f = [this] { mp_renderer->resize(m_win_size.x, m_win_size.y); };
+    mp_renderer->addUpdateCommand(std::move(f));
+}
 
 void Window::winFullscreen(bool is_fullscreen)
 {

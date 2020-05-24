@@ -99,6 +99,17 @@ public:
         return res;
     }
 
+    template<typename... Args>
+    void submit(ThreadPool & pool, Args &&... args)
+    {
+        FlagLock lk(m_access_flag);
+        for(auto & d : m_delegates)
+        {
+            std::function<void()> fn = std::bind(d.delegate, std::forward<Args>(args)...);
+            pool.submit(fn);
+        }
+    }
+
 private:
     struct DelegateHolder
     {
@@ -169,6 +180,17 @@ public:
         }
 
         return res;
+    }
+
+    template<typename EventTrait, typename... Args>
+    void submitEvent(Args &&... args)
+    {
+        FlagLock                lk(m_access_flag);
+        SpecEvent<EventTrait> * evt = find_spec_event<EventTrait>();
+        if(nullptr != evt)
+        {
+            evt->submit(m_threadpool, std::forward<Args>(args)...);
+        }
     }
 
 private:
