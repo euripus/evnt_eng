@@ -7,8 +7,13 @@ namespace evnt
 {
 class GLRenderDevice : public RenderDevice
 {
+    std::vector<std::string> m_extensions;
+
 public:
     GLRenderDevice();
+
+    bool init() override;
+    bool isExtensionsSupported(std::string const & extension_name) const override;
 
     void clearColorFramebufferCommand(int32_t attachment, glm::vec4 color) override;
     void clearDepthFramebufferCommand(float value) override;

@@ -62,6 +62,7 @@ bool GLFWWindow::create(int width, int height)
     if(mp_glfw_window == nullptr)
         EV_EXCEPT("Creating window error!");
 
+    glfwMakeContextCurrent(mp_glfw_window);
     glfwSetWindowTitle(mp_glfw_window, m_title.c_str());
     setMouseCursor(getMouseCursor());
 
@@ -74,7 +75,14 @@ bool GLFWWindow::create(int width, int height)
     }
 
     auto render_type = Core::instance().getRootConfig().get<std::string>("App.Render.RenderType.Type");
-    mp_renderer      = Render::CreateRender(render_type, *this);
+    if(!mp_renderer)
+        mp_renderer = Render::CreateRender(render_type, *this);
+
+    if(!mp_renderer->init())
+    {
+        UNEXPECTED("Render backend init error!");
+        return false;
+    }
 
     glm::ivec2 sz(width, height);
     winResize(sz);

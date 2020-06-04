@@ -20,8 +20,12 @@ public:
     void update();
     void resize(int width, int height) {}
     void present();
+    bool init();
 
-    bool isExtensionsSupported();
+    bool isExtensionsSupported(std::string const & extension_name)
+    {
+        return mp_device->isExtensionsSupported(extension_name);
+    }
 
     // GPU Data Transfer Interface
     void addUpdateCommand(std::function<void()> f)

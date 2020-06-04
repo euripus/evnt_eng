@@ -26,6 +26,9 @@ public:
     void clearCommandBuffer();
 
     // virtuals
+    virtual bool init()                                                          = 0;
+    virtual bool isExtensionsSupported(std::string const & extension_name) const = 0;
+
     virtual void clearColorFramebufferCommand(int32_t attachment, glm::vec4 color) = 0;
     virtual void clearDepthFramebufferCommand(float value)                         = 0;
     virtual void clearAllBuffers()                                                 = 0;

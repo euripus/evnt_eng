@@ -1,10 +1,38 @@
 #include "glrenderdevice.h"
 #include "typeconversions.h"
 #include <GL/glew.h>
+#include <algorithm>
 
 namespace evnt
 {
-GLRenderDevice::GLRenderDevice() {}
+GLRenderDevice::GLRenderDevice()
+{
+    // Initialize GLEW
+    if(glewInit() != GLEW_OK)
+    {
+        throw std::runtime_error{"Failed to initialize GLEW"};
+    }
+
+    GLint num_extensions{0};
+    glGetIntegerv(GL_NUM_EXTENSIONS, &num_extensions);
+
+    for(GLint k = 0; k < num_extensions; k++)
+    {
+        std::string ext{reinterpret_cast<const char *>(glGetStringi(GL_EXTENSIONS, k))};
+        m_extensions.push_back(std::move(ext));
+    }
+}
+
+bool GLRenderDevice::init()
+{
+    return true;
+}
+
+bool GLRenderDevice::isExtensionsSupported(std::string const & extension_name) const
+{
+    return std::find(std::begin(m_extensions), std::end(m_extensions), extension_name)
+           != std::end(m_extensions);
+}
 
 void GLRenderDevice::clearColorFramebufferCommand(int32_t attachment, glm::vec4 color)
 {

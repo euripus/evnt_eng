@@ -21,6 +21,11 @@ void Render::update()
     }
 }
 
+bool Render::init()
+{
+    return mp_device->init();
+}
+
 std::unique_ptr<Render> Render::CreateRender(std::string const & render_type, Window & owner_window)
 {
     if(render_type.empty())
