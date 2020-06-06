@@ -7,7 +7,7 @@
 namespace evnt
 {
 // GLFW CallBack
-void WindowSizeCallback(GLFWwindow * win, int width, int height)
+void WindowSizeCallback(GLFWwindow * win, int32_t width, int32_t height)
 {
     glm::ivec2 sz(width, height);
     Core::instance().submitEvent<evResize>(sz);
@@ -24,7 +24,7 @@ void GLFWWindow::alert(std::string const & title, std::string const & message, A
     Log::Log(sl, Log::cstr_log("\"%s\" - %s", title.c_str(), message.c_str()));
 }
 
-bool GLFWWindow::create(int width, int height)
+bool GLFWWindow::create(int32_t width, int32_t height)
 {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, m_gl_major);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, m_gl_minor);
@@ -115,11 +115,11 @@ bool GLFWWindow::init()
 
     m_full_screen     = config.get<bool>("App.Window.Fullscreen");
     m_title           = config.get<std::string>("App.Window.Title");
-    m_MSAA_level      = config.get<int>("App.Window.MSAA");
-    m_gl_major        = config.get<int>("App.Render.RenderType.Version.Major");
-    m_gl_minor        = config.get<int>("App.Render.RenderType.Version.Minor");
-    m_init_win_size.x = config.get<int>("App.Window.Size.x");
-    m_init_win_size.y = config.get<int>("App.Window.Size.y");
+    m_MSAA_level      = config.get<int32_t>("App.Window.MSAA");
+    m_gl_major        = config.get<int32_t>("App.Render.RenderType.Version.Major");
+    m_gl_minor        = config.get<int32_t>("App.Render.RenderType.Version.Minor");
+    m_init_win_size.x = config.get<int32_t>("App.Window.Size.x");
+    m_init_win_size.y = config.get<int32_t>("App.Window.Size.y");
 
     return create(m_init_win_size.x, m_init_win_size.y);
 }
@@ -158,10 +158,10 @@ void GLFWWindow::fullscreen(bool is_fullscreen)
 DisplayModes GLFWWindow::getDisplayModes() const
 {
     DisplayModes        dms;
-    int                 num_modes = 0;
+    int32_t             num_modes = 0;
     GLFWvidmode const * modes     = glfwGetVideoModes(glfwGetPrimaryMonitor(), &num_modes);
 
-    for(int i = 0; i < num_modes; ++i)
+    for(int32_t i = 0; i < num_modes; ++i)
     {
         DisplayMode dm;
         dm.resolution.x = modes[i].width;

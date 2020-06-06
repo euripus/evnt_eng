@@ -112,7 +112,7 @@ void GLPipeline::bindPipeline()
     if(!fragment_stage._keep_targets && fragment_stage.framebuffer->getID() != 0)
     {
         std::vector<GLenum> drawTargets;
-        for(int target : fragment_stage.draw_targets)
+        for(int32_t target : fragment_stage.draw_targets)
             drawTargets.push_back(GL_COLOR_ATTACHMENT0 + target);
         glDrawBuffers(static_cast<GLsizei>(fragment_stage.draw_targets.size()), drawTargets.data());
     }

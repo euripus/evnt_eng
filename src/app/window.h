@@ -54,8 +54,8 @@ public:
     const DisplayMode getDisplayMode() const { return DisplayMode(m_win_size); }
     bool              getWindowRunning() const { return m_running; }
     bool              isFullScreen() const { return m_full_screen; }
-    void              setMSAALevel(int level) { m_MSAA_level = level; }
-    int               getMSAALevel() const { return m_MSAA_level; }
+    void              setMSAALevel(int32_t level) { m_MSAA_level = level; }
+    int32_t           getMSAALevel() const { return m_MSAA_level; }
     float             getGamma() const { return m_gamma; }
     void              setGamma(float g) { m_gamma = g; }
 
@@ -96,7 +96,7 @@ protected:
     glm::ivec2  m_init_win_size;
     bool        m_full_screen;
     bool        m_running;
-    int         m_MSAA_level;
+    int32_t     m_MSAA_level;
     float       m_gamma;
 
     bool        m_cursor_visibility;

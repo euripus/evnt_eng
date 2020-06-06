@@ -1,8 +1,8 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "classids.h"
 #include "../fs/memory_stream.h"
+#include "classids.h"
 
 #include <functional>
 #include <map>
@@ -13,7 +13,7 @@
     using Super = inBaseClass;                                                                          \
     static evnt::Object::StaticObjectInit sm_class_register;                                            \
                                                                                                         \
-    void         dump(int indentLevel = 0) const override;                                              \
+    void         dump(int32_t indentLevel = 0) const override;                                          \
     void         write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const override; \
     void         read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr) override;         \
     void         link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) override;    \
@@ -82,7 +82,7 @@ public:
     virtual int32_t      getClassIDVirtual() const { return ClassName(Object); }
     virtual const char * getClassString() const { return "Object"; }
 
-    virtual void dump(int indentLevel = 0) const { (void)indentLevel; }
+    virtual void dump(int32_t indentLevel = 0) const { (void)indentLevel; }
     virtual void write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const {}
     virtual void read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr) {}
     virtual void link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) {}

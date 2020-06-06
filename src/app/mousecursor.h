@@ -32,10 +32,10 @@ public:
     }
     std::string getFilename() const { return m_filename; }
 
-    void setHotspotX(int x) { m_hot_spot_x = x; }
-    int  getHotspotX() const { return m_hot_spot_x; }
-    void setHotspotY(int y) { m_hot_spot_y = y; }
-    int  getHotspotY() const { return m_hot_spot_y; }
+    void    setHotspotX(int32_t x) { m_hot_spot_x = x; }
+    int32_t getHotspotX() const { return m_hot_spot_x; }
+    void    setHotspotY(int32_t y) { m_hot_spot_y = y; }
+    int32_t getHotspotY() const { return m_hot_spot_y; }
 
     StdCursorShape getStdShape() const { return m_shape; }
     void           setStdShape(StdCursorShape s)
@@ -54,8 +54,8 @@ public:
 private:
     std::string m_filename;
     ImageData   m_ref_texture;
-    int         m_hot_spot_x;
-    int         m_hot_spot_y;
+    int32_t     m_hot_spot_x;
+    int32_t     m_hot_spot_y;
 
     StdCursorShape m_shape;
     bool           m_is_standart;

@@ -17,14 +17,14 @@ void Connection::processIncomingPackets()
 void Connection::readIncomingPacketsIntoQueue()
 {
     // should we just keep a static one?
-    static const int         packetSize = 1500;
+    static const int32_t     packetSize = 1500;
     static InputMemoryStream inputStream(packetSize);
     SocketAddress            fromAddress;
 
     // keep reading until we don't have anything to read
     // (or we hit a max number that we'll process per frame)
-    int receivedPackedCount = 0;
-    int totalReadByteCount  = 0;
+    int32_t receivedPackedCount = 0;
+    int32_t totalReadByteCount  = 0;
 
     while(receivedPackedCount < MAX_PACKETS_PERFRAME)
     {

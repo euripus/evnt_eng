@@ -312,7 +312,7 @@ bool Input::getMouseButton(int32_t button_id) const
     return m_mouse_buttons_state[button_idx];
 }
 
-int Input::getMouseButtonClicked() const
+int32_t Input::getMouseButtonClicked() const
 {
     int32_t button_idx = -1;
 
@@ -403,7 +403,7 @@ int32_t Input::GetKeyId(const std::string & key_name)
     {
         try
         {
-            int key = boost::lexical_cast<int32_t>(key_name.substr(PREFIX_KEY.length()));
+            int32_t key = boost::lexical_cast<int32_t>(key_name.substr(PREFIX_KEY.length()));
             return key;
         }
         catch(const boost::bad_lexical_cast &)
@@ -414,7 +414,7 @@ int32_t Input::GetKeyId(const std::string & key_name)
     {
         try
         {
-            int key = boost::lexical_cast<int32_t>(key_name.substr(PREFIX_BUTTON.length()));
+            int32_t key = boost::lexical_cast<int32_t>(key_name.substr(PREFIX_BUTTON.length()));
             if(key >= 0 && key < Mouse::ButtonCount)
             {
                 return Mouse::ButtonBase + key - 1;

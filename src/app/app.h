@@ -16,7 +16,7 @@ public:
     App();
     ~App() = default;
 
-    bool init(int argc, char * argv[]);
+    bool init(int32_t argc, char * argv[]);
     void processInput() {}
     void update();
     void draw() {}                               // call render() for  main window

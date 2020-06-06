@@ -275,7 +275,7 @@ public:
         KeyCount = KeyMax - KeyBase
     };
 
-    inline static bool IsModifier(int key)
+    inline static bool IsModifier(int32_t key)
     {
         switch(key)
         {

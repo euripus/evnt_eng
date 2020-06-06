@@ -25,6 +25,13 @@ GLRenderDevice::GLRenderDevice()
 
 bool GLRenderDevice::init()
 {
+    // https://stackoverflow.com/questions/35683334/call-glewinit-once-for-each-rendering-context-or-exactly-once-for-the-whole-app
+    // Initialize GLEW
+    if(glewInit() != GLEW_OK)
+    {
+        throw std::runtime_error{"Failed to initialize GLEW"};
+    }
+
     return true;
 }
 

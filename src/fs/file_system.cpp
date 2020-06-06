@@ -390,7 +390,7 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
     // Смещение первой записи для EOCD
     const uint32_t firstOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
-    for(unsigned int i = 0; i < filelist.size(); ++i)
+    for(uint32_t i = 0; i < filelist.size(); ++i)
     {
         const std::string &        filename = filelist[i]->getName();
         const FileInfo &           fileInfo = fileInfoList[i];

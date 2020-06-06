@@ -9,8 +9,8 @@ namespace evnt
 class ImageUnitManager
 {
 public:
-    static void Initialize(int32_t availableUnits);
-    static int  RefreshUnit(int32_t id);
+    static void    Initialize(int32_t availableUnits);
+    static int32_t RefreshUnit(int32_t id);
 
 private:
     inline static std::map<int32_t, int32_t> sm_available_units;

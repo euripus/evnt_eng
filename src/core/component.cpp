@@ -36,7 +36,7 @@ void Component::onAddMessage(Component * rec, CmpMsgsTable::msg_id id, std::any 
     }
 }
 
-void Component::dump(int indentLevel) const
+void Component::dump(int32_t indentLevel) const
 {
     std::cout << getClassString() << " { " << std::endl;
     std::cout << std::string(4 * (indentLevel + 1), ' ') << "type: " << getClassIDVirtual() << std::endl;
@@ -85,7 +85,7 @@ void Component::read(const InputMemoryStream & inMemoryStream, ObjectManager & g
 
     setInstanceId(inst_id);
 
-    int n_ptr{0};
+    int32_t n_ptr{0};
     inMemoryStream.read(n_ptr);
 
     if(n_ptr != 0)
@@ -102,7 +102,7 @@ void Component::read(const InputMemoryStream & inMemoryStream, ObjectManager & g
 
 void Component::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
 {
-    // https://stackoverflow.com/questions/22419063/error-cast-from-pointer-to-smaller-type-int-loses-information-in-eaglview-mm
+    // https://stackoverflow.com/questions/22419063/error-cast-from-pointer-to-smaller-type-int32_t-loses-information-in-eaglview-mm
     uint32_t inst_id = static_cast<uint32_t>(reinterpret_cast<size_t>(mp_owner));
 
     if(id_remap.find(inst_id) == id_remap.end())

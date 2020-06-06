@@ -7,7 +7,7 @@
 #include <windows.h>
 #endif
 
-int utf8_main(int argc, char * argv[])
+int32_t utf8_main(int32_t argc, char * argv[])
 {
     try
     {
@@ -40,15 +40,15 @@ int utf8_main(int argc, char * argv[])
 int main(int argc, char * argv[])
 {
 #ifdef WIN32
-    int     win_argc;
+    int32_t win_argc;
     char ** win_argv;
 
     wchar_t ** wargv = CommandLineToArgvW(GetCommandLineW(), &win_argc);
     win_argv         = new char *[win_argc + 1];
 
-    for(int i = 0; i < win_argc; i++)
+    for(int32_t i = 0; i < win_argc; i++)
     {
-        int n       = WideCharToMultiByte(CP_UTF8, 0, wargv[i], -1, NULL, 0, NULL, NULL);
+        int32_t n   = WideCharToMultiByte(CP_UTF8, 0, wargv[i], -1, NULL, 0, NULL, NULL);
         win_argv[i] = new char[n];
         WideCharToMultiByte(CP_UTF8, 0, wargv[i], -1, win_argv[i], n, NULL, NULL);
     }
@@ -56,7 +56,7 @@ int main(int argc, char * argv[])
 
     auto ret = utf8_main(win_argc, win_argv);
 
-    for(int i = 0; i < win_argc; i++)
+    for(int32_t i = 0; i < win_argc; i++)
     {
         delete[] win_argv[i];
     }

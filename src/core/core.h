@@ -72,7 +72,8 @@ public:
         return mp_event_system->submitEvent<EventTrait>(std::forward<Args>(args)...);
     }
 
-    bool appInit(int argc, char * argv[]);   // call after all AppState instances added and start state set
+    bool appInit(int32_t argc,
+                 char *  argv[]);   // call after all AppState instances added and start state set
     void enterMainLoop();
 
     void exit() { m_running = false; }

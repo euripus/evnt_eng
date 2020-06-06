@@ -67,14 +67,14 @@ class TessellationStage
 {
 public:
     TessellationStage() {}
-    int patch_size = 1;
+    int32_t patch_size = 1;
 };
 
 class FragmentStage
 {
 public:
-    IFramebuffer *   framebuffer = nullptr;
-    std::vector<int> draw_targets;
+    IFramebuffer *       framebuffer = nullptr;
+    std::vector<int32_t> draw_targets;
 
     IQuad2D viewport;
     IQuad2D scissor_region;
@@ -112,7 +112,7 @@ class TransformFeedbackStage
 {
 public:
     TransformFeedbackStage() {}
-    std::vector<std::pair<int, IBuffer *>> buffer_bindings;
+    std::vector<std::pair<int32_t, IBuffer *>> buffer_bindings;
 
     bool _keep_bindings = false;
 };

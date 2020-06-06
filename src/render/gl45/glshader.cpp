@@ -21,7 +21,7 @@ GLShader::GLShader(std::string src, std::set<std::string> defines)
 
     std::vector<GLuint> shaders;
     m_compile_success = true;
-    for(int i = 0; i != 6; ++i)
+    for(int32_t i = 0; i != 6; ++i)
     {
         if(src.find(stages[i].second) != std::string::npos)
         {

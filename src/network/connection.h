@@ -11,7 +11,7 @@ namespace evnt
 class Connection
 {
 public:
-    static const int MAX_PACKETS_PERFRAME = 10;
+    static const int32_t MAX_PACKETS_PERFRAME = 10;
 
     Connection();
     virtual ~Connection() = default;

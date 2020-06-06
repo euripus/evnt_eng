@@ -30,14 +30,14 @@ public:
     void setCursorVisibility(bool type) override;
 
 private:
-    bool create(int width, int height);
+    bool create(int32_t width, int32_t height);
     void platformUpdate() override;
 
     GLFWvidmode const * mp_base_video_mode{nullptr};
     GLFWwindow *        mp_glfw_window{nullptr};
 
-    int m_gl_major{1};
-    int m_gl_minor{5};
+    int32_t m_gl_major{1};
+    int32_t m_gl_minor{5};
 };
 }   // namespace evnt
 

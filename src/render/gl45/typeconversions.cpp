@@ -355,7 +355,7 @@ GLenum TextureDataTypeToGLTextureDataType(TextureDataType dtype)
             return GL_UNSIGNED_BYTE;
         case TextureDataType::UnsignedInt:
             return GL_UNSIGNED_INT;
-        case TextureDataType::Int:
+        case TextureDataType::int32_t:
             return GL_INT;
         case TextureDataType::Float:
             return GL_FLOAT;
@@ -367,7 +367,7 @@ GLenum TextureDataTypeToGLTextureDataType(TextureDataType dtype)
 
 int32_t GetByteDepth(TexturePixelFormat format, TextureDataType type)
 {
-    int base = 1;
+    int32_t base = 1;
     switch(type)
     {
         case TextureDataType::UnsignedByte:
@@ -376,7 +376,7 @@ int32_t GetByteDepth(TexturePixelFormat format, TextureDataType type)
         case TextureDataType::UnsignedInt:
             base *= 4;
             break;
-        case TextureDataType::Int:
+        case TextureDataType::int32_t:
             base *= 4;
             break;
         case TextureDataType::Float:

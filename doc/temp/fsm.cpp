@@ -10,7 +10,7 @@ struct event_disconnect
 {};
 struct event_timeout
 {};
-//using event = std::variant<event_connect, event_connected, event_disconnect, event_timeout>;
+// using event = std::variant<event_connect, event_connected, event_disconnect, event_timeout>;
 
 struct state_idle
 {};

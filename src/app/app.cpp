@@ -10,11 +10,11 @@ App::App() : m_end_state{addAppState<end_state>(*this)}
     m_cur_state = m_end_state;
 }
 
-bool App::init(int argc, char * argv[])
+bool App::init(int32_t argc, char * argv[])
 {
     if(m_cur_state == m_end_state)
     {
-        //Log::Log(Log::warning, Log::cstr_log("Initial state not set!"));
+        // Log::Log(Log::warning, Log::cstr_log("Initial state not set!"));
     }
 
     bool init_result{true};

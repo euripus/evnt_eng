@@ -52,14 +52,14 @@ class IQuad2D
 public:
     IQuad2D() {}
     IQuad2D(Quad2D & quad) : m_position(glm::floor(quad.m_position)), m_size(glm::ceil(quad.m_size)) {}
-    IQuad2D(int x, int y, int w, int h) :
+    IQuad2D(int32_t x, int32_t y, int32_t w, int32_t h) :
         m_position(glm::round(x), glm::round(y)), m_size(glm::round(w), glm::round(h))
     {}
     IQuad2D(glm::ivec2 pos, glm::ivec2 size) : m_position(pos), m_size(size) {}
     IQuad2D(glm::ivec4 quad) : m_position(quad.x, quad.y), m_size(quad.z, quad.w) {}
 
     inline IQuad2D noOffset() { return IQuad2D(glm::ivec2(0, 0), m_size); }
-    inline IQuad2D mipmapped(int level)
+    inline IQuad2D mipmapped(int32_t level)
     {
         return IQuad2D(m_position, glm::vec2(m_size) / std::pow(2.0f, float(level)));
     }

@@ -109,8 +109,7 @@ void ObjectManager::serialize(OutputMemoryStream & inMemoryStream) const
     }
 }
 
-void ObjectManager::deserialize(const InputMemoryStream & inMemoryStream,
-                                    std::vector<PObjHandle> & objects)
+void ObjectManager::deserialize(const InputMemoryStream & inMemoryStream, std::vector<PObjHandle> & objects)
 {
     objects.clear();
     std::map<uint32_t, uint32_t> istance_id_remap;   // [old_id, new_id]

@@ -18,7 +18,7 @@ public:
     Render(Window & owner) : m_owner(owner) {}
 
     void update();
-    void resize(int width, int height) {}
+    void resize(int32_t width, int32_t height) {}
     void present();
     bool init();
 

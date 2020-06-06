@@ -332,7 +332,7 @@ enum class TextureDataType
 {
     UnsignedByte,
     UnsignedInt,
-    Int,
+    int32_t,
     Float
 };
 

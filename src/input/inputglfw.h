@@ -11,8 +11,9 @@ class InputGLFW : public Input
 {
     GLFWwindow * m_owner_window{nullptr};
 
-    static void KeyFuncCallback(GLFWwindow * win, int key, int scancode, int action, int mods);
-    static void MouseButtonCallback(GLFWwindow * win, int button, int action, int mods);
+    static void KeyFuncCallback(GLFWwindow * win, int32_t key, int32_t scancode, int32_t action,
+                                int32_t mods);
+    static void MouseButtonCallback(GLFWwindow * win, int32_t button, int32_t action, int32_t mods);
     static void MousePositionCallback(GLFWwindow * win, double xpos, double ypos);
     static void MouseWheelCallback(GLFWwindow * win, double xoffset, double yoffset);
 

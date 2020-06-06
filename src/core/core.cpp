@@ -38,7 +38,7 @@ Core::Core()
     addFunctor<evExit>(std::bind(&Core::exit, this));
 }
 
-bool Core::appInit(int argc, char * argv[])
+bool Core::appInit(int32_t argc, char * argv[])
 {
     return mp_app->init(argc, argv);
 }

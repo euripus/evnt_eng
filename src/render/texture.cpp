@@ -11,7 +11,7 @@ void ImageUnitManager::Initialize(int32_t availableUnits)
     }
 }
 
-int ImageUnitManager::RefreshUnit(int32_t id)
+int32_t ImageUnitManager::RefreshUnit(int32_t id)
 {
     if(sm_available_units.find(id) != sm_available_units.end())
         return sm_available_units[id];

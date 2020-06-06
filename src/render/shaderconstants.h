@@ -13,15 +13,15 @@ public:
     ShaderConstants();
     virtual ~ShaderConstants() = default;
 
-    void addConstant(int location, ITexture * texture, ISampler * sampler);
-    void addConstant(int location, Image * image);
-    void addConstant(int location, int32_t i);
-    void addConstant(int location, float f);
-    void addConstant(int location, glm::vec2 v2);
-    void addConstant(int location, glm::vec3 v3);
-    void addConstant(int location, glm::vec4 v4);
-    void addConstant(int location, glm::mat3 m3);
-    void addConstant(int location, glm::mat4 m4);
+    void addConstant(int32_t location, ITexture * texture, ISampler * sampler);
+    void addConstant(int32_t location, Image * image);
+    void addConstant(int32_t location, int32_t i);
+    void addConstant(int32_t location, float f);
+    void addConstant(int32_t location, glm::vec2 v2);
+    void addConstant(int32_t location, glm::vec3 v3);
+    void addConstant(int32_t location, glm::vec4 v4);
+    void addConstant(int32_t location, glm::mat3 m3);
+    void addConstant(int32_t location, glm::mat4 m4);
 
     virtual void bindConstants() = 0;
 

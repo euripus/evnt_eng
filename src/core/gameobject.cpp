@@ -50,7 +50,7 @@ void GameObject::sendMessage(ClassIDType sender, CmpMsgsTable::msg_id messageIde
     }
 }
 
-void GameObject::dump(int indentLevel) const
+void GameObject::dump(int32_t indentLevel) const
 {
     std::cout << getClassString() << " { " << std::endl;
     std::cout << std::string(4 * (indentLevel + 1), ' ') << "type: " << getClassIDVirtual() << std::endl;
@@ -118,7 +118,7 @@ void GameObject::read(const InputMemoryStream & inMemoryStream, ObjectManager & 
     {
         while(size > 0)
         {
-            int      key{0};
+            int32_t  key{0};
             uint32_t cmp_inst{0};
 
             inMemoryStream.read(key);

@@ -7,7 +7,7 @@ GLFramebuffer::GLFramebuffer(const std::vector<WrappedTextureView> & colorAttach
     IFramebuffer()
 {
     glCreateFramebuffers(1, &m_id);
-    int index = 0;
+    int32_t index = 0;
     for(WrappedTextureView colorAttachment : colorAttachments)
     {
         if(colorAttachment.getLayer() == -1)
@@ -32,7 +32,7 @@ GLFramebuffer::GLFramebuffer(const std::vector<WrappedTextureView> & colorAttach
     IFramebuffer()
 {
     glCreateFramebuffers(1, &m_id);
-    int index = 0;
+    int32_t index = 0;
     for(WrappedTextureView colorAttachment : colorAttachments)
     {
         if(colorAttachment.getLayer() == -1)

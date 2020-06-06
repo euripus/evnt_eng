@@ -3,17 +3,15 @@
 
 #include <cstdint>
 
-#define ClassName(name)              CLASS_##name
+#define ClassName(name) CLASS_##name
 #define DefineClassID(name, classID) ClassName(name) = classID,
 
 enum ClassIDType : int32_t
 {
-    DefineClassID(Undefined, -1)
-    DefineClassID(Object, 1000)
-    DefineClassID(Component, 1001)
-    DefineClassID(GameObject, 1002)
+    DefineClassID(Undefined, -1) DefineClassID(Object, 1000) DefineClassID(Component, 1001)
+        DefineClassID(GameObject, 1002)
 
-    eLargestRuntimeClassID
+            eLargestRuntimeClassID
 };
 
 // make sure people dont accidentally define classids in other files:

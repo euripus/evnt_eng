@@ -49,7 +49,7 @@ namespace Log
         if(static_cast<std::size_t>(lvl) < (sizeof(str) / sizeof(*str)))
             strm << str[lvl];
         else
-            strm << static_cast<int>(lvl);
+            strm << static_cast<int32_t>(lvl);
         return strm;
     }
 
@@ -79,7 +79,7 @@ namespace Log
         // std::time_t result = std::time( NULL );
         boost::log::formatter format =
             boost::log::expressions::stream
-            << boost::log::expressions::attr<unsigned int>("RecordID") << " ["
+            << boost::log::expressions::attr<uint32_t>("RecordID") << " ["
             << boost::log::expressions::attr<SeverityLevel>("Severity") << "] Thread["
             << boost::log::expressions::attr<boost::log::attributes::current_thread_id::value_type>(
                    "ThreadID")
@@ -136,7 +136,7 @@ namespace Log
             g_sink_c->reset_filter();
         }
 
-        boost::log::attributes::counter<unsigned int> RecordID(1);
+        boost::log::attributes::counter<uint32_t> RecordID(1);
         boost::log::core::get()->add_global_attribute("RecordID", RecordID);
         boost::log::core::get()->add_global_attribute("ThreadID",
                                                       boost::log::attributes::current_thread_id());

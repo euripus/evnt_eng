@@ -10,17 +10,16 @@ void Render()
     ShaderConstants consts;
     CommandBuffer   cmd;
 
-    pipe.SetPipelineData{...}
-    consts.SetConstans{...}
+    pipe.SetPipelineData{...} consts
+        .SetConstans{...}
 
     cmd.ClearAllBuffers();
     cmd.MemoryBarrier();
 
-    cmd.PipeBind(pipe)
-    cmd.ConstsBind(consts)
-    cmd.DrawCommand()
+    cmd.PipeBind(pipe) cmd.ConstsBind(consts)
+        cmd.DrawCommand()
 
-    cmd.ExecuteCommands();
+            cmd.ExecuteCommands();
 }
 
 ShaderConstants
@@ -38,22 +37,16 @@ ShaderConstants
 
 Pipeline
 {
-    Shader                 shader;
-    VertexStage            
+    Shader shader;
+    VertexStage
     {
         VertexArray vertexArray;
-        bool FrontFaceCulling;
-        bool BackFaceCulling;
-        bool DepthClamping;
+        bool        FrontFaceCulling;
+        bool        BackFaceCulling;
+        bool        DepthClamping;
     }
-    TessellationStage
-    {
-        int PatchSize;
-    }
-    TransformFeedbackStage
-    {
-        std::vector<std::pair<int, TBuffer>> BufferBindings;
-    }
+    TessellationStage { int PatchSize; }
+    TransformFeedbackStage { std::vector<std::pair<int, TBuffer>> BufferBindings; }
     FragmentStage
     {
         Framebuffer      framebuffer;
@@ -92,7 +85,7 @@ Pipeline
 CommandBuffer
 {
     enum class MemoryBarrierType;
-    
+
     std::vector<std::function<void()>> m_commands;
 
     std::vector<ShaderConstants>  m_constants;
@@ -117,12 +110,12 @@ GenerateRenderBuffers()
         BufferStructure({Attribute(2, 0, 4, 16, true, 1), Attribute(3, 16, 4, 16, true, 1),
                          Attribute(4, 32, 4, 16, true, 1), Attribute(5, 48, 4, 16, true, 1)})};
 
-    vao   = VertexArray(bufStruct);
+    vao = VertexArray(bufStruct);
 
     vao.SetBuffer(0, sphereVertices);
 }
 
 GenerateShaders()
 {
-    renderingShader        = Shader(renderShader, {});
+    renderingShader = Shader(renderShader, {});
 }

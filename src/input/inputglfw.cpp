@@ -3,7 +3,7 @@
 
 namespace evnt
 {
-Keyboard::Key MapKeyCode(int platformKeyCode)
+Keyboard::Key MapKeyCode(int32_t platformKeyCode)
 {
     Keyboard::Key key = Keyboard::Key_Invalid;
 
@@ -332,7 +332,7 @@ InputGLFW::InputGLFW(GLFWwindow * owner)
     glfwSetScrollCallback(m_owner_window, MouseWheelCallback);
 }
 
-void InputGLFW::KeyFuncCallback(GLFWwindow * win, int key, int scancode, int action, int mods)
+void InputGLFW::KeyFuncCallback(GLFWwindow * win, int32_t key, int32_t scancode, int32_t action, int32_t mods)
 {
     auto key_internal = MapKeyCode(key);
     bool pressed      = (action == GLFW_PRESS);
@@ -340,7 +340,7 @@ void InputGLFW::KeyFuncCallback(GLFWwindow * win, int key, int scancode, int act
     input_ptr->onKey(key_internal, pressed);
 }
 
-void InputGLFW::MouseButtonCallback(GLFWwindow * win, int button, int action, int mods)
+void InputGLFW::MouseButtonCallback(GLFWwindow * win, int32_t button, int32_t action, int32_t mods)
 {
     Mouse::Button button_id = Mouse::Button_Invalid;
 
