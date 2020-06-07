@@ -47,7 +47,7 @@ public:
     virtual void    setAnisotropicFiltering(bool enabled)              = 0;
     virtual void    setBorderColor(glm::vec4 color)                    = 0;
 
-    inline uint32_t getID() const { return m_id; }
+    uint32_t getID() const { return m_id; }
 
 protected:
     WrapMode m_s_wrap;

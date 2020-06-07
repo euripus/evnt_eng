@@ -1,7 +1,9 @@
 #include "render.h"
+#include "../app/glfwwindow.h"
 #include "../app/window.h"
 #include "../core/exception.h"
 #include "gl45/glrenderdevice.h"
+#include "gl45/glswapchain.h"
 
 namespace evnt
 {
@@ -39,7 +41,8 @@ std::unique_ptr<Render> Render::CreateRender(std::string const & render_type, Wi
     if(render_type == std::string("OpenGL"))
     {
         ptr->mp_device = std::make_unique<GLRenderDevice>();
-        // swap chain
+        ptr->mp_swap_chain =
+            std::make_unique<GLSwapChain>(static_cast<GLFWWindow &>(owner_window).mp_glfw_window);
         is_init = true;
     }
 

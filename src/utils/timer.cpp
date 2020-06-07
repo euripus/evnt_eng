@@ -15,8 +15,6 @@ uint32_t Timer::elapsedMilliseconds() const
     return res;
 }
 
-template<typename T>
-struct TD;
 void Timer::onceCall(uint32_t milliseconds_delay, std::function<void()> callback)
 {
     if(m_is_running)
@@ -29,7 +27,6 @@ void Timer::onceCall(uint32_t milliseconds_delay, std::function<void()> callback
         f();
         m_is_running = false;
     };
-    // TD<decltype(timer_call)> td;
 
     m_delay      = std::chrono::milliseconds(milliseconds_delay);
     m_is_running = true;

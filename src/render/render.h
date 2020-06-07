@@ -18,8 +18,8 @@ public:
     Render(Window & owner) : m_owner(owner) {}
 
     void update();
-    void resize(int32_t width, int32_t height) {}
-    void present();
+    void resize(int32_t width, int32_t height) { mp_swap_chain->resize(width, height); }
+    void present(uint32_t sync_interval = 1) { mp_swap_chain->present(sync_interval); }
     bool init();
 
     bool isExtensionsSupported(std::string const & extension_name)
@@ -38,11 +38,9 @@ public:
     static std::unique_ptr<Render> CreateRender(std::string const & render_type, Window & owner_window);
 
 private:
-    using SwapChainPtr = std::unique_ptr<ISwapChain>;
-
     Window &                           m_owner;
     std::unique_ptr<RenderDevice>      mp_device;
-    std::vector<SwapChainPtr>          m_swap_chains;
+    std::unique_ptr<ISwapChain>        mp_swap_chain;
     mutable std::mutex                 m_update_queue_mutex;
     std::vector<std::function<void()>> m_update_queue;
 };

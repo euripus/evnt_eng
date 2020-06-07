@@ -1,6 +1,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
+#include <cassert>
 #include <stdint.h>
 #include <vector>
 
@@ -82,12 +83,16 @@ protected:
 };
 
 template<class T>
-class Buffer
+class TBuffer
 {
-    IBuffer * mp_bsinf;
+    IBuffer * mp_bsinf{nullptr};
 
 public:
-    Buffer(IBuffer * buffer_interface) { mp_bsinf = buffer_interface; }
+    TBuffer(IBuffer * buffer_interface)
+    {
+        assert(buffer_interface != nullptr);
+        mp_bsinf = buffer_interface;
+    }
 
     uint32_t getID() const { return mp_bsinf->getID(); }
 

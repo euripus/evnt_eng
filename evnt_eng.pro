@@ -73,6 +73,7 @@ SOURCES +=  \
     src/render/gl45/glshader.cpp \
     src/render/gl45/glshaderconstants.cpp \
     src/render/gl45/glshaderdescriptor.cpp \
+    src/render/gl45/glswapchain.cpp \
     src/render/gl45/gltexture.cpp \
     src/render/gl45/glvertexarray.cpp \
     src/render/gl45/typeconversions.cpp \
@@ -130,6 +131,7 @@ HEADERS += \
     src/render/gl45/glshader.h \
     src/render/gl45/glshaderconstants.h \
     src/render/gl45/glshaderdescriptor.h \
+    src/render/gl45/glswapchain.h \
     src/render/gl45/gltexture.h \
     src/render/gl45/glvertexarray.h \
     src/render/gl45/typeconversions.h \

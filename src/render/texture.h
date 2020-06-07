@@ -47,7 +47,7 @@ protected:
 class WrappedTextureView
 {
 public:
-    WrappedTextureView() {}
+    WrappedTextureView() = default;
     WrappedTextureView(int32_t layer, int32_t level, TextureInternalFormat format, uint32_t id) :
         m_layer(layer), m_level(level), m_format(format), m_id(id)
     {}

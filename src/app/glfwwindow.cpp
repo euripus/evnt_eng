@@ -143,7 +143,7 @@ void GLFWWindow::platformUpdate()
 
 void GLFWWindow::present(uint32_t sync_interval)
 {
-    glfwSwapBuffers(mp_glfw_window);
+    mp_renderer->present(sync_interval);
 }
 
 void GLFWWindow::fullscreen(bool is_fullscreen)

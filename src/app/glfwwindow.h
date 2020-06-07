@@ -11,6 +11,8 @@ namespace evnt
 class GLFWWindow : public Window
 {
 public:
+    friend class Render;
+
     GLFWWindow(App & app) : Window(app), mp_base_video_mode{nullptr}, mp_glfw_window{nullptr} {}
     ~GLFWWindow() override = default;
 

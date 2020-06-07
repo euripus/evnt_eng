@@ -27,7 +27,7 @@ GLVertexArray::~GLVertexArray()
     destroy();
 }
 
-void GLVertexArray::setIndexBuffer(Buffer<int32_t> buffer)
+void GLVertexArray::setIndexBuffer(TBuffer<int32_t> buffer)
 {
     glVertexArrayElementBuffer(m_id, buffer.getID());
     m_length    = buffer.getLength();
