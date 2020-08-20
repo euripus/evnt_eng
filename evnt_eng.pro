@@ -85,6 +85,9 @@ SOURCES +=  \
     src/render/shaderconstants.cpp \
     src/render/shaderdescriptor.cpp \
     src/render/texture.cpp \
+    src/scene/cameracomponent.cpp \
+    src/scene/frustum.cpp \
+    src/scene/scenecomponent.cpp \
     src/utils/timer.cpp
 
 HEADERS += \
@@ -147,4 +150,9 @@ HEADERS += \
     src/render/swapchain.h \
     src/render/texture.h \
     src/render/vertexarray.h \
+    src/scene/AABB.h \
+    src/scene/cameracomponent.h \
+    src/scene/frustum.h \
+    src/scene/plane.h \
+    src/scene/scenecomponent.h \
     src/utils/timer.h

@@ -42,7 +42,7 @@ std::unique_ptr<Render> Render::CreateRender(std::string const & render_type, Wi
     {
         ptr->mp_device = std::make_unique<GLRenderDevice>();
         ptr->mp_swap_chain =
-            std::make_unique<GLSwapChain>(static_cast<GLFWWindow &>(owner_window).mp_glfw_window);
+            std::make_unique<GLSwapChain>(dynamic_cast<GLFWWindow &>(owner_window).mp_glfw_window);
         is_init = true;
     }
 
