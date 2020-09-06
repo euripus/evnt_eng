@@ -13,11 +13,11 @@ OutFile::OutFile()
 
 OutFile::OutFile(std::string name)
 {
-    std::swap(m_name, name);
+    m_name            = std::move(name);
     m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
-OutFile::OutFile(std::string name, const char * data, size_t length) : OutFile(name)
+OutFile::OutFile(std::string name, const char * data, size_t length) : OutFile(std::move(name))
 {
     m_data.write(reinterpret_cast<const int8_t *>(data), length);
 }

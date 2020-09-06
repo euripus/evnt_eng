@@ -11,6 +11,7 @@ class ObjHandle
     Object * m_ptr{nullptr};
 
 public:
+    ObjHandle() = default;
     ObjHandle(Object * ptr) : m_ptr(ptr) {}
     ~ObjHandle()
     {

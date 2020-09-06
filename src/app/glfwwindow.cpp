@@ -183,7 +183,7 @@ void GLFWWindow::adjustGamma()
     glfwSetGamma(glfwGetPrimaryMonitor(), m_gamma);
 }
 
-void GLFWWindow::setMouseCursor(MouseCursor cursor)
+void GLFWWindow::setMouseCursor(MouseCursor const & cursor)
 {
     GLFWcursor * glfw_cursor = nullptr;
     if(cursor.isStdShapeCursor())

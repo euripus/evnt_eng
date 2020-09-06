@@ -45,8 +45,10 @@ PObjHandle GameObject::getComponentPtr() const
 {
     auto id = m_components.find(T::GetClassIDStatic());
 
-    assert(id != m_components.end());
-    return id->second;
+    if(id != m_components.end())
+        return id->second;
+    else
+        return {};
 }
 }   // namespace evnt
 

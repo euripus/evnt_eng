@@ -50,8 +50,7 @@ void CameraComponent::postTransformUpdate(const glm::mat4 & new_trans)
     m_frustum.buildViewFrustum(m_view_mat, m_proj_mat);
 }
 
-// streaming support
-
+// serialization support
 void CameraComponent::dump(int32_t indentLevel) const {}
 
 void CameraComponent::write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const {}

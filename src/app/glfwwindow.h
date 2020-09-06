@@ -28,7 +28,7 @@ public:
 
     void adjustGamma() override;
 
-    void setMouseCursor(MouseCursor cursor) override;
+    void setMouseCursor(MouseCursor const & cursor) override;
     void setCursorVisibility(bool type) override;
 
 private:

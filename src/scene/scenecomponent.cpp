@@ -121,8 +121,7 @@ SpatialComponent * SpatialComponent::getChild(int32_t i)
     return nullptr;
 }
 
-// streaming support
-
+// serialization support
 void SpatialComponent::dump(int32_t indentLevel) const {}
 
 void SpatialComponent::write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const {}

@@ -72,7 +72,7 @@ public:
 
     virtual void adjustGamma() {}
 
-    virtual void                setMouseCursor(MouseCursor cursor) = 0;
+    virtual void                setMouseCursor(MouseCursor const & cursor) = 0;
     virtual const MouseCursor & getMouseCursor() const { return m_cur_mouse_cursor; }
     virtual void                setCursorVisibility(bool type) = 0;
     virtual bool                isCursorVisible() const { return m_cursor_visibility; }
