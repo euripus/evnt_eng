@@ -2,13 +2,16 @@
 #include "../core/core.h"
 #include "../core/exception.h"
 #include "../log/log.h"
+#include "../utils/timer.h"
 
 namespace evnt
 {
-App::App() : m_end_state{addAppState<end_state>(*this)}
+App::App() : m_end_state{addAppState<end_state>(*this)}, m_obj_mgr_clean_call{std::make_unique<Timer>()}
 {
     m_cur_state = m_end_state;
 }
+
+App::~App() {}
 
 bool App::init(int32_t argc, char * argv[])
 {
@@ -36,6 +39,9 @@ bool App::init(int32_t argc, char * argv[])
             init_result = init_result && state->init();
         }
     }
+
+    // once per second delete dead objects
+    m_obj_mgr_clean_call->loopCall(1000, [this] { m_obj_mgr.releaseStalledObjects(); });
 
     return init_result;
 }

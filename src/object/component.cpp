@@ -1,5 +1,5 @@
 #include "component.h"
-#include "exception.h"
+#include "../core/exception.h"
 #include "gameobject.h"
 #include "objectmanager.h"
 
@@ -92,6 +92,7 @@ void Component::read(const InputMemoryStream & inMemoryStream, ObjectManager & g
     {
         // read instance id
         inMemoryStream.read(n_ptr);
+        // store owner id, actual pointer will be find in linking
         mp_owner = reinterpret_cast<GameObject *>(n_ptr);
     }
     else

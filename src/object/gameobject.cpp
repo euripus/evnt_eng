@@ -1,5 +1,5 @@
 #include "gameobject.h"
-#include "exception.h"
+#include "../core/exception.h"
 #include "objectmanager.h"
 
 #include <any>
@@ -11,7 +11,7 @@ OBJECT_IMPLEMENT(GameObject, Object)
 
 void GameObject::addComponent(PObjHandle com)
 {
-    assert(com->getPtr() != nullptr);
+    assert(com);
 
     auto cmp_ptr = dynamic_ohdl_cast<evnt::Component>(com);
 
@@ -35,17 +35,17 @@ Component * GameObject::queryComponentImplementation(int32_t classID) const
     return res;
 }
 
-void GameObject::sendMessage(ClassIDType sender, CmpMsgsTable::msg_id messageIdentifier, std::any msg_data)
+void GameObject::sendMessage(ClassIDType sender, CmpMsgsTable::msg_id message_identifier, std::any msg_data)
 {
-    assert(messageIdentifier != CmpMsgsTable::mUndefined);
+    assert(message_identifier != CmpMsgsTable::mUndefined);
 
     for(auto & [key, cmp] : m_components)
     {
         auto cid = static_cast<ClassIDType>(key);
-        if(s_msg_handlers.hasMessageCallback(messageIdentifier, cid) && cid != sender)
+        if(s_msg_handlers.hasMessageCallback(message_identifier, cid) && cid != sender)
         {
             auto cmp_ptr = dynamic_ohdl_cast<evnt::Component>(cmp);
-            s_msg_handlers.handleMessage(cmp_ptr, messageIdentifier, msg_data);
+            s_msg_handlers.handleMessage(cmp_ptr, message_identifier, msg_data);
         }
     }
 }

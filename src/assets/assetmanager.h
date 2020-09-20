@@ -38,7 +38,7 @@ public:
     virtual IAsset * createCopy(std::string new_path) = 0;
     virtual void     exportAsset()                    = 0;
 
-    bool operator==(IAsset & asset) const { return getPath() == asset.getPath(); }
+    bool operator==(const IAsset & asset) const { return getPath() == asset.getPath(); }
 };
 
 // Resources owner

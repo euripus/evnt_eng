@@ -22,7 +22,7 @@ class ObjectManager
     std::atomic<uint32_t>                  m_next_available_id = {1};   // 0 is not a valid ID
     std::unordered_map<uint32_t, ObjEntry> m_objects;                   // key = instance_id, ObjEntry
 
-    mutable std::mutex m_mutex;
+    mutable std::mutex m_objects_mutex;
 
 public:
     ObjectManager() = default;
@@ -30,12 +30,12 @@ public:
 
     void releaseStalledObjects();
 
-    bool objectExists(uint32_t id) const;
+    bool objectExists(uint32_t instance_id) const;
 
     PObjHandle createDefaultObj(int32_t obj_type);
     PObjHandle registerObj(PUniqueObjPtr ob);
-    PObjHandle getObject(uint32_t id);
-    Object *   getObjectPtr(uint32_t id);
+    PObjHandle getObject(uint32_t instance_id);
+    Object *   getObjectPtr(uint32_t instance_id);
 
     template<typename type>
     PObjHandle createDefaultObj();

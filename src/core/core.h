@@ -6,9 +6,9 @@
 #include "../app/app.h"
 #include "../fs/file_system.h"
 #include "event.h"
-#include "gameobject.h"
+#include "../object/gameobject.h"
 #include "module.h"
-#include "objectmanager.h"
+#include "../object/objectmanager.h"
 
 namespace pt = boost::property_tree;
 

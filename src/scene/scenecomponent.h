@@ -1,7 +1,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "../core/component.h"
+#include "../object/component.h"
 #include "AABB.h"
 
 namespace evnt

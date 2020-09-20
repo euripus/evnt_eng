@@ -1,5 +1,5 @@
 #include "objectmanager.h"
-#include "exception.h"
+#include "../core/exception.h"
 #include <cassert>
 #include <iostream>
 #include <limits>
@@ -9,6 +9,8 @@ namespace evnt
 {
 ObjectManager::~ObjectManager()
 {
+    std::lock_guard<std::mutex> lk(m_objects_mutex);
+
     for(auto & [key, obj_entry] : m_objects)
     {
         if(auto sp = obj_entry.handle.lock())
@@ -36,7 +38,7 @@ PObjHandle ObjectManager::registerObj(PUniqueObjPtr ob)
     new_entry.handle = sp;
 
     {
-        std::lock_guard<std::mutex> lk(m_mutex);
+        std::lock_guard<std::mutex> lk(m_objects_mutex);
         m_objects[id] = std::move(new_entry);
     }
 
@@ -45,13 +47,13 @@ PObjHandle ObjectManager::registerObj(PUniqueObjPtr ob)
 
 bool ObjectManager::objectExists(uint32_t id) const
 {
-    std::lock_guard<std::mutex> lk(m_mutex);
+    std::lock_guard<std::mutex> lk(m_objects_mutex);
     return m_objects.find(id) != m_objects.end();
 }
 
 PObjHandle ObjectManager::getObject(uint32_t id)
 {
-    std::lock_guard<std::mutex> lk(m_mutex);
+    std::lock_guard<std::mutex> lk(m_objects_mutex);
 
     const auto iterFind = m_objects.find(id);
     if(iterFind == m_objects.end())
@@ -62,7 +64,7 @@ PObjHandle ObjectManager::getObject(uint32_t id)
 
 Object * ObjectManager::getObjectPtr(uint32_t id)
 {
-    std::lock_guard<std::mutex> lk(m_mutex);
+    std::lock_guard<std::mutex> lk(m_objects_mutex);
 
     const auto iterFind = m_objects.find(id);
     if(iterFind == m_objects.end())
@@ -73,7 +75,7 @@ Object * ObjectManager::getObjectPtr(uint32_t id)
 
 void ObjectManager::releaseStalledObjects()
 {
-    std::lock_guard<std::mutex> lk(m_mutex);
+    std::lock_guard<std::mutex> lk(m_objects_mutex);
 
     for(auto it = m_objects.begin(); it != m_objects.end();)
     {
@@ -86,7 +88,7 @@ void ObjectManager::releaseStalledObjects()
 
 void ObjectManager::dump() const
 {
-    std::lock_guard<std::mutex> lk(m_mutex);
+    std::lock_guard<std::mutex> lk(m_objects_mutex);
 
     for(const auto & [key, obj_entry] : m_objects)
     {
@@ -100,7 +102,7 @@ void ObjectManager::dump() const
 
 void ObjectManager::serialize(OutputMemoryStream & inMemoryStream) const
 {
-    std::lock_guard<std::mutex> lk(m_mutex);
+    std::lock_guard<std::mutex> lk(m_objects_mutex);
 
     for(const auto & [key, obj_entry] : m_objects)
     {

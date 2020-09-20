@@ -47,13 +47,8 @@ SOURCES +=  \
     src/app/window.cpp \
     src/assets/assetmanager.cpp \
     src/assets/imagedata.cpp \
-    src/core/cmpmsgs.cpp \
-    src/core/component.cpp \
     src/core/core.cpp \
     src/core/exception.cpp \
-    src/core/gameobject.cpp \
-    src/core/object.cpp \
-    src/core/objectmanager.cpp \
     src/fs/file.cpp \
     src/fs/file_system.cpp \
     src/fs/memory_stream.cpp \
@@ -65,6 +60,11 @@ SOURCES +=  \
     src/network/connection.cpp \
     src/network/socketaddress.cpp \
     src/network/udpsocket.cpp \
+    src/object/cmpmsgs.cpp \
+    src/object/component.cpp \
+    src/object/gameobject.cpp \
+    src/object/object.cpp \
+    src/object/objectmanager.cpp \
     src/render/gl45/glbuffer.cpp \
     src/render/gl45/glframebuffer.cpp \
     src/render/gl45/glpipeline.cpp \
@@ -88,6 +88,7 @@ SOURCES +=  \
     src/scene/cameracomponent.cpp \
     src/scene/frustum.cpp \
     src/scene/scenecomponent.cpp \
+    src/scene/scenemgr.cpp \
     src/utils/timer.cpp
 
 HEADERS += \
@@ -99,17 +100,10 @@ HEADERS += \
     src/app/window.h \
     src/assets/assetmanager.h \
     src/assets/imagedata.h \
-    src/core/classids.h \
-    src/core/cmpmsgs.h \
-    src/core/component.h \
     src/core/core.h \
     src/core/event.h \
     src/core/exception.h \
-    src/core/gameobject.h \
     src/core/module.h \
-    src/core/object.h \
-    src/core/objectmanager.h \
-    src/core/objhandle.h \
     src/core/threadpool.h \
     src/fs/file.h \
     src/fs/file_system.h \
@@ -124,6 +118,13 @@ HEADERS += \
     src/network/connection.h \
     src/network/socketaddress.h \
     src/network/udpsocket.h \
+    src/object/classids.h \
+    src/object/cmpmsgs.h \
+    src/object/component.h \
+    src/object/gameobject.h \
+    src/object/object.h \
+    src/object/objectmanager.h \
+    src/object/objhandle.h \
     src/render/buffer.h \
     src/render/framebuffer.h \
     src/render/gl45/glbuffer.h \
@@ -155,4 +156,5 @@ HEADERS += \
     src/scene/frustum.h \
     src/scene/plane.h \
     src/scene/scenecomponent.h \
+    src/scene/scenemgr.h \
     src/utils/timer.h

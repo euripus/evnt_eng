@@ -6,6 +6,7 @@
 #include <atomic>
 #include <chrono>
 #include <functional>
+#include <future>
 #include <thread>
 
 namespace evnt

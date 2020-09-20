@@ -1,20 +1,22 @@
 #ifndef APP_H
 #define APP_H
 
-#include "../core/objectmanager.h"
+#include "../object/objectmanager.h"
 #include "appstate.h"
 #include "command.h"
 #include "window.h"
 
 namespace evnt
 {
+class Timer;
+
 class App
 {
 public:
     using AppStatePtr = std::unique_ptr<AppState>;
 
     App();
-    ~App() = default;
+    ~App();
 
     bool init(int32_t argc, char * argv[]);
     void processInput() {}
@@ -61,8 +63,9 @@ private:
 
     // input queue buffers
 
-    ObjectManager m_obj_mgr;
-    Command       m_command_line;
+    std::unique_ptr<Timer> m_obj_mgr_clean_call;
+    ObjectManager          m_obj_mgr;
+    Command                m_command_line;
 };
 }   // namespace evnt
 #endif   // APP_H

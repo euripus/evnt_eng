@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "../core/component.h"
+#include "../object/component.h"
 #include "frustum.h"
 
 namespace evnt

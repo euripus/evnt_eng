@@ -1,5 +1,5 @@
 #include "object.h"
-#include "exception.h"
+#include "../core/exception.h"
 
 #include <cassert>
 #include <sstream>
@@ -77,7 +77,6 @@ int32_t Object::StringToClassID(const std::string & classString)
 {
     int32_t result = -1;
 
-    /// TODO perfomance check needed
     for(const auto & [key, rtti] : s_classid_to_rtti_map)
     {
         if(rtti.className == classString)

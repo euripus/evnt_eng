@@ -174,8 +174,6 @@ public:
     */
     void buildBoundBox(const std::vector<glm::vec3> & positions)
     {
-        assert(positions.size() > 0);
-
         m_min = glm::vec3(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(),
                           std::numeric_limits<float>::max());
         m_max = glm::vec3(std::numeric_limits<float>::min(), std::numeric_limits<float>::min(),

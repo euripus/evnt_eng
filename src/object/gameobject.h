@@ -18,12 +18,12 @@ public:
     template<class T>
     T & getComponent() const;
     template<class T>
-    PObjHandle getComponentPtr() const;
+    PObjHandle getComponentHandle() const;
     void       addComponent(PObjHandle com);
 
     Component * queryComponentImplementation(int32_t classID) const;
 
-    void sendMessage(ClassIDType sender, CmpMsgsTable::msg_id messageIdentifier, std::any msg_data);
+    void sendMessage(ClassIDType sender, CmpMsgsTable::msg_id message_identifier, std::any msg_data);
 
     inline static CmpMsgsTable s_msg_handlers;
 
@@ -41,7 +41,7 @@ T & GameObject::getComponent() const
 }
 
 template<class T>
-PObjHandle GameObject::getComponentPtr() const
+PObjHandle GameObject::getComponentHandle() const
 {
     auto id = m_components.find(T::GetClassIDStatic());
 

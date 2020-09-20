@@ -17,7 +17,7 @@ struct DisplayMode
 
     DisplayMode() {}
     DisplayMode(const DisplayMode & o) : resolution(o.resolution) {}
-    DisplayMode(glm::ivec2 res) : resolution(res) {}
+    DisplayMode(glm::ivec2 res) : resolution(std::move(res)) {}
 
     bool operator<(const DisplayMode & other) const;
     bool operator==(const DisplayMode & other) const { return resolution == other.resolution; }

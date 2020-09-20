@@ -12,7 +12,7 @@ RenderDevice::RenderDevice()
 
 void RenderDevice::executeCommands()
 {
-    for(std::function<void()> func : m_commands)
+    for(std::function<void()> const & func : m_commands)
         func();
 }
 
