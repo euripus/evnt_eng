@@ -27,9 +27,6 @@ using DisplayModes = std::vector<DisplayMode>;
 
 class App;
 
-DECLARE_EVENT_TRAIT(evResize, void, glm::ivec2);
-DECLARE_EVENT_TRAIT(evFullscreen, void, bool);
-
 class Window
 {
 public:
@@ -39,6 +36,9 @@ public:
         AlertType_Warning,
         AlertType_Error
     };
+
+    Event<void(int32_t, int32_t)> evResize;
+    Event<void(bool)>             evFullscreen;
 
     Window(App & app);
     virtual ~Window() = default;
@@ -78,7 +78,7 @@ public:
     virtual bool                isCursorVisible() const { return m_cursor_visibility; }
 
     // events
-    void winResize(glm::ivec2 sz);
+    void winResize(int32_t w, int32_t h);
     void winFullscreen(bool is_fullscreen);
 
     // factory

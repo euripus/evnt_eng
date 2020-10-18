@@ -14,11 +14,8 @@ int64_t GetMilisecFromStart()
         .count();
 }
 
-Core::Core()
+Core::Core() : mp_thread_pool{std::make_unique<ThreadPool>()}, evExit{*mp_thread_pool}
 {
-    mp_thread_pool  = std::make_unique<ThreadPool>();
-    mp_event_system = std::make_unique<EventSystem>(*mp_thread_pool);
-
     // http://techgate.fr/boost-property-tree/
     // Load the config.json file in this ptree
     pt::read_json(root_config_filename, m_root_config);
@@ -34,8 +31,7 @@ Core::Core()
 
     mp_app = std::make_unique<App>();
 
-    registerEvent<evExit>();
-    addFunctor<evExit>(std::bind(&Core::exit, this));
+    evExit.bind(std::bind(&Core::exit, this));
 }
 
 bool Core::appInit(int32_t argc, char * argv[])

@@ -73,14 +73,6 @@ struct SpatialComponent : public Component
 
     // culling
 };
-
-SpatialComponent::SpatialComponent() :
-    m_local_transform{1.0f},
-    m_world_transform{1.0f},
-    m_bbox{},
-    m_culling{SpatialComponent::CullingMode::CULL_DYNAMIC},
-    m_parent{nullptr}
-{}
 }   // namespace evnt
 
 #endif   // SCENE_H

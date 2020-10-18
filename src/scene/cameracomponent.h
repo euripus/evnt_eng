@@ -37,24 +37,6 @@ private:
 
     // FrameGraph data
 };
-
-CameraComponent::CameraComponent() :
-    m_view_mat{1.0f},
-    m_proj_mat{1.0f},
-    m_frustum{},
-    m_abs_pos{0.0f, 0.0f, 0.0f},
-    m_vp_pos{0, 0},
-    m_vp_size{640, 480},
-    m_frust_left{0.0f},
-    m_frust_right{0.0f},
-    m_frust_bottom{0.0f},
-    m_frust_top{0.0f},
-    m_frust_near{0.0f},
-    m_frust_far{0.0f},
-    m_orthographic{false},
-    m_manual_proj_mat{false}
-{}
-
 }   // namespace evnt
 
 #endif   // CAMERA_H

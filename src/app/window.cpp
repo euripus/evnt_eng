@@ -10,6 +10,8 @@ std::unique_ptr<Window> Window::CreateMainWindow(std::string const & platform_ty
 }
 
 Window::Window(App & app) :
+    evResize{Core::instance().getThreadPool()},
+    evFullscreen{Core::instance().getThreadPool()},
     m_owner{app},
     m_title{},
     m_win_size{0, 0},
@@ -21,11 +23,8 @@ Window::Window(App & app) :
     m_cursor_visibility{false},
     m_cur_mouse_cursor{}
 {
-    Core::instance().registerEvent<evResize>();
-    Core::instance().registerEvent<evFullscreen>();
-
-    Core::instance().addFunctor<evResize>(std::bind(&Window::winResize, this, std::placeholders::_1));
-    Core::instance().addFunctor<evFullscreen>(std::bind(&Window::winFullscreen, this, std::placeholders::_1));
+    evResize.bind(std::bind(&Window::winResize, this, std::placeholders::_1, std::placeholders::_2));
+    evFullscreen.bind(std::bind(&Window::winFullscreen, this, std::placeholders::_1));
 }
 
 void Window::update()
@@ -37,10 +36,10 @@ void Window::update()
     mp_renderer->update();
 }
 
-void Window::winResize(glm::ivec2 sz)
+void Window::winResize(int32_t w, int32_t h)
 {
-    int32_t height = sz.y > 0 ? sz.y : 1;
-    m_win_size.x   = sz.x;
+    int32_t height = h > 0 ? h : 1;
+    m_win_size.x   = w;
     m_win_size.y   = height;
 
     std::function<void()> f = [this] { mp_renderer->resize(m_win_size.x, m_win_size.y); };

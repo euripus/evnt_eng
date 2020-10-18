@@ -6,7 +6,7 @@
 
 namespace evnt
 {
-App::App() : m_end_state{addAppState<end_state>(*this)}, m_obj_mgr_clean_call{std::make_unique<Timer>()}
+App::App() : m_end_state{addAppState<end_state>(*this)}, mp_obj_mgr_clean_timer{std::make_unique<Timer>()}
 {
     m_cur_state = m_end_state;
 }
@@ -41,7 +41,7 @@ bool App::init(int32_t argc, char * argv[])
     }
 
     // once per second delete dead objects
-    m_obj_mgr_clean_call->loopCall(1000, [this] { m_obj_mgr.releaseStalledObjects(); });
+    mp_obj_mgr_clean_timer->loopCall(1000, [this] { m_obj_mgr.releaseStalledObjects(); });
 
     return init_result;
 }

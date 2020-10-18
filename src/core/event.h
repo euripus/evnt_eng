@@ -3,37 +3,12 @@
 
 #include "threadpool.h"
 
-#include <algorithm>
-#include <atomic>
 #include <functional>
 #include <list>
-#include <memory>
-#include <string>
-#include <unordered_map>
-
-#define DECLARE_EVENT_TRAIT(eventTrait, result, ...)                                                   \
-    struct eventTrait                                                                                  \
-    {                                                                                                  \
-        typedef std::tuple<__VA_ARGS__>                 ParamsTuple;                                   \
-        typedef result                                  result_type;                                   \
-        typedef std::function<result_type(__VA_ARGS__)> DelegateType;                                  \
-        static const std::size_t                        numArgs = std::tuple_size<ParamsTuple>::value; \
-        static const char *                             name() { return #eventTrait; }                 \
-    };
+#include <tuple>
 
 namespace evnt
 {
-template<typename T>
-inline std::size_t get_event_trait_hash()
-{
-    static std::size_t result = 0;
-    if(!result)
-    {
-        result = std::hash<std::string>{}(std::string(T::name()));
-    }
-    return result;
-}
-
 struct FlagLock
 {
     FlagLock(std::atomic_bool & f) : m_flag(f)
@@ -48,173 +23,81 @@ private:
     std::atomic_bool & m_flag;
 };
 
-using EvntHandle = std::size_t;
-
-struct BasicEvent
-{
-    BasicEvent()          = default;
-    virtual ~BasicEvent() = default;
-
-    BasicEvent(BasicEvent &)  = delete;
-    BasicEvent(BasicEvent &&) = delete;
-    BasicEvent & operator=(const BasicEvent &) = delete;
-};
+using DelegateHandle = std::size_t;
 
 template<typename EventTrait>
-class SpecEvent : public BasicEvent
+class Event;
+
+template<typename RetType, typename... Args>
+class Event<RetType(Args...)>
 {
 public:
-    SpecEvent() : m_access_flag(false) {}
+    using ResultType   = RetType;
+    using ParamsTuple  = std::tuple<Args...>;
+    using DelegateType = std::function<RetType(Args...)>;
 
-    EvntHandle bind(typename EventTrait::DelegateType fn)
+    static constexpr std::size_t num_args = std::tuple_size<ParamsTuple>::value;
+
+    explicit Event(ThreadPool & pool) : m_access_flag(false), m_thread_pool{pool} {}
+
+    DelegateHandle bind(DelegateType fn)
     {
-        FlagLock   lk(m_access_flag);
-        EvntHandle evh = ++m_next_available_ID;
+        FlagLock       lk(m_access_flag);
+        DelegateHandle evh = ++m_next_available_ID;
         m_delegates.push_back(DelegateHolder{fn, evh});
 
         return evh;
     }
 
-    void unbind(EvntHandle evh)
+    void unbind(DelegateHandle dgh)
     {
         FlagLock lk(m_access_flag);
         m_delegates.erase(std::remove_if(m_delegates.begin(), m_delegates.end(),
-                                         [evh](const DelegateHolder & d) { return d.object == evh; }),
+                                         [dgh](const DelegateHolder & d) { return d.object == dgh; }),
                           m_delegates.end());
     }
 
-    template<typename... Args>
-    auto call(ThreadPool & pool, Args &&... args)
+    // https://stackoverflow.com/questions/29638627/perfect-forwarding-for-functions-inside-of-a-templated-c-class
+    template<typename... Args2>
+    auto call(Args2 &&... args2) const
     {
-        std::vector<std::future<typename EventTrait::result_type>> res;
+        std::vector<std::future<ResultType>> res;
         {
             FlagLock lk(m_access_flag);
             for(auto & d : m_delegates)
             {
-                std::function<typename EventTrait::result_type()> fn =
-                    std::bind(d.delegate, std::forward<Args>(args)...);
-                res.push_back(pool.submit(fn));
+                std::function<ResultType()> fn = std::bind(d.delegate, std::forward<Args2>(args2)...);
+                res.push_back(m_thread_pool.submit(fn));
             }
         }
         return res;
     }
 
-    template<typename... Args>
-    void submit(ThreadPool & pool, Args &&... args)
+    template<typename... Args2>
+    void submit(Args2 &&... args2) const
     {
         FlagLock lk(m_access_flag);
         for(auto & d : m_delegates)
         {
-            std::function<void()> fn = std::bind(d.delegate, std::forward<Args>(args)...);
-            pool.submit(fn);
+            std::function<void()> fn = std::bind(d.delegate, std::forward<Args2>(args2)...);
+            m_thread_pool.submit(fn);
         }
     }
+
+    template<typename... Args2>
+    void operator()(Args2 &&... args2) const { submit(std::forward<Args2>(args2)...); }
 
 private:
     struct DelegateHolder
     {
-        typename EventTrait::DelegateType delegate;
-        std::size_t                       object;
+        DelegateType delegate;
+        std::size_t  object;
     };
 
-    std::atomic_bool          m_access_flag;
+    mutable std::atomic_bool  m_access_flag;
+    ThreadPool &              m_thread_pool;
     std::list<DelegateHolder> m_delegates;
-    mutable uint32_t          m_next_available_ID = {0};
-};
-
-class EventSystem
-{
-public:
-    EventSystem(const EventSystem &) = delete;
-    EventSystem & operator=(const EventSystem &) = delete;
-
-    EventSystem(ThreadPool & pool) : m_access_flag(false), m_threadpool(pool) {}
-
-    template<typename EventTrait>
-    void registerEvent()
-    {
-        const std::size_t eventHash = get_event_trait_hash<EventTrait>();
-        auto              it        = m_events.find(eventHash);
-
-        if(it == m_events.end())
-        {
-            FlagLock lk(m_access_flag);
-            m_events[eventHash] = std::make_unique<SpecEvent<EventTrait>>();
-        }
-    }
-
-    template<typename EventTrait>
-    EvntHandle subscribeToEvent(typename EventTrait::DelegateType fn)
-    {
-        FlagLock                lk(m_access_flag);
-        EvntHandle              evh = 0;
-        SpecEvent<EventTrait> * evt = find_spec_event<EventTrait>();
-        if(nullptr != evt)
-        {
-            evh = evt->bind(std::move(fn));
-        }
-
-        return evh;
-    }
-
-    template<typename EventTrait>
-    void unSubscribeFromEvent(EvntHandle evh)
-    {
-        FlagLock                lk(m_access_flag);
-        SpecEvent<EventTrait> * evt = find_spec_event<EventTrait>();
-        if(nullptr != evt)
-        {
-            evt->unbind(evh);
-        }
-    }
-
-    template<typename EventTrait, typename... Args>
-    auto raiseEvent(Args &&... args)
-    {
-        std::vector<std::future<typename EventTrait::result_type>> res;
-        FlagLock                                                   lk(m_access_flag);
-        SpecEvent<EventTrait> *                                    evt = find_spec_event<EventTrait>();
-        if(nullptr != evt)
-        {
-            res = evt->call(m_threadpool, std::forward<Args>(args)...);
-        }
-
-        return res;
-    }
-
-    template<typename EventTrait, typename... Args>
-    void submitEvent(Args &&... args)
-    {
-        FlagLock                lk(m_access_flag);
-        SpecEvent<EventTrait> * evt = find_spec_event<EventTrait>();
-        if(nullptr != evt)
-        {
-            evt->submit(m_threadpool, std::forward<Args>(args)...);
-        }
-    }
-
-private:
-    template<typename EventTrait>
-    SpecEvent<EventTrait> * find_spec_event()
-    {
-        const std::size_t       eventHash = get_event_trait_hash<EventTrait>();
-        auto                    it        = m_events.find(eventHash);
-        SpecEvent<EventTrait> * ptr       = nullptr;
-
-        if(it != m_events.end())
-        {
-            ptr = static_cast<SpecEvent<EventTrait> *>(it->second.get());
-        }
-
-        return ptr;
-    }
-
-private:
-    using EventsMap = std::unordered_map<std::size_t, std::unique_ptr<BasicEvent>>;
-
-    std::atomic_bool m_access_flag;   // spinlock access
-    EventsMap        m_events;
-    ThreadPool &     m_threadpool;
+    uint32_t                  m_next_available_ID = {0};
 };
 }   // namespace evnt
 

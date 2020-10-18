@@ -63,7 +63,7 @@ private:
 
     // input queue buffers
 
-    std::unique_ptr<Timer> m_obj_mgr_clean_call;
+    std::unique_ptr<Timer> mp_obj_mgr_clean_timer;
     ObjectManager          m_obj_mgr;
     Command                m_command_line;
 };

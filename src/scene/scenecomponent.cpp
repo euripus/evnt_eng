@@ -4,6 +4,14 @@ namespace evnt
 {
 OBJECT_IMPLEMENT(SpatialComponent, Component)
 
+SpatialComponent::SpatialComponent() :
+    m_local_transform{1.0f},
+    m_world_transform{1.0f},
+    m_bbox{},
+    m_culling{SpatialComponent::CullingMode::CULL_DYNAMIC},
+    m_parent{nullptr}
+{}
+
 void SpatialComponent::updateTree(uint32_t ms_delta, bool initiator)
 {
     updateWorldData(ms_delta);

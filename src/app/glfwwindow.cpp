@@ -9,8 +9,8 @@ namespace evnt
 // GLFW CallBack
 void WindowSizeCallback(GLFWwindow * win, int32_t width, int32_t height)
 {
-    glm::ivec2 sz(width, height);
-    Core::instance().submitEvent<evResize>(sz);
+    GLFWWindow * ptr = static_cast<GLFWWindow *>(glfwGetWindowUserPointer(win));
+    ptr->evResize(width, height);
 }
 
 void GLFWWindow::alert(std::string const & title, std::string const & message, AlertType type)
@@ -64,6 +64,7 @@ bool GLFWWindow::create(int32_t width, int32_t height)
 
     glfwMakeContextCurrent(mp_glfw_window);
     glfwSetWindowTitle(mp_glfw_window, m_title.c_str());
+    glfwSetWindowUserPointer(mp_glfw_window, this);
     setMouseCursor(getMouseCursor());
 
     // subsystem init
@@ -84,8 +85,7 @@ bool GLFWWindow::create(int32_t width, int32_t height)
         return false;
     }
 
-    glm::ivec2 sz(width, height);
-    winResize(sz);
+    winResize(width, height);
 
     return true;
 }
