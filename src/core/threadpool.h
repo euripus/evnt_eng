@@ -25,12 +25,12 @@ public:
     {
         uint32_t    num_cores = std::thread::hardware_concurrency();
         std::size_t pool_size = std::max<uint32_t>(1, num_cores - 1);   // 2 threads on single core system
-        create_pool_threads(pool_size);
+        createPoolThreads(pool_size);
     }
 
     ThreadPool(std::size_t pool_size) : m_io_serv(), m_work(m_io_serv), m_num_tasks(0)
     {
-        create_pool_threads(pool_size);
+        createPoolThreads(pool_size);
     }
 
     ~ThreadPool()
@@ -56,7 +56,7 @@ public:
 
         // https://stackoverflow.com/questions/13157502/how-do-you-post-a-boost-packaged-task-to-an-io-service-in-c03
         auto ff = [this, f = std::forward<FunctionType>(f)]() -> result_type {
-            return wrap_task(std::move(f));
+            return wrapTask(std::move(f));
         };
         auto                     task = std::make_shared<task_type>(std::move(ff));
         std::future<result_type> res  = task->get_future();
@@ -69,7 +69,7 @@ public:
 
     void submit(std::function<void()> f)
     {
-        auto ff = [this, f = std::move(f)]() { wrap_task(std::move(f)); };
+        auto ff = [this, f = std::move(f)]() { wrapTask(std::move(f)); };
 
         ++m_num_tasks;
         m_io_serv.post(ff);
@@ -79,7 +79,7 @@ private:
     /// Wrap a task so that the available count can be decreased
     template<typename FunctionType,
              typename = std::enable_if_t<!std::is_void_v<std::result_of_t<FunctionType()>>>>
-    auto wrap_task(FunctionType f)
+    auto wrapTask(FunctionType f)
     {
         using result_type = typename std::result_of_t<FunctionType()>;
 
@@ -88,7 +88,7 @@ private:
         return res;
     }
 
-    void wrap_task(std::function<void()> f)
+    void wrapTask(std::function<void()> f)
     {
         // Run the user supplied task.
         try
@@ -102,7 +102,7 @@ private:
         --m_num_tasks;
     }
 
-    void create_pool_threads(std::size_t pool_size)
+    void createPoolThreads(std::size_t pool_size)
     {
         for(std::size_t i = 0; i < pool_size; ++i)
         {

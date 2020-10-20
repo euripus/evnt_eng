@@ -10,8 +10,8 @@ std::unique_ptr<Window> Window::CreateMainWindow(std::string const & platform_ty
 }
 
 Window::Window(App & app) :
-    evResize{Core::instance().getThreadPool()},
-    evFullscreen{Core::instance().getThreadPool()},
+    evResize{},
+    evFullscreen{},
     m_owner{app},
     m_title{},
     m_win_size{0, 0},

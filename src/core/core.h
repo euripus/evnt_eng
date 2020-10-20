@@ -49,5 +49,9 @@ public:
     App &             getApp() { return *mp_app; }
     uint32_t          getFPS() const { return m_fps; }
 };
+
+template<typename RetType, typename... Args>
+Event<RetType(Args...)>::Event() : m_access_flag(false), m_thread_pool{Core::instance().getThreadPool()}
+{}
 }   // namespace evnt
 #endif   // CORE_H

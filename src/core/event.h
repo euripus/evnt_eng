@@ -11,10 +11,9 @@ namespace evnt
 {
 struct FlagLock
 {
-    FlagLock(std::atomic_bool & f) : m_flag(f)
+    explicit FlagLock(std::atomic_bool & f) : m_flag(f)
     {
-        while(m_flag.exchange(true))
-            ;
+        while(m_flag.exchange(true));
     }
 
     ~FlagLock() { m_flag.store(false); }
@@ -38,7 +37,7 @@ public:
 
     static constexpr std::size_t num_args = std::tuple_size<ParamsTuple>::value;
 
-    explicit Event(ThreadPool & pool) : m_access_flag(false), m_thread_pool{pool} {}
+    Event();
 
     DelegateHandle bind(DelegateType fn)
     {

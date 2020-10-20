@@ -14,7 +14,7 @@ int64_t GetMilisecFromStart()
         .count();
 }
 
-Core::Core() : mp_thread_pool{std::make_unique<ThreadPool>()}, evExit{*mp_thread_pool}
+Core::Core() : mp_thread_pool{std::make_unique<ThreadPool>(1)}, evExit{}
 {
     // http://techgate.fr/boost-property-tree/
     // Load the config.json file in this ptree
