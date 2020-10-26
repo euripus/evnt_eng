@@ -13,7 +13,8 @@ struct FlagLock
 {
     explicit FlagLock(std::atomic_bool & f) : m_flag(f)
     {
-        while(m_flag.exchange(true));
+        while(m_flag.exchange(true))
+            ;
     }
 
     ~FlagLock() { m_flag.store(false); }
@@ -38,6 +39,7 @@ public:
     static constexpr std::size_t num_args = std::tuple_size<ParamsTuple>::value;
 
     Event();
+    explicit Event(ThreadPool & pool) : m_access_flag(false), m_thread_pool{pool} {}
 
     DelegateHandle bind(DelegateType fn)
     {
@@ -84,7 +86,10 @@ public:
     }
 
     template<typename... Args2>
-    void operator()(Args2 &&... args2) const { submit(std::forward<Args2>(args2)...); }
+    void operator()(Args2 &&... args2) const
+    {
+        submit(std::forward<Args2>(args2)...);
+    }
 
 private:
     struct DelegateHolder

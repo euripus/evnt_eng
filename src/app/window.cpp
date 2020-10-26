@@ -41,9 +41,6 @@ void Window::winResize(int32_t w, int32_t h)
     int32_t height = h > 0 ? h : 1;
     m_win_size.x   = w;
     m_win_size.y   = height;
-
-    std::function<void()> f = [this] { mp_renderer->resize(m_win_size.x, m_win_size.y); };
-    mp_renderer->addUpdateCommand(std::move(f));
 }
 
 void Window::winFullscreen(bool is_fullscreen)

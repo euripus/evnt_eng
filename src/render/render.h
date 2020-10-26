@@ -15,10 +15,10 @@ class Window;
 class Render
 {
 public:
-    Render(Window & owner) : m_owner(owner) {}
+    Render(Window & owner);
 
     void update();
-    void resize(int32_t width, int32_t height) { mp_swap_chain->resize(width, height); }
+    void resize(int32_t width, int32_t height);
     void present(uint32_t sync_interval = 1) { mp_swap_chain->present(sync_interval); }
     bool init();
 
@@ -27,7 +27,6 @@ public:
         return mp_device->isExtensionsSupported(extension_name);
     }
 
-    // GPU Data Transfer Interface
     void addUpdateCommand(std::function<void()> f)
     {
         std::lock_guard lk(m_update_queue_mutex);

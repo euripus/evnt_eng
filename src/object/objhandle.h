@@ -12,7 +12,7 @@ class ObjHandle
 
 public:
     ObjHandle() = default;
-    ObjHandle(Object * ptr) : m_ptr(ptr) {}
+    explicit ObjHandle(Object * ptr) : m_ptr(ptr) {}
     ~ObjHandle()
     {
         if(m_ptr != nullptr)

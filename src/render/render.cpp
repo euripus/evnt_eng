@@ -7,6 +7,11 @@
 
 namespace evnt
 {
+Render::Render(Window & owner) : m_owner(owner)
+{
+    m_owner.evResize.bind(std::bind(&Render::resize, this, std::placeholders::_1, std::placeholders::_2));
+}
+
 void Render::update()
 {
     // execute commands queue in main thread
@@ -21,6 +26,12 @@ void Render::update()
             m_update_queue.clear();
         }
     }
+}
+
+void Render::resize(int32_t width, int32_t height)
+{
+    std::function<void()> f = [this, width, height] { mp_swap_chain->resize(width, height); };
+    addUpdateCommand(std::move(f));
 }
 
 bool Render::init()
