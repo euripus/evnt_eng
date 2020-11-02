@@ -39,7 +39,7 @@ public:
     end_state(App & owner) : AppState(owner, "end_state") {}
     ~end_state() override = default;
 
-    void update() override;
+    void update() override ;
 };
 }   // namespace evnt
 

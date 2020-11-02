@@ -15,7 +15,7 @@ class Window;
 class Render
 {
 public:
-    Render(Window & owner);
+    explicit Render(Window & owner);
 
     void update();
     void resize(int32_t width, int32_t height);
@@ -37,9 +37,10 @@ public:
     static std::unique_ptr<Render> CreateRender(std::string const & render_type, Window & owner_window);
 
 private:
-    Window &                           m_owner;
-    std::unique_ptr<RenderDevice>      mp_device;
-    std::unique_ptr<ISwapChain>        mp_swap_chain;
+    Window &                      m_owner;
+    std::unique_ptr<RenderDevice> mp_device;
+    std::unique_ptr<ISwapChain>   mp_swap_chain;
+
     mutable std::mutex                 m_update_queue_mutex;
     std::vector<std::function<void()>> m_update_queue;
 };

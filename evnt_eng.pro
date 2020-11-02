@@ -49,6 +49,7 @@ SOURCES +=  \
     src/assets/imagedata.cpp \
     src/core/core.cpp \
     src/core/exception.cpp \
+    src/demo/demostate.cpp \
     src/fs/file.cpp \
     src/fs/file_system.cpp \
     src/fs/memory_stream.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
     src/core/exception.h \
     src/core/module.h \
     src/core/threadpool.h \
+    src/demo/demostate.h \
     src/fs/file.h \
     src/fs/file_system.h \
     src/fs/memory_stream.h \

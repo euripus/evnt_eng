@@ -23,8 +23,7 @@ class ObjectManager
 
     std::atomic<uint32_t>                        m_next_available_id = {1};   // 0 is not a valid ID
     std::unordered_map<uint32_t, ComponentsList> m_objects;                   // key = type_id
-
-    mutable std::mutex m_objects_mutex;
+    mutable std::mutex                           m_objects_mutex;
 
 public:
     ObjectManager() = default;

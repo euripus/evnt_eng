@@ -1,3 +1,4 @@
+#include "./demo/demostate.h"
 #include "core/core.h"
 
 #include <iostream>
@@ -15,7 +16,9 @@ int32_t utf8_main(int32_t argc, char * argv[])
 
         // add AppStates
         // and set  start state
-        // evnt::Core::instance().getApp().setStartState(evnt::Core::instance().getApp().getEndStateID());
+        auto start_id =
+            evnt::Core::instance().getApp().addAppState<evnt::DemoState>(evnt::Core::instance().getApp());
+        evnt::Core::instance().getApp().setStartState(start_id);
 
         if(!evnt::Core::instance().appInit(argc, argv))
         {
