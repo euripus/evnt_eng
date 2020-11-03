@@ -1,5 +1,6 @@
 #include "input.h"
 #include "keybinding.h"
+#include "../core/core.h"
 #include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <cassert>
@@ -248,31 +249,19 @@ static const KeyDescription s_keys_descriptions[] = {
 void Input::onCursorPos(int32_t xpos, int32_t ypos)
 {
     setMousePosAbs(glm::ivec2(xpos, ypos));
-
-    if(m_mouse_cursor_callback)
-    {
-        m_mouse_cursor_callback(xpos, ypos);
-    }
+    evMouseCursor(xpos, ypos);
 }
 
 void Input::onMouseButton(int32_t button_code, bool press)
 {
     m_mouse_buttons_state[button_code - Mouse::ButtonBase] = press;
-
-    if(m_mouse_button_callback)
-    {
-        m_mouse_button_callback(button_code, press);
-    }
+    evMouseButton(button_code, press);
 }
 
 void Input::onMouseWheel(int32_t xoffset, int32_t yoffset)
 {
     m_mouse_wheel = yoffset;
-
-    if(m_mouse_wheel_callback)
-    {
-        m_mouse_wheel_callback(xoffset, yoffset);
-    }
+    evMouseWheel(xoffset, yoffset);
 }
 
 void Input::onKey(int32_t key_code, bool press)
@@ -285,13 +274,13 @@ void Input::onKey(int32_t key_code, bool press)
         KeyBinding::KeyPressed(key_code);
     }
 
-    if(m_key_callback)
-    {
-        m_key_callback(key_code, press);
-    }
+    evKeyboard(key_code, press);
 }
 
-Input::Input() : m_key_id{-1}, m_mouse_position{0, 0}, m_mouse_wheel{0}
+Input::Input() :
+    m_key_id{-1},
+    m_mouse_position{0, 0},
+    m_mouse_wheel{0}
 {
     reset();
 }

@@ -317,14 +317,14 @@ Keyboard::Key MapKeyCode(int32_t platformKeyCode)
     return key;
 }
 
-static InputGLFW * input_ptr{nullptr};
+static InputGLFW * g_input_ptr{nullptr};
 
 InputGLFW::InputGLFW(GLFWwindow * owner)
 {
     assert(owner != nullptr);
 
     m_owner_window = owner;
-    input_ptr      = this;
+    g_input_ptr    = this;
 
     glfwSetKeyCallback(m_owner_window, KeyFuncCallback);
     glfwSetCursorPosCallback(m_owner_window, MousePositionCallback);
@@ -337,7 +337,7 @@ void InputGLFW::KeyFuncCallback(GLFWwindow * win, int32_t key, int32_t scancode,
     auto key_internal = MapKeyCode(key);
     bool pressed      = (action == GLFW_PRESS);
 
-    input_ptr->onKey(key_internal, pressed);
+    g_input_ptr->onKey(key_internal, pressed);
 }
 
 void InputGLFW::MouseButtonCallback(GLFWwindow * win, int32_t button, int32_t action, int32_t mods)
@@ -353,20 +353,20 @@ void InputGLFW::MouseButtonCallback(GLFWwindow * win, int32_t button, int32_t ac
 
     bool pressed = (action == GLFW_PRESS);
 
-    input_ptr->onMouseButton(button_id, pressed);
+    g_input_ptr->onMouseButton(button_id, pressed);
 }
 
 void InputGLFW::MousePositionCallback(GLFWwindow * win, double xpos, double ypos)
 {
     glm::ivec2 pos(static_cast<int32_t>(xpos), static_cast<int32_t>(ypos));
 
-    input_ptr->onCursorPos(pos.x, pos.y);
+    g_input_ptr->onCursorPos(pos.x, pos.y);
 }
 
 void InputGLFW::MouseWheelCallback(GLFWwindow * win, double xoffset, double yoffset)
 {
     glm::ivec2 offset(static_cast<int32_t>(xoffset), static_cast<int32_t>(yoffset));
 
-    input_ptr->onMouseWheel(offset.x, offset.y);
+    g_input_ptr->onMouseWheel(offset.x, offset.y);
 }
 }   // namespace evnt
