@@ -10,11 +10,16 @@ class DemoState : public AppState
 public:
     DemoState(App & owner) : AppState(owner, "demo_state") {}
 
-    virtual bool init() override { return true; }
-    virtual void onStateEnter(const StateID prevState) override {}
-    virtual void onStateLeave(const StateID nextState) override {}
-    virtual void update() override;
-    virtual void terminate() override {}
+    // AppState interface
+public:
+    bool init() override { return true; }
+    void onStateEnter(const StateID prevState) override {}
+    void onStateLeave(const StateID nextState) override {}
+    void update() override;
+    void terminate() override {}
+
+private:
+    bool m_fullscreen = false;
 };
 }   // namespace evnt
 #endif   // DEMOSTATE_H

@@ -11,7 +11,7 @@
 // https://stackoverflow.com/questions/34222703/how-to-override-static-method-of-template-class-in-derived-class
 #define OBJECT_DEFINE(inClass, inBaseClass)                                                             \
     using Super = inBaseClass;                                                                          \
-    static evnt::Object::StaticObjectInit sm_class_register;                                            \
+    static const evnt::Object::StaticObjectInit sm_class_register;                                      \
                                                                                                         \
     void         dump(int32_t indentLevel = 0) const override;                                          \
     void         write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const override; \
@@ -25,7 +25,7 @@
     static void                    InitType();
 
 #define OBJECT_IMPLEMENT(inClass, inBaseClass)                                                             \
-    evnt::Object::StaticObjectInit inClass::sm_class_register{inClass::InitType};                          \
+    const evnt::Object::StaticObjectInit inClass::sm_class_register{inClass::InitType};                    \
                                                                                                            \
     int32_t                 inClass::getClassIDVirtual() const { return ClassName(inClass); }              \
     const char *            inClass::getClassString() const { return #inClass; }                           \
@@ -61,7 +61,7 @@ public:
         CreateFunc  factory;     // the factory function of the class
     };
 
-    static StaticObjectInit sm_class_register;
+    static const StaticObjectInit sm_class_register;
 
     static void InitType();
 

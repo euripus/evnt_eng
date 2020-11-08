@@ -76,8 +76,7 @@ bool GLFWWindow::create(int32_t width, int32_t height)
     }
 
     auto render_type = Core::instance().getRootConfig().get<std::string>("App.Render.RenderType.Type");
-    if(!mp_renderer)
-        mp_renderer = Render::CreateRender(render_type, *this);
+    mp_renderer      = Render::CreateRender(render_type, *this);
 
     if(!mp_renderer->init())
     {
@@ -152,7 +151,8 @@ void GLFWWindow::fullscreen(bool is_fullscreen)
         return;
 
     m_full_screen = is_fullscreen;
-    create(m_init_win_size.x, m_init_win_size.y);
+    if(!create(m_init_win_size.x, m_init_win_size.y))
+        EV_EXCEPT("Window creation error in fullscreen mode!");
 }
 
 DisplayModes GLFWWindow::getDisplayModes() const
