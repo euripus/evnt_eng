@@ -1,6 +1,7 @@
 #ifndef RENDER_H
 #define RENDER_H
 
+#include "../app/window.h"
 #include "renderdevice.h"
 #include "swapchain.h"
 #include <functional>
@@ -16,6 +17,7 @@ class Render
 {
 public:
     explicit Render(Window & owner);
+    ~Render() = default;
 
     void update();
     void resize(int32_t width, int32_t height);
@@ -27,11 +29,7 @@ public:
         return mp_device->isExtensionsSupported(extension_name);
     }
 
-    void addUpdateCommand(std::function<void()> f)
-    {
-        std::lock_guard lk(m_update_queue_mutex);
-        m_update_queue.push_back(std::move(f));
-    }
+    void addUpdateCommand(std::function<void()> f);
 
     // Fabric method
     static std::unique_ptr<Render> CreateRender(std::string const & render_type, Window & owner_window);
@@ -41,8 +39,10 @@ private:
     std::unique_ptr<RenderDevice> mp_device;
     std::unique_ptr<ISwapChain>   mp_swap_chain;
 
-    mutable std::mutex                 m_update_queue_mutex;
-    std::vector<std::function<void()>> m_update_queue;
+    // TODO: move to gl render
+    ScopedHandle<decltype(Window::evResize)> m_ev_resize_shdl;
+    mutable std::mutex                       m_update_queue_mutex;
+    std::vector<std::function<void()>>       m_update_queue;
 };
 }   // namespace evnt
 #endif   // RENDER_H

@@ -1,5 +1,6 @@
 #include "window.h"
 #include "../core/core.h"
+#include "../render/render.h"
 #include "glfwwindow.h"
 
 namespace evnt
@@ -11,7 +12,6 @@ std::unique_ptr<Window> Window::CreateMainWindow(std::string const & platform_ty
 
 Window::Window(App & app) :
     evResize{},
-    evFullscreen{},
     m_owner{app},
     m_title{},
     m_win_size{0, 0},
@@ -24,8 +24,9 @@ Window::Window(App & app) :
     m_cur_mouse_cursor{}
 {
     evResize.bind(std::bind(&Window::winResize, this, std::placeholders::_1, std::placeholders::_2));
-    evFullscreen.bind(std::bind(&Window::winFullscreen, this, std::placeholders::_1));
 }
+
+Window::~Window() {}
 
 void Window::update()
 {
@@ -42,10 +43,4 @@ void Window::winResize(int32_t w, int32_t h)
     m_win_size.x   = w;
     m_win_size.y   = height;
 }
-
-void Window::winFullscreen(bool is_fullscreen)
-{
-    fullscreen(is_fullscreen);
-}
-
 }   // namespace evnt

@@ -4,6 +4,12 @@
 
 namespace evnt
 {
+bool DemoState::init()
+{
+    m_fullscreen = m_owner.getMainWindow().isFullScreen();
+    return true;
+}
+
 void DemoState::update()
 {
     // input update

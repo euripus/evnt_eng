@@ -3,7 +3,7 @@
 
 #include "../core/event.h"
 #include "../input/input.h"
-#include "../render/render.h"
+//#include "../render/render.h"
 #include "mousecursor.h"
 #include <glm/glm.hpp>
 #include <memory>
@@ -11,6 +11,8 @@
 
 namespace evnt
 {
+class Render;
+
 struct DisplayMode
 {
     glm::ivec2 resolution;
@@ -38,10 +40,9 @@ public:
     };
 
     Event<void(int32_t, int32_t)> evResize;
-    Event<void(bool)>             evFullscreen;
 
     Window(App & app);
-    virtual ~Window() = default;
+    virtual ~Window();
 
     virtual void alert(std::string const & title, std::string const & message,
                        AlertType type = AlertType::AlertType_Information) = 0;
@@ -79,7 +80,6 @@ public:
 
     // events
     void winResize(int32_t w, int32_t h);
-    void winFullscreen(bool is_fullscreen);
 
     // factory
     static std::unique_ptr<Window> CreateMainWindow(std::string const & platform_type, App & owner);

@@ -7,14 +7,17 @@
 
 namespace evnt
 {
-Render::Render(Window & owner) : m_owner(owner)
+Render::Render(Window & owner) :
+    m_owner(owner),
+    m_ev_resize_shdl{
+        m_owner.evResize,
+        m_owner.evResize.bind(std::bind(&Render::resize, this, std::placeholders::_1, std::placeholders::_2))}
 {
-    m_owner.evResize.bind(std::bind(&Render::resize, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Render::update()
 {
-    // execute commands queue in main thread
+    // execute render commands queue in main thread
     {
         std::lock_guard lk(m_update_queue_mutex);
         if(!m_update_queue.empty())
@@ -37,6 +40,12 @@ void Render::resize(int32_t width, int32_t height)
 bool Render::init()
 {
     return mp_device->init();
+}
+
+void Render::addUpdateCommand(std::function<void()> f)
+{
+    std::lock_guard lk(m_update_queue_mutex);
+    m_update_queue.push_back(std::move(f));
 }
 
 std::unique_ptr<Render> Render::CreateRender(std::string const & render_type, Window & owner_window)

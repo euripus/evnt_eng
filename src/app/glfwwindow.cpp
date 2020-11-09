@@ -1,5 +1,6 @@
 #include "glfwwindow.h"
 #include "../core/core.h"
+#include "../render/render.h"
 #include "../input/inputglfw.h"
 #include "../log/debug_messages.h"
 #include <GLFW/glfw3.h>
@@ -84,7 +85,8 @@ bool GLFWWindow::create(int32_t width, int32_t height)
         return false;
     }
 
-    winResize(width, height);
+//    winResize(width, height);
+    evResize(width, height);
 
     return true;
 }
@@ -152,7 +154,7 @@ void GLFWWindow::fullscreen(bool is_fullscreen)
 
     m_full_screen = is_fullscreen;
     if(!create(m_init_win_size.x, m_init_win_size.y))
-        EV_EXCEPT("Window creation error in fullscreen mode!");
+        EV_EXCEPT("Window creation error in fullscreen change!");
 }
 
 DisplayModes GLFWWindow::getDisplayModes() const

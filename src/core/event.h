@@ -25,6 +25,16 @@ private:
 
 using DelegateHandle = std::size_t;
 
+template<typename EventType>
+struct ScopedHandle
+{
+    EventType &    m_evnt;
+    DelegateHandle m_hdl{0};
+
+    explicit ScopedHandle(EventType & evnt, DelegateHandle hdl) : m_evnt{evnt}, m_hdl{hdl} {}
+    ~ScopedHandle() { m_evnt.unbind(m_hdl); }
+};
+
 template<typename EventTrait>
 class Event;
 
