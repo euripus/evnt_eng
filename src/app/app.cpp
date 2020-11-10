@@ -17,7 +17,7 @@ bool App::init(int32_t argc, char * argv[])
 {
     if(m_cur_state == m_end_state)
     {
-        // Log::Log(Log::warning, Log::cstr_log("Initial state not set!"));
+        Log::Log(Log::warning, Log::cstr_log("Initial state not set!"));
     }
 
     bool init_result{true};
@@ -40,8 +40,9 @@ bool App::init(int32_t argc, char * argv[])
         }
     }
 
-    // once per second delete dead objects
-    mp_obj_mgr_clean_timer->loopCall(1000, [this] { m_obj_mgr.releaseStalledObjects(); });
+    // delete dead objects
+    auto clean_time_period = config.get<uint32_t>("App.CleanTime");
+    mp_obj_mgr_clean_timer->loopCall(clean_time_period, [this] { m_obj_mgr.releaseStalledObjects(); });
 
     return init_result;
 }

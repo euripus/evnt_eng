@@ -12,8 +12,7 @@ Render::Render(Window & owner) :
     m_ev_resize_shdl{
         m_owner.evResize,
         m_owner.evResize.bind(std::bind(&Render::resize, this, std::placeholders::_1, std::placeholders::_2))}
-{
-}
+{}
 
 void Render::update()
 {
@@ -29,6 +28,10 @@ void Render::update()
             m_update_queue.clear();
         }
     }
+
+    mp_device->clearAllBuffers();
+    mp_device->executeCommands();
+    mp_device->clearCommandBuffer();
 }
 
 void Render::resize(int32_t width, int32_t height)

@@ -4,6 +4,7 @@ SeverityLevelFilter     all OR warning OR error
 Output                  all OR console OR file
 
 App section
+    CleanTime               clean timer call in ms
     Window section
         PlatformType        glfw OR ...
         Title               string name

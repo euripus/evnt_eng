@@ -1,8 +1,8 @@
 #include "glfwwindow.h"
 #include "../core/core.h"
-#include "../render/render.h"
 #include "../input/inputglfw.h"
 #include "../log/debug_messages.h"
+#include "../render/render.h"
 #include <GLFW/glfw3.h>
 
 namespace evnt
@@ -85,7 +85,7 @@ bool GLFWWindow::create(int32_t width, int32_t height)
         return false;
     }
 
-//    winResize(width, height);
+    //    winResize(width, height);
     evResize(width, height);
 
     return true;
@@ -187,7 +187,9 @@ void GLFWWindow::adjustGamma()
 
 void GLFWWindow::setMouseCursor(MouseCursor const & cursor)
 {
-    GLFWcursor * glfw_cursor = nullptr;
+    static GLFWcursor * old_glfw_cursor = nullptr;
+    GLFWcursor *        glfw_cursor     = nullptr;
+
     if(cursor.isStdShapeCursor())
     {
         MouseCursor::StdCursorShape shp = cursor.getStdShape();
@@ -231,7 +233,11 @@ void GLFWWindow::setMouseCursor(MouseCursor const & cursor)
 
     if(glfw_cursor != nullptr)
     {
+        if(old_glfw_cursor != nullptr)
+            glfwDestroyCursor(old_glfw_cursor);
+
         glfwSetCursor(mp_glfw_window, glfw_cursor);
+        old_glfw_cursor = glfw_cursor;
     }
 }
 

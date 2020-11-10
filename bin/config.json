@@ -13,6 +13,7 @@
       }
    },
    "App":{ 
+      "CleanTime": 1000, 
       "Window":{ 
          "Platform":{ 
             "Type":"glfw"

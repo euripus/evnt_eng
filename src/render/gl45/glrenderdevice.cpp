@@ -7,6 +7,7 @@ namespace evnt
 {
 GLRenderDevice::GLRenderDevice()
 {
+    // https://stackoverflow.com/questions/35683334/call-glewinit-once-for-each-rendering-context-or-exactly-once-for-the-whole-app
     // Initialize GLEW
     if(glewInit() != GLEW_OK)
     {
@@ -25,12 +26,13 @@ GLRenderDevice::GLRenderDevice()
 
 bool GLRenderDevice::init()
 {
-    // https://stackoverflow.com/questions/35683334/call-glewinit-once-for-each-rendering-context-or-exactly-once-for-the-whole-app
-    // Initialize GLEW
-    if(glewInit() != GLEW_OK)
-    {
-        throw std::runtime_error{"Failed to initialize GLEW"};
-    }
+    // Dark blue background
+    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    // Accept fragment if it closer to the camera than the former one
+    glDepthFunc(GL_LESS);
 
     return true;
 }
