@@ -11,7 +11,7 @@ class Entity;
 class Component : public Object
 {
 public:
-    OBJECT_DEFINE(Component, Object)
+    OBJECT_DEFINE
 
     Component() = default;
 

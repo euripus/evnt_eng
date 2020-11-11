@@ -9,7 +9,7 @@ namespace evnt
 class CameraComponent : public Component
 {
 public:
-    OBJECT_DEFINE(CameraComponent, Component)
+    OBJECT_DEFINE
 
     CameraComponent();
     ~CameraComponent() override = default;

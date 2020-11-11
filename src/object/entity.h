@@ -11,7 +11,7 @@ namespace evnt
 class Entity : public Object
 {
 public:
-    OBJECT_DEFINE(GameObject, Object)
+    OBJECT_DEFINE
 
     Entity() = default;
 

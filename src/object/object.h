@@ -9,8 +9,7 @@
 #include <memory>
 
 // https://stackoverflow.com/questions/34222703/how-to-override-static-method-of-template-class-in-derived-class
-#define OBJECT_DEFINE(inClass, inBaseClass)                                                             \
-    using Super = inBaseClass;                                                                          \
+#define OBJECT_DEFINE                                                                                   \
     static const evnt::Object::StaticObjectInit sm_class_register;                                      \
                                                                                                         \
     void         dump(int32_t indentLevel = 0) const override;                                          \

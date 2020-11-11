@@ -8,7 +8,7 @@ namespace evnt
 {
 struct SpatialComponent : public Component
 {
-    OBJECT_DEFINE(SpatialComponent, Component)
+    OBJECT_DEFINE
 
     // Culling parameters.
     enum class CullingMode
