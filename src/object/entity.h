@@ -8,12 +8,12 @@
 
 namespace evnt
 {
-class GameObject : public Object
+class Entity : public Object
 {
 public:
     OBJECT_DEFINE(GameObject, Object)
 
-    GameObject() = default;
+    Entity() = default;
 
     template<class T>
     T & getComponent() const;
@@ -32,7 +32,7 @@ private:
 };
 
 template<class T>
-T & GameObject::getComponent() const
+T & Entity::getComponent() const
 {
     auto com = queryComponentImplementation(T::GetClassIDStatic());
 
@@ -41,7 +41,7 @@ T & GameObject::getComponent() const
 }
 
 template<class T>
-PObjHandle GameObject::getComponentHandle() const
+PObjHandle Entity::getComponentHandle() const
 {
     auto id = m_components.find(T::GetClassIDStatic());
 

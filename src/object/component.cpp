@@ -1,6 +1,6 @@
 #include "component.h"
 #include "../core/exception.h"
-#include "gameobject.h"
+#include "entity.h"
 #include "objectmanager.h"
 
 #include <iostream>
@@ -9,7 +9,7 @@ namespace evnt
 {
 OBJECT_IMPLEMENT(Component, Object)
 
-void Component::setOwnerInternal(GameObject * go)
+void Component::setOwnerInternal(Entity * go)
 {
     mp_owner = go;
 }
@@ -93,7 +93,7 @@ void Component::read(const InputMemoryStream & inMemoryStream, ObjectManager & g
         // read instance id
         inMemoryStream.read(n_ptr);
         // store owner id, actual pointer will be find in linking
-        mp_owner = reinterpret_cast<GameObject *>(n_ptr);
+        mp_owner = reinterpret_cast<Entity *>(n_ptr);
     }
     else
     {
@@ -109,6 +109,6 @@ void Component::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & 
     if(id_remap.find(inst_id) == id_remap.end())
         EV_EXCEPT("Trying linking not exist object");
 
-    mp_owner = static_cast<GameObject *>(gmgr.getObjectPtr(id_remap.at(inst_id)));
+    mp_owner = static_cast<Entity *>(gmgr.getObjectPtr(id_remap.at(inst_id)));
 }
 }   // namespace evnt

@@ -63,7 +63,7 @@ SOURCES +=  \
     src/network/udpsocket.cpp \
     src/object/cmpmsgs.cpp \
     src/object/component.cpp \
-    src/object/gameobject.cpp \
+    src/object/entity.cpp \
     src/object/object.cpp \
     src/object/objectmanager.cpp \
     src/render/gl45/glbuffer.cpp \
@@ -123,7 +123,7 @@ HEADERS += \
     src/object/classids.h \
     src/object/cmpmsgs.h \
     src/object/component.h \
-    src/object/gameobject.h \
+    src/object/entity.h \
     src/object/object.h \
     src/object/objectmanager.h \
     src/object/objhandle.h \

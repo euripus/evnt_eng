@@ -1,7 +1,7 @@
 #ifndef SCENEMGR_H
 #define SCENEMGR_H
 
-#include "../object/gameobject.h"
+#include "../object/entity.h"
 #include "cameracomponent.h"
 #include "scenecomponent.h"
 

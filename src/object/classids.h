@@ -11,7 +11,7 @@ enum ClassIDType : int32_t
     DefineClassID(Undefined, -1)
     DefineClassID(Object, 1000)
     DefineClassID(Component, 1001)
-    DefineClassID(GameObject, 1002)
+    DefineClassID(Entity, 1002)
     DefineClassID(CameraComponent, 1003)
     DefineClassID(SpatialComponent, 1004)
 

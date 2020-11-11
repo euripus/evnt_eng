@@ -1,4 +1,4 @@
-#include "gameobject.h"
+#include "entity.h"
 #include "../core/exception.h"
 #include "objectmanager.h"
 
@@ -7,9 +7,9 @@
 
 namespace evnt
 {
-OBJECT_IMPLEMENT(GameObject, Object)
+OBJECT_IMPLEMENT(Entity, Object)
 
-void GameObject::addComponent(PObjHandle com)
+void Entity::addComponent(PObjHandle com)
 {
     assert(com);
 
@@ -20,7 +20,7 @@ void GameObject::addComponent(PObjHandle com)
     m_components[cmp_ptr->getClassIDVirtual()] = com;
 }
 
-Component * GameObject::queryComponentImplementation(int32_t classID) const
+Component * Entity::queryComponentImplementation(int32_t classID) const
 {
     assert(classID != -1);
 
@@ -35,7 +35,7 @@ Component * GameObject::queryComponentImplementation(int32_t classID) const
     return res;
 }
 
-void GameObject::sendMessage(ClassIDType sender, CmpMsgsTable::msg_id message_identifier, std::any msg_data)
+void Entity::sendMessage(ClassIDType sender, CmpMsgsTable::msg_id message_identifier, std::any msg_data)
 {
     assert(message_identifier != CmpMsgsTable::mUndefined);
 
@@ -50,7 +50,7 @@ void GameObject::sendMessage(ClassIDType sender, CmpMsgsTable::msg_id message_id
     }
 }
 
-void GameObject::dump(int32_t indentLevel) const
+void Entity::dump(int32_t indentLevel) const
 {
     std::cout << getClassString() << " { " << std::endl;
     std::cout << std::string(4 * (indentLevel + 1), ' ') << "type: " << getClassIDVirtual() << std::endl;
@@ -80,7 +80,7 @@ void GameObject::dump(int32_t indentLevel) const
     std::cout << std::string(4 * indentLevel, ' ') << "}";
 }
 
-void GameObject::write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const
+void Entity::write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const
 {
     inMemoryStream.write(getClassIDVirtual());
     inMemoryStream.write(getInstanceId());
@@ -103,7 +103,7 @@ void GameObject::write(OutputMemoryStream & inMemoryStream, const ObjectManager 
     }
 }
 
-void GameObject::read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr)
+void Entity::read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr)
 {
     int32_t type_id{0};
     inMemoryStream.read(type_id);
@@ -133,7 +133,7 @@ void GameObject::read(const InputMemoryStream & inMemoryStream, ObjectManager & 
     }
 }
 
-void GameObject::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
+void Entity::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
 {
     if(m_components.empty())
         return;

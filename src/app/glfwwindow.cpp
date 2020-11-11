@@ -187,8 +187,7 @@ void GLFWWindow::adjustGamma()
 
 void GLFWWindow::setMouseCursor(MouseCursor const & cursor)
 {
-    static GLFWcursor * old_glfw_cursor = nullptr;
-    GLFWcursor *        glfw_cursor     = nullptr;
+    GLFWcursor * glfw_cursor = nullptr;
 
     if(cursor.isStdShapeCursor())
     {
@@ -233,6 +232,8 @@ void GLFWWindow::setMouseCursor(MouseCursor const & cursor)
 
     if(glfw_cursor != nullptr)
     {
+        static GLFWcursor * old_glfw_cursor = nullptr;
+
         if(old_glfw_cursor != nullptr)
             glfwDestroyCursor(old_glfw_cursor);
 

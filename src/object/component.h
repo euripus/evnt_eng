@@ -6,7 +6,7 @@
 
 namespace evnt
 {
-class GameObject;
+class Entity;
 
 class Component : public Object
 {
@@ -15,14 +15,14 @@ public:
 
     Component() = default;
 
-    void setOwnerInternal(GameObject * go);
+    void setOwnerInternal(Entity * go);
     void sendMessage(CmpMsgsTable::msg_id messageIdentifier, std::any msg_data);
 
     // test
     void onAddMessage(Component * rec, CmpMsgsTable::msg_id id, std::any msg_data);
 
 private:
-    GameObject * mp_owner{nullptr};
+    Entity * mp_owner{nullptr};
 };
 }   // namespace evnt
 
