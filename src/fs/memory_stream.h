@@ -19,8 +19,8 @@ public:
     OutputMemoryStream()  = default;
     ~OutputMemoryStream() = default;
 
-    OutputMemoryStream(const OutputMemoryStream & other) { m_buffer = other.m_buffer; }
-    OutputMemoryStream & operator=(const OutputMemoryStream & other)
+    OutputMemoryStream(OutputMemoryStream const & other) { m_buffer = other.m_buffer; }
+    OutputMemoryStream & operator=(OutputMemoryStream const & other)
     {
         // check for self-assignment
         if(&other == this)
@@ -50,10 +50,10 @@ public:
         swap(left.m_buffer, right.m_buffer);
     }
 
-    const int8_t * getBufferPtr() const { return m_buffer.data(); }
+    int8_t const * getBufferPtr() const { return m_buffer.data(); }
     size_t         getLength() const { return m_buffer.size(); }
 
-    void write(const int8_t * inData, size_t inByteCount);
+    void write(int8_t const * inData, size_t inByteCount);
 
     template<typename T>
     void write(T & inData)
@@ -61,17 +61,17 @@ public:
         // https://stackoverflow.com/questions/48225673/why-is-stdis-pod-deprecated-in-c20
         static_assert(std::is_standard_layout_v<T>, "Generic Write only supports primitive data types");
 
-        write(reinterpret_cast<const int8_t *>(&inData), sizeof(inData));
+        write(reinterpret_cast<int8_t const *>(&inData), sizeof(inData));
     }
 
-    void write(const std::string & inString)
+    void write(std::string const & inString)
     {
         size_t elementCount = inString.size();
         write(elementCount);
-        write(reinterpret_cast<const int8_t *>(inString.data()), elementCount * sizeof(char));
+        write(reinterpret_cast<int8_t const *>(inString.data()), elementCount * sizeof(char));
     }
 
-    void write(const InputMemoryStream & inStream);
+    void write(InputMemoryStream const & inStream);
 
     void clear() { m_buffer.clear(); }
 
@@ -91,12 +91,12 @@ public:
     InputMemoryStream()  = default;
     ~InputMemoryStream() = default;
 
-    InputMemoryStream(const InputMemoryStream & other) : m_head{other.m_head}, m_capacity{other.m_capacity}
+    InputMemoryStream(InputMemoryStream const & other) : m_head{other.m_head}, m_capacity{other.m_capacity}
     {
         mup_data = std::make_unique<int8_t[]>(m_capacity);
         std::memcpy(mup_data.get(), other.mup_data.get(), m_capacity);
     }
-    InputMemoryStream & operator=(const InputMemoryStream & other)
+    InputMemoryStream & operator=(InputMemoryStream const & other)
     {
         // check for self-assignment
         if(&other == this)
@@ -151,13 +151,13 @@ public:
 
     size_t         getRemainingDataSize() const { return m_capacity - m_head; }
     size_t         getCapacity() const { return m_capacity; }
-    const int8_t * getCurPosPtr() const { return mup_data.get() + m_head; }
-    const int8_t * getPtr() const { return mup_data.get(); }
+    int8_t const * getCurPosPtr() const { return mup_data.get() + m_head; }
+    int8_t const * getPtr() const { return mup_data.get(); }
 
     void resetHead() { m_head = 0; }
     void setCapacity(uint32_t newCapacity) { m_capacity = newCapacity; }
 
-    static InputMemoryStream ConvertToInputMemoryStream(const OutputMemoryStream & inStream);
+    static InputMemoryStream ConvertToInputMemoryStream(OutputMemoryStream const & inStream);
 
 private:
     std::unique_ptr<int8_t[]> mup_data;

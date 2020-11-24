@@ -12,7 +12,7 @@ namespace evnt
 /// [D3D11_STENCIL_OP][]/[D3D12_STENCIL_OP][] enumeration.
 /// It is used by evnt::StencilOpDesc structure to describe the stencil fail, depth fail
 /// and stencil pass operations
-enum StencilOperation : int8_t
+enum StencilOperation
 {
     /// Undefined operation.
     STENCIL_OP_UNDEFINED = 0,
@@ -57,7 +57,7 @@ enum StencilOperation : int8_t
 /// [D3D11_BLEND_OP][] and [D3D12_BLEND_OP][] enums. It is used by RenderTargetBlendDesc structure to define
 /// RGB and Alpha blending operations [D3D11_BLEND_OP on MSDN][D3D11_BLEND_OP], [D3D12_BLEND_OP on
 /// MSDN][D3D12_BLEND_OP], [glBlendEquationSeparate on OpenGL.org][glBlendEquationSeparate]
-enum BlendOperation : int8_t
+enum BlendOperation
 {
     /// Undefined blend operation
     BLEND_OPERATION_UNDEFINED = 0,
@@ -92,7 +92,7 @@ enum BlendOperation : int8_t
 /// channels.
 /// [D3D11_BLEND on MSDN][D3D11_BLEND], [D3D12_BLEND on MSDN][D3D12_BLEND],
 /// [glBlendFuncSeparate on OpenGL.org][glBlendFuncSeparate]
-enum BlendFactor : int8_t
+enum BlendFactor
 {
     /// Undefined blend factor
     BLEND_FACTOR_UNDEFINED = 0,
@@ -171,7 +171,7 @@ enum BlendFactor : int8_t
 /// resolving texture coordinates that are outside of the boundaries of a texture. The enumeration generally
 /// mirrors [D3D11_TEXTURE_ADDRESS_MODE][]/[D3D12_TEXTURE_ADDRESS_MODE][] enumeration. It is used by
 /// SamplerDesc structure to define the address mode for U,V and W texture coordinates.
-enum WrapMode : uint8_t
+enum class WrapMode
 {
     /// Unknown mode
     TEXTURE_ADDRESS_UNKNOWN = 0,
@@ -204,14 +204,14 @@ enum WrapMode : uint8_t
     TEXTURE_ADDRESS_NUM_MODES
 };
 
-enum class TextureChannel : uint8_t
+enum class TextureChannel
 {
     S = 0,
     T,
     R
 };
 
-enum class MinificationFilter : uint8_t
+enum class MinificationFilter
 {
     Nearest = 0,
     Linear,
@@ -221,7 +221,7 @@ enum class MinificationFilter : uint8_t
     LinearMipmapLinear
 };
 
-enum class MagnificationFilter : uint8_t
+enum class MagnificationFilter
 {
     Nearest = 0,
     Linear
@@ -235,7 +235,7 @@ enum class MagnificationFilter : uint8_t
 /// - SamplerDesc to define a comparison function if one of the comparison mode filters is used
 /// - StencilOpDesc to define a stencil function
 /// - DepthStencilStateDesc to define a depth function
-enum ComparisonFunc : uint8_t
+enum class ComparisonFunc
 {
     /// Unknown comparison function
     COMPARISON_FUNC_UNKNOWN = 0,
@@ -341,7 +341,7 @@ enum class PrimitiveType
     Triangles
 };
 
-enum class MemoryBarrierType : uint8_t
+enum class MemoryBarrierType
 {
     VertexAttribArray,
     IndexBuffer,

@@ -18,12 +18,12 @@ public:
         m_endpoint{boost::asio::ip::address_v4(inAddress), inPort}
     {}
 
-    SocketAddress(const std::string & inAddress, std::string inPort) :
+    SocketAddress(std::string const & inAddress, std::string inPort) :
         m_endpoint(boost::asio::ip::address::from_string(inAddress),
                    boost::lexical_cast<unsigned short>(inPort))
     {}
 
-    bool operator==(const SocketAddress & inOther) const { return m_endpoint == inOther.m_endpoint; }
+    bool operator==(SocketAddress const & inOther) const { return m_endpoint == inOther.m_endpoint; }
 
     std::string    getAddress() const { return m_endpoint.address().to_string(); }
     unsigned short getPort() const { return m_endpoint.port(); }

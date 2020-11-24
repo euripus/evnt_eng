@@ -45,7 +45,7 @@ public:
 
     Window &        getMainWindow() { return *mp_main_window; }
     ObjectManager & getObjectManager() { return m_obj_mgr; }
-    const Command & getAppCommandLineParam() const { return m_command_line; }
+    Command const & getAppCommandLineParam() const { return m_command_line; }
 
     // input queue interface
 

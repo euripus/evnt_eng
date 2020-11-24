@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <boost/filesystem.hpp>
 #include <chrono>
-//#include <experimental/filesystem>
+//#include <filesystem>
 #include <fstream>
 #include <zlib.h>
 
@@ -13,8 +13,8 @@
 // https://medium.com/@sshambir/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82-std-filesystem-4c7ed50d5634
 namespace evnt
 {
-// namespace fs = std::experimental::filesystem;  - unresolwed generic_string() on win32 platform
 namespace fs = boost::filesystem;
+// namespace fs = std::filesystem;
 
 std::string FileSystem::GetTempDir()
 {

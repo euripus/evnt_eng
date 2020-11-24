@@ -45,7 +45,7 @@ public:
     // getters
     ThreadPool &      getThreadPool() { return *mp_thread_pool; }
     FileSystem &      getFileSystem() { return *mp_file_system; }
-    const pt::ptree & getRootConfig() const { return m_root_config; }
+    pt::ptree const & getRootConfig() const { return m_root_config; }
     App &             getApp() { return *mp_app; }
     uint32_t          getFPS() const { return m_fps; }
 };

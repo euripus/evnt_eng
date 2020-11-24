@@ -152,24 +152,24 @@ GLenum CompareFuncToGLCompareFunc(ComparisonFunc func)
 {
     switch(func)
     {
-        case COMPARISON_FUNC_UNKNOWN:
+        case ComparisonFunc::COMPARISON_FUNC_UNKNOWN:
             UNEXPECTED("Comparison function is not specified");
             return GL_ALWAYS;
-        case COMPARISON_FUNC_NEVER:
+        case ComparisonFunc::COMPARISON_FUNC_NEVER:
             return GL_NEVER;
-        case COMPARISON_FUNC_LESS:
+        case ComparisonFunc::COMPARISON_FUNC_LESS:
             return GL_LESS;
-        case COMPARISON_FUNC_EQUAL:
+        case ComparisonFunc::COMPARISON_FUNC_EQUAL:
             return GL_EQUAL;
-        case COMPARISON_FUNC_LESS_EQUAL:
+        case ComparisonFunc::COMPARISON_FUNC_LESS_EQUAL:
             return GL_LEQUAL;
-        case COMPARISON_FUNC_GREATER:
+        case ComparisonFunc::COMPARISON_FUNC_GREATER:
             return GL_GREATER;
-        case COMPARISON_FUNC_NOT_EQUAL:
+        case ComparisonFunc::COMPARISON_FUNC_NOT_EQUAL:
             return GL_NOTEQUAL;
-        case COMPARISON_FUNC_GREATER_EQUAL:
+        case ComparisonFunc::COMPARISON_FUNC_GREATER_EQUAL:
             return GL_GEQUAL;
-        case COMPARISON_FUNC_ALWAYS:
+        case ComparisonFunc::COMPARISON_FUNC_ALWAYS:
             return GL_ALWAYS;
         default:
             UNEXPECTED("Unknown comparison func");
@@ -181,18 +181,18 @@ GLenum WrapModeToGLWrapMode(WrapMode mode)
 {
     switch(mode)
     {
-        case TEXTURE_ADDRESS_UNKNOWN:
+        case WrapMode::TEXTURE_ADDRESS_UNKNOWN:
             UNEXPECTED("Texture address mode is not specified");
             return GL_CLAMP_TO_EDGE;
-        case TEXTURE_ADDRESS_WRAP:
+        case WrapMode::TEXTURE_ADDRESS_WRAP:
             return GL_REPEAT;
-        case TEXTURE_ADDRESS_MIRROR:
+        case WrapMode::TEXTURE_ADDRESS_MIRROR:
             return GL_MIRRORED_REPEAT;
-        case TEXTURE_ADDRESS_CLAMP:
+        case WrapMode::TEXTURE_ADDRESS_CLAMP:
             return GL_CLAMP_TO_EDGE;
-        case TEXTURE_ADDRESS_BORDER:
+        case WrapMode::TEXTURE_ADDRESS_BORDER:
             return GL_CLAMP_TO_BORDER;
-        case TEXTURE_ADDRESS_MIRROR_ONCE:
+        case WrapMode::TEXTURE_ADDRESS_MIRROR_ONCE:
             return GL_MIRROR_CLAMP_TO_EDGE;   // only available with OpenGL 4.4
             // This mode seems to be different from D3D11_TEXTURE_ADDRESS_MIRROR_ONCE
             // The texture coord is clamped to the [-1, 1] range, but mirrors the

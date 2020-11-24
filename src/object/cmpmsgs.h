@@ -29,7 +29,7 @@ public:
         msg_id      first;
         ClassIDType second;
 
-        bool operator==(const key_type & other) const
+        bool operator==(key_type const & other) const
         {
             return (first == other.first && second == other.second);
         }
@@ -37,7 +37,7 @@ public:
 
     struct key_hasher
     {
-        std::size_t operator()(const key_type & k) const
+        std::size_t operator()(key_type const & k) const
         {
             return ((std::hash<std::int32_t>()(k.first) ^ (std::hash<std::int32_t>()(k.second) << 1)) >> 1);
         }

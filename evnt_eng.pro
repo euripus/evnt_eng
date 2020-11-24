@@ -88,6 +88,7 @@ SOURCES +=  \
     src/render/texture.cpp \
     src/scene/cameracomponent.cpp \
     src/scene/frustum.cpp \
+    src/scene/lightcomponent.cpp \
     src/scene/scenecomponent.cpp \
     src/scene/scenemgr.cpp \
     src/utils/timer.cpp
@@ -156,6 +157,7 @@ HEADERS += \
     src/scene/AABB.h \
     src/scene/cameracomponent.h \
     src/scene/frustum.h \
+    src/scene/lightcomponent.h \
     src/scene/plane.h \
     src/scene/scenecomponent.h \
     src/scene/scenemgr.h \

@@ -15,13 +15,13 @@ struct SpatialComponent : public Component
     {
         // Determine visibility state by comparing the world bounding volume
         // to culling planes.
-        CULL_DYNAMIC,
+        cull_dynamic,
         // Force the object to be culled.  If a Node is culled, its entire
         // subtree is culled.
-        CULL_ALWAYS,
+        cull_always,
         // Never cull the object.  If a Node is never culled, its entire
         // subtree is never culled.
-        CULL_NEVER
+        cull_never
     };
 
     glm::mat4 m_local_transform;

@@ -15,8 +15,8 @@ public:
     UDPSocket(boost::asio::io_service & io) : m_socket(io) {}
     ~UDPSocket() = default;
 
-    bool   bind(const SocketAddress & inToAddress);
-    size_t sendTo(const void * inToSend, size_t inLength, const SocketAddress & inToAddress);
+    bool   bind(SocketAddress const & inToAddress);
+    size_t sendTo(void const * inToSend, size_t inLength, SocketAddress const & inToAddress);
     size_t receiveFrom(void * inToReceive, size_t inMaxLength, SocketAddress & outFromAddress);
 };
 

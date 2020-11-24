@@ -22,8 +22,8 @@ public:
     MouseCursor();
     ~MouseCursor();
 
-    MouseCursor(const MouseCursor & rhs);
-    MouseCursor & operator=(const MouseCursor & rhs);
+    MouseCursor(MouseCursor const & rhs);
+    MouseCursor & operator=(MouseCursor const & rhs);
 
     void setFilename(std::string path)
     {

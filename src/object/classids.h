@@ -14,6 +14,7 @@ enum ClassIDType : int32_t
     DefineClassID(Entity, 1002)
     DefineClassID(CameraComponent, 1003)
     DefineClassID(SpatialComponent, 1004)
+    DefineClassID(LightComponent, 1005)
 
     LargestRuntimeClassID
 };

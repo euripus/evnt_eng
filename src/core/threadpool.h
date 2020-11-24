@@ -18,8 +18,8 @@ private:
     std::atomic_size_t            m_num_tasks;
 
 public:
-    ThreadPool(const ThreadPool &) = delete;
-    ThreadPool & operator=(const ThreadPool &) = delete;
+    ThreadPool(ThreadPool const &) = delete;
+    ThreadPool & operator=(ThreadPool const &) = delete;
 
     ThreadPool() : m_io_serv(), m_work(m_io_serv), m_num_tasks(0)
     {

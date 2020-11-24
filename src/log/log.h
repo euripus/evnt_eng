@@ -28,21 +28,21 @@ namespace Log
 
     namespace BoostLog
     {
-        void InitBoostLog(const std::string & fname, Output out);
+        void InitBoostLog(std::string const & fname, Output out);
 
         std::string GetLogFileName();
         void        SetSeverityFilter(SeverityLevel sl);
 
-        void Put(SeverityLevel sl, const std::string & message);
-        void Put(SeverityLevel sl, const std::wstring & message);
+        void Put(SeverityLevel sl, std::string const & message);
+        void Put(SeverityLevel sl, std::wstring const & message);
     }   // namespace BoostLog
 
-    void Log(SeverityLevel sl, const std::wstring & msg);
-    void Log(SeverityLevel sl, const std::string & msg);
+    void Log(SeverityLevel sl, std::wstring const & msg);
+    void Log(SeverityLevel sl, std::string const & msg);
 
     // C-style printf fuction
-    std::wstring cstr_log(const wchar_t * format, ...);
-    std::string  cstr_log(const char * format, ...);
+    std::wstring cstr_log(wchar_t const * format, ...);
+    std::string  cstr_log(char const * format, ...);
 
     // variadic print
     template<typename... Args>

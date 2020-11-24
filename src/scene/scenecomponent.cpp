@@ -8,7 +8,7 @@ SpatialComponent::SpatialComponent() :
     m_local_transform{1.0f},
     m_world_transform{1.0f},
     m_bbox{},
-    m_culling{SpatialComponent::CullingMode::CULL_DYNAMIC},
+    m_culling{SpatialComponent::CullingMode::cull_dynamic},
     m_parent{nullptr}
 {}
 

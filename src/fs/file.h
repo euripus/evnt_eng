@@ -12,11 +12,12 @@ public:
     BaseFile()          = default;
     virtual ~BaseFile() = default;
 
-    virtual const int8_t * getData() const     = 0;
+    virtual int8_t const * getData() const     = 0;
     virtual size_t         getFileSize() const = 0;
 
     std::time_t timeStamp() const { return m_last_write_time; }
     std::string getName() const { return m_name; }
+    std::string getNameExt() const;
 
 protected:
     std::time_t m_last_write_time = 0;
@@ -30,14 +31,14 @@ class OutFile : public BaseFile
 public:
     OutFile();   // file for writing with random name
     OutFile(std::string name);
-    OutFile(std::string name, const char * data, size_t length);
-    OutFile(const InFile & infile);
+    OutFile(std::string name, char const * data, size_t length);
+    OutFile(InFile const & infile);
     ~OutFile() override = default;
 
-    const int8_t * getData() const override { return m_data.getBufferPtr(); }
+    int8_t const * getData() const override { return m_data.getBufferPtr(); }
     size_t         getFileSize() const override { return m_data.getLength(); }
 
-    void                 write(const char * buffer, size_t len);   // change write time of file
+    void                 write(char const * buffer, size_t len);   // change write time of file
     OutputMemoryStream & getStream() { return m_data; }
 
 private:
@@ -53,7 +54,7 @@ public:
         std::swap(m_name, name);
         m_last_write_time = timestamp;
     }
-    InFile(const OutFile & outfile)
+    InFile(OutFile const & outfile)
     {
         m_name            = outfile.getName();
         m_last_write_time = outfile.timeStamp();
@@ -64,7 +65,7 @@ public:
     }
     ~InFile() override = default;
 
-    const int8_t * getData() const override { return m_data.getPtr(); }
+    int8_t const * getData() const override { return m_data.getPtr(); }
     size_t         getFileSize() const override { return m_data.getCapacity(); }
 
     InputMemoryStream & getStream() { return m_data; }

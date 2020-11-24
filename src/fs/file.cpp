@@ -2,9 +2,23 @@
 #include "../log/log.h"
 #include "file_system.h"
 #include <chrono>
+#include <filesystem>
 
 namespace evnt
 {
+std::string BaseFile::getNameExt() const
+{
+    //    auto n = m_name.rfind(".");
+    //    if(n != std::string::npos)
+    //    {
+    //        return m_name.substr(n + 1);
+    //    }
+    //    else
+    //        return {};
+
+    return std::filesystem::path(m_name).extension();
+}
+
 OutFile::OutFile()
 {
     m_name            = FileSystem::GetTempFileName();
@@ -34,4 +48,5 @@ void OutFile::write(const char * buffer, size_t len)
     m_data.write(reinterpret_cast<const int8_t *>(buffer), len);
     m_last_write_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
+
 }   // namespace evnt

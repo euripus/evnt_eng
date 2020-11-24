@@ -21,7 +21,7 @@ struct Plane
         m_dist = d * inv_len;
     }
 
-    Plane(const glm::vec3 & v0, const glm::vec3 & v1, const glm::vec3 & v2)
+    Plane(glm::vec3 const & v0, glm::vec3 const & v1, glm::vec3 const & v2)
     {
         m_normal = v1 - v0;
         m_normal = glm::cross(m_normal, v2 - v0);
@@ -32,7 +32,7 @@ struct Plane
     // ----------------
     // Other operations
     // ----------------
-    float distToPoint(const glm::vec3 & v) const { return glm::dot(m_normal, v) + m_dist; }
+    float distToPoint(glm::vec3 const & v) const { return glm::dot(m_normal, v) + m_dist; }
 };
 }   // namespace evnt
 #endif   // PLANE_H

@@ -27,6 +27,6 @@ struct ImageData
 bool ReadBMP(BaseFile const * file, ImageData & id);
 bool ReadTGA(BaseFile const * file, ImageData & id);
 
-OutFile WriteTGA(std::string fname, const ImageData & id);
+OutFile WriteTGA(std::string fname, ImageData const & id);
 }   // namespace evnt
 #endif   // IMAGEDATA_H

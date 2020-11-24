@@ -12,16 +12,16 @@ public:
     const glm::vec3 & getOrigin() const { return m_origin; }
     const glm::vec3 & getCorner(uint32_t index) const { return m_corners[index]; }
 
-    void buildViewFrustum(const glm::mat4 & trans_mat, float fov, float aspect, float near_plane,
+    void buildViewFrustum(glm::mat4 const & trans_mat, float fov, float aspect, float near_plane,
                           float far_plane);
-    void buildViewFrustum(const glm::mat4 & trans_mat, float left, float right, float bottom, float top,
+    void buildViewFrustum(glm::mat4 const & trans_mat, float left, float right, float bottom, float top,
                           float near_plane, float far_plane);
-    void buildViewFrustum(const glm::mat4 & view_mat, const glm::mat4 & proj_mat);
-    void buildBoxFrustum(const glm::mat4 & trans_mat, float left, float right, float bottom, float top,
+    void buildViewFrustum(glm::mat4 const & view_mat, glm::mat4 const & proj_mat);
+    void buildBoxFrustum(glm::mat4 const & trans_mat, float left, float right, float bottom, float top,
                          float front, float back);
     bool cullSphere(glm::vec3 pos, float rad) const;
-    bool cullBox(const AABB & b) const;
-    bool cullFrustum(const Frustum & frust) const;
+    bool cullBox(AABB const & b) const;
+    bool cullFrustum(Frustum const & frust) const;
 
     void calcAABB(glm::vec3 & mins, glm::vec3 & maxs) const;
 

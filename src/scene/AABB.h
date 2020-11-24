@@ -37,11 +37,11 @@ public:
     //! Construct to with specified min and max values
     inline AABB(glm::vec3 min, glm::vec3 max) : m_min(min), m_max(max) {}
 
-    inline AABB(const AABB & bb) : m_min(bb.m_min), m_max(bb.m_max) {}
+    inline AABB(AABB const & bb) : m_min(bb.m_min), m_max(bb.m_max) {}
 
     inline AABB(AABB && bb) : m_min(bb.m_min), m_max(bb.m_max) {}
 
-    inline AABB & operator=(const AABB & bb)
+    inline AABB & operator=(AABB const & bb)
     {
         if(this != &bb)
         {
@@ -65,8 +65,8 @@ public:
 
     ~AABB() {}
 
-    inline bool operator==(const AABB & rhs) const { return m_min == rhs.m_min && m_max == rhs.m_max; }
-    inline bool operator!=(const AABB & rhs) const { return m_min != rhs.m_min || m_max != rhs.m_max; }
+    inline bool operator==(AABB const & rhs) const { return m_min == rhs.m_min && m_max == rhs.m_max; }
+    inline bool operator!=(AABB const & rhs) const { return m_min != rhs.m_min || m_max != rhs.m_max; }
 
     inline glm::vec3 min() const { return m_min; }
     inline glm::vec3 max() const { return m_max; }
@@ -75,7 +75,7 @@ public:
         If this box is uninitialized, set its min and max extents to v.
         \param[in] v given coordinate
     */
-    inline void expandBy(const glm::vec3 & v)
+    inline void expandBy(glm::vec3 const & v)
     {
         if(v.x < m_min.x)
             m_min.x = v.x;
@@ -97,7 +97,7 @@ public:
         If this box is uninitialized, set it equal to bb.
         \param[in] bb given bounding box
     */
-    void expandBy(const AABB & bb)
+    void expandBy(AABB const & bb)
     {
         if(bb.m_min.x < m_min.x)
             m_min.x = bb.m_min.x;
@@ -119,7 +119,7 @@ public:
         \param[in] bb specified bounding box
         \return AABB the intersection of this bounding box and the specified bounding box.
     */
-    inline AABB intersect(const AABB & bb) const
+    inline AABB intersect(AABB const & bb) const
     {
         return AABB(std::max(m_min.x, bb.m_min.x), std::max(m_min.y, bb.m_min.y),
                     std::max(m_min.z, bb.m_min.z), std::min(m_max.x, bb.m_max.x),
@@ -130,7 +130,7 @@ public:
         \param[in] bb AABB that will be checked
         \return True if this bounding box intersects the specified bounding box.
     */
-    inline bool intersects(const AABB & bb) const
+    inline bool intersects(AABB const & bb) const
     {
         return std::max(bb.m_min.x, m_min.x) <= std::min(bb.m_max.x, m_max.x)
                && std::max(bb.m_min.y, m_min.y) <= std::min(bb.m_max.y, m_max.y)
@@ -141,7 +141,7 @@ public:
         \param[in] v coordinate that will be checked
         \return True if this AABB contains the specified coordinate.
     */
-    inline bool contains(const glm::vec3 & v) const
+    inline bool contains(glm::vec3 const & v) const
     {
         return (v.x >= m_min.x && v.x <= m_max.x) && (v.y >= m_min.y && v.y <= m_max.y)
                && (v.z >= m_min.z && v.z <= m_max.z);
@@ -153,7 +153,7 @@ public:
         coordinate space again
         \param[in] matrix transformation matrix
     */
-    inline void transform(const glm::mat4 & matrix)
+    inline void transform(glm::mat4 const & matrix)
     {
         // http://dev.theomader.com/transform-bounding-boxes/
         glm::vec3 xa = glm::vec3(glm::column(matrix, 0)) * m_min.x;
@@ -172,7 +172,7 @@ public:
     /*! Build the bounding box to include the given coordinates.
         \param[in] positions point set for building AABB
     */
-    void buildBoundBox(const std::vector<glm::vec3> & positions)
+    void buildBoundBox(std::vector<glm::vec3> const & positions)
     {
         m_min = glm::vec3(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(),
                           std::numeric_limits<float>::max());
@@ -181,7 +181,7 @@ public:
 
         for(unsigned int i = 0; i < positions.size(); i++)
         {
-            const glm::vec3 & pos = positions[i];
+            glm::vec3 const & pos = positions[i];
 
             expandBy(pos);
         }

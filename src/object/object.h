@@ -13,11 +13,11 @@
     static const evnt::Object::StaticObjectInit sm_class_register;                                      \
                                                                                                         \
     void         dump(int32_t indentLevel = 0) const override;                                          \
-    void         write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const override; \
-    void         read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr) override;         \
-    void         link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) override;    \
+    void         write(OutputMemoryStream & inMemoryStream, ObjectManager const & gmgr) const override; \
+    void         read(InputMemoryStream const & inMemoryStream, ObjectManager & gmgr) override;         \
+    void         link(ObjectManager & gmgr, std::map<uint32_t, uint32_t> const & id_remap) override;    \
     int32_t      getClassIDVirtual() const override;                                                    \
-    const char * getClassString() const override;                                                       \
+    char const * getClassString() const override;                                                       \
                                                                                                         \
     static int32_t                 GetClassIDStatic();                                                  \
     static std::unique_ptr<Object> CreateInstance();                                                    \
@@ -27,7 +27,7 @@
     const evnt::Object::StaticObjectInit inClass::sm_class_register{inClass::InitType};                    \
                                                                                                            \
     int32_t                 inClass::getClassIDVirtual() const { return ClassName(inClass); }              \
-    const char *            inClass::getClassString() const { return #inClass; }                           \
+    char const *            inClass::getClassString() const { return #inClass; }                           \
     int32_t                 inClass::GetClassIDStatic() { return ClassName(inClass); }                     \
     std::unique_ptr<Object> inClass::CreateInstance() { return std::make_unique<inClass>(); }              \
     void                    inClass::InitType()                                                            \
@@ -79,19 +79,19 @@ public:
     bool isDerivedFrom(int32_t classID) { return IsDerivedFromClassID(getClassIDVirtual(), classID); }
 
     virtual int32_t      getClassIDVirtual() const { return ClassName(Object); }
-    virtual const char * getClassString() const { return "Object"; }
+    virtual char const * getClassString() const { return "Object"; }
 
     virtual void dump(int32_t indentLevel = 0) const { (void)indentLevel; }
-    virtual void write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const {}
-    virtual void read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr) {}
-    virtual void link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) {}
+    virtual void write(OutputMemoryStream & inMemoryStream, ObjectManager const & gmgr) const {}
+    virtual void read(InputMemoryStream const & inMemoryStream, ObjectManager & gmgr) {}
+    virtual void link(ObjectManager & gmgr, std::map<uint32_t, uint32_t> const & id_remap) {}
 
     static int32_t                 GetClassIDStatic() { return ClassName(Object); }
     static std::unique_ptr<Object> CreateInstance() { return std::make_unique<Object>(); }
 
     /// Returns the RTTI information for a classID
     static RTTI & ClassIDToRTTI(int32_t classID);
-    static void   RegisterClass(int32_t inClassID, int32_t inBaseClass, const std::string & inName,
+    static void   RegisterClass(int32_t inClassID, int32_t inBaseClass, std::string const & inName,
                                 int32_t size, CreateFunc inFunc);
 
     /// Finds out if classID is derived from compareClassID
@@ -101,7 +101,7 @@ public:
     /// if classID doesnt have any super Class	it will return -1
     static int32_t GetSuperClassID(int32_t classID);
     /// Get the classID from the class name, returns -1 if no classID was found
-    static int32_t StringToClassID(const std::string & classString);
+    static int32_t StringToClassID(std::string const & classString);
     /// Get the class name from the classID
     static std::string ClassIDToString(int32_t classID);
 };

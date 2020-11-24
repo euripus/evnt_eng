@@ -44,7 +44,7 @@ public:
     void         reset();
 
     // Mouse
-    const glm::ivec2 & getMousePosition() const { return m_mouse_position; }
+    glm::ivec2 const & getMousePosition() const { return m_mouse_position; }
     void               setMousePosAbs(const glm::ivec2 & mouse_pos) { m_mouse_position = mouse_pos; }
     bool               getMouseButton(int32_t button_id) const;
     int32_t            getMouseButtonClicked() const;
@@ -56,7 +56,7 @@ public:
     bool    isKeyPressed(int32_t key_id) const;
 
     static std::string GetKeyName(int32_t key);
-    static int32_t     GetKeyId(const std::string & key_name);
+    static int32_t     GetKeyId(std::string const & key_name);
 };
 }   // namespace evnt
 

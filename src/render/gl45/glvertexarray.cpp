@@ -7,7 +7,7 @@ GLVertexArray::GLVertexArray(std::vector<BufferStructure> structures) : IVertexA
 {
     glCreateVertexArrays(1, &m_id);
 
-    for(BufferStructure st : structures)
+    for(BufferStructure const & st : m_structures)
     {
         for(Attribute attrib : st.getAttributes())
         {

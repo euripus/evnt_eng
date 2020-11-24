@@ -46,7 +46,7 @@ public:
     PObjHandle createDefaultObj();
 
     void serialize(OutputMemoryStream & inMemoryStream) const;
-    void deserialize(const InputMemoryStream & inMemoryStream, std::vector<PObjHandle> & objects);
+    void deserialize(InputMemoryStream const & inMemoryStream, std::vector<PObjHandle> & objects);
     void dump() const;
 };
 

@@ -10,21 +10,21 @@ class Exception : public std::exception
 {
 public:
     //! Creates exception object
-    Exception(const char * str, int32_t line, const char * file) noexcept :
+    Exception(char const * str, int32_t line, char const * file) noexcept :
         m_line(line), m_file(file), m_text(str)
     {}
-    Exception(std::string str, int32_t line, const char * file) noexcept :
+    Exception(std::string str, int32_t line, char const * file) noexcept :
         m_line(line), m_file(file), m_text(std::move(str))
     {}
     ~Exception() noexcept override = default;
 
-    Exception(const Exception & other) noexcept :
+    Exception(Exception const & other) noexcept :
         m_line(other.m_line), m_file(other.m_file), m_text(other.m_text)
     {}
     // Unimplemented and unaccessible due to const members.
-    Exception & operator=(const Exception & other) = delete;
+    Exception & operator=(Exception const & other) = delete;
 
-    const char * what() const noexcept override;
+    char const * what() const noexcept override;
 
 private:
     //! The line number it occurred on

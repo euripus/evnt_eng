@@ -19,10 +19,10 @@ public:
     bool init(uint16_t inPort);
     void processIncomingPackets();
 
-    virtual void processPacket(InputMemoryStream & inInputStream, const SocketAddress & inFromAddress) = 0;
-    virtual void handleConnectionReset(const SocketAddress & inFromAddress) { (void)inFromAddress; }
+    virtual void processPacket(InputMemoryStream & inInputStream, SocketAddress const & inFromAddress) = 0;
+    virtual void handleConnectionReset(SocketAddress const & inFromAddress) { (void)inFromAddress; }
 
-    void sendPacket(const OutputMemoryStream & inOutputStream, const SocketAddress & inToAddress);
+    void sendPacket(OutputMemoryStream const & inOutputStream, SocketAddress const & inToAddress);
 
 private:
     void readIncomingPacketsIntoQueue();
@@ -32,11 +32,11 @@ private:
     {
     public:
         ReceivedPacket(uint32_t inReceivedTime, InputMemoryStream & inInputMemoryStream,
-                       const SocketAddress & inAddress) :
+                       SocketAddress const & inAddress) :
             m_received_time{inReceivedTime}, m_packet_buffer{inInputMemoryStream}, m_from_address{inAddress}
         {}
 
-        const SocketAddress & getFromAddress() const { return m_from_address; }
+        SocketAddress const & getFromAddress() const { return m_from_address; }
         uint32_t              getReceivedTime() const { return m_received_time; }
         InputMemoryStream &   getPacketBuffer() { return m_packet_buffer; }
 

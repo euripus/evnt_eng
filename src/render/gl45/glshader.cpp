@@ -16,7 +16,7 @@ GLShader::GLShader(std::string src, std::set<std::string> defines)
                                                      {GL_TESS_EVALUATION_SHADER, "TESSEVAL"}};
 
     std::string define_string;
-    for(std::string define : defines)
+    for(std::string const & define : defines)
         define_string += "\n#define " + define;
 
     std::vector<GLuint> shaders;

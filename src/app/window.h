@@ -18,11 +18,11 @@ struct DisplayMode
     glm::ivec2 resolution;
 
     DisplayMode() {}
-    DisplayMode(const DisplayMode & o) : resolution(o.resolution) {}
-    DisplayMode(glm::ivec2 res) : resolution(std::move(res)) {}
+    DisplayMode(DisplayMode const & o) : resolution(o.resolution) {}
+    explicit DisplayMode(glm::ivec2 res) : resolution(std::move(res)) {}
 
-    bool operator<(const DisplayMode & other) const;
-    bool operator==(const DisplayMode & other) const { return resolution == other.resolution; }
+    bool operator<(DisplayMode const & other) const;
+    bool operator==(DisplayMode const & other) const { return resolution == other.resolution; }
 };
 
 using DisplayModes = std::vector<DisplayMode>;
@@ -74,7 +74,7 @@ public:
     virtual void adjustGamma() {}
 
     virtual void                setMouseCursor(MouseCursor const & cursor) = 0;
-    virtual const MouseCursor & getMouseCursor() const { return m_cur_mouse_cursor; }
+    virtual MouseCursor const & getMouseCursor() const { return m_cur_mouse_cursor; }
     virtual void                setCursorVisibility(bool type) = 0;
     virtual bool                isCursorVisible() const { return m_cursor_visibility; }
 

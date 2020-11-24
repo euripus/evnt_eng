@@ -115,9 +115,9 @@ protected:
      * The notion of copying or moving a singleton is rather nonsensical.
      */
     Module(Module &&)      = delete;
-    Module(const Module &) = delete;
+    Module(Module const &) = delete;
     Module & operator=(Module &&) = delete;
-    Module & operator=(const Module &) = delete;
+    Module & operator=(Module const &) = delete;
 
     /**
      * Override if you want your module to be notified once it has been constructed and started.
