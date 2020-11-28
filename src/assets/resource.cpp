@@ -6,8 +6,6 @@
 
 namespace evnt
 {
-Resource::Resource() {}
-
 std::string Resource::GetStringFromResourceType(Resource::ResourceType type)
 {
     switch(type)
@@ -56,6 +54,11 @@ Resource::ResourceType Resource::GetResourceTypeFromString(std::string const & t
 
     return ResourceType::Undefined;
 }
+
+
+Resource::Resource(Resource::ResourceType type, std::string name) :
+    m_type{type}, m_name{std::move(name)}, m_state{State::state_path}
+{}
 
 ResourceManager::~ResourceManager()
 {

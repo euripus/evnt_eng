@@ -4,6 +4,8 @@
 #include "../log/log.h"
 #include "../utils/timer.h"
 
+#include "../assets/textureresource.h"
+
 namespace evnt
 {
 App::App() : m_end_state{addAppState<end_state>(*this)}, mp_obj_mgr_clean_timer{std::make_unique<Timer>()}
@@ -31,6 +33,9 @@ bool App::init(int32_t argc, char * argv[])
     mp_main_window       = Window::CreateMainWindow(platform, *this);
     init_result          = init_result && mp_main_window->init();
 
+    // Resource manager init
+    m_resource_mgr.registerType(TextureResource::GetTypeID(), TextureResource::GetRegEntry());
+
     // AppStates init
     {
         std::lock_guard lk(m_state_mutex);
@@ -42,7 +47,12 @@ bool App::init(int32_t argc, char * argv[])
 
     // delete dead objects
     auto clean_time_period = config.get<uint32_t>("App.CleanTime");
-    mp_obj_mgr_clean_timer->loopCall(clean_time_period, [this] { m_obj_mgr.releaseStalledObjects(); });
+    auto clean_lambda      = [this] {
+        m_obj_mgr.releaseStalledObjects();
+        m_resource_mgr.releaseUnused();
+    };
+
+    mp_obj_mgr_clean_timer->loopCall(clean_time_period, clean_lambda);
 
     return init_result;
 }

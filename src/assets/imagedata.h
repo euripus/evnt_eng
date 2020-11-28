@@ -24,8 +24,8 @@ struct ImageData
     std::unique_ptr<uint8_t[]> data;
 };
 
-bool ReadBMP(BaseFile const * file, ImageData & id);
-bool ReadTGA(BaseFile const * file, ImageData & id);
+bool ReadBMP(BaseFile const & file, ImageData & id);
+bool ReadTGA(BaseFile const & file, ImageData & id);
 
 OutFile WriteTGA(std::string fname, ImageData const & id);
 }   // namespace evnt

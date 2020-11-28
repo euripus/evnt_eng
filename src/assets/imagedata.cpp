@@ -59,7 +59,7 @@ namespace evnt
 //==============================================================================
 //         Read BMP section
 //==============================================================================
-bool ReadBMP(BaseFile const * file, ImageData & id)
+bool ReadBMP(BaseFile const & file, ImageData & id)
 {
     bool   res         = false;
     bool   compressed  = false;
@@ -72,11 +72,11 @@ bool ReadBMP(BaseFile const * file, ImageData & id)
     if(id.data)
         id.data.reset(nullptr);
 
-    file_length = file->getFileSize();
+    file_length = file.getFileSize();
     if(file_length == 0)
         return res;
 
-    auto buffer = const_cast<int8_t *>(file->getData());
+    auto buffer = const_cast<int8_t *>(file.getData());
 
     auto               pPtr    = buffer;
     BITMAPFILEHEADER * pHeader = reinterpret_cast<BITMAPFILEHEADER *>(pPtr);
@@ -253,19 +253,18 @@ OutFile WriteTGA(std::string fname, const ImageData & id)
 bool ReadUncompressedTGA(ImageData & id, char * data);
 bool ReadCompressedTGA(ImageData & id, char * data);
 
-bool ReadTGA(BaseFile const * file, ImageData & id)
+bool ReadTGA(BaseFile const & file, ImageData & id)
 {
     size_t file_length = 0;
 
-    file_length = file->getFileSize();
+    file_length = file.getFileSize();
     if(file_length == 0)
         return false;
 
-    auto buffer = reinterpret_cast<char *>(const_cast<int8_t *>(file->getData()));
+    auto buffer = reinterpret_cast<char *>(const_cast<int8_t *>(file.getData()));
 
     auto        pPtr    = buffer;
     TGAHEADER * pHeader = reinterpret_cast<TGAHEADER *>(pPtr);
-    pPtr += sizeof(TGAHEADER);
 
     if(pHeader->datatypecode == 2)
     {
@@ -285,7 +284,7 @@ bool ReadUncompressedTGA(ImageData & id, char * data)
     TGAHEADER * pHeader = reinterpret_cast<TGAHEADER *>(pPtr);
     pPtr += sizeof(TGAHEADER);
 
-    if((pHeader->width <= 0) || (pHeader->height <= 0)
+    if((pHeader->width == 0) || (pHeader->height == 0)
        || ((pHeader->bitsperpixel != 24)
            && (pHeader->bitsperpixel != 32)))   // Make sure all information is valid
     {
@@ -303,9 +302,10 @@ bool ReadUncompressedTGA(ImageData & id, char * data)
 
     auto img = std::make_unique<uint8_t[]>(image_size);
 
-    char red, green, blue, alpha;
     for(uint32_t i = 0; i < id.width * id.height; ++i)
     {
+        char red, green, blue, alpha;
+
         red   = pPtr[i * bytes_per_pixel + 2];
         green = pPtr[i * bytes_per_pixel + 1];
         blue  = pPtr[i * bytes_per_pixel + 0];
@@ -366,7 +366,7 @@ bool ReadCompressedTGA(ImageData & id, char * data)
     TGAHEADER * pHeader = reinterpret_cast<TGAHEADER *>(pPtr);
     pPtr += sizeof(TGAHEADER);
 
-    if((pHeader->width <= 0) || (pHeader->height <= 0)
+    if((pHeader->width == 0) || (pHeader->height == 0)
        || ((pHeader->bitsperpixel != 24)
            && (pHeader->bitsperpixel != 32)))   // Make sure all information is valid
     {

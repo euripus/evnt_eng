@@ -70,7 +70,7 @@ bool MouseCursor::load()
     if(Core::instance().getFileSystem().isExist(m_filename))
     {
         auto cur_file = Core::instance().getFileSystem().getFile(m_filename);
-        m_is_standart = !ReadTGA(&cur_file, m_ref_texture);
+        m_is_standart = !ReadTGA(cur_file, m_ref_texture);
         return !m_is_standart;
     }
 

@@ -30,18 +30,32 @@ public:
         Pipeline
     };
 
-    Resource();
+    enum class State
+    {
+        state_path,     // name only
+        state_mem,      // loaded
+        state_invalid   // not found
+    };
+
+    Resource(ResourceType type, std::string name);
     virtual ~Resource() = default;
+
+    ResourceType getType() const { return m_type; }
+    std::string  getName() const { return m_name; }
+    State        getState() const { return m_state; }
+
+    virtual bool load() { return true; }
+    virtual void release() {}
 
     static std::string  GetStringFromResourceType(ResourceType type);
     static ResourceType GetResourceTypeFromString(std::string const & type_name);
 
-    static ResourceType      GetTypeID() { return ResourceType::Undefined; }
-    static ResourceSharedPtr GetDefaultResource() { return {}; }
+    static ResourceType GetTypeID() { return ResourceType::Undefined; }
 
 protected:
     ResourceType m_type = {ResourceType::Undefined};
     std::string  m_name;
+    State        m_state;
 
     friend class ResourceManager;
 };
@@ -65,7 +79,7 @@ public:
         ResReleaseFunc    res_release_function;
     };
 
-    ResourceManager();
+    ResourceManager() = default;
     ~ResourceManager();
 
     void registerType(Resource::ResourceType type, std::string const & type_name, ResReadFunc read_func,

@@ -1,6 +1,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include "../assets/resource.h"
 #include "../object/objectmanager.h"
 #include "appstate.h"
 #include "command.h"
@@ -43,9 +44,10 @@ public:
     AppState::StateID getStateID(std::string const & state_name);   // if not found return 0
     std::string       getStateName(AppState::StateID id) const;
 
-    Window &        getMainWindow() { return *mp_main_window; }
-    ObjectManager & getObjectManager() { return m_obj_mgr; }
-    Command const & getAppCommandLineParam() const { return m_command_line; }
+    Window &          getMainWindow() { return *mp_main_window; }
+    ResourceManager & getResourceManager() { return m_resource_mgr; }
+    ObjectManager &   getObjectManager() { return m_obj_mgr; }
+    Command const &   getAppCommandLineParam() const { return m_command_line; }
 
     // input queue interface
 
@@ -54,6 +56,8 @@ private:
 
     std::unique_ptr<Window> mp_main_window;
     bool                    m_is_running{true};
+
+    ResourceManager m_resource_mgr;
 
     mutable std::mutex       m_state_mutex;
     std::vector<AppStatePtr> m_states;

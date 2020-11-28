@@ -47,6 +47,7 @@ SOURCES +=  \
     src/app/window.cpp \
     src/assets/imagedata.cpp \
     src/assets/resource.cpp \
+    src/assets/textureresource.cpp \
     src/core/core.cpp \
     src/core/exception.cpp \
     src/demo/demostate.cpp \
@@ -102,6 +103,7 @@ HEADERS += \
     src/app/window.h \
     src/assets/imagedata.h \
     src/assets/resource.h \
+    src/assets/textureresource.h \
     src/core/core.h \
     src/core/event.h \
     src/core/exception.h \
