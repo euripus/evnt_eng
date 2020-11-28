@@ -5,8 +5,6 @@
 
 #include "../app/app.h"
 #include "../fs/file_system.h"
-#include "../object/entity.h"
-#include "../object/objectmanager.h"
 #include "event.h"
 #include "module.h"
 

@@ -45,8 +45,8 @@ SOURCES +=  \
     src/app/glfwwindow.cpp \
     src/app/mousecursor.cpp \
     src/app/window.cpp \
-    src/assets/assetmanager.cpp \
     src/assets/imagedata.cpp \
+    src/assets/resource.cpp \
     src/core/core.cpp \
     src/core/exception.cpp \
     src/demo/demostate.cpp \
@@ -100,8 +100,8 @@ HEADERS += \
     src/app/glfwwindow.h \
     src/app/mousecursor.h \
     src/app/window.h \
-    src/assets/assetmanager.h \
     src/assets/imagedata.h \
+    src/assets/resource.h \
     src/core/core.h \
     src/core/event.h \
     src/core/exception.h \

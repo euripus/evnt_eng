@@ -20,7 +20,7 @@ public:
 
     bool writeFile(std::string const & path, BaseFile const * file);   // Memory file
     bool createZIP(std::vector<BaseFile const *> filelist,
-                   const std::string &           zipname);   // all zip files saves in root directory
+                   std::string const &           zipname);   // all zip files saves in root directory
     bool addFileToZIP(BaseFile const * file, std::string const & zipname);
 
     static std::string GetTempDir();
