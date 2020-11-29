@@ -6,7 +6,10 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <sstream>
 #include <unordered_map>
+
+#include "../log/log.h"
 
 namespace evnt
 {
@@ -90,14 +93,48 @@ public:
     Resource::ResourceType getTypeEnum(std::string const & type_name) const;
     ResourceRegEntry       getTypeRegEntry(Resource::ResourceType type) const;
 
-    Resource::ResourceSharedPtr getResource(Resource::ResourceType type, std::string const & name);
+    template<typename ResourceType>
+    Resource::ResourceSharedPtr createResource(std::string const & name);   // not loaded
+    Resource::ResourceSharedPtr getResource(Resource::ResourceType type,
+                                            std::string const &    name);   // loaded
     void                        releaseUnused();
 
 private:
+    Resource::ResourceSharedPtr getExisted(Resource::ResourceType type, std::string const & name);
+    bool                        isFileExisted(std::string const & name) const;
+
     std::unordered_map<Resource::ResourceType, std::list<Resource::ResourceWeakPtr>> m_resources;
     std::unordered_map<Resource::ResourceType, ResourceRegEntry>                     m_registry;
 
     std::mutex m_resources_guard;
 };
+
+template<typename ResourceType>
+Resource::ResourceSharedPtr ResourceManager::createResource(std::string const & name)
+{
+    // if existed
+    auto res_shared = getExisted(ResourceType::GetTypeID(), name);
+    if(res_shared)
+        return res_shared;
+
+    // create resource
+    auto reg = getTypeRegEntry(ResourceType::GetTypeID());
+
+    if(isFileExisted(name))
+    {
+        res_shared = std::make_shared<ResourceType>(name);
+
+        std::lock_guard lock(m_resources_guard);
+        m_resources[ResourceType::GetTypeID()].push_back(res_shared);
+        return res_shared;
+    }
+
+    // if file not existed log and return default
+    std::stringstream ss;
+    ss << "Warning. Resource: \"" << name << "\" "
+       << "not existed!" << std::endl;
+    Log::Log(Log::warning, ss.str());
+    return reg.res_get_default_function();
+}
 }   // namespace evnt
 #endif   // RESOURCE_H

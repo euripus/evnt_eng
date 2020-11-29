@@ -18,9 +18,9 @@ struct ImageData
         pt_none
     };
 
-    uint32_t                   width;
-    uint32_t                   height;
-    PixelType                  type;
+    uint32_t                   width  = 0;
+    uint32_t                   height = 0;
+    PixelType                  type   = PixelType::pt_none;
     std::unique_ptr<uint8_t[]> data;
 };
 

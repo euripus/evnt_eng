@@ -26,9 +26,9 @@
             "y":"600"
          },
          "Cursor":{ 
-            "IsSTD":"true",
+            "IsSTD":"false",
             "StdCursorShape":"Hand",
-            "File":"textures/cursor.tga",
+            "File":"cursors/normal.tga",
             "Visibility":"true"
          }
       },

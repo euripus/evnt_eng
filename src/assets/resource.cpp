@@ -1,8 +1,7 @@
 #include "resource.h"
-#include "../core/core.h"
-#include "../log/log.h"
 #include <algorithm>
-#include <sstream>
+
+#include "../core/core.h"
 
 namespace evnt
 {
@@ -54,7 +53,6 @@ Resource::ResourceType Resource::GetResourceTypeFromString(std::string const & t
 
     return ResourceType::Undefined;
 }
-
 
 Resource::Resource(Resource::ResourceType type, std::string name) :
     m_type{type}, m_name{std::move(name)}, m_state{State::state_path}
@@ -128,36 +126,23 @@ ResourceManager::ResourceRegEntry ResourceManager::getTypeRegEntry(Resource::Res
 Resource::ResourceSharedPtr ResourceManager::getResource(Resource::ResourceType type,
                                                          std::string const &    name)
 {
-    auto fs  = Core::instance().getFileSystem();
-    auto reg = m_registry.at(type);
-
-    {
-        std::lock_guard lock(m_resources_guard);
-        auto &          res_list = m_resources[type];
-
-        // if resource already exists
-        for(auto & res : res_list)
-        {
-            if(!res.expired())
-            {
-                auto res_shrd = res.lock();
-                if(res_shrd->m_name == name)
-                    return res_shrd;
-            }
-        }
-    }
+    // if existed
+    auto res_shared = getExisted(type, name);
+    if(res_shared)
+        return res_shared;
 
     // load resource
-    if(fs.isExist(name))
+    auto reg = getTypeRegEntry(type);
+    if(isFileExisted(name))
     {
-        auto res_shared = reg.res_read_function(name);
+        res_shared = reg.res_read_function(name);
 
         std::lock_guard lock(m_resources_guard);
         m_resources[type].push_back(res_shared);
         return res_shared;
     }
 
-    // if not existed log and return default
+    // if file not existed log and return default
     std::stringstream ss;
     ss << "Warning. Resource: \"" << name << "\" "
        << "not existed!" << std::endl;
@@ -182,6 +167,31 @@ void ResourceManager::releaseUnused()
             }
         }
     }
+}
+
+Resource::ResourceSharedPtr ResourceManager::getExisted(Resource::ResourceType type, const std::string & name)
+{
+    std::lock_guard lock(m_resources_guard);
+    auto &          res_list = m_resources[type];
+
+    // if resource already exists
+    for(auto & res : res_list)
+    {
+        if(!res.expired())
+        {
+            auto res_shrd = res.lock();
+            if(res_shrd->m_name == name)
+                return res_shrd;
+        }
+    }
+
+    return {};
+}
+
+bool ResourceManager::isFileExisted(const std::string & name) const
+{
+    auto fs = Core::instance().getFileSystem();
+    return fs.isExist(name);
 }
 
 }   // namespace evnt

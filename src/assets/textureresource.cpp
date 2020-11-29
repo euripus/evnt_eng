@@ -21,7 +21,7 @@ Resource::ResourceSharedPtr TextureResource::LoadTexture(const std::string & nam
     auto tex = std::make_shared<TextureResource>(name);
     auto fs  = Core::instance().getFileSystem();
 
-    auto file = fs.getFile(name);
+    auto file = fs.getFile(name);   // exception if not found
 
     if(file.getNameExt() == ".tga")
     {
@@ -51,12 +51,12 @@ Resource::ResourceSharedPtr TextureResource::LoadTexture(const std::string & nam
 Resource::ResourceSharedPtr TextureResource::GetDefaultTexture()
 {
     static auto tex = [] {
-        uint8_t texData[] = {128, 192, 255, 255, 128, 192, 255, 255, 128, 192, 255, 255, 128, 192, 255, 255,
-                             128, 192, 255, 255, 128, 192, 255, 255, 128, 192, 255, 255, 128, 192, 255, 255,
-                             128, 192, 255, 255, 128, 192, 255, 255, 128, 192, 255, 255, 128, 192, 255, 255,
-                             128, 192, 255, 255, 128, 192, 255, 255, 128, 192, 255, 255, 128, 192, 255, 255};
+        uint8_t texData[] = {128, 192, 255, 255, 128, 192, 255, 255, 255, 192, 128, 255, 255, 192, 128, 255,
+                             128, 192, 255, 255, 128, 192, 255, 255, 255, 192, 128, 255, 255, 192, 128, 255,
+                             255, 192, 128, 255, 255, 192, 128, 255, 128, 192, 255, 255, 128, 192, 255, 255,
+                             255, 192, 128, 255, 255, 192, 128, 255, 128, 192, 255, 255, 128, 192, 255, 255};
 
-        auto ptr           = std::make_shared<TextureResource>("default texture");
+        auto ptr           = std::make_shared<TextureResource>("default_texture");
         ptr->m_data.height = 4;
         ptr->m_data.width  = 4;
         ptr->m_data.type   = ImageData::PixelType::pt_rgba;
@@ -77,10 +77,45 @@ bool TextureResource::WriteTga(Resource const & texture)
     auto & tex      = static_cast<TextureResource const &>(texture);
     auto   out_file = WriteTGA(tex.getName(), tex.m_data);
 
-    return fs.writeFile(tex.getName(), &out_file);
+    return fs.writeFile({}, &out_file);
 }
 
 TextureResource::TextureResource(std::string name) :
     Resource(ResourceType::Texture, std::move(name)), m_data{}
 {}
+
+bool TextureResource::load()
+{
+    if(m_state == Resource::State::state_mem)
+        return true;
+
+    if(!Core::instance().getFileSystem().isExist(m_name))
+    {
+        m_state = Resource::State::state_invalid;
+        return false;
+    }
+
+    auto              new_tex = LoadTexture(m_name);
+    TextureResource * tex_ptr = static_cast<TextureResource *>(new_tex.get());
+
+    if(tex_ptr->m_state == Resource::State::state_invalid)
+    {
+        m_state = Resource::State::state_invalid;
+        return false;
+    }
+
+    std::swap(m_state, tex_ptr->m_state);
+    std::swap(m_type, tex_ptr->m_type);
+    std::swap(m_name, tex_ptr->m_name);
+    std::swap(m_data, tex_ptr->m_data);
+
+    return true;
+}
+
+void TextureResource::release()
+{
+    m_state = Resource::State::state_path;
+    ImageData temp;
+    std::swap(m_data, temp);
+}
 }   // namespace evnt

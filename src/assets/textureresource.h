@@ -14,8 +14,8 @@ public:
 
     // Resource interface
 public:
-//    bool load() override;
-//    void release() override;
+    bool load() override;
+    void release() override;
 
     static ResourceType                      GetTypeID() { return ResourceType::Texture; }
     static ResourceManager::ResourceRegEntry GetRegEntry();
