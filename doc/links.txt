@@ -5,3 +5,6 @@ https://habr.com/ru/post/474414/
 https://habr.com/ru/post/475268/
 https://habr.com/ru/post/149635/
 https://habr.com/ru/company/otus/blog/475980/
+
+
+OpenGL/VRML Materials:  http://devernay.free.fr/cours/opengl/materials.html

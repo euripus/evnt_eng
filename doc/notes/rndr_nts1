@@ -1,0 +1,64 @@
+FrameGraph stages(ex.):
+    draw geometry:
+        bind_buffer fbo1 draw
+        draw !translucent
+        draw translucent BACK_TO_FRONT
+    blur:
+        bind_buffer default draw
+        draw_quad post_process.material
+    draw overlays
+        for cams: render local views
+
+Per stages:
+    bind_buffer
+    clear screen(color, depth, stencil)
+    set viewport
+    per material: -> get passes
+        set frame_buffer_state(culling, scissor, blending, depth, wire, masks)
+        set material_state(set shader, set light states) 
+        per objects:
+            set matrices
+            set textures
+            set VAO
+            draw()
+
+Mirror:
+    render mirror texture
+    render scene
+    render mirror object
+    
+//===================================================//
+materials 
+    monitor
+        render_to_texture
+        render_obj
+    reflection
+        render_to_texture mirror_trans
+        render_obj
+    volume_fog
+        render_z_buf1
+        render_z_buf2
+        render_obj
+        
+render pass:
+    images
+    buffers
+    viewport & pipeline_state
+    shader
+    
+begin_frame()
+    add_passes
+end_frame()
+
+obj_lists:
+    obj : obj_lists
+        i = obj->mat->getNumPasses()
+        for(0...i)
+            frame_graph-addPass(obj->getPasses()[i])
+
+frame_graph->build:
+    add_passes
+    create_fences
+    sort
+    create ex_buffers
+    do ex

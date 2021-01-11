@@ -66,6 +66,7 @@ bool GLFWWindow::create(int32_t width, int32_t height)
     glfwMakeContextCurrent(mp_glfw_window);
     glfwSetWindowTitle(mp_glfw_window, m_title.c_str());
     glfwSetWindowUserPointer(mp_glfw_window, this);
+    glfwSetWindowSizeCallback(mp_glfw_window, WindowSizeCallback);
     setMouseCursor(getMouseCursor());
 
     // subsystem init
