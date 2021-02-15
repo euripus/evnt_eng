@@ -45,16 +45,6 @@ render pass:
     buffers
     viewport & pipeline_state
     shader
-    
-begin_frame()
-    add_passes
-end_frame()
-
-obj_lists:
-    obj : obj_lists
-        i = obj->mat->getNumPasses()
-        for(0...i)
-            frame_graph-addPass(obj->getPasses()[i])
 
 frame_graph->build:
     add_passes
@@ -62,3 +52,38 @@ frame_graph->build:
     sort
     create ex_buffers
     do ex
+
+//===================================================//
+CamPipeline
+    stage1:
+        doForwardLight()
+    stage2:
+        doOverlays()
+    stage3:
+        stage1 + stage2
+
+// Forward lighting
+CommandQue ex;
+frame_graph.beginFrame(ex);
+    for(obj : obj_list)
+        for(j : obj->getNumMat())
+            for(i : obj->mat[j]->getNumPasses())
+                frame_graph->addPass(obj, obj->mat[j]->getPass(i));
+frame_graph.endFrame();
+
+// default pipeline
+RenderTargets:
+    RenderTarget id="fr1" color_buffer=true depth_buffer=true stencil=false format=RGBA, depth_format=...
+
+Stages:
+    stage id="Lighting"
+        bindRT fr1
+        clearRT fr1: color|depth|stencil
+        doForwardLight
+            draw !translucent
+            draw translucent BACK_TO_FRONT
+    stage id="Overlays"
+        bindRT fr1
+        doOverlays
+    stage id="Present"
+        swap(fr1);

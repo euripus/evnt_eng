@@ -2,6 +2,7 @@
 #include "typeconversions.h"
 #include <GL/glew.h>
 #include <algorithm>
+#include <stdexcept>
 
 namespace evnt
 {
