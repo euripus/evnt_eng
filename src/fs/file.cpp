@@ -16,7 +16,7 @@ std::string BaseFile::getNameExt() const
     //    else
     //        return {};
 
-    return std::filesystem::path(m_name).extension();
+    return std::filesystem::path(m_name).extension().string();
 }
 
 OutFile::OutFile()

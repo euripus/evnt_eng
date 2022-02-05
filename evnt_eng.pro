@@ -22,11 +22,11 @@ INCLUDEPATH += $$PWD/include
 LIBS += -L$$PWD/lib
 
 win32:{
-    INCLUDEPATH += d:/build/boost_1_69_0
-    LIBS += -Ld:/build/boost_1_69_0/stage/lib 
-    LIBS += -lboost_log-mgw73-mt-x32-1_69 -lboost_system-mgw73-mt-x32-1_69
-    LIBS += -lboost_locale-mgw73-mt-x32-1_69 -lboost_thread-mgw73-mt-x32-1_69
-    LIBS += -lboost_filesystem-mgw73-mt-x32-1_69
+    INCLUDEPATH += d:/build/prj/external/libs/boost_1_77_0
+    LIBS += -Ld:/build/prj/external/libs/boost_1_77_0/stage/lib
+    LIBS += -lboost_log-mgw8-mt-x32-1_77 -lboost_system-mgw8-mt-x32-1_77
+    LIBS += -lboost_locale-mgw8-mt-x32-1_77 -lboost_thread-mgw8-mt-x32-1_77
+    LIBS += -lboost_filesystem-mgw8-mt-x32-1_77
     LIBS += -liconv -lz -lws2_32 -lshell32
     LIBS += -lstdc++fs -static-libgcc -static-libstdc++ -static -lpthread
     LIBS += -lglfw3dll -lglew32dll -lopengl32
