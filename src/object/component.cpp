@@ -58,7 +58,7 @@ void Component::dump(int32_t indentLevel) const
     std::cout << std::string(4 * indentLevel, ' ') << "}";
 }
 
-void Component::write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const
+void Component::write(OutputMemoryStream & inMemoryStream, ObjectManager const & gmgr) const
 {
     inMemoryStream.write(getClassIDVirtual());
     inMemoryStream.write(getInstanceId());
@@ -76,7 +76,7 @@ void Component::write(OutputMemoryStream & inMemoryStream, const ObjectManager &
     }
 }
 
-void Component::read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr)
+void Component::read(InputMemoryStream const & inMemoryStream, ObjectManager & gmgr)
 {
     int32_t type_id{0};
     inMemoryStream.read(type_id);
@@ -101,7 +101,7 @@ void Component::read(const InputMemoryStream & inMemoryStream, ObjectManager & g
     }
 }
 
-void Component::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap)
+void Component::link(ObjectManager & gmgr, std::map<uint32_t, uint32_t> const & id_remap)
 {
     // https://stackoverflow.com/questions/22419063/error-cast-from-pointer-to-smaller-type-int32_t-loses-information-in-eaglview-mm
     uint32_t inst_id = static_cast<uint32_t>(reinterpret_cast<size_t>(mp_owner));

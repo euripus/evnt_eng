@@ -30,7 +30,7 @@ int32_t utf8_main(int32_t argc, char * argv[])
 
         evnt::Core::shutDown();
     }
-    catch(const std::exception & ex)
+    catch(std::exception const & ex)
     {
         std::cout << "ERROR: " << ex.what() << std::endl;
         return 1;

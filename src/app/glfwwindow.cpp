@@ -171,7 +171,7 @@ DisplayModes GLFWWindow::getDisplayModes() const
         dm.resolution.y = modes[i].height;
 
         if(std::find_if(std::begin(dms), std::end(dms),
-                        [dm](const DisplayMode & vdm) -> bool {
+                        [dm](DisplayMode const & vdm) -> bool {
                             return vdm.resolution.x == dm.resolution.x && vdm.resolution.y == dm.resolution.y;
                         })
            == std::end(dms))

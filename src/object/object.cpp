@@ -7,7 +7,7 @@
 
 namespace evnt
 {
-const Object::StaticObjectInit Object::sm_class_register{Object::InitType};
+Object::StaticObjectInit const Object::sm_class_register{Object::InitType};
 
 void Object::InitType()
 {
@@ -30,7 +30,7 @@ Object::RTTI & Object::ClassIDToRTTI(int32_t classID)
     return id->second;
 }
 
-void Object::RegisterClass(int32_t inClassID, int32_t inBaseClass, const std::string & inName, int32_t size,
+void Object::RegisterClass(int32_t inClassID, int32_t inBaseClass, std::string const & inName, int32_t size,
                            CreateFunc inFunc)
 {
     assert(inClassID != -1);
@@ -73,11 +73,11 @@ int32_t Object::GetSuperClassID(int32_t classID)
     return base;
 }
 
-int32_t Object::StringToClassID(const std::string & classString)
+int32_t Object::StringToClassID(std::string const & classString)
 {
     int32_t result = -1;
 
-    for(const auto & [key, rtti] : s_classid_to_rtti_map)
+    for(auto const & [key, rtti] : s_classid_to_rtti_map)
     {
         if(rtti.className == classString)
         {

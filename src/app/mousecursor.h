@@ -45,7 +45,7 @@ public:
     }
     bool isStdShapeCursor() const { return m_is_standart; }
 
-    const ImageData & getTexture() const { return m_ref_texture; }
+    ImageData const & getTexture() const { return m_ref_texture; }
 
     bool load();
 

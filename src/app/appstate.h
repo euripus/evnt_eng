@@ -16,14 +16,14 @@ public:
     AppState(App & owner, std::string state_name) : m_owner{owner}, m_state_name{std::move(state_name)} {}
     virtual ~AppState() = default;
 
-    const std::string & getStateName() const { return m_state_name; }
+    std::string const & getStateName() const { return m_state_name; }
 
     /// called when state is created
     virtual bool init() { return true; }
     /// called when state is becoming active
-    virtual void onStateEnter(const StateID prevState) {}
+    virtual void onStateEnter(StateID const prevState) {}
     /// called when state is becoming inactive
-    virtual void onStateLeave(const StateID nextState) {}
+    virtual void onStateLeave(StateID const nextState) {}
     /// called on state to perform state logic
     virtual void update() {}
     virtual void terminate() {}

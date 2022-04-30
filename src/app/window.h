@@ -52,7 +52,7 @@ public:
     Input & getInput() { return *mp_input_backend; }
 
     glm::ivec2        getWindowSize() const { return m_win_size; }
-    const DisplayMode getDisplayMode() const { return DisplayMode(m_win_size); }
+    DisplayMode const getDisplayMode() const { return DisplayMode(m_win_size); }
     bool              getWindowRunning() const { return m_running; }
     bool              isFullScreen() const { return m_full_screen; }
     void              setMSAALevel(int32_t level) { m_MSAA_level = level; }

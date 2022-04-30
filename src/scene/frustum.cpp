@@ -2,7 +2,7 @@
 
 namespace evnt
 {
-void Frustum::buildViewFrustum(const glm::mat4 & trans_mat, float fov, float aspect, float near_plane,
+void Frustum::buildViewFrustum(glm::mat4 const & trans_mat, float fov, float aspect, float near_plane,
                                float far_plane)
 {
     float ymax = near_plane * glm::tan(glm::radians(fov / 2));
@@ -11,7 +11,7 @@ void Frustum::buildViewFrustum(const glm::mat4 & trans_mat, float fov, float asp
     buildViewFrustum(trans_mat, -xmax, xmax, -ymax, ymax, near_plane, far_plane);
 }
 
-void Frustum::buildViewFrustum(const glm::mat4 & trans_mat, float left, float right, float bottom, float top,
+void Frustum::buildViewFrustum(glm::mat4 const & trans_mat, float left, float right, float bottom, float top,
                                float near_plane, float far_plane)
 {
     // Use intercept theorem to get params for far plane
@@ -46,7 +46,7 @@ void Frustum::buildViewFrustum(const glm::mat4 & trans_mat, float left, float ri
     m_planes[5] = Plane(m_corners[5], m_corners[4], m_corners[7]);   // Far
 }
 
-void Frustum::buildViewFrustum(const glm::mat4 & view_mat, const glm::mat4 & proj_mat)
+void Frustum::buildViewFrustum(glm::mat4 const & view_mat, glm::mat4 const & proj_mat)
 {
     // This routine works with the OpenGL projection matrix
     // The view matrix is the inverse camera transformation matrix
@@ -88,7 +88,7 @@ void Frustum::buildViewFrustum(const glm::mat4 & view_mat, const glm::mat4 & pro
     m_corners[7]     = glm::vec3(corner.x / corner.w, corner.y / corner.w, corner.z / corner.w);
 }
 
-void Frustum::buildBoxFrustum(const glm::mat4 & trans_mat, float left, float right, float bottom, float top,
+void Frustum::buildBoxFrustum(glm::mat4 const & trans_mat, float left, float right, float bottom, float top,
                               float front, float back)
 {
     // Get points on front plane
@@ -129,12 +129,12 @@ bool Frustum::cullSphere(glm::vec3 pos, float rad) const
     return false;
 }
 
-bool Frustum::cullBox(const AABB & b) const
+bool Frustum::cullBox(AABB const & b) const
 {
     // Idea for optimized AABB testing from www.lighthouse3d.com
     for(uint32_t i = 0; i < 6; ++i)
     {
-        const glm::vec3 & n = m_planes[i].m_normal;
+        glm::vec3 const & n = m_planes[i].m_normal;
 
         glm::vec3 positive = b.min();
         if(n.x <= 0)
@@ -151,7 +151,7 @@ bool Frustum::cullBox(const AABB & b) const
     return false;
 }
 
-bool Frustum::cullFrustum(const Frustum & frust) const
+bool Frustum::cullFrustum(Frustum const & frust) const
 {
     for(uint32_t i = 0; i < 6; ++i)
     {
@@ -175,7 +175,7 @@ bool Frustum::cullFrustum(const Frustum & frust) const
 
 void Frustum::calcAABB(glm::vec3 & mins, glm::vec3 & maxs) const
 {
-    constexpr const float f_max = std::numeric_limits<float>::max();
+    constexpr float const f_max = std::numeric_limits<float>::max();
 
     mins.x = f_max;
     mins.y = f_max;

@@ -5,8 +5,11 @@
 
 namespace evnt
 {
-static std::chrono::steady_clock::time_point app_start{std::chrono::steady_clock::now()};
-static const std::string                     root_config_filename{"config.json"};
+namespace
+{
+    std::chrono::steady_clock::time_point app_start{std::chrono::steady_clock::now()};
+    std::string const                     root_config_filename{"config.json"};
+}   // namespace
 
 int64_t GetMilisecFromStart()
 {

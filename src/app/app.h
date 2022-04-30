@@ -63,7 +63,7 @@ private:
     std::vector<AppStatePtr> m_states;
     AppState::StateID        m_cur_state;
     AppState::StateID        m_next_state{-1};
-    const AppState::StateID  m_end_state;
+    AppState::StateID const  m_end_state;
 
     // input queue buffers
 

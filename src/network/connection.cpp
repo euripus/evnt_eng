@@ -17,7 +17,7 @@ void Connection::processIncomingPackets()
 void Connection::readIncomingPacketsIntoQueue()
 {
     // should we just keep a static one?
-    static const int32_t     packetSize = 1500;
+    static int32_t const     packetSize = 1500;
     static InputMemoryStream inputStream(packetSize);
     SocketAddress            fromAddress;
 
@@ -79,7 +79,7 @@ void Connection::processQueuedPackets()
     }
 }
 
-void Connection::sendPacket(const OutputMemoryStream & inOutputStream, const SocketAddress & inToAddress)
+void Connection::sendPacket(OutputMemoryStream const & inOutputStream, SocketAddress const & inToAddress)
 {
     uint32_t sentByteCount = static_cast<uint32_t>(
         msp_socket->sendTo(inOutputStream.getBufferPtr(), inOutputStream.getLength(), inToAddress));

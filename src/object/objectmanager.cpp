@@ -28,7 +28,7 @@ PObjHandle ObjectManager::createDefaultObj(int32_t obj_type)
 
 PObjHandle ObjectManager::registerObj(PUniqueObjPtr ob, int32_t obj_type)
 {
-    const uint32_t instance_id = m_next_available_id.fetch_add(1, std::memory_order_relaxed);
+    uint32_t const instance_id = m_next_available_id.fetch_add(1, std::memory_order_relaxed);
     assert(instance_id != std::numeric_limits<uint32_t>::max());
 
     ob->setInstanceId(instance_id);
@@ -63,7 +63,7 @@ PObjHandle ObjectManager::getObject(uint32_t id)
 
     for(auto & [type_id, components] : m_objects)
     {
-        const auto iterFind = components.find(id);
+        auto const iterFind = components.find(id);
         if(iterFind != components.end())
             return iterFind->second.handle.lock();
     }
@@ -77,7 +77,7 @@ Object * ObjectManager::getObjectPtr(uint32_t id)
 
     for(auto & [type_id, components] : m_objects)
     {
-        const auto iterFind = components.find(id);
+        auto const iterFind = components.find(id);
         if(iterFind != components.end())
             return iterFind->second.unique.get();
     }
@@ -136,7 +136,7 @@ void ObjectManager::serialize(OutputMemoryStream & inMemoryStream) const
         }
 }
 
-void ObjectManager::deserialize(const InputMemoryStream & inMemoryStream, std::vector<PObjHandle> & objects)
+void ObjectManager::deserialize(InputMemoryStream const & inMemoryStream, std::vector<PObjHandle> & objects)
 {
     objects.clear();
     std::map<uint32_t, uint32_t> istance_id_remap;   // [old_id, new_id]

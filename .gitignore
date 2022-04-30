@@ -9,3 +9,5 @@ obj/
 include/
 doc/arch/
 bin/data/
+bin/evnt_eng
+bin/evnt_eng_d

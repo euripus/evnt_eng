@@ -67,7 +67,7 @@ ResourceManager::~ResourceManager()
     }
 }
 
-void ResourceManager::registerType(Resource::ResourceType type, const std::string & type_name,
+void ResourceManager::registerType(Resource::ResourceType type, std::string const & type_name,
                                    ResourceManager::ResReadFunc       read_func,
                                    ResourceManager::ResGetDefaultFunc default_func,
                                    ResourceManager::ResWriteFunc      write_func,
@@ -188,7 +188,7 @@ Resource::ResourceSharedPtr ResourceManager::getExisted(Resource::ResourceType t
     return {};
 }
 
-bool ResourceManager::isFileExisted(const std::string & name) const
+bool ResourceManager::isFileExisted(std::string const & name) const
 {
     auto fs = Core::instance().getFileSystem();
     return fs.isExist(name);

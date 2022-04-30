@@ -23,7 +23,7 @@ MouseCursor::MouseCursor()
 
 MouseCursor::~MouseCursor() {}
 
-MouseCursor::MouseCursor(const MouseCursor & rhs)
+MouseCursor::MouseCursor(MouseCursor const & rhs)
 {
     m_filename    = rhs.m_filename;
     m_hot_spot_x  = rhs.m_hot_spot_x;
@@ -43,7 +43,7 @@ MouseCursor::MouseCursor(const MouseCursor & rhs)
     m_ref_texture.data = std::move(buffer);
 }
 
-MouseCursor & MouseCursor::operator=(const MouseCursor & rhs)
+MouseCursor & MouseCursor::operator=(MouseCursor const & rhs)
 {
     m_filename    = rhs.m_filename;
     m_hot_spot_x  = rhs.m_hot_spot_x;

@@ -16,7 +16,7 @@ int64_t GetMilisecFromStart();
 
 class Core : public Module<Core>
 {
-    inline static const uint32_t MS_PER_UPDATE = 16;   // roughly 60 fps
+    inline static uint32_t const MS_PER_UPDATE = 16;   // roughly 60 fps
     uint32_t                     m_fps{0};
 
     pt::ptree                   m_root_config;

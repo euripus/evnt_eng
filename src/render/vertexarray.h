@@ -33,7 +33,7 @@ public:
     BufferStructure(std::vector<Attribute> attributes) : m_attributes(std::move(attributes))
     {
         m_total_size = 0;
-        for(Attribute att : attributes)
+        for(Attribute & att : m_attributes)
             m_total_size += att.size;
     }
 
@@ -57,7 +57,7 @@ public:
 
     uint32_t getID() const { return m_id; }
 
-    virtual void setIndexBuffer(TBuffer<int32_t> buffer)                             = 0;
+    virtual void setIndexBuffer(TBuffer<int32_t> buffer)                            = 0;
     virtual void destroy()                                                          = 0;
     virtual void setBuffer(int32_t structure, IBuffer * buffer, int32_t offset = 0) = 0;
     virtual void setAttributeEnabled(int32_t index, bool enabled)                   = 0;

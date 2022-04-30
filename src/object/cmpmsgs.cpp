@@ -24,7 +24,7 @@ void CmpMsgsTable::handleMessage(Component * rec, msg_id id, std::any msg_data) 
     auto     cid = static_cast<ClassIDType>(rec->getClassIDVirtual());
     key_type k{id, cid};
 
-    const auto & it = m_callback_map.find(k);
+    auto const & it = m_callback_map.find(k);
     it->second(rec, id, std::move(msg_data));
 }
 }   // namespace evnt

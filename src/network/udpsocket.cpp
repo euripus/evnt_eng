@@ -3,7 +3,7 @@
 
 namespace evnt
 {
-bool UDPSocket::bind(const SocketAddress & inToAddress)
+bool UDPSocket::bind(SocketAddress const & inToAddress)
 {
     bool res = false;
     try
@@ -21,7 +21,7 @@ bool UDPSocket::bind(const SocketAddress & inToAddress)
     return res;
 }
 
-size_t UDPSocket::sendTo(const void * inToSend, size_t inLength, const SocketAddress & inToAddress)
+size_t UDPSocket::sendTo(void const * inToSend, size_t inLength, SocketAddress const & inToAddress)
 {
     return m_socket.send_to(boost::asio::buffer(inToSend, inLength), inToAddress.m_endpoint);
 }

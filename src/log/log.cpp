@@ -45,7 +45,7 @@ namespace Log
     inline std::basic_ostream<CharT, TraitsT> & operator<<(std::basic_ostream<CharT, TraitsT> & strm,
                                                            SeverityLevel                        lvl)
     {
-        static const char * const str[] = {"Notification", "WARNING", "ERROR"};
+        static char const * const str[] = {"Notification", "WARNING", "ERROR"};
         if(static_cast<std::size_t>(lvl) < (sizeof(str) / sizeof(*str)))
             strm << str[lvl];
         else
@@ -64,7 +64,7 @@ namespace Log
     static boost::log::sources::wseverity_logger<SeverityLevel> g_wlogger;
     static boost::log::sources::severity_logger<SeverityLevel>  g_logger;
 
-    void BoostLog::InitBoostLog(const std::string & fname, Output out)
+    void BoostLog::InitBoostLog(std::string const & fname, Output out)
     {
         assert(fname.size() > 0);
 
@@ -145,7 +145,10 @@ namespace Log
         boost::log::core::get()->add_global_attribute("Uptime", boost::log::attributes::timer());
     }
 
-    std::string BoostLog::GetLogFileName() { return g_fname; }
+    std::string BoostLog::GetLogFileName()
+    {
+        return g_fname;
+    }
 
     void BoostLog::SetSeverityFilter(SeverityLevel sl)
     {
@@ -155,12 +158,12 @@ namespace Log
             g_sink_c->set_filter(boost::log::expressions::attr<SeverityLevel>("Severity") >= sl);
     }
 
-    void BoostLog::Put(SeverityLevel sl, const std::string & message)
+    void BoostLog::Put(SeverityLevel sl, std::string const & message)
     {
         BOOST_LOG_SEV(g_logger, sl) << message;
     }
 
-    void BoostLog::Put(SeverityLevel sl, const std::wstring & message)
+    void BoostLog::Put(SeverityLevel sl, std::wstring const & message)
     {
         BOOST_LOG_SEV(g_wlogger, sl) << message;
     }
@@ -169,7 +172,7 @@ namespace Log
     Global C-style printf fuction
     ******************************************************************************/
 
-    std::string cstr_log(const char * format, ...)
+    std::string cstr_log(char const * format, ...)
     {
         char buffer[LOG_MAX_STRING] = {};
 
@@ -182,7 +185,7 @@ namespace Log
         return std::string(buffer);
     }
 
-    std::wstring cstr_log(const wchar_t * format, ...)
+    std::wstring cstr_log(wchar_t const * format, ...)
     {
         wchar_t buffer[LOG_MAX_STRING] = {};
 
@@ -195,9 +198,15 @@ namespace Log
         return std::wstring(buffer);
     }
 
-    void Log(SeverityLevel sl, const std::wstring & msg) { BoostLog::Put(sl, msg); }
+    void Log(SeverityLevel sl, std::wstring const & msg)
+    {
+        BoostLog::Put(sl, msg);
+    }
 
-    void Log(SeverityLevel sl, const std::string & msg) { BoostLog::Put(sl, msg); }
+    void Log(SeverityLevel sl, std::string const & msg)
+    {
+        BoostLog::Put(sl, msg);
+    }
 
     SeverityLevel ConvertStrToSeverity(std::string sl_txt)
     {

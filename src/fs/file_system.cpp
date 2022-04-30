@@ -44,7 +44,7 @@ FileSystem::FileSystem(std::string root_dir)
     {
         for(auto it = fs::recursive_directory_iterator(p); it != fs::recursive_directory_iterator(); it++)
         {
-            const fs::path & lp = (*it).path();
+            fs::path const & lp = (*it).path();
             if(fs::is_regular_file(lp))
             {
                 if(lp.has_extension() && lp.extension() == fs::path(".zip"))
@@ -67,10 +67,10 @@ FileSystem::FileSystem(std::string root_dir)
 
     if(!zip_file_list.empty())
         std::for_each(zip_file_list.begin(), zip_file_list.end(),
-                      [this](const std::string & fname) { this->addZippedDir(fname); });
+                      [this](std::string const & fname) { this->addZippedDir(fname); });
 }
 
-void FileSystem::addZippedDir(const std::string & fname)
+void FileSystem::addZippedDir(std::string const & fname)
 {
     std::ifstream ifs;
     ifs.open(fname, std::ifstream::in | std::ifstream::binary);
@@ -83,7 +83,7 @@ void FileSystem::addZippedDir(const std::string & fname)
 
     // get length of file:
     ifs.seekg(0, std::ifstream::end);
-    const size_t fileSize    = static_cast<size_t>(ifs.tellg());
+    size_t const fileSize    = static_cast<size_t>(ifs.tellg());
     size_t       EOCD_offset = 0;
 
     for(size_t offset = fileSize - sizeof(EOCD); offset != 0; --offset)
@@ -182,7 +182,7 @@ void FileSystem::addZippedDir(const std::string & fname)
     }
 }
 
-bool FileSystem::isExist(const std::string & fname) const
+bool FileSystem::isExist(std::string const & fname) const
 {
     assert(!fname.empty());
 
@@ -203,11 +203,11 @@ bool FileSystem::isExist(const std::string & fname) const
     return false;
 }
 
-InFile FileSystem::getFile(const std::string & fname) const
+InFile FileSystem::getFile(std::string const & fname) const
 {
     assert(!fname.empty());
 
-    auto res = std::find_if(m_files.begin(), m_files.end(), [&fname](const file_data & f) -> bool {
+    auto res = std::find_if(m_files.begin(), m_files.end(), [&fname](file_data const & f) -> bool {
         if(f.is_zip)
         {
             if(fname == f.zip_data.fname)
@@ -236,7 +236,7 @@ InFile FileSystem::getFile(const std::string & fname) const
     }
 }
 
-bool FileSystem::writeFile(const std::string & path, BaseFile const * file)
+bool FileSystem::writeFile(std::string const & path, BaseFile const * file)
 {
     std::string filename = file->getName();
 
@@ -320,7 +320,7 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
         lfh.uncompressedSize = static_cast<uint32_t>(buf.size());
 
         lfh.crc32 = static_cast<uint32_t>(
-            crc32(0, reinterpret_cast<const unsigned char *>(buf.data()), lfh.uncompressedSize));
+            crc32(0, reinterpret_cast<unsigned char const *>(buf.data()), lfh.uncompressedSize));
 
         // Выделим память для сжатых данных
         dataBuffer.resize(lfh.uncompressedSize);
@@ -363,7 +363,7 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
         lfh.filenameLength = static_cast<uint16_t>(fname.size());
 
         // Сохраним смещение к записи Local File Header внутри архива
-        const uint32_t lfhOffset = static_cast<uint32_t>(ofs.tellp());
+        uint32_t const lfhOffset = static_cast<uint32_t>(ofs.tellp());
 
         GetDosTime(filelist[i]->timeStamp(), time, date);
 
@@ -389,12 +389,12 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
     }
 
     // Смещение первой записи для EOCD
-    const uint32_t firstOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
+    uint32_t const firstOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
     for(uint32_t i = 0; i < filelist.size(); ++i)
     {
-        const std::string &        filename = filelist[i]->getName();
-        const FileInfo &           fileInfo = fileInfoList[i];
+        std::string const &        filename = filelist[i]->getName();
+        FileInfo const &           fileInfo = fileInfoList[i];
         CentralDirectoryFileHeader cdfh{};
         memset(&cdfh, 0, sizeof(cdfh));
 
@@ -418,7 +418,7 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
     }
 
     // Посчитаем размер данных для следующего шага
-    const uint32_t lastOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
+    uint32_t const lastOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
     EOCD eocd{};
     memset(&eocd, 0, sizeof(eocd));
@@ -449,7 +449,7 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
         return false;
     }
 
-    const size_t fileSize     = static_cast<size_t>(ofs.tellg());
+    size_t const fileSize     = static_cast<size_t>(ofs.tellg());
     size_t       EOCD_offset_ = 0;
 
     for(size_t offset = fileSize - sizeof(EOCD); offset != 0; --offset)
@@ -505,7 +505,7 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     ofs.seekg(eocd.centralDirectoryOffset, std::fstream::beg);
 
     auto file_it = std::find_if(zip_fnames.begin(), zip_fnames.end(),
-                                [&file](const std::string & zn) -> bool { return file->getName() == zn; });
+                                [&file](std::string const & zn) -> bool { return file->getName() == zn; });
 
     if(file_it != zip_fnames.end())
         return false;   // Если есть файл с таким именем
@@ -522,7 +522,7 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     lfh.uncompressedSize = static_cast<uint32_t>(file->getFileSize());
 
     lfh.crc32 = static_cast<uint32_t>(
-        crc32(0, reinterpret_cast<const unsigned char *>(file->getData()), lfh.uncompressedSize));
+        crc32(0, reinterpret_cast<unsigned char const *>(file->getData()), lfh.uncompressedSize));
 
     // Выделим память для сжатых данных
     dataBuffer.resize(lfh.uncompressedSize);
@@ -565,7 +565,7 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     lfh.filenameLength = static_cast<uint16_t>(file->getName().size());
 
     // Сохраним смещение к записи Local File Header внутри архива
-    const uint32_t lfhOffset = static_cast<uint32_t>(ofs.tellp());
+    uint32_t const lfhOffset = static_cast<uint32_t>(ofs.tellp());
 
     // Запишем сигнатуру Local File Header
     lfh.signature        = 0x04034b50;
@@ -578,7 +578,7 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     // Запишем данные
     ofs.write(data_ptr, static_cast<std::streamsize>(size));
 
-    const uint32_t firstOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
+    uint32_t const firstOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
     ofs.write(centralDirectoryData.get(), static_cast<std::streamsize>(eocd.sizeOfCentralDirectory));
 
@@ -601,7 +601,7 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     // Имя файла
     ofs.write(file->getName().c_str(), cdfh.filenameLength);
 
-    const uint32_t lastOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
+    uint32_t const lastOffsetCDFH = static_cast<uint32_t>(ofs.tellp());
 
     eocd.centralDirectoryOffset       = firstOffsetCDFH;
     eocd.numberCentralDirectoryRecord = static_cast<uint16_t>(eocd.numberCentralDirectoryRecord + 1);
@@ -609,8 +609,8 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     eocd.sizeOfCentralDirectory       = lastOffsetCDFH - firstOffsetCDFH;
 
     // Пишем сигнатуру
-    const uint32_t signature = 0x06054b50;
-    ofs.write(reinterpret_cast<const char *>(&signature), sizeof(signature));
+    uint32_t const signature = 0x06054b50;
+    ofs.write(reinterpret_cast<char const *>(&signature), sizeof(signature));
 
     // Пишем EOCD
     ofs.write(reinterpret_cast<char *>(&eocd), sizeof(eocd));
@@ -619,7 +619,16 @@ bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname
     return true;
 }
 
-InFile FileSystem::loadRegularFile(const file_data & f) const
+// https://stackoverflow.com/questions/61030383/how-to-convert-stdfilesystemfile-time-type-to-time-t
+template<typename TP>
+std::time_t to_time_t(TP tp)
+{
+    using namespace std::chrono;
+    auto sctp = time_point_cast<system_clock::duration>(tp - TP::clock::now() + system_clock::now());
+    return system_clock::to_time_t(sctp);
+}
+
+InFile FileSystem::loadRegularFile(file_data const & f) const
 {
     std::ifstream ifs(m_data_dir + '/' + f.fname, std::ios::binary);
     if(!ifs.is_open())
@@ -649,13 +658,13 @@ InFile FileSystem::loadRegularFile(const file_data & f) const
     ifs.close();
 
     auto        ftime = fs::last_write_time(m_data_dir + '/' + f.fname);
-    std::time_t time  = std::chrono::system_clock::to_time_t(ftime);
+    std::time_t time  = to_time_t(ftime);
 
     return {f.fname, time, file_size, std::move(data)};
 }
 
 // http://blog2k.ru/archives/3392
-InFile FileSystem::loadZipFile(const file_data & zf) const
+InFile FileSystem::loadZipFile(file_data const & zf) const
 {
     std::unique_ptr<int8_t[]> data;
 

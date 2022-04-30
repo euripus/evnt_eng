@@ -19,13 +19,13 @@ public:
             m_ptr->deleteObj();
     }
 
-    ObjHandle & operator=(const ObjHandle &) = delete;
-    ObjHandle(const ObjHandle &)             = delete;
+    ObjHandle & operator=(ObjHandle const &) = delete;
+    ObjHandle(ObjHandle const &)             = delete;
 
     Object & operator*() const { return *m_ptr; }
     Object * operator->() const { return m_ptr; }
              operator Object *() const { return m_ptr; }
-             operator const Object *() const { return m_ptr; }
+             operator Object const *() const { return m_ptr; }
              operator bool() const { return m_ptr != nullptr; }
     Object * getPtr() const { return m_ptr; }
 

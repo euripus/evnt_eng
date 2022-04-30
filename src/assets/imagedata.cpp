@@ -87,7 +87,7 @@ bool ReadBMP(BaseFile const & file, ImageData & id)
     if(reinterpret_cast<uint32_t *>(pPtr)[0] == 12)
     {
         BITMAPINFO12 * pInfo = reinterpret_cast<BITMAPINFO12 *>(pPtr);
-        //pPtr += pInfo->biSize;
+        // pPtr += pInfo->biSize;
 
         if(pInfo->biBitCount != 24 && pInfo->biBitCount != 32)
             return res;
@@ -103,7 +103,7 @@ bool ReadBMP(BaseFile const & file, ImageData & id)
     else
     {
         BITMAPINFO * pInfo = reinterpret_cast<BITMAPINFO *>(pPtr);
-        //pPtr += pInfo->biSize;
+        // pPtr += pInfo->biSize;
 
         if(pInfo->biBitCount != 24 && pInfo->biBitCount != 32)
             return res;
@@ -211,7 +211,7 @@ bool ReadBMP(BaseFile const & file, ImageData & id)
 //==============================================================================
 //         TGA section
 //==============================================================================
-OutFile WriteTGA(std::string fname, const ImageData & id)
+OutFile WriteTGA(std::string fname, ImageData const & id)
 {
     TGAHEADER tga;
     std::memset(&tga, 0, sizeof(tga));

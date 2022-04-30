@@ -10,7 +10,7 @@
 
 // https://stackoverflow.com/questions/34222703/how-to-override-static-method-of-template-class-in-derived-class
 #define OBJECT_DEFINE                                                                                   \
-    static const evnt::Object::StaticObjectInit sm_class_register;                                      \
+    static evnt::Object::StaticObjectInit const sm_class_register;                                      \
                                                                                                         \
     void         dump(int32_t indentLevel = 0) const override;                                          \
     void         write(OutputMemoryStream & inMemoryStream, ObjectManager const & gmgr) const override; \
@@ -24,13 +24,25 @@
     static void                    InitType();
 
 #define OBJECT_IMPLEMENT(inClass, inBaseClass)                                                             \
-    const evnt::Object::StaticObjectInit inClass::sm_class_register{inClass::InitType};                    \
+    evnt::Object::StaticObjectInit const inClass::sm_class_register{inClass::InitType};                    \
                                                                                                            \
-    int32_t                 inClass::getClassIDVirtual() const { return ClassName(inClass); }              \
-    char const *            inClass::getClassString() const { return #inClass; }                           \
-    int32_t                 inClass::GetClassIDStatic() { return ClassName(inClass); }                     \
-    std::unique_ptr<Object> inClass::CreateInstance() { return std::make_unique<inClass>(); }              \
-    void                    inClass::InitType()                                                            \
+    int32_t inClass::getClassIDVirtual() const                                                             \
+    {                                                                                                      \
+        return ClassName(inClass);                                                                         \
+    }                                                                                                      \
+    char const * inClass::getClassString() const                                                           \
+    {                                                                                                      \
+        return #inClass;                                                                                   \
+    }                                                                                                      \
+    int32_t inClass::GetClassIDStatic()                                                                    \
+    {                                                                                                      \
+        return ClassName(inClass);                                                                         \
+    }                                                                                                      \
+    std::unique_ptr<Object> inClass::CreateInstance()                                                      \
+    {                                                                                                      \
+        return std::make_unique<inClass>();                                                                \
+    }                                                                                                      \
+    void inClass::InitType()                                                                               \
     {                                                                                                      \
         evnt::Object::RegisterClass(ClassName(inClass), ClassName(inBaseClass), #inClass, sizeof(inClass), \
                                     inClass::CreateInstance);                                              \
@@ -60,7 +72,7 @@ public:
         CreateFunc  factory;     // the factory function of the class
     };
 
-    static const StaticObjectInit sm_class_register;
+    static StaticObjectInit const sm_class_register;
 
     static void InitType();
 

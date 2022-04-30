@@ -17,10 +17,10 @@ public:
     void setupViewParams(float fov, float aspect, float near_plane, float far_plane);
     void setProjectionMatrix(float * proj_mat);
 
-    const Frustum &   getFrustum() { return m_frustum; }
-    const glm::mat4 & getViewMat() { return m_view_mat; }
-    const glm::mat4 & getProjMat() { return m_proj_mat; }
-    const glm::vec3 & getAbsPos() { return m_abs_pos; }
+    Frustum const &   getFrustum() { return m_frustum; }
+    glm::mat4 const & getViewMat() { return m_view_mat; }
+    glm::mat4 const & getProjMat() { return m_proj_mat; }
+    glm::vec3 const & getAbsPos() { return m_abs_pos; }
 
     // called after SpatialComponent changed
     void postTransformUpdate(glm::mat4 const & new_trans);

@@ -12,7 +12,7 @@ struct Plane
 
     Plane() = default;
 
-    explicit Plane(const float a, const float b, const float c, const float d)
+    explicit Plane(float const a, float const b, float const c, float const d) noexcept
     {
         m_normal      = glm::vec3(a, b, c);
         float inv_len = 1.0f / m_normal.length();
@@ -21,7 +21,7 @@ struct Plane
         m_dist = d * inv_len;
     }
 
-    Plane(glm::vec3 const & v0, glm::vec3 const & v1, glm::vec3 const & v2)
+    explicit Plane(glm::vec3 const & v0, glm::vec3 const & v1, glm::vec3 const & v2) noexcept
     {
         m_normal = v1 - v0;
         m_normal = glm::cross(m_normal, v2 - v0);
@@ -32,7 +32,7 @@ struct Plane
     // ----------------
     // Other operations
     // ----------------
-    float distToPoint(glm::vec3 const & v) const { return glm::dot(m_normal, v) + m_dist; }
+    float distToPoint(glm::vec3 const & v) const noexcept { return glm::dot(m_normal, v) + m_dist; }
 };
 }   // namespace evnt
 #endif   // PLANE_H

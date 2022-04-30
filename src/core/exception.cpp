@@ -3,7 +3,7 @@
 
 namespace evnt
 {
-const char * Exception::what() const noexcept
+char const * Exception::what() const noexcept
 {
     std::ostringstream buffer;
     buffer << "File: \"" << m_file << "\"  Line: " << m_line << "\n"

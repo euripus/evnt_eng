@@ -13,8 +13,8 @@ public:
     // AppState interface
 public:
     bool init() override;
-    void onStateEnter(const StateID prevState) override {}
-    void onStateLeave(const StateID nextState) override {}
+    void onStateEnter(StateID const prevState) override {}
+    void onStateLeave(StateID const nextState) override {}
     void update() override;
     void terminate() override {}
 

@@ -34,7 +34,7 @@ protected:
     void onKey(int32_t key_code, bool press);
 
 public:
-    inline static const std::string KEY_NONE{"---"};
+    inline static std::string const KEY_NONE{"---"};
 
     Input();
     virtual ~Input() = default;

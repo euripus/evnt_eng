@@ -16,7 +16,7 @@ ResourceManager::ResourceRegEntry TextureResource::GetRegEntry()
     return reg;
 }
 
-Resource::ResourceSharedPtr TextureResource::LoadTexture(const std::string & name)
+Resource::ResourceSharedPtr TextureResource::LoadTexture(std::string const & name)
 {
     auto tex = std::make_shared<TextureResource>(name);
     auto fs  = Core::instance().getFileSystem();

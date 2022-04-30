@@ -49,7 +49,7 @@ void SpatialComponent::updateWorldBound()
 {
     m_bbox.transform(m_world_transform);
 
-    for(const auto & ch : m_children)
+    for(auto const & ch : m_children)
     {
         m_bbox.expandBy(ch->m_bbox);
     }
@@ -81,7 +81,7 @@ int32_t SpatialComponent::attachChild(SpatialComponent * child)
     child->setParent(this);
 
     // Append the child to the array.
-    const int32_t num_children = static_cast<int32_t>(m_children.size());
+    int32_t const num_children = static_cast<int32_t>(m_children.size());
     m_children.push_back(child);
     return num_children;
 }
@@ -132,9 +132,9 @@ SpatialComponent * SpatialComponent::getChild(int32_t i)
 // serialization support
 void SpatialComponent::dump(int32_t indentLevel) const {}
 
-void SpatialComponent::write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const {}
+void SpatialComponent::write(OutputMemoryStream & inMemoryStream, ObjectManager const & gmgr) const {}
 
-void SpatialComponent::read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr) {}
+void SpatialComponent::read(InputMemoryStream const & inMemoryStream, ObjectManager & gmgr) {}
 
-void SpatialComponent::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) {}
+void SpatialComponent::link(ObjectManager & gmgr, std::map<uint32_t, uint32_t> const & id_remap) {}
 }   // namespace evnt

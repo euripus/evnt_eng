@@ -28,7 +28,7 @@ public:
 
 private:
     //! The line number it occurred on
-    const int32_t m_line;
+    int32_t const m_line;
     //! The source file
     std::string m_file;
     //! A message passed along when the exception was raised

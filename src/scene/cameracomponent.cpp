@@ -44,7 +44,7 @@ void CameraComponent::setProjectionMatrix(float * proj_mat)
     m_manual_proj_mat = true;
 }
 
-void CameraComponent::postTransformUpdate(const glm::mat4 & new_trans)
+void CameraComponent::postTransformUpdate(glm::mat4 const & new_trans)
 {
     // Get position
     m_abs_pos = glm::vec3(new_trans[3][0], new_trans[3][1], new_trans[3][2]);
@@ -70,9 +70,9 @@ void CameraComponent::postTransformUpdate(const glm::mat4 & new_trans)
 // serialization support
 void CameraComponent::dump(int32_t indentLevel) const {}
 
-void CameraComponent::write(OutputMemoryStream & inMemoryStream, const ObjectManager & gmgr) const {}
+void CameraComponent::write(OutputMemoryStream & inMemoryStream, ObjectManager const & gmgr) const {}
 
-void CameraComponent::read(const InputMemoryStream & inMemoryStream, ObjectManager & gmgr) {}
+void CameraComponent::read(InputMemoryStream const & inMemoryStream, ObjectManager & gmgr) {}
 
-void CameraComponent::link(ObjectManager & gmgr, const std::map<uint32_t, uint32_t> & id_remap) {}
+void CameraComponent::link(ObjectManager & gmgr, std::map<uint32_t, uint32_t> const & id_remap) {}
 }   // namespace evnt

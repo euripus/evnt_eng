@@ -11,9 +11,9 @@
 
 namespace evnt
 {
-inline static const std::string PREFIX_KEY    = "Key_";
-inline static const std::string PREFIX_BUTTON = "Button";
-inline static const char        SEPARATOR     = '+';
+inline static std::string const PREFIX_KEY    = "Key_";
+inline static std::string const PREFIX_BUTTON = "Button";
+inline static char const        SEPARATOR     = '+';
 
 class Keyboard
 {

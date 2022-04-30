@@ -9,8 +9,8 @@ namespace evnt
 class Frustum
 {
 public:
-    const glm::vec3 & getOrigin() const { return m_origin; }
-    const glm::vec3 & getCorner(uint32_t index) const { return m_corners[index]; }
+    glm::vec3 const & getOrigin() const { return m_origin; }
+    glm::vec3 const & getCorner(uint32_t index) const { return m_corners[index]; }
 
     void buildViewFrustum(glm::mat4 const & trans_mat, float fov, float aspect, float near_plane,
                           float far_plane);

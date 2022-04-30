@@ -64,7 +64,7 @@ public:
     {
         FlagLock lk(m_access_flag);
         m_delegates.erase(std::remove_if(m_delegates.begin(), m_delegates.end(),
-                                         [dgh](const DelegateHolder & d) { return d.object == dgh; }),
+                                         [dgh](DelegateHolder const & d) { return d.object == dgh; }),
                           m_delegates.end());
     }
 

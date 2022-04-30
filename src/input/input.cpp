@@ -19,7 +19,7 @@ struct KeyDescription
 
 // All standard keys
 // "+" should not appear in names as it is used as a separator
-static const KeyDescription s_keys_descriptions[] = {
+static KeyDescription const s_keys_descriptions[] = {
     {Keyboard::Key_0, "0"},
     {Keyboard::Key_1, "1"},
     {Keyboard::Key_2, "2"},
@@ -277,10 +277,7 @@ void Input::onKey(int32_t key_code, bool press)
     evKeyboard(key_code, press);
 }
 
-Input::Input() :
-    m_key_id{-1},
-    m_mouse_position{0, 0},
-    m_mouse_wheel{0}
+Input::Input() : m_key_id{-1}, m_mouse_position{0, 0}, m_mouse_wheel{0}
 {
     reset();
 }
@@ -357,7 +354,7 @@ std::string Input::GetKeyName(int32_t key)
     {
         static_assert(std::size(s_keys_descriptions) == size_t(Keyboard::KeyMax - Keyboard::KeyBase));
 
-        const KeyDescription & entity = s_keys_descriptions[key - Keyboard::KeyBase];
+        KeyDescription const & entity = s_keys_descriptions[key - Keyboard::KeyBase];
         assert(entity.id == key);
         name = entity.name;
     }
@@ -372,7 +369,7 @@ std::string Input::GetKeyName(int32_t key)
     }
 }
 
-int32_t Input::GetKeyId(const std::string & key_name)
+int32_t Input::GetKeyId(std::string const & key_name)
 {
     // If a noneset key, return -1
     if(key_name.empty() || key_name == KEY_NONE)
@@ -395,7 +392,7 @@ int32_t Input::GetKeyId(const std::string & key_name)
             int32_t key = boost::lexical_cast<int32_t>(key_name.substr(PREFIX_KEY.length()));
             return key;
         }
-        catch(const boost::bad_lexical_cast &)
+        catch(boost::bad_lexical_cast const &)
         {}
     }
 
@@ -409,7 +406,7 @@ int32_t Input::GetKeyId(const std::string & key_name)
                 return Mouse::ButtonBase + key - 1;
             }
         }
-        catch(const boost::bad_lexical_cast &)
+        catch(boost::bad_lexical_cast const &)
         {}
     }
 
