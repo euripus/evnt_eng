@@ -76,9 +76,9 @@ bool ReadBMP(BaseFile const & file, ImageData & id)
     if(file_length == 0)
         return res;
 
-    auto buffer = const_cast<int8_t *>(file.getData());
+    auto * buffer = reinterpret_cast<uint8_t *>(const_cast<int8_t *>(file.getData()));
 
-    auto               pPtr    = buffer;
+    auto *             pPtr    = buffer;
     BITMAPFILEHEADER * pHeader = reinterpret_cast<BITMAPFILEHEADER *>(pPtr);
     pPtr += sizeof(BITMAPFILEHEADER);
     if(pHeader->bfSize != file_length || pHeader->bfType != 0x4D42)   // little-endian
@@ -123,11 +123,11 @@ bool ReadBMP(BaseFile const & file, ImageData & id)
         else
             id.type = ImageData::PixelType::pt_rgba;
 
-        id.width = pInfo->biWidth;
+        id.width = static_cast<uint32_t>(pInfo->biWidth);
 
         if(pInfo->biHeight < 0)
             flip = true;
-        id.height = std::abs(pInfo->biHeight);
+        id.height = static_cast<uint32_t>(std::abs(pInfo->biHeight));
     }
 
     // read data:
@@ -312,11 +312,11 @@ bool ReadUncompressedTGA(ImageData & id, char * data)
         if(id.type == ImageData::PixelType::pt_rgba)
             alpha = pPtr[i * bytes_per_pixel + 3];
 
-        img[i * bytes_per_pixel + 0] = red;
-        img[i * bytes_per_pixel + 1] = green;
-        img[i * bytes_per_pixel + 2] = blue;
+        img[i * bytes_per_pixel + 0] = static_cast<uint8_t>(red);
+        img[i * bytes_per_pixel + 1] = static_cast<uint8_t>(green);
+        img[i * bytes_per_pixel + 2] = static_cast<uint8_t>(blue);
         if(id.type == ImageData::PixelType::pt_rgba)
-            img[i * bytes_per_pixel + 3] = alpha;
+            img[i * bytes_per_pixel + 3] = static_cast<uint8_t>(alpha);
     }
 
     if(flip_vertical)
@@ -397,11 +397,11 @@ bool ReadCompressedTGA(ImageData & id, char * data)
             chunk -= 127;
             for(int32_t counter = 0; counter < chunk; counter++)
             {
-                img[currentbyte + 0] = pPtr[2];
-                img[currentbyte + 1] = pPtr[1];
-                img[currentbyte + 2] = pPtr[0];
+                img[currentbyte + 0] = static_cast<uint8_t>(pPtr[2]);
+                img[currentbyte + 1] = static_cast<uint8_t>(pPtr[1]);
+                img[currentbyte + 2] = static_cast<uint8_t>(pPtr[0]);
                 if(id.type == ImageData::PixelType::pt_rgba)
-                    img[currentbyte + 3] = pPtr[3];
+                    img[currentbyte + 3] = static_cast<uint8_t>(pPtr[3]);
 
                 currentbyte += bytes_per_pixel;
                 currentpixel++;
@@ -418,11 +418,11 @@ bool ReadCompressedTGA(ImageData & id, char * data)
             chunk++;
             for(short counter = 0; counter < chunk; counter++)
             {
-                img[currentbyte + 0] = pPtr[2];
-                img[currentbyte + 1] = pPtr[1];
-                img[currentbyte + 2] = pPtr[0];
+                img[currentbyte + 0] = static_cast<uint8_t>(pPtr[2]);
+                img[currentbyte + 1] = static_cast<uint8_t>(pPtr[1]);
+                img[currentbyte + 2] = static_cast<uint8_t>(pPtr[0]);
                 if(id.type == ImageData::PixelType::pt_rgba)
-                    img[currentbyte + 3] = pPtr[3];
+                    img[currentbyte + 3] = static_cast<uint8_t>(pPtr[3]);
 
                 currentbyte += bytes_per_pixel;
                 currentpixel++;
