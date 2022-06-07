@@ -7,8 +7,8 @@ namespace evnt
 {
 namespace
 {
-    std::chrono::steady_clock::time_point app_start{std::chrono::steady_clock::now()};
-    std::string const                     root_config_filename{"config.json"};
+    std::chrono::steady_clock::time_point const app_start{std::chrono::steady_clock::now()};
+    std::string_view const                      root_config_filename{"config.json"};
 }   // namespace
 
 int64_t GetMilisecFromStart()
@@ -21,7 +21,7 @@ Core::Core() : mp_thread_pool{std::make_unique<ThreadPool>(1)}, evExit{*mp_threa
 {
     // http://techgate.fr/boost-property-tree/
     // Load the config.json file in this ptree
-    pt::read_json(root_config_filename, m_root_config);
+    pt::read_json(std::string(root_config_filename), m_root_config);
 
     mp_file_system =
         std::make_unique<FileSystem>(m_root_config.get<std::string>("FileSystem.RootPathRelative"));
@@ -90,5 +90,4 @@ void Core::enterMainLoop()
 
     getApp().terminate();
 }
-
 }   // namespace evnt

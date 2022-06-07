@@ -56,13 +56,13 @@ namespace Log
 }   // namespace Log
 }   // namespace evnt
 
-#define LOG_MESSAGE(message) evnt::Log::BoostLog::put(evnt::Log::notification, std::string(message));
+#define LOG_MESSAGE(message)   evnt::Log::BoostLog::put(evnt::Log::notification, std::string(message));
 #define LOG_MESSAGE_W(message) evnt::Log::BoostLog::put(evnt::Log::notification, std::wstring(message));
 
-#define LOG_WARNING(message) evnt::Log::BoostLog::put(evnt::Log::warning, std::string(message));
+#define LOG_WARNING(message)   evnt::Log::BoostLog::put(evnt::Log::warning, std::string(message));
 #define LOG_WARNING_W(message) evnt::Log::BoostLog::put(evnt::Log::warning, std::wstring(message));
 
-#define LOG_ERROR(message) evnt::Log::BoostLog::put(evnt::Log::error, std::string(message));
+#define LOG_ERROR(message)   evnt::Log::BoostLog::put(evnt::Log::error, std::string(message));
 #define LOG_ERROR_W(message) evnt::Log::BoostLog::put(evnt::Log::error, std::wstring(message));
 
 #endif   // ILOG_H

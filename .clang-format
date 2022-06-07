@@ -62,7 +62,7 @@ DeriveLineEnding: false
 DerivePointerAlignment: false
 DisableFormat:   false
 EmptyLineAfterAccessModifier: Never
-EmptyLineBeforeAccessModifier: LogicalBlock
+EmptyLineBeforeAccessModifier: Leave
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 ForEachMacros:
@@ -118,7 +118,7 @@ ReferenceAlignment: Middle
 ReflowComments:  true
 RemoveBracesLLVM: false
 # RequiresClausePosition: OwnLine
-SeparateDefinitionBlocks: Always
+SeparateDefinitionBlocks: Leave
 ShortNamespaceLines: 1
 SortIncludes:    Never
 SortJavaStaticImport: Before

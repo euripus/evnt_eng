@@ -1,6 +1,7 @@
 #include "file_system.h"
 #include "../core/exception.h"
 #include "../log/log.h"
+#include <random>
 #include <algorithm>
 //#include <boost/filesystem.hpp>
 #include <chrono>
@@ -26,9 +27,39 @@ std::string FileSystem::GetCurrentDir()
     return fs::current_path().generic_string();
 }
 
+// https://stackoverflow.com/questions/440133/how-do-i-create-a-random-alpha-numeric-string-in-c
+template<typename T = std::mt19937>
+T random_generator()
+{
+    auto constexpr seed_bytes = sizeof(typename T::result_type) * T::state_size;
+    auto constexpr seed_len   = seed_bytes / sizeof(std::seed_seq::result_type);
+
+    auto seed = std::array<std::seed_seq::result_type, seed_len>();
+    auto dev  = std::random_device();
+    std::generate_n(begin(seed), seed_len, std::ref(dev));
+    auto seed_seq = std::seed_seq(begin(seed), end(seed));
+
+    return T{seed_seq};
+}
+
+std::string generate_random_alphanumeric_string(std::size_t len)
+{
+    static constexpr auto chars = "0123456789"
+                                  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                  "abcdefghijklmnopqrstuvwxyz";
+
+    thread_local auto rng    = random_generator<>();
+    auto              dist   = std::uniform_int_distribution{{}, std::strlen(chars) - 1};
+    auto              result = std::string(len, '\0');
+
+    std::generate_n(begin(result), len, [&]() { return chars[dist(rng)]; });
+
+    return result;
+}
+
 std::string FileSystem::GetTempFileName()
 {
-    return std::string(std::tmpnam(nullptr));
+    return generate_random_alphanumeric_string(10) + ".tmp";
 }
 
 FileSystem::FileSystem(std::string root_dir)
@@ -273,12 +304,12 @@ void GetDosTime(std::time_t rawtime, uint16_t & time, uint16_t & date)
 
     time =
         static_cast<uint16_t>((timeinfo->tm_hour << 11) | (timeinfo->tm_min << 5) | (timeinfo->tm_sec >> 1));
-    date = static_cast<uint16_t>(((timeinfo->tm_year - 80) << 9) | ((timeinfo->tm_mon + 1) << 5)
-                                 | (timeinfo->tm_mday));
+    date = static_cast<uint16_t>(
+        ((timeinfo->tm_year - 80) << 9) | ((timeinfo->tm_mon + 1) << 5) | (timeinfo->tm_mday));
 }
 
 // http://blog2k.ru/archives/3397
-bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::string & zipname)
+bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, std::string const & zipname)
 {
     // http://stackoverflow.com/questions/922360/why-cant-i-make-a-vector-of-references
     assert(!filelist.empty());
@@ -438,7 +469,7 @@ bool FileSystem::createZIP(std::vector<BaseFile const *> filelist, const std::st
     return true;
 }
 
-bool FileSystem::addFileToZIP(BaseFile const * file, const std::string & zipname)
+bool FileSystem::addFileToZIP(BaseFile const * file, std::string const & zipname)
 {
     assert(!zipname.empty());
 
