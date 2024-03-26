@@ -78,14 +78,14 @@ void GLTexture::generateMipmap()
 }
 
 void GLTexture::setData(int32_t x, int32_t y, int32_t w, int32_t h, int32_t level, TexturePixelFormat format,
-                        TextureDataType type, const void * pixels)
+                        TextureDataType type, void const * pixels)
 {
     glTextureSubImage2D(m_id, level, x, y, w, h, TexturePixelFormatToGLTexturePixelFormat(format),
                         TextureDataTypeToGLTextureDataType(type), pixels);
 }
 
 void GLTexture::setData(int32_t x, int32_t y, int32_t z, int32_t w, int32_t h, int32_t d, int32_t level,
-                        TexturePixelFormat format, TextureDataType type, const void * pixels)
+                        TexturePixelFormat format, TextureDataType type, void const * pixels)
 {
     glTextureSubImage3D(m_id, level, x, y, z, w, h, d, TexturePixelFormatToGLTexturePixelFormat(format),
                         TextureDataTypeToGLTextureDataType(type), pixels);

@@ -24,9 +24,9 @@ public:
 
     Object & operator*() const { return *m_ptr; }
     Object * operator->() const { return m_ptr; }
-             operator Object *() const { return m_ptr; }
-             operator Object const *() const { return m_ptr; }
-             operator bool() const { return m_ptr != nullptr; }
+    operator Object *() const { return m_ptr; }
+    operator Object const *() const { return m_ptr; }
+    operator bool() const { return m_ptr != nullptr; }
     Object * getPtr() const { return m_ptr; }
 
     uint32_t getInstanceId() const { return m_ptr != nullptr ? m_ptr->getInstanceId() : 0; }

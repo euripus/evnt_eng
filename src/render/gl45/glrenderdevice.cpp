@@ -20,7 +20,7 @@ GLRenderDevice::GLRenderDevice()
 
     for(GLint k = 0; k < num_extensions; k++)
     {
-        std::string ext{reinterpret_cast<const char *>(glGetStringi(GL_EXTENSIONS, k))};
+        std::string ext{reinterpret_cast<char const *>(glGetStringi(GL_EXTENSIONS, k))};
         m_extensions.push_back(std::move(ext));
     }
 }

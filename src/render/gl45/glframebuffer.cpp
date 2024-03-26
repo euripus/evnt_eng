@@ -2,8 +2,8 @@
 
 namespace evnt
 {
-GLFramebuffer::GLFramebuffer(const std::vector<WrappedTextureView> & colorAttachments,
-                             const WrappedTextureView &              depthStencil) :
+GLFramebuffer::GLFramebuffer(std::vector<WrappedTextureView> const & colorAttachments,
+                             WrappedTextureView const &              depthStencil) :
     IFramebuffer()
 {
     glCreateFramebuffers(1, &m_id);
@@ -26,8 +26,8 @@ GLFramebuffer::GLFramebuffer(const std::vector<WrappedTextureView> & colorAttach
                                        depthStencil.getLevel(), depthStencil.getLayer());
 }
 
-GLFramebuffer::GLFramebuffer(const std::vector<WrappedTextureView> & colorAttachments,
-                             const WrappedTextureView & depth, const WrappedTextureView & stencil,
+GLFramebuffer::GLFramebuffer(std::vector<WrappedTextureView> const & colorAttachments,
+                             WrappedTextureView const & depth, WrappedTextureView const & stencil,
                              bool hasDepth, bool hasStencil) :
     IFramebuffer()
 {

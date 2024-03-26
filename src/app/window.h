@@ -3,7 +3,7 @@
 
 #include "../core/event.h"
 #include "../input/input.h"
-//#include "../render/render.h"
+// #include "../render/render.h"
 #include "mousecursor.h"
 #include <glm/glm.hpp>
 #include <memory>

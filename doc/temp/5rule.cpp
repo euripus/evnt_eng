@@ -97,7 +97,7 @@ int main()
         std::allocator<int> alloc;
         std::any            x = std::make_any<std::vector<int>>({3, 1, 4}, alloc);
 
-        const auto & vec = std::any_cast<const std::vector<int> &>(x);
+        auto const & vec = std::any_cast<std::vector<int> const &>(x);
         assert(vec[0] == 3);
         assert(vec[1] == 1);
         assert(vec[2] == 4);

@@ -9,7 +9,7 @@
 #include <cwchar>
 #include <fstream>
 #include <iostream>
-//#include <boost/core/null_deleter.hpp>
+// #include <boost/core/null_deleter.hpp>
 #include <boost/log/attributes.hpp>
 #include <boost/log/attributes/current_thread_id.hpp>
 #include <boost/log/common.hpp>

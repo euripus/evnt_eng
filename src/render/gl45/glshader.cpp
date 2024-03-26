@@ -8,12 +8,14 @@ namespace evnt
 GLShader::GLShader(std::string src, std::set<std::string> defines)
 {
     m_id                                          = glCreateProgram();
-    const std::pair<GLenum, std::string> stages[] = {{GL_VERTEX_SHADER, "VERTEX"},
-                                                     {GL_FRAGMENT_SHADER, "FRAGMENT"},
-                                                     {GL_GEOMETRY_SHADER, "GEOMETRY"},
-                                                     {GL_COMPUTE_SHADER, "COMPUTE"},
-                                                     {GL_TESS_CONTROL_SHADER, "TESSCONTROL"},
-                                                     {GL_TESS_EVALUATION_SHADER, "TESSEVAL"}};
+    std::pair<GLenum, std::string> const stages[] = {
+        {         GL_VERTEX_SHADER,      "VERTEX"},
+        {       GL_FRAGMENT_SHADER,    "FRAGMENT"},
+        {       GL_GEOMETRY_SHADER,    "GEOMETRY"},
+        {        GL_COMPUTE_SHADER,     "COMPUTE"},
+        {   GL_TESS_CONTROL_SHADER, "TESSCONTROL"},
+        {GL_TESS_EVALUATION_SHADER,    "TESSEVAL"}
+    };
 
     std::string define_string;
     for(std::string const & define : defines)
@@ -29,8 +31,8 @@ GLShader::GLShader(std::string src, std::set<std::string> defines)
             shaders.push_back(shader);
 
             std::string               define = "#version 460\n#define " + stages[i].second;
-            std::vector<const char *> lines  = {define.data(), define_string.c_str(), "\n#line 0\n",
-                                               src.data()};
+            std::vector<char const *> lines  = {define.data(), define_string.c_str(), "\n#line 0\n",
+                                                src.data()};
 
             glShaderSource(shader, 4, lines.data(), nullptr);
             glCompileShader(shader);

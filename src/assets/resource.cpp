@@ -67,12 +67,10 @@ ResourceManager::~ResourceManager()
     }
 }
 
-void ResourceManager::registerType(Resource::ResourceType type, std::string const & type_name,
-                                   ResourceManager::ResReadFunc       read_func,
-                                   ResourceManager::ResGetDefaultFunc default_func,
-                                   ResourceManager::ResWriteFunc      write_func,
-                                   ResourceManager::ResInitFunc       init_func,
-                                   ResourceManager::ResReleaseFunc    release_func)
+void ResourceManager::registerType(
+    Resource::ResourceType type, std::string const & type_name, ResourceManager::ResReadFunc read_func,
+    ResourceManager::ResGetDefaultFunc default_func, ResourceManager::ResWriteFunc write_func,
+    ResourceManager::ResInitFunc init_func, ResourceManager::ResReleaseFunc release_func)
 {
     ResourceRegEntry reg;
     reg.res_type_name            = type_name;
@@ -169,7 +167,7 @@ void ResourceManager::releaseUnused()
     }
 }
 
-Resource::ResourceSharedPtr ResourceManager::getExisted(Resource::ResourceType type, const std::string & name)
+Resource::ResourceSharedPtr ResourceManager::getExisted(Resource::ResourceType type, std::string const & name)
 {
     std::lock_guard lock(m_resources_guard);
     auto &          res_list = m_resources[type];

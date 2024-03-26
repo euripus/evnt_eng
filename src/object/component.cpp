@@ -29,10 +29,11 @@ void Component::onAddMessage(Component * rec, CmpMsgsTable::msg_id id, std::any 
 
     switch(id)
     {
-        case CmpMsgsTable::msg_id::mDidAddComponent: {
-            std::cout << "OnAddComponent type:" << tt << " ID:" << rec->getInstanceId()
-                      << " this ID:" << getInstanceId() << std::endl;
-        }
+        case CmpMsgsTable::msg_id::mDidAddComponent:
+            {
+                std::cout << "OnAddComponent type:" << tt << " ID:" << rec->getInstanceId()
+                          << " this ID:" << getInstanceId() << std::endl;
+            }
     }
 }
 

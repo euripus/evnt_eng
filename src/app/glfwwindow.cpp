@@ -195,30 +195,36 @@ void GLFWWindow::setMouseCursor(MouseCursor const & cursor)
         MouseCursor::StdCursorShape shp = cursor.getStdShape();
         switch(shp)
         {
-            case MouseCursor::StdCursorShape::ARROW: {
-                glfw_cursor = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-                break;
-            }
-            case MouseCursor::StdCursorShape::IBEAM: {
-                glfw_cursor = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
-                break;
-            }
-            case MouseCursor::StdCursorShape::CROSSHAIR: {
-                glfw_cursor = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
-                break;
-            }
-            case MouseCursor::StdCursorShape::HAND: {
-                glfw_cursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
-                break;
-            }
-            case MouseCursor::StdCursorShape::HRESIZE: {
-                glfw_cursor = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
-                break;
-            }
-            case MouseCursor::StdCursorShape::VRESIZE: {
-                glfw_cursor = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
-                break;
-            }
+            case MouseCursor::StdCursorShape::ARROW:
+                {
+                    glfw_cursor = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+                    break;
+                }
+            case MouseCursor::StdCursorShape::IBEAM:
+                {
+                    glfw_cursor = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
+                    break;
+                }
+            case MouseCursor::StdCursorShape::CROSSHAIR:
+                {
+                    glfw_cursor = glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR);
+                    break;
+                }
+            case MouseCursor::StdCursorShape::HAND:
+                {
+                    glfw_cursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
+                    break;
+                }
+            case MouseCursor::StdCursorShape::HRESIZE:
+                {
+                    glfw_cursor = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
+                    break;
+                }
+            case MouseCursor::StdCursorShape::VRESIZE:
+                {
+                    glfw_cursor = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
+                    break;
+                }
         }
     }
     else

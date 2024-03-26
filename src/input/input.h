@@ -45,7 +45,7 @@ public:
 
     // Mouse
     glm::ivec2 const & getMousePosition() const { return m_mouse_position; }
-    void               setMousePosAbs(const glm::ivec2 & mouse_pos) { m_mouse_position = mouse_pos; }
+    void               setMousePosAbs(glm::ivec2 const & mouse_pos) { m_mouse_position = mouse_pos; }
     bool               getMouseButton(int32_t button_id) const;
     int32_t            getMouseButtonClicked() const;
     int32_t            getMouseWheel() const { return m_mouse_wheel; }

@@ -38,12 +38,12 @@ std::vector<GeoObjVar> CreateFig()
     return f;
 }
 
-void DrawElem(const std::vector<GeoObjVar> & v)
+void DrawElem(std::vector<GeoObjVar> const & v)
 {
     for(auto const & geo : v)
     {
         std::visit(
-            [](const auto & obj) {
+            [](auto const & obj) {
                 obj.draw();
 
                 if constexpr(std::is_same_v<decltype(obj), const Line &>)

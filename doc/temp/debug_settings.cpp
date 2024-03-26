@@ -7,7 +7,7 @@
 
 namespace pt = boost::property_tree;
 
-void read_and_write(const std::string & file_name)
+void read_and_write(std::string const & file_name)
 {
     pt::ptree   tree;
     std::size_t found         = file_name.find_last_of(".");
@@ -33,7 +33,7 @@ int main(int argc, char ** argv)
         files.push_back(argv[i]);
     }
 
-    for(const auto & file : files)
+    for(auto const & file : files)
     {
         try
         {

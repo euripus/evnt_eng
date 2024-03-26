@@ -10,10 +10,10 @@ class GLFramebuffer : public IFramebuffer
 {
 public:
     GLFramebuffer() = default;
-    GLFramebuffer(const std::vector<WrappedTextureView> & colorAttachments,
-                  const WrappedTextureView &              depthStencil);
-    GLFramebuffer(const std::vector<WrappedTextureView> & colorAttachments, const WrappedTextureView & depth,
-                  const WrappedTextureView & stencil, bool hasDepth, bool hasStencil);
+    GLFramebuffer(std::vector<WrappedTextureView> const & colorAttachments,
+                  WrappedTextureView const &              depthStencil);
+    GLFramebuffer(std::vector<WrappedTextureView> const & colorAttachments, WrappedTextureView const & depth,
+                  WrappedTextureView const & stencil, bool hasDepth, bool hasStencil);
     ~GLFramebuffer() override;
 
     void clearColor(int32_t drawBuffer, glm::vec4 color) override;

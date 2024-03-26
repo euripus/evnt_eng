@@ -40,8 +40,8 @@ public:
 
     glm::vec2 getCenter() { return m_position + m_size / 2.f; }
 
-    bool operator==(const Quad2D & other) { return m_position == other.m_position && m_size == other.m_size; }
-    bool operator!=(const Quad2D & other) { return m_position != other.m_position || m_size != other.m_size; }
+    bool operator==(Quad2D const & other) { return m_position == other.m_position && m_size == other.m_size; }
+    bool operator!=(Quad2D const & other) { return m_position != other.m_position || m_size != other.m_size; }
 
     glm::vec2 m_position;
     glm::vec2 m_size;
@@ -73,11 +73,11 @@ public:
 
     glm::vec2 getCenter() { return m_position + m_size / 2; }
 
-    bool operator==(const IQuad2D & other)
+    bool operator==(IQuad2D const & other)
     {
         return m_position == other.m_position && m_size == other.m_size;
     }
-    bool operator!=(const IQuad2D & other)
+    bool operator!=(IQuad2D const & other)
     {
         return m_position != other.m_position || m_size != other.m_size;
     }

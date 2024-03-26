@@ -63,9 +63,9 @@ public:
     void    destroy() override;
     void    generateMipmap() override;
     void    setData(int32_t x, int32_t y, int32_t w, int32_t h, int32_t level, TexturePixelFormat format,
-                    TextureDataType type, const void * pixels) override;
+                    TextureDataType type, void const * pixels) override;
     void    setData(int32_t x, int32_t y, int32_t z, int32_t w, int32_t h, int32_t d, int32_t level,
-                    TexturePixelFormat format, TextureDataType type, const void * pixels) override;
+                    TexturePixelFormat format, TextureDataType type, void const * pixels) override;
     void    copyPixels(ITexture & dest, int32_t sX, int32_t sY, int32_t sZ, int32_t sLevel, int32_t dX,
                        int32_t dY, int32_t dZ, int32_t dLevel, int32_t width, int32_t height,
                        int32_t depth) override;

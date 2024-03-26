@@ -27,7 +27,8 @@ AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: true
 BinPackParameters: true
 BitFieldColonSpacing: None
-BraceWrapping:
+BreakBeforeBraces: Custom
+BraceWrapping:   
   AfterClass:      true
   AfterControlStatement: true
   AfterEnum:       true
@@ -45,9 +46,8 @@ BraceWrapping:
   SplitEmptyNamespace: false
 BreakAfterJavaFieldAnnotations: false
 BreakBeforeBinaryOperators: NonAssignment
-BreakBeforeBraces: Custom
 # BreakBeforeConceptDeclarations: Always
-BreakInheritanceList: AfterColon
+# BreakInheritanceList: AfterColon
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterComma
@@ -65,12 +65,12 @@ EmptyLineAfterAccessModifier: Never
 EmptyLineBeforeAccessModifier: Leave
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
-ForEachMacros:
+ForEachMacros:   
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
 IncludeBlocks:   Preserve
-IncludeCategories:
+IncludeCategories: 
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
   - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
@@ -109,7 +109,7 @@ PenaltyBreakOpenParenthesis: 2
 PenaltyBreakString: 1000
 PenaltyBreakTemplateDeclaration: 120
 PenaltyExcessCharacter: 1000000
-#PenaltyIndentedWhitespace:
+#PenaltyIndentedWhitespace: 
 PenaltyReturnTypeOnItsOwnLine: 60
 PointerAlignment: Middle
 QualifierAlignment: Right

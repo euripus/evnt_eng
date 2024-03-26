@@ -101,7 +101,7 @@ private:
             std::cerr << "invalid msg " << msg << std::endl;
     }
 
-    void on_login(const std::string & msg)
+    void on_login(std::string const & msg)
     {
         std::istringstream in(msg);
         in >> username_ >> username_;
@@ -125,7 +125,7 @@ private:
         write("clients " + msg + "\n");
     }
 
-    void write(const std::string & msg) { sock_.write_some(buffer(msg)); }
+    void write(std::string const & msg) { sock_.write_some(buffer(msg)); }
 
 private:
     ip::tcp::socket sock_;

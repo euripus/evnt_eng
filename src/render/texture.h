@@ -82,9 +82,9 @@ public:
     virtual void destroy()                                                                     = 0;
     virtual void generateMipmap()                                                              = 0;
     virtual void setData(int32_t x, int32_t y, int32_t w, int32_t h, int32_t level, TexturePixelFormat format,
-                         TextureDataType type, const void * pixels)                            = 0;
+                         TextureDataType type, void const * pixels)                            = 0;
     virtual void setData(int32_t x, int32_t y, int32_t z, int32_t w, int32_t h, int32_t d, int32_t level,
-                         TexturePixelFormat format, TextureDataType type, const void * pixels) = 0;
+                         TexturePixelFormat format, TextureDataType type, void const * pixels) = 0;
     virtual void copyPixels(ITexture & dest, int32_t sX, int32_t sY, int32_t sZ, int32_t sLevel, int32_t dX,
                             int32_t dY, int32_t dZ, int32_t dLevel, int32_t width, int32_t height,
                             int32_t depth)                                                     = 0;

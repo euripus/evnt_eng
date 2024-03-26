@@ -128,7 +128,7 @@ public:
     TransformFeedbackStage transform_feedback_stage;
     FragmentStage          fragment_stage;
 
-    void optimize(const Pipeline & previous);
+    void optimize(Pipeline const & previous);
 
     virtual void bindPipeline() = 0;
 

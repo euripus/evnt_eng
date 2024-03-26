@@ -24,10 +24,10 @@ public:
             m_background_thread.join();
     }
 
-    Timer(Timer const &) = delete;
+    Timer(Timer const &)             = delete;
     Timer & operator=(Timer const &) = delete;
 
-    Timer(Timer &&) = delete;
+    Timer(Timer &&)             = delete;
     Timer & operator=(Timer &&) = delete;
 
     // callback called asynchronously in threadpool

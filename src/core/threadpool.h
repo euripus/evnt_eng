@@ -18,7 +18,7 @@ private:
     std::atomic_size_t            m_num_tasks;
 
 public:
-    ThreadPool(ThreadPool const &) = delete;
+    ThreadPool(ThreadPool const &)             = delete;
     ThreadPool & operator=(ThreadPool const &) = delete;
 
     ThreadPool() : m_io_serv(), m_work(m_io_serv), m_num_tasks(0)
@@ -69,7 +69,9 @@ public:
 
     void submit(std::function<void()> f)
     {
-        auto ff = [this, f = std::move(f)]() { wrapTask(std::move(f)); };
+        auto ff = [this, f = std::move(f)]() {
+            wrapTask(std::move(f));
+        };
 
         ++m_num_tasks;
         m_io_serv.post(ff);

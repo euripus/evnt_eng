@@ -114,9 +114,9 @@ protected:
     /*
      * The notion of copying or moving a singleton is rather nonsensical.
      */
-    Module(Module &&)      = delete;
-    Module(Module const &) = delete;
-    Module & operator=(Module &&) = delete;
+    Module(Module &&)                  = delete;
+    Module(Module const &)             = delete;
+    Module & operator=(Module &&)      = delete;
     Module & operator=(Module const &) = delete;
 
     /**

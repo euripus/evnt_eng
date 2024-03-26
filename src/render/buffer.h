@@ -65,7 +65,7 @@ public:
     int32_t  getTSize() const { return m_tsize; }
 
     void * getMappedPointer() { return m_mapping_ptr; }
-    bool   operator==(const IBuffer & other) const { return m_id == other.m_id; }
+    bool   operator==(IBuffer const & other) const { return m_id == other.m_id; }
 
     virtual void mapBuffer(int32_t offset, int32_t length, MappingOptions options)                = 0;
     virtual void unmapBuffer()                                                                    = 0;

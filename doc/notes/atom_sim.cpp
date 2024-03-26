@@ -45,8 +45,14 @@ Pipeline
         bool        BackFaceCulling;
         bool        DepthClamping;
     }
-    TessellationStage { int PatchSize; }
-    TransformFeedbackStage { std::vector<std::pair<int, TBuffer>> BufferBindings; }
+    TessellationStage
+    {
+        int PatchSize;
+    }
+    TransformFeedbackStage
+    {
+        std::vector<std::pair<int, TBuffer>> BufferBindings;
+    }
     FragmentStage
     {
         Framebuffer      framebuffer;

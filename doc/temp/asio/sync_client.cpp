@@ -23,7 +23,7 @@ io_service service;
 */
 struct talk_to_svr
 {
-    talk_to_svr(const std::string & username) : sock_(service), started_(true), username_(username) {}
+    talk_to_svr(std::string const & username) : sock_(service), started_(true), username_(username) {}
     void connect(ip::tcp::endpoint ep) { sock_.connect(ep); }
     void loop()
     {
@@ -67,7 +67,7 @@ private:
         std::cout << username_ << " logged in" << std::endl;
         do_ask_clients();
     }
-    void on_ping(const std::string & msg)
+    void on_ping(std::string const & msg)
     {
         std::istringstream in(msg);
         std::string        answer;
@@ -75,7 +75,7 @@ private:
         if(answer == "client_list_changed")
             do_ask_clients();
     }
-    void on_clients(const std::string & msg)
+    void on_clients(std::string const & msg)
     {
         std::string clients = msg.substr(8);
         std::cout << username_ << ", new client list:" << clients;
@@ -86,8 +86,8 @@ private:
         read_answer();
     }
 
-    void   write(const std::string & msg) { sock_.write_some(buffer(msg)); }
-    size_t read_complete(const boost::system::error_code & err, size_t bytes)
+    void   write(std::string const & msg) { sock_.write_some(buffer(msg)); }
+    size_t read_complete(boost::system::error_code const & err, size_t bytes)
     {
         if(err)
             return 0;
@@ -110,7 +110,7 @@ private:
 };
 
 ip::tcp::endpoint ep(ip::address::from_string("127.0.0.1"), 8001);
-void              run_client(const std::string & client_name)
+void              run_client(std::string const & client_name)
 {
     talk_to_svr client(client_name);
     try

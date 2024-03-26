@@ -36,7 +36,9 @@ void Render::update()
 
 void Render::resize(int32_t width, int32_t height)
 {
-    std::function<void()> f = [this, width, height] { mp_swap_chain->resize(width, height); };
+    std::function<void()> f = [this, width, height] {
+        mp_swap_chain->resize(width, height);
+    };
     addUpdateCommand(std::move(f));
 }
 

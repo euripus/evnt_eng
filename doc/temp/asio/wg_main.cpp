@@ -1,6 +1,6 @@
 // https://github.com/MikhailGorobets/HTTP
 #define _WIN32_WINNT 0x0A00
-#pragma warning(disable : 4996)
+#pragma warning(disable:4996)
 
 #include <iostream>
 #include <istream>

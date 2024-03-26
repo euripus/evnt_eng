@@ -47,15 +47,15 @@ public:
 class connection_fsm : public fsm<connection_fsm, state>
 {
 public:
-    auto on_event(state_idle &, const event_connect & e) { return state_connecting{std::string(e.address)}; }
-    auto on_event(state_connecting &, const event_connected &) { return state_connected{}; }
-    auto on_event(state_connecting & s, const event_timeout &)
+    auto on_event(state_idle &, event_connect const & e) { return state_connecting{std::string(e.address)}; }
+    auto on_event(state_connecting &, event_connected const &) { return state_connected{}; }
+    auto on_event(state_connecting & s, event_timeout const &)
     {
         return ++s.n < state_connecting::n_max ? std::nullopt : std::optional<state>(state_idle{});
     }
-    auto on_event(state_connected &, const event_disconnect &) { return state_idle{}; }
+    auto on_event(state_connected &, event_disconnect const &) { return state_idle{}; }
     template<typename State, typename Event>
-    auto on_event(State &, const Event &)
+    auto on_event(State &, Event const &)
     {
         return std::nullopt;
     }
